@@ -38,7 +38,7 @@ public class LoginController extends BaseController {
     private AdminService adminService;
 
 
-  
+    //chenzhangsheng
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String formnoticedetail1(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
