@@ -13,7 +13,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="admin_pid" property="adminPid" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <!--  <sql id="Base_Column_List" >
     id, username, password, realname, email, phone, isdelete, last_modified_time, create_time, 
     admin_pid
   </sql>
@@ -149,5 +149,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       admin_pid = #{adminPid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
-  </update>
+  </update>  -->
 </mapper>

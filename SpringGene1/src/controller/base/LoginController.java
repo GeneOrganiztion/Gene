@@ -28,7 +28,7 @@ import service.AdminService;
 /**
  *
  * @author chenzhangsheng
- * @date 2016-12-7 涓婂崍18:31:52
+ * @date 2016-12-7 18:31:52
  */
 
 @Controller
@@ -37,39 +37,34 @@ public class LoginController extends BaseController {
     @Autowired
     private AdminService adminService;
 
-
-    //chenzhangsheng
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String formnoticedetail1(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
     	Admin admin=null;
     	String msg=null;
     	String username = getParam("user");//用户名
         String password = getParam("psd");//密码
-        String rand = getParam("rand");//验证码
-        
-        String sRand = (String)session.getAttribute("checkcode");
         try{
         admin=(Admin)adminService.login(username, password);
+        System.out.println("admin="+admin);
         }catch(Exception e){	
         	e.printStackTrace();
         	msg = "服务器繁忙，请稍后重试";
             request.setAttribute("msg", msg);
-            return "index";
+            return "html/login";
         }
         if(null==admin){
         	msg = "用户名或密码错误,请确认是否输入正确";
             request.setAttribute("msg", msg);
-            return "index";
+            return "html/login";
         }
-        if (!rand.equalsIgnoreCase(sRand)) {
-            msg = "验证口令错误，请确认输入是否正确";
-            request.setAttribute("msg",msg);
-            return "index";
+        if (admin.getIsdelete()) {
+            msg = "当前用户已被禁用,请检查用户是否正常";
+            request.setAttribute("msg", msg);
+            return "html/login";
           }
         session.setAttribute("SESSION_USER", admin);
-        return "main";
-
+        return "index";
     }
 
 }

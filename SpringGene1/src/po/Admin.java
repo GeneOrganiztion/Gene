@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-@Table(name = "admin")
+@Table(name ="admin")
 public class Admin extends BaseEntity{
 	@Id
     private Integer id;

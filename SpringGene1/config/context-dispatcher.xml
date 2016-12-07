@@ -37,8 +37,8 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/page/" />
-		<property name="suffix" value=".html"></property>
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".jsp"></property>
 	</bean>
 
 <!-- 	<bean id="multipartResolver"
@@ -60,6 +60,7 @@
    <mvc:resources location="/docs/" mapping="/docs/**"/> 
    <mvc:resources location="/plugins/" mapping="/plugins/**"/> 
    <mvc:resources location="/common/" mapping="/common/**"/> 
+   <mvc:resources location="/" mapping="/**"/> 
    <!-- <mvc:resources location="/WEB-INF/page/" mapping="/WEB-INF/page/**"/>  -->
      <!-- <mvc:resources location="/" mapping="/**"/>  -->
    
