@@ -4,10 +4,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "info_person")
-public class InfoPerson extends BaseEntity{
-	@Id
+public class InfoPerson extends BaseEntity {
+    @Id
     private Integer personId;
-
+    // jia
     private String personName;
 
     public Integer getPersonId() {
