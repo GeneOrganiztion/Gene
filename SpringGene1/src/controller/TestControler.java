@@ -60,7 +60,6 @@ public class TestControler extends BaseController {
         System.out.println("pageNumber="+page.getLastPage());
         rm.setTotal(page.getLastPage());*/
         return page;
-
     }
     
     @RequestMapping(value = "/testPage")

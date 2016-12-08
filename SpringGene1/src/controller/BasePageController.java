@@ -8,8 +8,7 @@ public class BasePageController extends BaseController {
 	    protected String sord ;// 升序降序;
 	    protected int oneRecord ;// 一页几行
 	    protected int pageNo ;// 第几页
-	    
-	    
+	        
 	    //分页中从第几行开始
 	    protected Integer getOffset(){
 	         return (pageNo -1) * oneRecord;
