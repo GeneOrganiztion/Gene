@@ -19,7 +19,9 @@ public class ClassifyServiceImpl implements ClassifyService {
 
 	@Override
 	public List<Classify> selectAll() throws Exception {
-		return classifyMapper.select(null);
+		Classify cls=new Classify();
+		cls.setIsdelete(false);
+		return classifyMapper.select(cls);
 	}
 
 	@Override
