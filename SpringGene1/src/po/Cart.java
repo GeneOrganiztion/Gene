@@ -3,8 +3,14 @@ package po;
 import java.util.Date;
 
 import javax.persistence.Table;
-@Table(name ="cart")
-public class Cart extends CartKey {
+
+@Table(name = "cart")
+public class Cart {
+
+    private Integer id;
+
+    private Integer userId;
+
     private Integer cartProCount;
 
     private Boolean isdelete;
@@ -12,6 +18,22 @@ public class Cart extends CartKey {
     private Date createTime;
 
     private Date lastModifiedTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Integer getCartProCount() {
         return cartProCount;

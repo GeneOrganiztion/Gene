@@ -1,18 +1,17 @@
 package Mapper;
 
-import po.Map_Product_Cart;
-import po.Map_Product_CartKey;
+import po.MapProductCart;
 
 public interface Map_Product_CartMapper {
-    int deleteByPrimaryKey(Map_Product_CartKey key);
+    /* int deleteByPrimaryKey(Map_Product_CartKey key); */
 
-    int insert(Map_Product_Cart record);
+    int insert(MapProductCart record);
 
-    int insertSelective(Map_Product_Cart record);
+    int insertSelective(MapProductCart record);
 
-    Map_Product_Cart selectByPrimaryKey(Map_Product_CartKey key);
+    /* MapProductCart selectByPrimaryKey(Map_Product_CartKey key); */
 
-    int updateByPrimaryKeySelective(Map_Product_Cart record);
+    int updateByPrimaryKeySelective(MapProductCart record);
 
-    int updateByPrimaryKey(Map_Product_Cart record);
+    int updateByPrimaryKey(MapProductCart record);
 }

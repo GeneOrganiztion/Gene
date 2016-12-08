@@ -1,18 +1,17 @@
 package Mapper;
 
-import po.Map_Order_Product;
-import po.Map_Order_ProductKey;
+import po.MapOrderProduct;
 
 public interface Map_Order_ProductMapper {
-    int deleteByPrimaryKey(Map_Order_ProductKey key);
+    /* int deleteByPrimaryKey(Map_Order_ProductKey key); */
 
-    int insert(Map_Order_Product record);
+    int insert(MapOrderProduct record);
 
-    int insertSelective(Map_Order_Product record);
+    int insertSelective(MapOrderProduct record);
 
-    Map_Order_Product selectByPrimaryKey(Map_Order_ProductKey key);
+    /* MapOrderProduct selectByPrimaryKey(Map_Order_ProductKey key); */
 
-    int updateByPrimaryKeySelective(Map_Order_Product record);
+    int updateByPrimaryKeySelective(MapOrderProduct record);
 
-    int updateByPrimaryKey(Map_Order_Product record);
+    int updateByPrimaryKey(MapOrderProduct record);
 }

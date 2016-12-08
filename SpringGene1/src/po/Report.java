@@ -3,8 +3,13 @@ package po;
 import java.util.Date;
 
 import javax.persistence.Table;
+
 @Table(name = "report")
-public class Report extends ReportKey {
+public class Report {
+    private Integer id;
+
+    private Integer proId;
+
     private Integer userId;
 
     private String repName;
@@ -20,6 +25,22 @@ public class Report extends ReportKey {
     private Date createTime;
 
     private Date lastModifiedTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getProId() {
+        return proId;
+    }
+
+    public void setProId(Integer proId) {
+        this.proId = proId;
+    }
 
     public Integer getUserId() {
         return userId;

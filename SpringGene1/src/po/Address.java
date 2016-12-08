@@ -3,9 +3,14 @@ package po;
 import java.util.Date;
 
 import javax.persistence.Table;
-@Table(name ="address")
-public class Address extends AddressKey {
-	
+
+@Table(name = "address")
+public class Address {
+
+    private Integer id;
+
+    private Integer userId;
+
     private String addrName;
 
     private String addrPhone;
@@ -22,6 +27,22 @@ public class Address extends AddressKey {
 
     public String getAddrName() {
         return addrName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public void setAddrName(String addrName) {

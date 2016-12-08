@@ -3,11 +3,19 @@ package po;
 import java.util.Date;
 
 import javax.persistence.Table;
-@Table(name = "map_order_product")
-public class Map_Order_Product extends Map_Order_ProductKey {
-    private String proName;
 
-    private Integer proPrice;
+@Table(name = "map_product_cart")
+public class MapProductCart {
+
+    private Integer id;
+
+    private Integer proId;
+
+    private Integer cartId;
+
+    private Integer proSize;
+
+    private Integer proColor;
 
     private Integer proCount;
 
@@ -17,20 +25,44 @@ public class Map_Order_Product extends Map_Order_ProductKey {
 
     private Date lastModifiedTime;
 
-    public String getProName() {
-        return proName;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProName(String proName) {
-        this.proName = proName == null ? null : proName.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getProPrice() {
-        return proPrice;
+    public Integer getProId() {
+        return proId;
     }
 
-    public void setProPrice(Integer proPrice) {
-        this.proPrice = proPrice;
+    public void setProId(Integer proId) {
+        this.proId = proId;
+    }
+
+    public Integer getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(Integer cartId) {
+        this.cartId = cartId;
+    }
+
+    public Integer getProSize() {
+        return proSize;
+    }
+
+    public void setProSize(Integer proSize) {
+        this.proSize = proSize;
+    }
+
+    public Integer getProColor() {
+        return proColor;
+    }
+
+    public void setProColor(Integer proColor) {
+        this.proColor = proColor;
     }
 
     public Integer getProCount() {
