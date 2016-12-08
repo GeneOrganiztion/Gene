@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.ReportMapper" >
+  <resultMap id="BaseResultMap" type="po.Report" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="rep_name" property="repName" jdbcType="VARCHAR" />
+    <result column="rep_result" property="repResult" jdbcType="VARCHAR" />
+    <result column="rep_state" property="repState" jdbcType="VARCHAR" />
+    <result column="rep_pdf" property="repPdf" jdbcType="VARCHAR" />
+    <result column="isdelete" property="isdelete" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pro_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
+    last_modified_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from report
+    where id = #{id,jdbcType=INTEGER}
+      and pro_id = #{proId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="po.ReportKey" >
+    delete from report
+    where id = #{id,jdbcType=INTEGER}
+      and pro_id = #{proId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Report" >
+    insert into report (id, pro_id, user_id, 
+      rep_name, rep_result, rep_state, 
+      rep_pdf, isdelete, create_time, 
+      last_modified_time)
+    values (#{id,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{repName,jdbcType=VARCHAR}, #{repResult,jdbcType=VARCHAR}, #{repState,jdbcType=VARCHAR}, 
+      #{repPdf,jdbcType=VARCHAR}, #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastModifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Report" >
+    insert into report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="proId != null" >
+        pro_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="repName != null" >
+        rep_name,
+      </if>
+      <if test="repResult != null" >
+        rep_result,
+      </if>
+      <if test="repState != null" >
+        rep_state,
+      </if>
+      <if test="repPdf != null" >
+        rep_pdf,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="proId != null" >
+        #{proId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="repName != null" >
+        #{repName,jdbcType=VARCHAR},
+      </if>
+      <if test="repResult != null" >
+        #{repResult,jdbcType=VARCHAR},
+      </if>
+      <if test="repState != null" >
+        #{repState,jdbcType=VARCHAR},
+      </if>
+      <if test="repPdf != null" >
+        #{repPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Report" >
+    update report
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="repName != null" >
+        rep_name = #{repName,jdbcType=VARCHAR},
+      </if>
+      <if test="repResult != null" >
+        rep_result = #{repResult,jdbcType=VARCHAR},
+      </if>
+      <if test="repState != null" >
+        rep_state = #{repState,jdbcType=VARCHAR},
+      </if>
+      <if test="repPdf != null" >
+        rep_pdf = #{repPdf,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Report" >
+    update report
+    set user_id = #{userId,jdbcType=INTEGER},
+      rep_name = #{repName,jdbcType=VARCHAR},
+      rep_result = #{repResult,jdbcType=VARCHAR},
+      rep_state = #{repState,jdbcType=VARCHAR},
+      rep_pdf = #{repPdf,jdbcType=VARCHAR},
+      isdelete = #{isdelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and pro_id = #{proId,jdbcType=INTEGER}
+  </update>
+</mapper>

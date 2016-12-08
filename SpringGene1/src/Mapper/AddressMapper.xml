@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.AddressMapper" >
+  <resultMap id="BaseResultMap" type="po.Address" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="addr_name" property="addrName" jdbcType="VARCHAR" />
+    <result column="addr_phone" property="addrPhone" jdbcType="VARCHAR" />
+    <result column="addr_content" property="addrContent" jdbcType="VARCHAR" />
+    <result column="addr_default" property="addrDefault" jdbcType="BIT" />
+    <result column="isdelete" property="isdelete" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, addr_name, addr_phone, addr_content, addr_default, isdelete, create_time, 
+    last_modified_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.AddressKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="po.AddressKey" >
+    delete from address
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Address" >
+    insert into address (id, user_id, addr_name, 
+      addr_phone, addr_content, addr_default, 
+      isdelete, create_time, last_modified_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addrName,jdbcType=VARCHAR}, 
+      #{addrPhone,jdbcType=VARCHAR}, #{addrContent,jdbcType=VARCHAR}, #{addrDefault,jdbcType=BIT}, 
+      #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Address" >
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="addrName != null" >
+        addr_name,
+      </if>
+      <if test="addrPhone != null" >
+        addr_phone,
+      </if>
+      <if test="addrContent != null" >
+        addr_content,
+      </if>
+      <if test="addrDefault != null" >
+        addr_default,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="addrName != null" >
+        #{addrName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrPhone != null" >
+        #{addrPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addrContent != null" >
+        #{addrContent,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDefault != null" >
+        #{addrDefault,jdbcType=BIT},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Address" >
+    update address
+    <set >
+      <if test="addrName != null" >
+        addr_name = #{addrName,jdbcType=VARCHAR},
+      </if>
+      <if test="addrPhone != null" >
+        addr_phone = #{addrPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addrContent != null" >
+        addr_content = #{addrContent,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDefault != null" >
+        addr_default = #{addrDefault,jdbcType=BIT},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Address" >
+    update address
+    set addr_name = #{addrName,jdbcType=VARCHAR},
+      addr_phone = #{addrPhone,jdbcType=VARCHAR},
+      addr_content = #{addrContent,jdbcType=VARCHAR},
+      addr_default = #{addrDefault,jdbcType=BIT},
+      isdelete = #{isdelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.ClassifyMapper" >
+  <resultMap id="BaseResultMap" type="po.Classify" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cla_name" property="claName" jdbcType="VARCHAR" />
+    <result column="cla_content" property="claContent" jdbcType="VARCHAR" />
+    <result column="cla_pid" property="claPid" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cla_name, cla_content, cla_pid, isdelete, create_time, last_modified_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from classify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from classify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Classify" >
+    insert into classify (id, cla_name, cla_content, 
+      cla_pid, isdelete, create_time, 
+      last_modified_time)
+    values (#{id,jdbcType=INTEGER}, #{claName,jdbcType=VARCHAR}, #{claContent,jdbcType=VARCHAR}, 
+      #{claPid,jdbcType=INTEGER}, #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastModifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Classify" >
+    insert into classify
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="claName != null" >
+        cla_name,
+      </if>
+      <if test="claContent != null" >
+        cla_content,
+      </if>
+      <if test="claPid != null" >
+        cla_pid,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="claName != null" >
+        #{claName,jdbcType=VARCHAR},
+      </if>
+      <if test="claContent != null" >
+        #{claContent,jdbcType=VARCHAR},
+      </if>
+      <if test="claPid != null" >
+        #{claPid,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Classify" >
+    update classify
+    <set >
+      <if test="claName != null" >
+        cla_name = #{claName,jdbcType=VARCHAR},
+      </if>
+      <if test="claContent != null" >
+        cla_content = #{claContent,jdbcType=VARCHAR},
+      </if>
+      <if test="claPid != null" >
+        cla_pid = #{claPid,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Classify" >
+    update classify
+    set cla_name = #{claName,jdbcType=VARCHAR},
+      cla_content = #{claContent,jdbcType=VARCHAR},
+      cla_pid = #{claPid,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

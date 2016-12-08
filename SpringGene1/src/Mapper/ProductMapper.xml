@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="po.Product" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
+    <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
+    <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
+    <result column="pro_count" property="proCount" jdbcType="INTEGER" />
+    <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
+    <result column="pro_online" property="proOnline" jdbcType="BIT" />
+    <result column="pro_image" property="proImage" jdbcType="VARCHAR" />
+    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
+    <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
+    <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
+    <result column="isdelete" property="isdelete" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pro_name, pro_head, pro_price, pro_count, pro_rateprice, pro_online, pro_image, 
+    pro_detail, pro_area, classify_id, isdelete, create_time, last_modified_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Product" >
+    insert into product (id, pro_name, pro_head, 
+      pro_price, pro_count, pro_rateprice, 
+      pro_online, pro_image, pro_detail, 
+      pro_area, classify_id, isdelete, 
+      create_time, last_modified_time)
+    values (#{id,jdbcType=INTEGER}, #{proName,jdbcType=VARCHAR}, #{proHead,jdbcType=VARCHAR}, 
+      #{proPrice,jdbcType=INTEGER}, #{proCount,jdbcType=INTEGER}, #{proRateprice,jdbcType=INTEGER}, 
+      #{proOnline,jdbcType=BIT}, #{proImage,jdbcType=VARCHAR}, #{proDetail,jdbcType=VARCHAR}, 
+      #{proArea,jdbcType=VARCHAR}, #{classifyId,jdbcType=INTEGER}, #{isdelete,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="proName != null" >
+        pro_name,
+      </if>
+      <if test="proHead != null" >
+        pro_head,
+      </if>
+      <if test="proPrice != null" >
+        pro_price,
+      </if>
+      <if test="proCount != null" >
+        pro_count,
+      </if>
+      <if test="proRateprice != null" >
+        pro_rateprice,
+      </if>
+      <if test="proOnline != null" >
+        pro_online,
+      </if>
+      <if test="proImage != null" >
+        pro_image,
+      </if>
+      <if test="proDetail != null" >
+        pro_detail,
+      </if>
+      <if test="proArea != null" >
+        pro_area,
+      </if>
+      <if test="classifyId != null" >
+        classify_id,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="proName != null" >
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proHead != null" >
+        #{proHead,jdbcType=VARCHAR},
+      </if>
+      <if test="proPrice != null" >
+        #{proPrice,jdbcType=INTEGER},
+      </if>
+      <if test="proCount != null" >
+        #{proCount,jdbcType=INTEGER},
+      </if>
+      <if test="proRateprice != null" >
+        #{proRateprice,jdbcType=INTEGER},
+      </if>
+      <if test="proOnline != null" >
+        #{proOnline,jdbcType=BIT},
+      </if>
+      <if test="proImage != null" >
+        #{proImage,jdbcType=VARCHAR},
+      </if>
+      <if test="proDetail != null" >
+        #{proDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="proArea != null" >
+        #{proArea,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyId != null" >
+        #{classifyId,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Product" >
+    update product
+    <set >
+      <if test="proName != null" >
+        pro_name = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proHead != null" >
+        pro_head = #{proHead,jdbcType=VARCHAR},
+      </if>
+      <if test="proPrice != null" >
+        pro_price = #{proPrice,jdbcType=INTEGER},
+      </if>
+      <if test="proCount != null" >
+        pro_count = #{proCount,jdbcType=INTEGER},
+      </if>
+      <if test="proRateprice != null" >
+        pro_rateprice = #{proRateprice,jdbcType=INTEGER},
+      </if>
+      <if test="proOnline != null" >
+        pro_online = #{proOnline,jdbcType=BIT},
+      </if>
+      <if test="proImage != null" >
+        pro_image = #{proImage,jdbcType=VARCHAR},
+      </if>
+      <if test="proDetail != null" >
+        pro_detail = #{proDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="proArea != null" >
+        pro_area = #{proArea,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyId != null" >
+        classify_id = #{classifyId,jdbcType=INTEGER},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Product" >
+    update product
+    set pro_name = #{proName,jdbcType=VARCHAR},
+      pro_head = #{proHead,jdbcType=VARCHAR},
+      pro_price = #{proPrice,jdbcType=INTEGER},
+      pro_count = #{proCount,jdbcType=INTEGER},
+      pro_rateprice = #{proRateprice,jdbcType=INTEGER},
+      pro_online = #{proOnline,jdbcType=BIT},
+      pro_image = #{proImage,jdbcType=VARCHAR},
+      pro_detail = #{proDetail,jdbcType=VARCHAR},
+      pro_area = #{proArea,jdbcType=VARCHAR},
+      classify_id = #{classifyId,jdbcType=INTEGER},
+      isdelete = #{isdelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

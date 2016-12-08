@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="Mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="po.Order" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
+    <result column="ord_pro_count" property="ordProCount" jdbcType="INTEGER" />
+    <result column="ord_state" property="ordState" jdbcType="VARCHAR" />
+    <result column="courier_num" property="courierNum" jdbcType="VARCHAR" />
+    <result column="courier_name" property="courierName" jdbcType="VARCHAR" />
+    <result column="courier_phone" property="courierPhone" jdbcType="VARCHAR" />
+    <result column="ord_price" property="ordPrice" jdbcType="INTEGER" />
+    <result column="ord_pay" property="ordPay" jdbcType="VARCHAR" />
+    <result column="ord_user" property="ordUser" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="user_address" property="userAddress" jdbcType="VARCHAR" />
+    <result column="user_postal" property="userPostal" jdbcType="VARCHAR" />
+    <result column="isdelete" property="isdelete" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
+    ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal, isdelete, 
+    create_time, last_modified_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.OrderKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=INTEGER}
+      and product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="po.OrderKey" >
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+      and product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Order" >
+    insert into order (id, product_id, ord_num, 
+      ord_pro_count, ord_state, courier_num, 
+      courier_name, courier_phone, ord_price, 
+      ord_pay, ord_user, user_name, 
+      user_phone, user_address, user_postal, 
+      isdelete, create_time, last_modified_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{ordNum,jdbcType=VARCHAR}, 
+      #{ordProCount,jdbcType=INTEGER}, #{ordState,jdbcType=VARCHAR}, #{courierNum,jdbcType=VARCHAR}, 
+      #{courierName,jdbcType=VARCHAR}, #{courierPhone,jdbcType=VARCHAR}, #{ordPrice,jdbcType=INTEGER}, 
+      #{ordPay,jdbcType=VARCHAR}, #{ordUser,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, #{userPostal,jdbcType=VARCHAR}, 
+      #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Order" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="ordNum != null" >
+        ord_num,
+      </if>
+      <if test="ordProCount != null" >
+        ord_pro_count,
+      </if>
+      <if test="ordState != null" >
+        ord_state,
+      </if>
+      <if test="courierNum != null" >
+        courier_num,
+      </if>
+      <if test="courierName != null" >
+        courier_name,
+      </if>
+      <if test="courierPhone != null" >
+        courier_phone,
+      </if>
+      <if test="ordPrice != null" >
+        ord_price,
+      </if>
+      <if test="ordPay != null" >
+        ord_pay,
+      </if>
+      <if test="ordUser != null" >
+        ord_user,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userAddress != null" >
+        user_address,
+      </if>
+      <if test="userPostal != null" >
+        user_postal,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="ordNum != null" >
+        #{ordNum,jdbcType=VARCHAR},
+      </if>
+      <if test="ordProCount != null" >
+        #{ordProCount,jdbcType=INTEGER},
+      </if>
+      <if test="ordState != null" >
+        #{ordState,jdbcType=VARCHAR},
+      </if>
+      <if test="courierNum != null" >
+        #{courierNum,jdbcType=VARCHAR},
+      </if>
+      <if test="courierName != null" >
+        #{courierName,jdbcType=VARCHAR},
+      </if>
+      <if test="courierPhone != null" >
+        #{courierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ordPrice != null" >
+        #{ordPrice,jdbcType=INTEGER},
+      </if>
+      <if test="ordPay != null" >
+        #{ordPay,jdbcType=VARCHAR},
+      </if>
+      <if test="ordUser != null" >
+        #{ordUser,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null" >
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userPostal != null" >
+        #{userPostal,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Order" >
+    update order
+    <set >
+      <if test="ordNum != null" >
+        ord_num = #{ordNum,jdbcType=VARCHAR},
+      </if>
+      <if test="ordProCount != null" >
+        ord_pro_count = #{ordProCount,jdbcType=INTEGER},
+      </if>
+      <if test="ordState != null" >
+        ord_state = #{ordState,jdbcType=VARCHAR},
+      </if>
+      <if test="courierNum != null" >
+        courier_num = #{courierNum,jdbcType=VARCHAR},
+      </if>
+      <if test="courierName != null" >
+        courier_name = #{courierName,jdbcType=VARCHAR},
+      </if>
+      <if test="courierPhone != null" >
+        courier_phone = #{courierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ordPrice != null" >
+        ord_price = #{ordPrice,jdbcType=INTEGER},
+      </if>
+      <if test="ordPay != null" >
+        ord_pay = #{ordPay,jdbcType=VARCHAR},
+      </if>
+      <if test="ordUser != null" >
+        ord_user = #{ordUser,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null" >
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userPostal != null" >
+        user_postal = #{userPostal,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Order" >
+    update order
+    set ord_num = #{ordNum,jdbcType=VARCHAR},
+      ord_pro_count = #{ordProCount,jdbcType=INTEGER},
+      ord_state = #{ordState,jdbcType=VARCHAR},
+      courier_num = #{courierNum,jdbcType=VARCHAR},
+      courier_name = #{courierName,jdbcType=VARCHAR},
+      courier_phone = #{courierPhone,jdbcType=VARCHAR},
+      ord_price = #{ordPrice,jdbcType=INTEGER},
+      ord_pay = #{ordPay,jdbcType=VARCHAR},
+      ord_user = #{ordUser,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_postal = #{userPostal,jdbcType=VARCHAR},
+      isdelete = #{isdelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and product_id = #{productId,jdbcType=INTEGER}
+  </update>
+</mapper>
