@@ -2,6 +2,8 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+@Table(name = "report")
 public class Report extends ReportKey {
     private Integer userId;
 

@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public PageInfo selectPageDemo(Map map) throws SQLException {
+	public PageInfo selectPageDemo(Map map) throws Exception {
 		 PageHelper.startPage((Integer)map.get("pageNo"),(Integer)map.get("rowCount"));
 		 List<Student> list = studentMapper.selectStudentByParams(map);
 	     PageInfo page = new PageInfo(list);

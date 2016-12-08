@@ -10,7 +10,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List" >
+ <!--  <sql id="Base_Column_List" >
     id, cla_name, cla_content, cla_pid, isdelete, create_time, last_modified_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -113,5 +113,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-  </update>
+  </update> -->
 </mapper>

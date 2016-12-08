@@ -8,8 +8,6 @@ import po.Student;
 
 public interface StudentService<T> {
     List<Student> selectStudentByParams(Map<String, Object> map);
-
     Integer selctStdentCount(Map<String, Object> map);
-    
-    public T selectPageDemo(Map<String, Object> map) throws SQLException;
+    public T selectPageDemo(Map<String, Object> map) throws Exception;
 }

@@ -2,7 +2,10 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+@Table(name ="address")
 public class Address extends AddressKey {
+	
     private String addrName;
 
     private String addrPhone;

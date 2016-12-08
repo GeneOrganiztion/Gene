@@ -13,7 +13,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminMapper AdminMapper;
 	 
-	public Admin login(String username,String password) throws SQLException {
+	public Admin login(String username,String password) throws Exception {
 		Admin admin=new Admin();
 		admin.setUsername(username);
 		admin.setPassword(password);

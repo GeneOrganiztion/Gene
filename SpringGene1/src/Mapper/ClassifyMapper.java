@@ -1,9 +1,10 @@
 package Mapper;
 
 import po.Classify;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface ClassifyMapper {
-    int deleteByPrimaryKey(Integer id);
+public interface ClassifyMapper extends Mapper<Classify>{
+  /*  int deleteByPrimaryKey(Integer id);
 
     int insert(Classify record);
 
@@ -13,5 +14,5 @@ public interface ClassifyMapper {
 
     int updateByPrimaryKeySelective(Classify record);
 
-    int updateByPrimaryKey(Classify record);
+    int updateByPrimaryKey(Classify record);*/
 }

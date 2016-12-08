@@ -1,5 +1,6 @@
 package utils;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -13,7 +14,7 @@ public class DateUtil {
 	            return new SimpleDateFormat("yyyyMMddhhmmssSSS");
 	        }
 	    };
-
+	   
 	    public static Date parse(String dateStr) throws ParseException {
 	        return threadLocal.get().parse(dateStr);
 	    }
@@ -21,5 +22,10 @@ public class DateUtil {
 	    public static String format(Date date) {
 	        return threadLocal.get().format(date);
 	    }
+	    
+	    public static Timestamp timestamp(Date date) {
+	        return new Timestamp(date.getTime());
+	    }
+	    
 
 }

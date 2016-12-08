@@ -1,5 +1,8 @@
 package po;
 
+import javax.persistence.Table;
+
+@Table(name ="image")
 public class Image extends ImageKey {
     private String url;
 

@@ -14,8 +14,8 @@ import com.github.pagehelper.PageInfo;
  */
 public interface UserService<T> {
 
-    public T select() throws SQLException;
+    public T select() throws Exception;
     
-    public List<T> selectall()  throws SQLException;
+    public List<T> selectall()  throws Exception;
 
 }

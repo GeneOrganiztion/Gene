@@ -2,6 +2,8 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+@Table(name = "map_order_product")
 public class Map_Order_Product extends Map_Order_ProductKey {
     private String proName;
 

@@ -2,9 +2,14 @@ package po;
 
 import java.util.Date;
 
-public class Classify {
-    private Integer id;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name ="classify")
+public class Classify {
+	@Id
+    private Integer id;
+   
     private String claName;
 
     private String claContent;

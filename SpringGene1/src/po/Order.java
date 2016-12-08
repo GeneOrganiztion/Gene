@@ -2,6 +2,8 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+@Table(name = "order")
 public class Order extends OrderKey {
     private String ordNum;
 

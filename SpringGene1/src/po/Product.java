@@ -2,6 +2,8 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Table;
+@Table(name = "product")
 public class Product {
     private Integer id;
 

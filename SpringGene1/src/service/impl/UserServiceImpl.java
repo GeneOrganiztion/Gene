@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private InfoPersonMapper PersonMapper;
 
     @Override
-    public PageInfo select() throws SQLException {
+    public PageInfo select() throws Exception {
         PageHelper.startPage(1, 10); // 核心分页代码
         InfoPerson ifp = new InfoPerson();
         ifp.setPersonName("4");
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<InfoPerson> selectall() throws SQLException {
+    public List<InfoPerson> selectall() throws Exception {
         // TODO Auto-generated method stub
         return PersonMapper.select(null);
     }

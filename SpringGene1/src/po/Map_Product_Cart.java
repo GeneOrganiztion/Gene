@@ -3,9 +3,14 @@ package po;
 import java.util.Date;
 
 import javax.persistence.Table;
-@Table(name ="cart")
-public class Cart extends CartKey {
-    private Integer cartProCount;
+
+@Table(name ="map_product_cart")
+public class Map_Product_Cart extends Map_Product_CartKey {
+    private Integer proSize;
+
+    private Integer proColor;
+
+    private Integer proCount;
 
     private Boolean isdelete;
 
@@ -13,12 +18,28 @@ public class Cart extends CartKey {
 
     private Date lastModifiedTime;
 
-    public Integer getCartProCount() {
-        return cartProCount;
+    public Integer getProSize() {
+        return proSize;
     }
 
-    public void setCartProCount(Integer cartProCount) {
-        this.cartProCount = cartProCount;
+    public void setProSize(Integer proSize) {
+        this.proSize = proSize;
+    }
+
+    public Integer getProColor() {
+        return proColor;
+    }
+
+    public void setProColor(Integer proColor) {
+        this.proColor = proColor;
+    }
+
+    public Integer getProCount() {
+        return proCount;
+    }
+
+    public void setProCount(Integer proCount) {
+        this.proCount = proCount;
     }
 
     public Boolean getIsdelete() {
