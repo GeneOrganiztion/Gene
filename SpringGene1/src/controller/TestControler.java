@@ -52,13 +52,6 @@ public class TestControler extends BaseController {
         map.put("age", age);
         map.put("phone", phone);
         PageInfo page= (PageInfo)studentService.selectPageDemo(map);
-        /*ResponseModel<Student> rm = new ResponseModel<Student>();
- 
-        rm.setRows(page.getList());
-        rm.setRecords(page.getTotal());
-        System.out.println("gettotal="+page.getTotal());
-        System.out.println("pageNumber="+page.getLastPage());
-        rm.setTotal(page.getLastPage());*/
         return page;
     }
     

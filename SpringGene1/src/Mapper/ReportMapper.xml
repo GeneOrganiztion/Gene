@@ -17,7 +17,7 @@
     id, pro_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
     last_modified_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
     select 
     <include refid="Base_Column_List" />
     from report
@@ -28,7 +28,7 @@
     delete from report
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
-  </delete>
+  </delete> -->
   <insert id="insert" parameterType="po.Report" >
     insert into report (id, pro_id, user_id, 
       rep_name, rep_result, rep_state, 

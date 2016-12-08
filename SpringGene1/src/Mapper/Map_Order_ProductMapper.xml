@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.Map_Order_ProductMapper" >
-  <resultMap id="BaseResultMap" type="po.Map_Order_Product" >
+  <resultMap id="BaseResultMap" type="po.MapOrderProduct" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <id column="ord_id" property="ordId" jdbcType="INTEGER" />
     <id column="pro_id" property="proId" jdbcType="INTEGER" />
@@ -17,7 +17,7 @@
     id, ord_id, pro_id, pro_classify_id, pro_name, pro_price, pro_count, isdelete, create_time, 
     last_modified_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.Map_Order_ProductKey" >
+ <!--  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.Map_Order_ProductKey" >
     select 
     <include refid="Base_Column_List" />
     from map_order_product
@@ -32,8 +32,8 @@
       and ord_id = #{ordId,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
       and pro_classify_id = #{proClassifyId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="po.Map_Order_Product" >
+  </delete> -->
+  <insert id="insert" parameterType="po.MapOrderProduct" >
     insert into map_order_product (id, ord_id, pro_id, 
       pro_classify_id, pro_name, pro_price, 
       pro_count, isdelete, create_time, 
@@ -43,7 +43,7 @@
       #{proCount,jdbcType=INTEGER}, #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastModifiedTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="po.Map_Order_Product" >
+  <insert id="insertSelective" parameterType="po.MapOrderProduct" >
     insert into map_order_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -110,7 +110,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="po.Map_Order_Product" >
+  <update id="updateByPrimaryKeySelective" parameterType="po.MapOrderProduct" >
     update map_order_product
     <set >
       <if test="proName != null" >
@@ -137,7 +137,7 @@
       and pro_id = #{proId,jdbcType=INTEGER}
       and pro_classify_id = #{proClassifyId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="po.Map_Order_Product" >
+  <update id="updateByPrimaryKey" parameterType="po.MapOrderProduct" >
     update map_order_product
     set pro_name = #{proName,jdbcType=VARCHAR},
       pro_price = #{proPrice,jdbcType=INTEGER},

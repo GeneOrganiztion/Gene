@@ -17,7 +17,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <!-- <sql id="Base_Column_List" >
     id, pro_name, pro_head, pro_price, pro_count, pro_rateprice, pro_online, pro_image, 
     pro_detail, pro_area, classify_id, isdelete, create_time, last_modified_time
   </sql>
@@ -195,5 +195,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update> -->
+  
+  <update id="deleteByClassifyKey" parameterType="po.Product">
+ 	 set isdelete = #{isdelete,jdbcType=BIT} where classify_id = #{classifyId,jdbcType=INTEGER}
   </update>
 </mapper>

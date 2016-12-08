@@ -9,7 +9,7 @@
   <sql id="Base_Column_List" >
     id, pro_id, url
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ImageKey" >
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ImageKey" >
     select 
     <include refid="Base_Column_List" />
     from image
@@ -20,7 +20,7 @@
     delete from image
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
-  </delete>
+  </delete> -->
   <insert id="insert" parameterType="po.Image" >
     insert into image (id, pro_id, url
       )

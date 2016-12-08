@@ -51,9 +51,15 @@ public class ProductClassifyController extends BaseController {
 	  return false;
 	 }
 	 
+	 /**
+	 *
+	 * @author chenzhangsheng
+	 * @date 2016-12-7 18:31:52
+	 * 返回0表示删除成功 返回状态1表示删除失败,2表示还有以存在的商品未下架
+	 */
 	 @RequestMapping(value = "/clsdel", method = RequestMethod.GET)
 	 @ResponseBody
-	 public boolean clsdel(HttpServletRequest request,
+	 public int clsdel(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
 		   String clsId = getParam("clsId");
 		   if(ST.getDefaultToInt(clsId, -1)!=-1){
@@ -63,7 +69,7 @@ public class ProductClassifyController extends BaseController {
 				System.out.println("cls.getIsdelete()="+cls.getIsdelete());
 				return classifyService.delClassify(cls);
 		    }
-		  return false;
+		  return 1;
 	 }    	
 	 
 	 @RequestMapping(value = "/clsupdate", method = RequestMethod.GET)

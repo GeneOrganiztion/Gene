@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.Map_Product_CartMapper" >
-  <resultMap id="BaseResultMap" type="po.Map_Product_Cart" >
+  <resultMap id="BaseResultMap" type="po.MapProductCart" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <id column="pro_id" property="proId" jdbcType="INTEGER" />
     <id column="cart_id" property="cartId" jdbcType="INTEGER" />
@@ -15,7 +15,7 @@
   <sql id="Base_Column_List" >
     id, pro_id, cart_id, pro_size, pro_color, pro_count, isdelete, create_time, last_modified_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.Map_Product_CartKey" >
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.Map_Product_CartKey" >
     select 
     <include refid="Base_Column_List" />
     from map_product_cart
@@ -28,8 +28,8 @@
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
       and cart_id = #{cartId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="po.Map_Product_Cart" >
+  </delete> -->
+  <insert id="insert" parameterType="po.MapProductCart" >
     insert into map_product_cart (id, pro_id, cart_id, 
       pro_size, pro_color, pro_count, 
       isdelete, create_time, last_modified_time
@@ -39,7 +39,7 @@
       #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="po.Map_Product_Cart" >
+  <insert id="insertSelective" parameterType="po.MapProductCart" >
     insert into map_product_cart
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -100,7 +100,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="po.Map_Product_Cart" >
+  <update id="updateByPrimaryKeySelective" parameterType="po.MapProductCart" >
     update map_product_cart
     <set >
       <if test="proSize != null" >
@@ -126,7 +126,7 @@
       and pro_id = #{proId,jdbcType=INTEGER}
       and cart_id = #{cartId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="po.Map_Product_Cart" >
+  <update id="updateByPrimaryKey" parameterType="po.MapProductCart" >
     update map_product_cart
     set pro_size = #{proSize,jdbcType=INTEGER},
       pro_color = #{proColor,jdbcType=INTEGER},

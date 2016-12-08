@@ -1,9 +1,10 @@
 package Mapper;
 
 import po.Product;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface ProductMapper {
-    int deleteByPrimaryKey(Integer id);
+public interface ProductMapper extends Mapper<Product> {
+   /* int deleteByPrimaryKey(Integer id);
 
     int insert(Product record);
 
@@ -13,5 +14,7 @@ public interface ProductMapper {
 
     int updateByPrimaryKeySelective(Product record);
 
-    int updateByPrimaryKey(Product record);
+    int updateByPrimaryKey(Product record);*/
+	
+	int deleteByClassifyKey(Product record);
 }

@@ -12,7 +12,7 @@
   <sql id="Base_Column_List" >
     id, user_id, cart_pro_count, isdelete, create_time, last_modified_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.CartKey" >
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.CartKey" >
     select 
     <include refid="Base_Column_List" />
     from cart
@@ -23,7 +23,7 @@
     delete from cart
     where id = #{id,jdbcType=INTEGER}
       and user_id = #{userId,jdbcType=INTEGER}
-  </delete>
+  </delete> -->
   <insert id="insert" parameterType="po.Cart" >
     insert into cart (id, user_id, cart_pro_count, 
       isdelete, create_time, last_modified_time

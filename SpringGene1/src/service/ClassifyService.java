@@ -9,7 +9,7 @@ public interface ClassifyService<T> {
 	
 	public List<T> selectAll() throws Exception;
 	
-	public boolean delClassify(Classify cls) throws Exception;
+	public int delClassify(Classify cls) throws Exception;
 	
 	public boolean saveClassify(Classify cls) throws Exception;
 	

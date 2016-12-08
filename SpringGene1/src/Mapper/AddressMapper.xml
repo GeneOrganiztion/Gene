@@ -16,18 +16,18 @@
     id, user_id, addr_name, addr_phone, addr_content, addr_default, isdelete, create_time, 
     last_modified_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.AddressKey" >
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.AddressKey" >
     select 
     <include refid="Base_Column_List" />
     from address
     where id = #{id,jdbcType=INTEGER}
       and user_id = #{userId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="po.AddressKey" >
+  </select> -->
+  <!-- <delete id="deleteByPrimaryKey" parameterType="po.AddressKey" >
     delete from address
     where id = #{id,jdbcType=INTEGER}
       and user_id = #{userId,jdbcType=INTEGER}
-  </delete>
+  </delete> -->
   <insert id="insert" parameterType="po.Address" >
     insert into address (id, user_id, addr_name, 
       addr_phone, addr_content, addr_default, 
