@@ -1,5 +1,7 @@
+
 package controller.product;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,21 +21,39 @@ import controller.base.BaseController;
 import controller.base.LoginController;
 import po.Admin;
 import po.Classify;
+import po.ClassifyModel;
+import po.row;
 import service.ClassifyService;
 import utils.ST;
 
 @Controller
-@RequestMapping("/phone")
+@RequestMapping("/classify")
 public class ProductClassifyController extends BaseController {
 	@Autowired
 	private ClassifyService classifyService;
 	
-	 @RequestMapping(value = "/clsall", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phoneclsall", method = RequestMethod.GET)
 	 @ResponseBody
-	 public List<Classify> clsall(HttpServletRequest request,
+	 public ClassifyModel clsall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
-		return classifyService.selectAll();
-	 }    	
+		List<Classify> classifyall=classifyService.selectAll();
+		ClassifyModel classifymodel=new ClassifyModel();
+		List<row> rows=new ArrayList<row>();
+		for(int i=0;i<classifyall.size();i=i+2){
+			List<Classify> classify2=new ArrayList<Classify>();
+			row ro=new row();
+				classify2.add(classifyall.get(i));
+			if(i+1==classifyall.size()){
+			}else{
+			classify2.add(classifyall.get(i+1));
+			}	
+			ro.setRow(classify2);
+			rows.add(ro);
+		}
+		classifymodel.setClassifies(rows);
+		return classifymodel;
+	 }  
+	 
 	 @RequestMapping(value = "/clsave", method = RequestMethod.GET)
 	 @ResponseBody
 	 public boolean clssave(HttpServletRequest request,
@@ -66,7 +86,6 @@ public class ProductClassifyController extends BaseController {
 				Classify cls=new Classify();
 				cls.setId(ST.getDefaultToInt(clsId, -1));
 				cls.setIsdelete(true);
-				System.out.println("cls.getIsdelete()="+cls.getIsdelete());
 				return classifyService.delClassify(cls);
 		    }
 		  return 1;
@@ -88,7 +107,6 @@ public class ProductClassifyController extends BaseController {
 	  	    cls.setClaName(clsname);
 	  	    cls.setClaContent(clscontent);
 	  	    if(ST.getDefaultToInt(cla_pid, -1)!=-1){
-	  	    	 //cls.setClaPid(ST.getDefaultToInt(cla_pid, -1));
 	  	 	    cls.setLastModifiedTime(date);
 	  	 		return classifyService.updateClassify(cls);
 	  	    }
@@ -99,3 +117,4 @@ public class ProductClassifyController extends BaseController {
 
 	
 }
+
