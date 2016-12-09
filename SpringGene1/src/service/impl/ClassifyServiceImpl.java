@@ -39,10 +39,11 @@ public class ClassifyServiceImpl implements ClassifyService {
 
 	@Override
 	public int delClassify(Classify cls) throws Exception {
+		cls.setIsdelete(true);
 		int statcode=0;
 		try{
 		Product product=new Product();
-		product.setClassifyId(cls.getclassify_id());
+		product.setClassifyId(cls.getId());
 		product.setProOnline(true);
 		if(productMapper.selectCount(product)>0){
 			statcode=2;

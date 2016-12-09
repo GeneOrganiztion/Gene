@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.ClassifyMapper" >
   <resultMap id="BaseResultMap" type="po.Classify" >
-    <id column="classify_id" property="classifyid" jdbcType="INTEGER" />
+    <id column="classify_id" property="classify_id" jdbcType="INTEGER" />
     <result column="cla_name" property="claName" jdbcType="VARCHAR" />
     <result column="cla_content" property="claContent" jdbcType="VARCHAR" />
     <result column="cla_pid" property="claPid" jdbcType="INTEGER" />

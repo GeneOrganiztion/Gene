@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.AddressMapper" >
   <resultMap id="BaseResultMap" type="po.Address" >
-    <id column="address_id" property="addressid" jdbcType="INTEGER" />
+    <id column="address_id" property="address_id" jdbcType="INTEGER" />
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="addr_name" property="addrName" jdbcType="VARCHAR" />
     <result column="addr_phone" property="addrPhone" jdbcType="VARCHAR" />

@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Table(name = "map_order_product")
 public class MapOrderProduct {
-    private Integer map_order_productid;
+    private Integer map_order_product_id;
 
     private Integer ordId;
 
@@ -27,11 +27,11 @@ public class MapOrderProduct {
     private Date lastModifiedTime;
 
     public Integer getId() {
-        return map_order_productid;
+        return map_order_product_id;
     }
 
     public void setId(Integer id) {
-        this.map_order_productid = id;
+        this.map_order_product_id = id;
     }
 
     public Integer getOrdId() {

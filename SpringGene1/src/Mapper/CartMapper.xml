@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.CartMapper" >
   <resultMap id="BaseResultMap" type="po.Cart" >
-    <id column="cart_id" property="cartid" jdbcType="INTEGER" />
+    <id column="cart_id" property="cart_id" jdbcType="INTEGER" />
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="cart_pro_count" property="cartProCount" jdbcType="INTEGER" />
     <result column="isdelete" property="isdelete" jdbcType="BIT" />

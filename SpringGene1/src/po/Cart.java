@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Table(name = "cart")
 public class Cart {
 
-    private Integer cartid;
+    private Integer cart_id;
 
     private Integer userId;
 
@@ -20,11 +20,11 @@ public class Cart {
     private Date lastModifiedTime;
 
     public Integer getId() {
-        return cartid;
+        return cart_id;
     }
 
     public void setId(Integer id) {
-        this.cartid = id;
+        this.cart_id = id;
     }
 
     public Integer getUserId() {

@@ -4,18 +4,18 @@ import javax.persistence.Table;
 
 @Table(name = "image")
 public class Image {
-    private Integer imageid;
+    private Integer image_id;
 
     private Integer proId;
 
     private String url;
 
     public Integer getId() {
-        return imageid;
+        return image_id;
     }
 
     public void setId(Integer id) {
-        this.imageid = id;
+        this.image_id = id;
     }
 
     public Integer getProId() {

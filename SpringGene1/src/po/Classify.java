@@ -22,12 +22,12 @@ public class Classify {
 
     private Date lastModifiedTime;
 
-    public Integer getclassify_id() {
+    public Integer getId() {
         return classify_id;
     }
 
-    public void setclassify_id(Integer classify_id) {
-        this.classify_id = classify_id;
+    public void setId(Integer id) {
+        this.classify_id = id;
     }
 
     public String getClaName() {

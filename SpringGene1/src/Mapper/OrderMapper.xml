@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.OrderMapper" >
   <resultMap id="BaseResultMap" type="po.Order" >
-    <id column="orderid_id" property="orderid" jdbcType="INTEGER" />
+    <id column="orderid_id" property="order_id" jdbcType="INTEGER" />
     <id column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
     <result column="ord_pro_count" property="ordProCount" jdbcType="INTEGER" />

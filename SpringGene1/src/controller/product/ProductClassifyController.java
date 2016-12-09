@@ -84,8 +84,7 @@ public class ProductClassifyController extends BaseController {
 		   String clsId = getParam("clsId");
 		   if(ST.getDefaultToInt(clsId, -1)!=-1){
 				Classify cls=new Classify();
-			//	cls.setId(ST.getDefaultToInt(clsId, -1));
-				cls.setIsdelete(true);
+				cls.setId(ST.getDefaultToInt(clsId, -1));
 				return classifyService.delClassify(cls);
 		    }
 		  return 1;
@@ -102,7 +101,7 @@ public class ProductClassifyController extends BaseController {
 	    if(ST.getDefaultToInt(clsId, -1)!=-1){
 	        Date date=new Date();
 		    Classify cls=new Classify();
-	    	//cls.setId(Integer.parseInt(clsId));
+	    	cls.setId(Integer.parseInt(clsId));
 	    	cls.setClaPid(3);
 	  	    cls.setClaName(clsname);
 	  	    cls.setClaContent(clscontent);

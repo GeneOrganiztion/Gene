@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Table(name ="admin")
 public class Admin extends BaseEntity{
 	@Id
-    private Integer addressid;
+    private Integer admin_id;
 
     private String username;
 
@@ -28,11 +28,11 @@ public class Admin extends BaseEntity{
     private Integer adminPid;
 
     public Integer getId() {
-        return addressid;
+        return admin_id;
     }
 
     public void setId(Integer id) {
-        this.addressid = id;
+        this.admin_id = id;
     }
 
     public String getUsername() {
