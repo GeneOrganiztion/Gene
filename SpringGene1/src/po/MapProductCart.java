@@ -2,11 +2,12 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "map_product_cart")
 public class MapProductCart {
-
+	@Id
     private Integer map_product_cart_id;
 
     private Integer proId;

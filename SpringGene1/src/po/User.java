@@ -2,9 +2,11 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 @Table(name = "user")
 public class User {
+	@Id
     private Integer user_id;
 
     private String username;

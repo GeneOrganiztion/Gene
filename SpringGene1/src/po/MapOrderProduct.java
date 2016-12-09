@@ -6,10 +6,9 @@ import javax.persistence.Table;
 
 @Table(name = "map_order_product")
 public class MapOrderProduct {
+	
     private Integer map_order_product_id;
-
-    private Integer ordId;
-
+    
     private Integer proId;
 
     private Integer proClassifyId;
@@ -32,14 +31,6 @@ public class MapOrderProduct {
 
     public void setId(Integer id) {
         this.map_order_product_id = id;
-    }
-
-    public Integer getOrdId() {
-        return ordId;
-    }
-
-    public void setOrdId(Integer ordId) {
-        this.ordId = ordId;
     }
 
     public Integer getProId() {

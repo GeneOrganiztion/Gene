@@ -1,20 +1,32 @@
 package po;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "image")
 public class Image {
+	@Id
     private Integer image_id;
 
     private Integer proId;
 
     private String url;
+    
+    private Address address;
 
     public Integer getId() {
         return image_id;
     }
 
-    public void setId(Integer id) {
+    public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public void setId(Integer id) {
         this.image_id = id;
     }
 

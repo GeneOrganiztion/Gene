@@ -3,11 +3,12 @@ package po;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "cart")
 public class Cart {
-
+	@Id
     private Integer cart_id;
 
     private Integer userId;

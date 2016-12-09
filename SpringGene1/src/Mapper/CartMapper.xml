@@ -12,9 +12,18 @@
   <sql id="Base_Column_List" >
     cart_id, user_id, cart_pro_count, isdelete, create_time, last_modified_time
   </sql>
- <!--  <resultMap type="po.Cart" id="CartAndProductresultMap" extends="BaseResultMap">
+  <resultMap type="po.Cart" id="CartAndProductResultMap" extends="BaseResultMap">
+  			<collection property="listOrderProduct" ofType="po.MapOrderProduct">
+  					<id column="map_order_product_id" property="map_order_product_id"></id>
+  					<result column="pro_id" property="ordId"></result>
+  					<result column="url" property="url"></result>
+  			</collection>
+  </resultMap> 
+  
+  <!-- <resultMap type="po.Cart" id="CartAndProductresultMap" extends="BaseResultMap">
   	
   	<collection property="listOrderProduct" ofType="po.MapProductCart">	
+  	
   				<id column="map_product_cart_id" property="map_product_cart_id"></id>
 	  			<result column="pro_id" property="proId"></result>
 			  	<result column="cart_id" property="cartId"></result>
@@ -31,8 +40,8 @@
 		  	</assonciation> 	
   	</collection>
   	
-  </resultMap>
-   -->
+  </resultMap> -->
+
   
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.CartKey" >
     select 
