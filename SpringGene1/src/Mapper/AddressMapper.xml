@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.AddressMapper" >
   <resultMap id="BaseResultMap" type="po.Address" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="address_id" property="addressid" jdbcType="INTEGER" />
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="addr_name" property="addrName" jdbcType="VARCHAR" />
     <result column="addr_phone" property="addrPhone" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, addr_name, addr_phone, addr_content, addr_default, isdelete, create_time, 
+    address_id, user_id, addr_name, addr_phone, addr_content, addr_default, isdelete, create_time, 
     last_modified_time
   </sql>
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.AddressKey" >
@@ -29,7 +29,7 @@
       and user_id = #{userId,jdbcType=INTEGER}
   </delete> -->
   <insert id="insert" parameterType="po.Address" >
-    insert into address (id, user_id, addr_name, 
+    insert into address (address_id, user_id, addr_name, 
       addr_phone, addr_content, addr_default, 
       isdelete, create_time, last_modified_time
       )

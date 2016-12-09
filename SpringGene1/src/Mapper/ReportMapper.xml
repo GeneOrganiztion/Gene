@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.ReportMapper" >
   <resultMap id="BaseResultMap" type="po.Report" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="reportid_id" property="reportid" jdbcType="INTEGER" />
     <id column="pro_id" property="proId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="rep_name" property="repName" jdbcType="VARCHAR" />
@@ -14,7 +14,7 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, pro_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
+    reportid_id, pro_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
     last_modified_time
   </sql>
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
@@ -30,11 +30,11 @@
       and pro_id = #{proId,jdbcType=INTEGER}
   </delete> -->
   <insert id="insert" parameterType="po.Report" >
-    insert into report (id, pro_id, user_id, 
+    insert into report (reportid_id, pro_id, user_id, 
       rep_name, rep_result, rep_state, 
       rep_pdf, isdelete, create_time, 
       last_modified_time)
-    values (#{id,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    values (#{reportid_id,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{repName,jdbcType=VARCHAR}, #{repResult,jdbcType=VARCHAR}, #{repState,jdbcType=VARCHAR}, 
       #{repPdf,jdbcType=VARCHAR}, #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastModifiedTime,jdbcType=TIMESTAMP})
@@ -43,7 +43,7 @@
     insert into report
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        id,
+        reportid_id,
       </if>
       <if test="proId != null" >
         pro_id,

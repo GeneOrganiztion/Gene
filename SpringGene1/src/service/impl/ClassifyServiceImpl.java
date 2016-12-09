@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import controller.base.LoginController;
 import Mapper.ClassifyMapper;
@@ -14,6 +15,8 @@ import po.Classify;
 import po.Product;
 import service.ClassifyService;
 
+
+@Transactional
 public class ClassifyServiceImpl implements ClassifyService {
 	private static final Logger logger = LoggerFactory.getLogger(ClassifyServiceImpl.class);
 	@Autowired
@@ -36,23 +39,26 @@ public class ClassifyServiceImpl implements ClassifyService {
 
 	@Override
 	public int delClassify(Classify cls) throws Exception {
+		int statcode=0;
 		try{
 		Product product=new Product();
-		product.setClassifyId(cls.getId());
+		product.setClassifyId(cls.getclassify_id());
 		product.setProOnline(true);
 		if(productMapper.selectCount(product)>0){
-			return 2;
+			statcode=2;
+			return statcode;
 		}
 		product.setProOnline(false);
+		product.setIsdelete(true);
 		//删除分类会删除分类下的商品
 		productMapper.deleteByClassifyKey(product);
 		classifyMapper.updateByPrimaryKeySelective(cls);
 		}catch(Exception e){
 			logger.info("classifyMapperdel.error="+e);
 			e.printStackTrace();
-			return 1;
+			statcode=1;
 		}
-		return 0;
+		return statcode;
 	}
 	@Override
 	public boolean saveClassify(Classify cls) throws Exception {

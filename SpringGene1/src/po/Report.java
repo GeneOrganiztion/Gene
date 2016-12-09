@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Table(name = "report")
 public class Report {
-    private Integer id;
+    private Integer reportid;
 
     private Integer proId;
 
@@ -27,11 +27,11 @@ public class Report {
     private Date lastModifiedTime;
 
     public Integer getId() {
-        return id;
+        return reportid;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.reportid = id;
     }
 
     public Integer getProId() {

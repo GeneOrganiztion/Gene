@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.ProductMapper" >
   <resultMap id="BaseResultMap" type="po.Product" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="productid_id" property="productid" jdbcType="INTEGER" />
     <result column="pro_name" property="proName" jdbcType="VARCHAR" />
     <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
     <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
@@ -17,10 +17,19 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <!-- <sql id="Base_Column_List" >
-    id, pro_name, pro_head, pro_price, pro_count, pro_rateprice, pro_online, pro_image, 
-    pro_detail, pro_area, classify_id, isdelete, create_time, last_modified_time
+  
+  
+   <resultMap type="po.Product" id="ProductAndImagesResultMap" extends="BaseResultMap">
+  			<collection property="imagelist" ofType="po.Image">
+  					<result column="pro_id" property="proId"></result>
+  					<result column="url" property="url"></result>
+  			</collection>
+  </resultMap> 
+   <sql id="Base_Column_List" >
+    product.productid_id, product.pro_name, product.pro_head, product.pro_price, product.pro_count, product.pro_rateprice, product.pro_online, product.pro_image, 
+    product.pro_detail, product.pro_area, product.classify_id, product.isdelete,
   </sql>
+  <!--  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -198,6 +207,20 @@
   </update> -->
   
   <update id="deleteByClassifyKey" parameterType="po.Product">
- 	 set isdelete = #{isdelete,jdbcType=BIT} where classify_id = #{classifyId,jdbcType=INTEGER}
+ 	 update product set isdelete = #{isdelete,jdbcType=BIT} where classify_id = #{classifyId,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectbyClassify" resultMap="ProductAndImagesResultMap" >
+    	select 
+	   	 	product.*,
+		    image.url,
+		    image.pro_id
+	    from 
+		    product,
+		    image
+		    where product.classify_id=4 
+		    AND product.isdelete= false AND product.pro_online=true
+		   	AND image.pro_id=product.id
+  </select>
+ 
 </mapper>

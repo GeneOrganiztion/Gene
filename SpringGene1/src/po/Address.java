@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Table(name = "address")
 public class Address {
 
-    private Integer id;
+    private Integer addressid;
 
     private Integer userId;
 
@@ -30,11 +30,11 @@ public class Address {
     }
 
     public Integer getId() {
-        return id;
+        return addressid;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.addressid = id;
     }
 
     public Integer getUserId() {

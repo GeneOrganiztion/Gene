@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.Map_Product_CartMapper" >
   <resultMap id="BaseResultMap" type="po.MapProductCart" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="map_product_cartid_id" property="map_product_cartid" jdbcType="INTEGER" />
     <id column="pro_id" property="proId" jdbcType="INTEGER" />
     <id column="cart_id" property="cartId" jdbcType="INTEGER" />
     <result column="pro_size" property="proSize" jdbcType="INTEGER" />
@@ -13,7 +13,7 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, pro_id, cart_id, pro_size, pro_color, pro_count, isdelete, create_time, last_modified_time
+    map_product_cartid_id, pro_id, cart_id, pro_size, pro_color, pro_count, isdelete, create_time, last_modified_time
   </sql>
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.Map_Product_CartKey" >
     select 

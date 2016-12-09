@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.Table;
 @Table(name = "user")
 public class User {
-    private Integer id;
+    private Integer userid;
 
     private String username;
 
@@ -26,11 +26,11 @@ public class User {
     private Date lastModifiedTime;
 
     public Integer getId() {
-        return id;
+        return userid;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.userid = id;
     }
 
     public String getUsername() {

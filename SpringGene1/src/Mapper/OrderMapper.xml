@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.OrderMapper" >
   <resultMap id="BaseResultMap" type="po.Order" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="orderid_id" property="orderid" jdbcType="INTEGER" />
     <id column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
     <result column="ord_pro_count" property="ordProCount" jdbcType="INTEGER" />
@@ -22,7 +22,7 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, product_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
+    orderid_id, product_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
     ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal, isdelete, 
     create_time, last_modified_time
   </sql>

@@ -1,13 +1,14 @@
 package po;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Table(name = "product")
 public class Product {
 	@Id
-    private Integer id;
+    private Integer productid;
 
     private String proName;
 
@@ -34,13 +35,23 @@ public class Product {
     private Date createTime;
 
     private Date lastModifiedTime;
+    
+    private List<Image> imagelist;
 
-    public Integer getId() {
-        return id;
+    public List<Image> getImagelist() {
+		return imagelist;
+	}
+
+	public void setImagelist(List<Image> imagelist) {
+		this.imagelist = imagelist;
+	}
+
+	public Integer getId() {
+        return productid;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.productid = id;
     }
 
     public String getProName() {

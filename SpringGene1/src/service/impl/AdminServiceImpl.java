@@ -3,11 +3,12 @@ package service.impl;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import po.Admin;
 import Mapper.AdminMapper;
 import service.AdminService;
-
+@Transactional
 public class AdminServiceImpl implements AdminService {
 
 	@Autowired
@@ -19,5 +20,7 @@ public class AdminServiceImpl implements AdminService {
 		admin.setPassword(password);
 		return AdminMapper.selectOne(admin);
 	}
+	
+	
 
 }

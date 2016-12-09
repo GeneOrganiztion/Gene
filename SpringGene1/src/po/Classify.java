@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name ="classify")
 public class Classify {
 	@Id
-    private Integer id;
+    private Integer classify_id;
    
     private String claName;
 
@@ -22,12 +22,12 @@ public class Classify {
 
     private Date lastModifiedTime;
 
-    public Integer getId() {
-        return id;
+    public Integer getclassify_id() {
+        return classify_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setclassify_id(Integer classify_id) {
+        this.classify_id = classify_id;
     }
 
     public String getClaName() {
