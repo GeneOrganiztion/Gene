@@ -37,6 +37,7 @@ public class ProductInfoController extends BaseController{
 		return productService.selectAll(product);
 	 }   
 	 
+	 
 	/* @RequestMapping(value = "/savepro", method = RequestMethod.GET)
 	 @ResponseBody
 	 public List<Product> savepro(HttpServletRequest request,

@@ -1,6 +1,7 @@
 package po;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Table;
 
@@ -18,6 +19,18 @@ public class Cart {
     private Date createTime;
 
     private Date lastModifiedTime;
+    
+    private List<MapOrderProduct> listOrderProduct;
+    
+    public List<MapOrderProduct> getListOrderProduct() {
+		return listOrderProduct;
+	}
+
+	public void setListOrderProduct(List<MapOrderProduct> listOrderProduct) {
+		this.listOrderProduct = listOrderProduct;
+	}
+
+	
 
     public Integer getId() {
         return cart_id;

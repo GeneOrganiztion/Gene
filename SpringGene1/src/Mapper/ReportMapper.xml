@@ -3,7 +3,7 @@
 <mapper namespace="Mapper.ReportMapper" >
   <resultMap id="BaseResultMap" type="po.Report" >
     <id column="reportid_id" property="report_id" jdbcType="INTEGER" />
-    <id column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="pro_id" property="proId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="rep_name" property="repName" jdbcType="VARCHAR" />
     <result column="rep_result" property="repResult" jdbcType="VARCHAR" />

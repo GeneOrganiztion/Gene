@@ -3,9 +3,9 @@
 <mapper namespace="Mapper.Map_Order_ProductMapper" >
   <resultMap id="BaseResultMap" type="po.MapOrderProduct" >
     <id column="map_order_productid_id" property="map_order_product_id" jdbcType="INTEGER" />
-    <id column="ord_id" property="ordId" jdbcType="INTEGER" />
-    <id column="pro_id" property="proId" jdbcType="INTEGER" />
-    <id column="pro_classify_id" property="proClassifyId" jdbcType="INTEGER" />
+    <result column="ord_id" property="ordId" jdbcType="INTEGER" />
+    <result column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="pro_classify_id" property="proClassifyId" jdbcType="INTEGER" />
     <result column="pro_name" property="proName" jdbcType="VARCHAR" />
     <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
     <result column="pro_count" property="proCount" jdbcType="INTEGER" />

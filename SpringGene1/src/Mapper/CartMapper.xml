@@ -3,7 +3,7 @@
 <mapper namespace="Mapper.CartMapper" >
   <resultMap id="BaseResultMap" type="po.Cart" >
     <id column="cart_id" property="cart_id" jdbcType="INTEGER" />
-    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="cart_pro_count" property="cartProCount" jdbcType="INTEGER" />
     <result column="isdelete" property="isdelete" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -12,6 +12,28 @@
   <sql id="Base_Column_List" >
     cart_id, user_id, cart_pro_count, isdelete, create_time, last_modified_time
   </sql>
+ <!--  <resultMap type="po.Cart" id="CartAndProductresultMap" extends="BaseResultMap">
+  	
+  	<collection property="listOrderProduct" ofType="po.MapProductCart">	
+  				<id column="map_product_cart_id" property="map_product_cart_id"></id>
+	  			<result column="pro_id" property="proId"></result>
+			  	<result column="cart_id" property="cartId"></result>
+			  	<result column="pro_size" property="proSize"></result>
+			  	<result column="pro_color" property="proColor"></result>
+			  	<result column="pro_count" property="proCount"></result>
+		  		<result column="isdelete" property="isdelete"></result>
+		  	<assonciation property="product" javaType="po.Product">
+			  	<id column="product_id" property="product_id"></id>
+	  			<result column="pro_name" property="proName"></result>
+			  	<result column="pro_head" property="proHead"></result>
+			  	<result column="pro_price" property="proPrice"></result>
+			  	<result column="pro_image" property="proImage"></result>
+		  	</assonciation> 	
+  	</collection>
+  	
+  </resultMap>
+   -->
+  
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.CartKey" >
     select 
     <include refid="Base_Column_List" />
@@ -24,7 +46,7 @@
     where id = #{id,jdbcType=INTEGER}
       and user_id = #{userId,jdbcType=INTEGER}
   </delete> -->
-  <insert id="insert" parameterType="po.Cart" >
+  <!-- <insert id="insert" parameterType="po.Cart" >
     insert into cart (id, user_id, cart_pro_count, 
       isdelete, create_time, last_modified_time
       )
@@ -102,5 +124,7 @@
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
       and user_id = #{userId,jdbcType=INTEGER}
-  </update>
+  </update> -->
+  
+  
 </mapper>

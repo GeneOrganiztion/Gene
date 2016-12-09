@@ -3,8 +3,8 @@
 <mapper namespace="Mapper.Map_Product_CartMapper" >
   <resultMap id="BaseResultMap" type="po.MapProductCart" >
     <id column="map_product_cartid_id" property="map_product_cart_id" jdbcType="INTEGER" />
-    <id column="pro_id" property="proId" jdbcType="INTEGER" />
-    <id column="cart_id" property="cartId" jdbcType="INTEGER" />
+    <result column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="cart_id" property="cartId" jdbcType="INTEGER" />
     <result column="pro_size" property="proSize" jdbcType="INTEGER" />
     <result column="pro_color" property="proColor" jdbcType="INTEGER" />
     <result column="pro_count" property="proCount" jdbcType="INTEGER" />

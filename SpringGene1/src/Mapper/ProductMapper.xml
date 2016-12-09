@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.ProductMapper" >
   <resultMap id="BaseResultMap" type="po.Product" >
-    <id column="productid_id" property="product_id" jdbcType="INTEGER" />
+    <id column="product_id" property="product_id" jdbcType="INTEGER" />
     <result column="pro_name" property="proName" jdbcType="VARCHAR" />
     <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
     <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
@@ -21,12 +21,13 @@
   
    <resultMap type="po.Product" id="ProductAndImagesResultMap" extends="BaseResultMap">
   			<collection property="imagelist" ofType="po.Image">
+  					<id column="image_id" property="image_id"></id>
   					<result column="pro_id" property="proId"></result>
   					<result column="url" property="url"></result>
   			</collection>
   </resultMap> 
    <sql id="Base_Column_List" >
-    product.productid_id, product.pro_name, product.pro_head, product.pro_price, product.pro_count, product.pro_rateprice, product.pro_online, product.pro_image, 
+    product.product_id, product.pro_name, product.pro_head, product.pro_price, product.pro_count, product.pro_rateprice, product.pro_online, product.pro_image, 
     product.pro_detail, product.pro_area, product.classify_id, product.isdelete,
   </sql>
   <!--  
@@ -213,14 +214,13 @@
   <select id="selectbyClassify" resultMap="ProductAndImagesResultMap" >
     	select 
 	   	 	product.*,
-		    image.url,
-		    image.pro_id
+		    image.*
 	    from 
 		    product,
 		    image
 		    where product.classify_id=4 
 		    AND product.isdelete= false AND product.pro_online=true
-		   	AND image.pro_id=product.id
+		   	AND image.pro_id=product.product_id
   </select>
  
 </mapper>

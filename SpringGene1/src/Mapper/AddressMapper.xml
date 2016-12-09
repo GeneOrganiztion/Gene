@@ -3,7 +3,7 @@
 <mapper namespace="Mapper.AddressMapper" >
   <resultMap id="BaseResultMap" type="po.Address" >
     <id column="address_id" property="address_id" jdbcType="INTEGER" />
-    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="addr_name" property="addrName" jdbcType="VARCHAR" />
     <result column="addr_phone" property="addrPhone" jdbcType="VARCHAR" />
     <result column="addr_content" property="addrContent" jdbcType="VARCHAR" />
