@@ -29,7 +29,7 @@
       and pro_id = #{proId,jdbcType=INTEGER}
       and cart_id = #{cartId,jdbcType=INTEGER}
   </delete> -->
-  <insert id="insert" parameterType="po.MapProductCart" >
+  <!-- <insert id="insert" parameterType="po.MapProductCart" >
     insert into map_product_cart (id, pro_id, cart_id, 
       pro_size, pro_color, pro_count, 
       isdelete, create_time, last_modified_time
@@ -137,5 +137,5 @@
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
       and cart_id = #{cartId,jdbcType=INTEGER}
-  </update>
+  </update> -->
 </mapper>

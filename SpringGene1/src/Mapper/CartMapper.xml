@@ -12,18 +12,27 @@
   <sql id="Base_Column_List" >
     cart_id, user_id, cart_pro_count, isdelete, create_time, last_modified_time
   </sql>
-  <resultMap type="po.Cart" id="CartAndProductResultMap" extends="BaseResultMap">
-  			<collection property="listOrderProduct" ofType="po.MapOrderProduct">
-  					<id column="map_order_product_id" property="map_order_product_id"></id>
-  					<result column="pro_id" property="ordId"></result>
-  					<result column="url" property="url"></result>
+  
+   <resultMap type="po.Cart" id="CartAndProductresultMap" extends="BaseResultMap">
+  			<collection property="listOrderProduct" ofType="po.MapProductCartDemo">
+  						<id column="map_product_cart_id" property="map_product_cart_id"></id>
+	  					<result column="pro_id" property="proId"></result>
+	  					<result column="cart_id" property="cartId"></result>
+	  					<result column="pro_count" property="proCount"></result>
+  					<association property="product" javaType="po.Product">
+  						<id column="product_id" property="product_id"></id>
+  						<result column="pro_name" property="proName"></result>
+					  	<result column="pro_head" property="proHead"></result>
+					  	<result column="pro_price" property="proPrice"></result>
+					  	<result column="pro_image" property="proImage"></result>
+					  	<result column="pro_online" property="proOnline"></result>
+					  	<result column="isdelete" property="isdelete"></result>
+  					</association>
   			</collection>
   </resultMap> 
-  
-  <!-- <resultMap type="po.Cart" id="CartAndProductresultMap" extends="BaseResultMap">
-  	
+<!--   <resultMap type="po.Cart" id="CartAndProductresultMap" extends="BaseResultMap">
+
   	<collection property="listOrderProduct" ofType="po.MapProductCart">	
-  	
   				<id column="map_product_cart_id" property="map_product_cart_id"></id>
 	  			<result column="pro_id" property="proId"></result>
 			  	<result column="cart_id" property="cartId"></result>
@@ -40,7 +49,7 @@
 		  	</assonciation> 	
   	</collection>
   	
-  </resultMap> -->
+  </resultMap>  -->
 
   
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.CartKey" >
@@ -135,5 +144,21 @@
       and user_id = #{userId,jdbcType=INTEGER}
   </update> -->
   
-  
+  <select id="selectbyUser" resultMap="CartAndProductresultMap">
+     select 
+      cart.*,
+      map_product_cart.*,
+      product.product_id,
+      product.pro_name,
+      product.pro_price,
+      product.pro_image
+      
+    from
+        cart,
+        map_product_cart,
+        product
+    where 
+    cart.user_id=#{userId,jdbcType=INTEGER} AND map_product_cart.cart_id=cart.cart_id
+    AND map_product_cart.pro_id=product.product_id AND map_product_cart.isdelete=false
+  </select>
 </mapper>

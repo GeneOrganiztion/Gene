@@ -1,8 +1,9 @@
 package Mapper;
 
 import po.Cart;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface CartMapper {
+public interface CartMapper extends Mapper<Cart>{
     /* int deleteByPrimaryKey(CartKey key); */
 
     int insert(Cart record);

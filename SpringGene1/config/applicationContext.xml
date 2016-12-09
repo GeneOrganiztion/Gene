@@ -67,5 +67,6 @@
 	  <bean id="studentService" class="service.impl.StudentServiceImpl"/>
 	  <bean id="adminService" class="service.impl.AdminServiceImpl" /> 
 	  <bean id="classifyService" class="service.impl.ClassifyServiceImpl" /> 
-	    <bean id="productService" class="service.impl.ProductServiceImpl" /> 
+	  <bean id="productService" class="service.impl.ProductServiceImpl" /> 
+	  <bean id="cartService" class="service.impl.CartServiceImpl" /> 
 </beans>  

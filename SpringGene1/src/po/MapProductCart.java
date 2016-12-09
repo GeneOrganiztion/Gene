@@ -25,18 +25,7 @@ public class MapProductCart {
     private Date createTime;
 
     private Date lastModifiedTime;
-    
-    private Product product;
-    
-    public Product getproduct() {
-		return product;
-	}
-
-	public void setproduct(Product product) {
-		this.product = product;
-	}
-
-	
+   
     public Integer getId() {
         return map_product_cart_id;
     }

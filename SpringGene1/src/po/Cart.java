@@ -21,13 +21,13 @@ public class Cart {
 
     private Date lastModifiedTime;
     
-    private List<MapOrderProduct> listOrderProduct;
+    private List<MapProductCartDemo> listOrderProduct;
     
-    public List<MapOrderProduct> getListOrderProduct() {
+    public List<MapProductCartDemo> getListOrderProduct() {
 		return listOrderProduct;
 	}
 
-	public void setListOrderProduct(List<MapOrderProduct> listOrderProduct) {
+	public void setListOrderProduct(List<MapProductCartDemo> listOrderProduct) {
 		this.listOrderProduct = listOrderProduct;
 	}
 
