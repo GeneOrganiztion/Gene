@@ -13,6 +13,8 @@ public class Report {
     private Integer proId;
 
     private Integer userId;
+    
+    private Integer ordId;
 
     private String repName;
 
@@ -40,7 +42,15 @@ public class Report {
         return proId;
     }
 
-    public void setProId(Integer proId) {
+    public Integer getOrdId() {
+		return ordId;
+	}
+
+	public void setOrdId(Integer ordId) {
+		this.ordId = ordId;
+	}
+
+	public void setProId(Integer proId) {
         this.proId = proId;
     }
 

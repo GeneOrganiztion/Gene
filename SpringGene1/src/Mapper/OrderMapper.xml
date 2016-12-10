@@ -3,7 +3,6 @@
 <mapper namespace="Mapper.OrderMapper" >
   <resultMap id="BaseResultMap" type="po.Order" >
     <id column="orderid_id" property="order_id" jdbcType="INTEGER" />
-    <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
     <result column="ord_pro_count" property="ordProCount" jdbcType="INTEGER" />
     <result column="ord_state" property="ordState" jdbcType="VARCHAR" />
@@ -21,32 +20,56 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <resultMap type="po.Order" id="OrderAndProductResultMap" extends="BaseResultMap">
+	<collection property="productList" ofType="po.Product">
+		<id column="product_id" property="product_id" jdbcType="INTEGER" />
+	    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
+	    <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
+	    <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
+	    <result column="pro_count" property="proCount" jdbcType="INTEGER" />
+	    <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
+	    <result column="pro_online" property="proOnline" jdbcType="BIT" />
+	    <result column="pro_image" property="proImage" jdbcType="VARCHAR" />
+	    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
+	    <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
+	    <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
+	    <result column="isdelete" property="isdelete" jdbcType="BIT" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+	</collection>
+  </resultMap> 
+  
+  
   <sql id="Base_Column_List" >
-    orderid_id, product_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
+    orderid_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
     ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal, isdelete, 
     create_time, last_modified_time
   </sql>
- <!--  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.OrderKey" >
-    select 
-    <include refid="Base_Column_List" />
-    from order
-    where id = #{id,jdbcType=INTEGER}
-      and product_id = #{productId,jdbcType=INTEGER}
+  
+  <select id="getOrderByUserId" resultMap="OrderAndProductResultMap" parameterType="po.Order">
+     SELECT oe.*,pt.* FROM  orders oe ,map_order_product mp , product pt WHERE 
+     	oe.`order_id`= mp.`ord_id`AND mp.`pro_id`=pt.`product_id` 
+     	AND oe.`isdelete`=0 AND mp.`isdelete`=0 AND pt.`isdelete`=0
+     	<if test="ordUser != null">
+     		and oe.ord_user = #{ordUser}
+     	</if>
+     	<if test="ordState != null">
+     		and oe.ord_state = #{ordState}
+     	</if>
+     	order by oe.order_id desc
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="po.OrderKey" >
-    delete from order
-    where id = #{id,jdbcType=INTEGER}
-      and product_id = #{productId,jdbcType=INTEGER}
-  </delete> -->
+  
+  
   <insert id="insert" parameterType="po.Order" >
-    insert into order (id, product_id, ord_num, 
+    insert into order (id, ord_num, 
       ord_pro_count, ord_state, courier_num, 
       courier_name, courier_phone, ord_price, 
       ord_pay, ord_user, user_name, 
       user_phone, user_address, user_postal, 
       isdelete, create_time, last_modified_time
       )
-    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{ordNum,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{ordNum,jdbcType=VARCHAR}, 
       #{ordProCount,jdbcType=INTEGER}, #{ordState,jdbcType=VARCHAR}, #{courierNum,jdbcType=VARCHAR}, 
       #{courierName,jdbcType=VARCHAR}, #{courierPhone,jdbcType=VARCHAR}, #{ordPrice,jdbcType=INTEGER}, 
       #{ordPay,jdbcType=VARCHAR}, #{ordUser,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
@@ -59,9 +82,6 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="productId != null" >
-        product_id,
       </if>
       <if test="ordNum != null" >
         ord_num,
@@ -115,9 +135,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null" >
-        #{productId,jdbcType=INTEGER},
       </if>
       <if test="ordNum != null" >
         #{ordNum,jdbcType=VARCHAR},
@@ -222,7 +239,6 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and product_id = #{productId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="po.Order" >
     update order
@@ -243,6 +259,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-      and product_id = #{productId,jdbcType=INTEGER}
   </update>
 </mapper>

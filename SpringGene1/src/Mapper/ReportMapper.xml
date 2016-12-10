@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="po.Report" >
     <id column="reportid_id" property="report_id" jdbcType="INTEGER" />
     <result column="pro_id" property="proId" jdbcType="INTEGER" />
+    <result column="ord_id" property="ordId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="rep_name" property="repName" jdbcType="VARCHAR" />
     <result column="rep_result" property="repResult" jdbcType="VARCHAR" />
@@ -14,7 +15,7 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    reportid_id, pro_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
+    reportid_id, pro_id, ord_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
     last_modified_time
   </sql>
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
@@ -30,11 +31,11 @@
       and pro_id = #{proId,jdbcType=INTEGER}
   </delete> -->
   <insert id="insert" parameterType="po.Report" >
-    insert into report (reportid_id, pro_id, user_id, 
+    insert into report (reportid_id, pro_id, ord_id, user_id, 
       rep_name, rep_result, rep_state, 
       rep_pdf, isdelete, create_time, 
       last_modified_time)
-    values (#{reportid_id,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    values (#{reportid_id,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{ordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{repName,jdbcType=VARCHAR}, #{repResult,jdbcType=VARCHAR}, #{repState,jdbcType=VARCHAR}, 
       #{repPdf,jdbcType=VARCHAR}, #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{lastModifiedTime,jdbcType=TIMESTAMP})
@@ -47,6 +48,9 @@
       </if>
       <if test="proId != null" >
         pro_id,
+      </if>
+      <if test="ordId != null" >
+        ord_id,
       </if>
       <if test="userId != null" >
         user_id,
@@ -80,6 +84,9 @@
       <if test="proId != null" >
         #{proId,jdbcType=INTEGER},
       </if>
+      <if test="ordId != null" >
+        #{ordId,jdbcType=INTEGER},
+      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
@@ -112,6 +119,9 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="ordId != null" >
+        ord_id = #{ordId,jdbcType=INTEGER},
+      </if>
       <if test="repName != null" >
         rep_name = #{repName,jdbcType=VARCHAR},
       </if>
@@ -135,11 +145,11 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and pro_id = #{proId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="po.Report" >
     update report
     set user_id = #{userId,jdbcType=INTEGER},
+   	  odr_id = #{ordId,jdbcType=INTEGER},
       rep_name = #{repName,jdbcType=VARCHAR},
       rep_result = #{repResult,jdbcType=VARCHAR},
       rep_state = #{repState,jdbcType=VARCHAR},
@@ -148,6 +158,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-      and pro_id = #{proId,jdbcType=INTEGER}
   </update>
 </mapper>

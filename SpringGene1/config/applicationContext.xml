@@ -69,4 +69,6 @@
 	  <bean id="classifyService" class="service.impl.ClassifyServiceImpl" /> 
 	  <bean id="productService" class="service.impl.ProductServiceImpl" /> 
 	  <bean id="cartService" class="service.impl.CartServiceImpl" /> 
+	  <bean id="orderService" class="service.impl.OrderServiceImpl" /> 
+	  <bean id="reportService" class="service.impl.ReportServiceImpl" /> 
 </beans>  

@@ -1,8 +1,10 @@
 package Mapper;
 
+import po.Order;
 import po.Report;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface ReportMapper {
+public interface ReportMapper extends Mapper<Report>{
     /* int deleteByPrimaryKey(ReportKey key); */
 
     int insert(Report record);

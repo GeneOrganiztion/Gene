@@ -1,11 +1,12 @@
 package po;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
 	@Id
     private Integer order_id;
@@ -43,6 +44,8 @@ public class Order {
     private Date createTime;
 
     private Date lastModifiedTime;
+    
+    private List<Product> productList;
 
     public String getOrdNum() {
         return ordNum;
@@ -187,4 +190,14 @@ public class Order {
     public void setLastModifiedTime(Date lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
+
+	public List<Product> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
+	}
+
+    
 }

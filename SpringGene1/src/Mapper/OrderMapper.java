@@ -1,8 +1,11 @@
 package Mapper;
 
-import po.Order;
+import java.util.List;
 
-public interface OrderMapper {
+import po.Order;
+import tk.mybatis.mapper.common.Mapper;
+
+public interface OrderMapper extends Mapper<Order>{
     /* int deleteByPrimaryKey(OrderKey key); */
 
     int insert(Order record);
@@ -14,4 +17,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+    
+    List<Order> getOrderByUserId(Order order);
 }
