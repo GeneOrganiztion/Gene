@@ -7,7 +7,7 @@ import po.Classify;
 
 public interface ClassifyService<T> {
 	
-	public List<T> selectAll() throws Exception;
+	public List<T> selectAll(Classify cls) throws Exception;
 	
 	public int delClassify(Classify cls) throws Exception;
 	

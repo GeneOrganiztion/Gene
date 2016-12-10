@@ -218,7 +218,7 @@
 	    from 
 		    product,
 		    image
-		    where product.classify_id=4 
+		    where product.classify_id=#{classifyId,jdbcType=INTEGER} 
 		    AND product.isdelete= false AND product.pro_online=true
 		   	AND image.pro_id=product.product_id
   </select>

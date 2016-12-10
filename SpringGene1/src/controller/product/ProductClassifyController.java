@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import controller.base.BaseController;
 import controller.base.LoginController;
+import controller.order.OrderDetailController;
 import po.Admin;
 import po.Classify;
 import po.ClassifyModel;
@@ -29,6 +30,7 @@ import utils.ST;
 @Controller
 @RequestMapping("/classify")
 public class ProductClassifyController extends BaseController {
+	private static final Logger logger = LoggerFactory.getLogger(ProductClassifyController.class);
 	@Autowired
 	private ClassifyService classifyService;
 	
@@ -36,25 +38,28 @@ public class ProductClassifyController extends BaseController {
 	 @ResponseBody
 	 public ClassifyModel clsall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
-		List<Classify> classifyall=classifyService.selectAll();
-		
-		
+		Classify cls=new Classify();
+		cls.setClaPid(0);
+		List<Classify> classifyall=classifyService.selectAll(cls);
 		ClassifyModel classifymodel=new ClassifyModel();
 		List<row> rows=new ArrayList<row>();
-		for(int i=0;i<classifyall.size();i++){
-			
+		try{
+			for(int i=0;i<classifyall.size();i=i+2){
+				List<Classify> classify2=new ArrayList<Classify>();
+				row ro=new row();
+					classify2.add(classifyall.get(i));
+				if(i+1==classifyall.size()){
+				}else{
+				classify2.add(classifyall.get(i+1));
+				}	
+				ro.setRow(classify2);
+				rows.add(ro);
+			}
+			classifymodel.setClassifies(rows);
+		}catch(Exception e){
+			logger.info("clsall"+e);
+			e.printStackTrace();
 		}
-		
-		/*	List<Classify> classify2=new ArrayList<Classify>();
-		row ro=new row();
-			classify2.add(classifyall.get(i));
-		if(i+1==classifyall.size()){
-		}else{
-		classify2.add(classifyall.get(i+1));
-		}	
-		ro.setRow(classify2);
-		rows.add(ro);*/
-		classifymodel.setClassifies(rows);
 		return classifymodel;
 	 }  
 	 
@@ -64,9 +69,9 @@ public class ProductClassifyController extends BaseController {
 	            HttpServletResponse response) throws Exception {
 		String clsname = getParam("clsname");
 	    String clscontent = getParam("clscontent");
-	    String cla_pid = getParam("cla_pid");
+	    String cla_pid = getParam("cla_pid");   
 	    if(ST.getDefaultToInt(cla_pid, -1)!=-1){
-	 	    Classify cls=new Classify();
+	    	Classify cls=new Classify();
 	 	    cls.setClaName(clsname);
 	 	    cls.setClaContent(clscontent);
 	    	cls.setClaPid(ST.getDefaultToInt(cla_pid, -1));

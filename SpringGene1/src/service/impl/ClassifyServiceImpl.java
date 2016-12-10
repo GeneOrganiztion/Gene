@@ -24,8 +24,7 @@ public class ClassifyServiceImpl implements ClassifyService {
 	@Autowired
 	private ProductMapper productMapper;
 	@Override
-	public List<Classify> selectAll() throws Exception {
-		Classify cls=new Classify();
+	public List<Classify> selectAll(Classify cls) throws Exception {
 		cls.setIsdelete(false);
 		return classifyMapper.select(cls);
 	}

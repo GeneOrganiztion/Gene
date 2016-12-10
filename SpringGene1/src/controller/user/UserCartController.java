@@ -58,7 +58,8 @@ public class UserCartController extends BaseController {
 		 MapProductCart mapduct=new MapProductCart();
 		 mapduct.setId(Integer.parseInt(maproId));
 		return cartService.deleProduct(mapduct);
-	 }  
+	 }
+	 
 	 
 	  
 

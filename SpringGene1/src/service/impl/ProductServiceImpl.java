@@ -20,8 +20,8 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> selectAll(Product product) throws Exception {
-		
-		
+		 product.setIsdelete(false);
+		 product.setProOnline(true);
 		return productMapper.selectbyClassify(product);
 	}
 
