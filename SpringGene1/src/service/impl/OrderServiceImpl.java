@@ -6,20 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import Mapper.OrderMapper;
-import po.Order;
+import Mapper.OrdersMapper;
+import po.Orders;
 import service.OrderService;
 
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
     
     @Autowired
-    private OrderMapper ordeMapper;
+    private OrdersMapper ordeMapper;
     
-    public List<Order> getOrderByUserId(Order order){
+    public List<Orders> getOrderByUserId(Orders order){
     	return ordeMapper.getOrderByUserId(order);
     }
-    public boolean updateOrderStatus(Order order){
+    public boolean updateOrderStatus(Orders order){
     	try {
     		ordeMapper.updateByPrimaryKeySelective(order);
     		//ordeMapper.updateByPrimaryKey(order);

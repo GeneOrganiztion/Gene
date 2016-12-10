@@ -2,13 +2,13 @@ package service;
 
 import java.util.List;
 
-import po.Order;
+import po.Orders;
 
 public interface OrderService<T> {
 	
 	//根据userId或其他属性查看订单的详情，以及订单下的商品
-	List<T> getOrderByUserId(Order order);
+	List<T> getOrderByUserId(Orders order);
 	
-	boolean updateOrderStatus(Order order);
+	boolean updateOrderStatus(Orders order);
 
 }
