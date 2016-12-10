@@ -11,6 +11,8 @@ public class MapOrderProduct {
     private Integer map_order_product_id;
     
     private Integer proId;
+    
+    private Integer ordId;
 
     private Integer proClassifyId;
 
@@ -34,7 +36,15 @@ public class MapOrderProduct {
         this.map_order_product_id = id;
     }
 
-    public Integer getProId() {
+    public Integer getOrdId() {
+		return ordId;
+	}
+
+	public void setOrdId(Integer ordId) {
+		this.ordId = ordId;
+	}
+
+	public Integer getProId() {
         return proId;
     }
 
