@@ -37,19 +37,23 @@ public class ProductClassifyController extends BaseController {
 	 public ClassifyModel clsall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
 		List<Classify> classifyall=classifyService.selectAll();
+		
+		
 		ClassifyModel classifymodel=new ClassifyModel();
 		List<row> rows=new ArrayList<row>();
-		for(int i=0;i<classifyall.size();i=i+2){
-			List<Classify> classify2=new ArrayList<Classify>();
-			row ro=new row();
-				classify2.add(classifyall.get(i));
-			if(i+1==classifyall.size()){
-			}else{
-			classify2.add(classifyall.get(i+1));
-			}	
-			ro.setRow(classify2);
-			rows.add(ro);
+		for(int i=0;i<classifyall.size();i++){
+			
 		}
+		
+		/*	List<Classify> classify2=new ArrayList<Classify>();
+		row ro=new row();
+			classify2.add(classifyall.get(i));
+		if(i+1==classifyall.size()){
+		}else{
+		classify2.add(classifyall.get(i+1));
+		}	
+		ro.setRow(classify2);
+		rows.add(ro);*/
 		classifymodel.setClassifies(rows);
 		return classifymodel;
 	 }  
