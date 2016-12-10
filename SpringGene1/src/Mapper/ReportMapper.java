@@ -1,6 +1,6 @@
 package Mapper;
 
-import po.Order;
+import po.Orders;
 import po.Report;
 import tk.mybatis.mapper.common.Mapper;
 

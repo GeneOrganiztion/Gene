@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.OrderMapper" >
-  <resultMap id="BaseResultMap" type="po.Order" >
+  <resultMap id="BaseResultMap" type="po.Orders" >
     <id column="orderid_id" property="order_id" jdbcType="INTEGER" />
     <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
     <result column="ord_pro_count" property="ordProCount" jdbcType="INTEGER" />
@@ -21,7 +21,7 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
-  <resultMap type="po.Order" id="OrderAndProductResultMap" extends="BaseResultMap">
+  <resultMap type="po.Orders" id="OrderAndProductResultMap" extends="BaseResultMap">
 	<collection property="productList" ofType="po.Product">
 		<id column="product_id" property="product_id" jdbcType="INTEGER" />
 	    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
@@ -47,7 +47,7 @@
     create_time, last_modified_time
   </sql>
   
-  <select id="getOrderByUserId" resultMap="OrderAndProductResultMap" parameterType="po.Order">
+  <select id="getOrderByUserId" resultMap="OrderAndProductResultMap" parameterType="po.Orders">
      SELECT oe.*,pt.* FROM  orders oe ,map_order_product mp , product pt WHERE 
      	oe.`order_id`= mp.`ord_id`AND mp.`pro_id`=pt.`product_id` 
      	AND oe.`isdelete`=0 AND mp.`isdelete`=0 AND pt.`isdelete`=0
@@ -61,7 +61,7 @@
   </select>
   
   
-  <insert id="insert" parameterType="po.Order" >
+  <insert id="insert" parameterType="po.Orders" >
     insert into order (id, ord_num, 
       ord_pro_count, ord_state, courier_num, 
       courier_name, courier_phone, ord_price, 
@@ -77,7 +77,7 @@
       #{isdelete,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="po.Order" >
+  <insert id="insertSelective" parameterType="po.Orders" >
     insert into order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -186,7 +186,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="po.Order" >
+  <update id="updateByPrimaryKeySelective" parameterType="po.Orders" >
     update order
     <set >
       <if test="ordNum != null" >
@@ -240,7 +240,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="po.Order" >
+  <update id="updateByPrimaryKey" parameterType="po.Orders" >
     update order
     set ord_num = #{ordNum,jdbcType=VARCHAR},
       ord_pro_count = #{ordProCount,jdbcType=INTEGER},

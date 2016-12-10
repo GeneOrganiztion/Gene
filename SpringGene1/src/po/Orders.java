@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "orders")
-public class Order {
+public class Orders {
 	@Id
     private Integer order_id;
 
