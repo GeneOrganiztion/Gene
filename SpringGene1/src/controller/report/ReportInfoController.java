@@ -36,14 +36,18 @@ public class ReportInfoController extends BaseController {
 	@RequestMapping(value = "/phoneSelectReportByParams", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Report> selectReportByParams(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String orId = getParam("or_id");
-		String proId = getParam("pro_id");
+		String orId = getParam("orId");
+		String proId = getParam("proId");
 		List<Report> list = new ArrayList<Report>();
 		Report report = new Report();
-		report.setOrdId(Integer.valueOf(orId));
-		report.setProId(Integer.valueOf(proId));
-		report.setIsdelete(false);
-		list = reportService.selectReportByParams(report);
+		try {
+			report.setOrdId(Integer.valueOf(orId));
+			report.setProId(Integer.valueOf(proId));
+			report.setIsdelete(false);
+			list = reportService.selectReportByParams(report);
+		} catch (Exception e) {
+			logger.error("selectReportByParams error:" + e);
+		}
 		return list;
 	}
 }
