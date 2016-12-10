@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import controller.base.BaseController;
 import po.Orders;
 import service.OrderService;
-import service.impl.OrderServiceImpl;
 import utils.ST;
 
 @Controller
@@ -29,7 +28,7 @@ public class OrderDetailController extends BaseController{
 	private OrderService<Orders> orderService;
 	/**
 	 * 根据userId或其他属性查看订单的详情，以及订单下的商品
-	 * @param request    user_id:用户ID   ord_state:订单状态（选填  不是必须的）
+	 * @param request    userId:用户ID   ordState:订单状态（选填  不是必须的）
 	 * @param response
 	 * @return
 	 * @throws Exception
@@ -38,12 +37,12 @@ public class OrderDetailController extends BaseController{
 	@ResponseBody
 	public List<Orders> getOrderByUserId(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		List<Orders> listOrd = new ArrayList<Orders>();
-		String userId = getParam("user_id");
-		String ordState = getParam("ord_state");
+		String userId = getParam("userId");
+		String ordState = getParam("ordState");
 		try {
 			Orders order = new Orders();
 			order.setOrdUser(Integer.valueOf(userId));
-			order.setOrdState(ordState);
+			//order.setOrdState(ordState);
 			listOrd = orderService.getOrderByUserId(order);
 		} catch (Exception e) {
 			logger.error("getOrderByUserId error:" + e);

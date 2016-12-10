@@ -22,21 +22,27 @@
   </resultMap>
   
   <resultMap type="po.Orders" id="OrderAndProductResultMap" extends="BaseResultMap">
-	<collection property="productList" ofType="po.Product">
-		<id column="product_id" property="product_id" jdbcType="INTEGER" />
+	<collection property="mapOrderProductList" ofType="po.MapOrderProductPo">
+		<id column="map_order_productid_id" property="map_order_product_id" jdbcType="INTEGER" />
+	    <result column="ord_id" property="ordId" jdbcType="INTEGER" />
+	    <result column="pro_id" property="proId" jdbcType="INTEGER" />
+	    <result column="pro_classify_id" property="proClassifyId" jdbcType="INTEGER" />
 	    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
-	    <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
 	    <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
 	    <result column="pro_count" property="proCount" jdbcType="INTEGER" />
-	    <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
-	    <result column="pro_online" property="proOnline" jdbcType="BIT" />
-	    <result column="pro_image" property="proImage" jdbcType="VARCHAR" />
-	    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
-	    <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
-	    <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
-	    <result column="isdelete" property="isdelete" jdbcType="BIT" />
-	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-	    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+		<association property="product" javaType="po.Product">
+			<id column="product_id" property="product_id" jdbcType="INTEGER" />
+		    <result column="pro_name" property="proName" jdbcType="VARCHAR" />
+		    <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
+		    <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
+		    <result column="pro_count" property="proCount" jdbcType="INTEGER" />
+		    <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
+		    <result column="pro_online" property="proOnline" jdbcType="BIT" />
+		    <result column="pro_image" property="proImage" jdbcType="VARCHAR" />
+		    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
+		    <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
+		    <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
+		</association>
 	</collection>
   </resultMap> 
   
@@ -48,15 +54,25 @@
   </sql>
   
   <select id="getOrderByUserId" resultMap="OrderAndProductResultMap" parameterType="po.Orders">
-     SELECT oe.*,pt.* FROM  orders oe ,map_order_product mp , product pt WHERE 
-     	oe.`order_id`= mp.`ord_id`AND mp.`pro_id`=pt.`product_id` 
-     	AND oe.`isdelete`=0 AND mp.`isdelete`=0 AND pt.`isdelete`=0
+     	SELECT 
+	     	oe.*,
+	     	mp.*,
+	     	pt.* 
+     	FROM  
+	     	orders oe ,
+	     	map_order_product mp , 
+	     	product pt 
+     	WHERE 
+	     	oe.`order_id`= mp.`ord_id`
+	     	AND mp.`pro_id`= pt.`product_id` 
+	     	AND oe.`isdelete`=0 
+	     	AND mp.`isdelete`=0 AND pt.`isdelete`=0
      	<if test="ordUser != null">
      		and oe.ord_user = #{ordUser}
      	</if>
-     	<if test="ordState != null">
+     	<!-- <if test="ordState != null">
      		and oe.ord_state = #{ordState}
-     	</if>
+     	</if> -->
      	order by oe.order_id desc
   </select>
   

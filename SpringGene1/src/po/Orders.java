@@ -45,7 +45,7 @@ public class Orders {
 
     private Date lastModifiedTime;
     
-    private List<Product> productList;
+    private List<MapOrderProductPo> mapOrderProductList;
 
     public String getOrdNum() {
         return ordNum;
@@ -191,13 +191,14 @@ public class Orders {
         this.lastModifiedTime = lastModifiedTime;
     }
 
-	public List<Product> getProductList() {
-		return productList;
+	public List<MapOrderProductPo> getMapOrderProductList() {
+		return mapOrderProductList;
 	}
 
-	public void setProductList(List<Product> productList) {
-		this.productList = productList;
+	public void setMapOrderProductList(List<MapOrderProductPo> mapOrderProductList) {
+		this.mapOrderProductList = mapOrderProductList;
 	}
+
 
     
 }
