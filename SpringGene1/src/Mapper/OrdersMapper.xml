@@ -70,9 +70,9 @@
      	<if test="ordUser != null">
      		and oe.ord_user = #{ordUser}
      	</if>
-     	<!-- <if test="ordState != null">
+     	<if test="ordState != null">
      		and oe.ord_state = #{ordState}
-     	</if> -->
+     	</if>
      	order by oe.order_id desc
   </select>
   

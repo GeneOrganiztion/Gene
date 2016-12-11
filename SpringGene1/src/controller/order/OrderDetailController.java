@@ -33,7 +33,7 @@ public class OrderDetailController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/phoneGetOrderSByUserId", method = RequestMethod.GET)
+	@RequestMapping(value = "/phoneGetOrdersByUserId", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Orders> getOrderByUserId(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		List<Orders> listOrd = new ArrayList<Orders>();
@@ -42,7 +42,7 @@ public class OrderDetailController extends BaseController{
 		try {
 			Orders order = new Orders();
 			order.setOrdUser(Integer.valueOf(userId));
-			//order.setOrdState(ordState);
+			order.setOrdState(ordState);
 			listOrd = orderService.getOrderByUserId(order);
 		} catch (Exception e) {
 			logger.error("getOrderByUserId error:" + e);
@@ -59,8 +59,8 @@ public class OrderDetailController extends BaseController{
 	@RequestMapping(value = "/phoneUpdateOrderStatus", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean updateOrderStatus(HttpServletRequest request,HttpServletResponse response)throws Exception{
-		String order_id = getParam("order_id");
-		String ordState = getParam("ord_state");
+		String order_id = getParam("orderId");
+		String ordState = getParam("ordState");
 		Orders order = new Orders();
 		try {
 			if(ST.getDefaultToInt(order_id, -1) != -1){
