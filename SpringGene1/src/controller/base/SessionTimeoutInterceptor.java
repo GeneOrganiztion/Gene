@@ -31,7 +31,13 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1,Object arg2) throws Exception {
 			String requestUrl = arg0.getRequestURI().replace(arg0.getContextPath(), "");  
 			//默认的放�?
-			if(null != allowUrls && allowUrls.length>=1){  
+			
+			arg1.setHeader("Access-Control-Allow-Origin", "*");  
+			arg1.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");  
+			arg1.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With"); 
+
+			return true;
+			/*if(null != allowUrls && allowUrls.length>=1){  
                 for(String url : allowUrls) {    
                     if(requestUrl.startsWith(url)) {    
                         return true;    
@@ -66,7 +72,7 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
 				}else{
 					throw new SessionTimeoutException("当前登陆操作,请重新登�?"); 
 				}
-	        }
+	        }*/
 	}
 	
 

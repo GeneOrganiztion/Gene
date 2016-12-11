@@ -73,9 +73,9 @@
    <mvc:resources location="/admin/l10n" mapping="/admin/l10n/**"/> 
    <mvc:resources location="/admin/tpl" mapping="/admin/tpl/**"/> 
    <mvc:resources location="/admin/vendor" mapping="/admin/vendor/**"/>  -->
-   <!--  
+     
     <mvc:interceptors>  
-       <bean class="controller.SessionTimeoutInterceptor">  
+       <bean class="controller.base.SessionTimeoutInterceptor">  
          <property name="allowUrls">  
            <list>  
           
@@ -94,8 +94,8 @@
            </list>  
          </property>  
        </bean>
-   </mvc:interceptors>
-   -->
+   </mvc:interceptors>  
+ 
    <!-- 拦截器的异常
    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
      <property name="exceptionMappings">  
