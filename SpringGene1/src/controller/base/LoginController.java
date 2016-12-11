@@ -5,9 +5,6 @@
  */
 package controller.base;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,17 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-
-
-
-
-
 
 import po.Admin;
 import service.AdminService;
+import utils.MD5Util;
 
 /**
  *
@@ -42,35 +33,51 @@ public class LoginController extends BaseController {
     @Autowired
     private AdminService adminService;
 
+    private String LOGIN_JSP = "login";
+    private String INDEX_JSP = "index";
+    
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String formnoticedetail1(HttpServletRequest request,
+    public ModelAndView formnoticedetail1(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+    	ModelAndView mv = new ModelAndView();
     	Admin admin=null;
     	String msg=null;
     	String username = getParam("user");//用户名
         String password = getParam("psd");//密码
+        String passwordMd5 = MD5Util.getMD5(password);
         try{
-        admin=(Admin)adminService.login(username, password);
+        admin=(Admin)adminService.login(username, passwordMd5);
         System.out.println("admin="+admin);
         }catch(Exception e){
         	logger.info("login.error="+e);
         	e.printStackTrace();
         	msg = "服务器繁忙，请稍后重试";
             request.setAttribute("msg", msg);
-            return "html/login";
+            mv.setViewName(LOGIN_JSP);
+            return mv;
         }
         if(null==admin){
         	msg = "用户名或密码错误,请确认是否输入正确";
             request.setAttribute("msg", msg);
-            return "html/login";
+            mv.setViewName(LOGIN_JSP);
+            return mv;
         }
         if (admin.getIsdelete()) {
             msg = "当前用户已被禁用,请检查用户是否正常";
             request.setAttribute("msg", msg);
-            return "html/login";
+            mv.setViewName(INDEX_JSP);
+            return mv;
           }
         session.setAttribute("SESSION_USER", admin);
-        return "index";
+        mv.setViewName(INDEX_JSP);
+        return mv;
+    }
+    @RequestMapping(value = "/loginjsp", method = RequestMethod.GET)
+    public ModelAndView loginJsp(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+    	ModelAndView mv = new ModelAndView();
+    	mv.setViewName(LOGIN_JSP);
+    	return mv;
     }
 
 }

@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 @Table(name ="admin")
 public class Admin extends BaseEntity{
+	
+	private static final long serialVersionUID = -843852738028185606L;
+
 	@Id
     private Integer admin_id;
 

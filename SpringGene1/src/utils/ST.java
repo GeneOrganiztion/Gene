@@ -1,8 +1,10 @@
 package utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -314,5 +316,29 @@ public final class ST {
         String minute = String
                 .valueOf(((se.getTime()) - sd.getTime()) / 1000 / 60 / 60);
         return minute;
+    }
+    /**
+     * 
+     * @param ids
+     *            :String类型 "1,2,3"
+     * @return
+     */
+    public static List<Integer> StringToList(String ids) {
+        List<Integer> list = new ArrayList<Integer>();
+        if (ids == null || ids.length() == 0) {
+            return list;
+        }
+        String strIds = "";
+        if (ids.endsWith(",")) {
+            strIds = ids.substring(0, ids.length() - 1);
+        } else {
+            strIds = ids;
+        }
+        String[] idArr = strIds.split(",");
+        for (String id : idArr) {
+            list.add(Integer.valueOf(id));
+        }
+
+        return list;
     }
 }

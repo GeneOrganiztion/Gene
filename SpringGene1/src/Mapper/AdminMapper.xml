@@ -13,6 +13,46 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="admin_pid" property="adminPid" jdbcType="INTEGER" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    admin_id, username, password, realname, email, phone, isdelete, last_modified_time, date_format(create_time,'%Y-%c-%d %h:%i:%s') as create_time, 
+    admin_pid
+  </sql>
+  <select id="selectAdminByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+  	select 
+    <include refid="Base_Column_List" />
+	    from admin
+	    where 1=1
+	  <if test="id != null">
+        and admin_id = #{adminId}
+      </if>
+      <if test="userName != null">
+        and username LIKE '%${userName}%'
+      </if>
+      <if test="passWord != null">
+        AND password = #{passWord}
+      </if>
+      <if test="realname != null">
+        and realname = LIKE '%${realName}%'
+      </if>
+      <if test="beginTime != null ">
+          AND CREATE_TIME > #{beginTime} +" 00:00:00"
+      </if>
+      <if test="endTime != null ">
+          AND #{endTime} + " 23:59:59" > CREATE_TIME
+      </if>
+      	and isdelete = 0
+      <if test="sidx != null">
+        order by #{sidx} #{sord}
+      </if>
+  </select>
+  <update id="deleteAdminByIds" parameterType="java.util.List">
+      <![CDATA[
+        UPDATE admin SET isdelete = 1 WHERE admin_id IN
+     ]]>
+     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+       #{item}  
+     </foreach>  
+  </update>
   <!--  <sql id="Base_Column_List" >
     id, username, password, realname, email, phone, isdelete, last_modified_time, create_time, 
     admin_pid
