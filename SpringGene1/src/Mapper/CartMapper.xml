@@ -22,8 +22,10 @@
   					<association property="product" javaType="po.Product">
   						<id column="product_id" property="product_id"></id>
   						<result column="pro_name" property="proName"></result>
+  						<result column="pro_count" property="proCount"></result>
 					  	<result column="pro_head" property="proHead"></result>
 					  	<result column="pro_price" property="proPrice"></result>
+					  	<result column="pro_rateprice" property="proRateprice"></result>
 					  	<result column="pro_image" property="proImage"></result>
 					  	<result column="pro_online" property="proOnline"></result>
 					  	<result column="isdelete" property="isdelete"></result>
@@ -148,17 +150,13 @@
      select 
       cart.*,
       map_product_cart.*,
-      product.product_id,
-      product.pro_name,
-      product.pro_price,
-      product.pro_image
-      
+      product.*
     from
         cart,
         map_product_cart,
         product
     where 
     cart.user_id=#{userId,jdbcType=INTEGER} AND map_product_cart.cart_id=cart.cart_id
-    AND map_product_cart.pro_id=product.product_id AND map_product_cart.isdelete=false
+    AND map_product_cart.pro_id=product.product_id AND map_product_cart.isdelete=0
   </select>
 </mapper>

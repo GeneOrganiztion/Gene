@@ -15,6 +15,5 @@ public class ReportServiceImpl implements ReportService {
 	
 	public List<Report> selectReportByParams(Report report){
 		return reportMapper.select(report);
-		 //reportMapper.selectByExample(report);
 	}
 }

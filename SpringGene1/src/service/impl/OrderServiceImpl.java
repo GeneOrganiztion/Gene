@@ -17,6 +17,7 @@ public class OrderServiceImpl implements OrderService {
     private OrdersMapper ordeMapper;
     
     public List<Orders> getOrderByUserId(Orders order){
+    	System.out.println("mapperSize="+ordeMapper.getOrderByUserId(order).size());
     	return ordeMapper.getOrderByUserId(order);
     }
     public boolean updateOrderStatus(Orders order){

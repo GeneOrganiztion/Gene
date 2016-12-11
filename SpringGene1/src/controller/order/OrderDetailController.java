@@ -39,11 +39,13 @@ public class OrderDetailController extends BaseController{
 		List<Orders> listOrd = new ArrayList<Orders>();
 		String userId = getParam("userId");
 		String ordState = getParam("ordState");
+		System.out.println("ordState="+ordState);
 		try {
 			Orders order = new Orders();
 			order.setOrdUser(Integer.valueOf(userId));
 			order.setOrdState(ordState);
 			listOrd = orderService.getOrderByUserId(order);
+			System.out.println("listOrd.size()="+listOrd.size());
 		} catch (Exception e) {
 			logger.error("getOrderByUserId error:" + e);
 		}
@@ -75,4 +77,7 @@ public class OrderDetailController extends BaseController{
 		}
 		return false;
 	}
+	
+	
+	
 }
