@@ -30,8 +30,8 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
 	@SuppressWarnings("unchecked")
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1,Object arg2) throws Exception {
 			String requestUrl = arg0.getRequestURI().replace(arg0.getContextPath(), "");  
-			//默认的放�?
 			
+			//angularjs跨域请求限制
 			arg1.setHeader("Access-Control-Allow-Origin", "*");  
 			arg1.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");  
 			arg1.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With"); 
