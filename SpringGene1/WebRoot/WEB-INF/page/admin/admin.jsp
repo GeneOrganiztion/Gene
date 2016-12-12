@@ -3,8 +3,6 @@
 	String path = request.getContextPath();
 %>
 <script src="<%=path%>/pagejs/admin/admin.js"></script>
-<script src="<%=path%>/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
-<script src="<%=path%>/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
