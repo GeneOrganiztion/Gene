@@ -50,6 +50,7 @@
 	</head>
 
 	<body class="login-layout light-login">
+		<input type="hidden" id="_webroot_" value="<%=basePath%>"/>
 		<div class="main-container">
 			<div class="main-content">
 				<div class="row">
@@ -77,18 +78,18 @@
 
 											<div class="space-6"></div>
 
-											<form>
+											<form id ="loginForm" action="<%=basePath%>CoreServlet/login.do">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Username" />
+															<input type="text" class="form-control" name="user" id="user"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Password" />
+															<input type="password" class="form-control" name="psd" id="psd"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -101,7 +102,7 @@
 															<span class="lbl"> Remember Me</span>
 														</label>
 
-														<button type="button" class="width-35 pull-right btn btn-sm btn-primary">
+														<button type="button" id="loginBtn" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
 														</button>
@@ -315,7 +316,18 @@
 				$('.widget-box.visible').removeClass('visible');//hide others
 				$(target).addClass('visible');//show target
 			 });
-			}); 
+			 
+			 $("#loginBtn").click(function(){
+				 var user = $("#user").val();
+				 var psd = $("#psd").val();
+				 if(user == null || psd == null || user == "" || psd == ""){
+					 alert("用户名和密码不能为空");
+					 return;
+			     }
+				$("#loginForm").submit();
+			 }); 
+			 
+		   }); 
 			
 			
 			

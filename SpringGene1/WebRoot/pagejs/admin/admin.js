@@ -28,8 +28,8 @@ function initAdminManager(){
           	{name:'username',index:'username',width:80, editable:true},
 			{name:'email',index:'email', width:80, sorttype:"int", editable: true},
 			{name:'phone',index:'phone',width:80, editable:true},
-			{name:'createTime',index:'create_time',width:80, editable:true,formatter: 'date', formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80, editable:true, formatter: 'date', formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}}
+			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -180,6 +180,15 @@ function initAdminManager(){
 		$(grid_selector).jqGrid('GridUnload');
 		$('.ui-jqdialog').remove();
 	});
+	function TimeAdd0(time){
+		return time < 10 ? ("0" + time) : time;
+	}
+	function formatDate(cellvalue, options, rowObject){
+		var date = new Date(cellvalue);
+		var time = date.getFullYear() + "-" + TimeAdd0((date.getMonth() + 1)) + "-" + TimeAdd0(date.getDate()) 
+					+ " " + TimeAdd0(date.getHours()) + ":" + TimeAdd0(date.getMinutes()) + ":" + TimeAdd0(date.getSeconds());
+		return time;
+	}
 	
 }
 
@@ -196,7 +205,7 @@ function queryAdmin(){
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
 }
-//删除内容
+//删除用户
 function deleteAdmin(){
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
@@ -221,4 +230,8 @@ function deleteAdmin(){
 		    }).trigger("reloadGrid"); //重新载入 
 		}
 	});
+}
+//添加用户
+function addAdmin(){
+	$("#addAdminModal").modal("show");
 }

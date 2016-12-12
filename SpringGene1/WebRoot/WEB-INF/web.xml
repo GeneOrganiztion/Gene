@@ -51,7 +51,7 @@
 	</servlet-mapping>
  
 	<welcome-file-list>
-    	<welcome-file>/html/login.html</welcome-file>
+    	<welcome-file>/admin/welcome.html</welcome-file>
   	</welcome-file-list>
 </web-app>  
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Welcome</title>
+</head>
+<body>
+<script type="text/javascript">
+  var hostname = location.hostname;
+  var protocol = location.protocol;
+  var port = location.port;
+  var pathname = location.pathname;
+  var href=protocol + "//" + hostname;
+  if (port != null && port != "") {
+      href = href + ":" + port + "/";
+  } else {
+      href = href + "/";
+  }
+  pathname = pathname.substring(1, pathname.length);
+  pathname = pathname.substring(0, pathname.indexOf("/"));
+  href = href + pathname + "/CoreServlet/loginjsp.do";
+  window.location.replace(href);
+</script>
+</body>
+</html>

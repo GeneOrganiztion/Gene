@@ -50,7 +50,6 @@
 	</head>
 
 	<body class="login-layout light-login">
-		<input type="hidden" id="_webroot_" value="<%=basePath%>"/>
 		<div class="main-container">
 			<div class="main-content">
 				<div class="row">
