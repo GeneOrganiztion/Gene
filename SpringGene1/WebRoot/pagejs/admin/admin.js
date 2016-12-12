@@ -209,7 +209,7 @@ function queryAdmin(){
 function deleteAdmin(){
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
-		alert("请至少选中一行");
+		alertmsg("warning", "请至少选中一行!");
 		return;
 	}
 	var ids = "";
@@ -218,18 +218,29 @@ function deleteAdmin(){
 		var adminId = rowData.id;
 		ids =ids + adminId + ",";
 	}
-	$.ajax({
-		type:"post",
-		url:webroot+"admin/delete.do",
-		data:{"adminIds":ids},
-		success:function(data){
-			//删除成功重新加载jqGrid
-			$("#grid-table").jqGrid('setGridParam',{ 
-		        page:1,
-		        mtype:"post"
-		    }).trigger("reloadGrid"); //重新载入 
-		}
-	});
+    Lobibox.confirm({ 
+        title:"删除用户",      //提示框标题 
+        msg: "是否确认确认删除",   //提示框文本内容 
+        callback: function ($this, type, ev) {               //回调函数 
+            if (type === 'yes') { 
+            	$.ajax({
+            		type:"post",
+            		url:webroot+"admin/delete.do",
+            		data:{"adminIds":ids},
+            		success:function(data){
+            			//删除成功重新加载jqGrid
+            			$("#grid-table").jqGrid('setGridParam',{ 
+            		        page:1,
+            		        mtype:"post"
+            		    }).trigger("reloadGrid"); //重新载入 
+            		}
+            	});
+            } else if (type === 'no') { 
+                       
+            } 
+       } 
+     });
+	
 }
 //添加用户
 function addAdmin(){

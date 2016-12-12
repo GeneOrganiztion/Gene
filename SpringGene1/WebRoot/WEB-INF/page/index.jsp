@@ -104,6 +104,7 @@
 	<body class="no-skin">
 		<!-- #section:basics/navbar.layout -->
 		<input type="hidden" id="webroot" value="<%=basePath%>"/>
+		<button style="display:none;" class="btn btn-md" id="alertButton"></button><!-- 提示信息要用到 -->
 		<div id="navbar" class="navbar navbar-default">
 			<script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
@@ -1057,6 +1058,20 @@
 				}
 			}
 		});
+		
+		
+		//显示提示信息方法
+		function alertmsg(type, msg) {
+		    $("#alertButton").manhua_msgTips({
+		        Event: "click",	//响应的事件
+		        timeOut: 3000,		//提示层显示的时间
+		        msg: msg,			//显示的消息
+		        speed: 800,		//滑动速度
+		        type: type			//提示类型（1、success 2、error 3、warning）
+
+		    });
+		    $("#alertButton").click();
+		}
 		</script>
 		
 		
