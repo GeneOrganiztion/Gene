@@ -12,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.abc.spring.FileUpload;
 
 import po.Classify;
 import po.ClassifyDemo;
@@ -98,7 +102,26 @@ public class ProductInfoController extends BaseController{
 		return classifydemolist;
 	 }
 	 
-	 
+	 @RequestMapping(value = "/UploadImage", method = RequestMethod.POST)
+	 @ResponseBody
+	 public String UploadImage(HttpServletRequest request,
+			 @RequestParam("file") MultipartFile file) throws Exception {
+		 	String filepathurl=null;
+		 	int i=0;
+		 	System.out.println("fileSize="+file.getSize());
+		 	try {
+		      String filepath = FileUpload.uploadFile(file, request);
+		      //System.out.println("error="+(1/i));
+		      System.out.println("filepath="+filepath);
+		      filepathurl = filepath;
+		      System.out.println("filepath=" + filepath);
+		    } catch (Exception e) {
+		      logger.info("UploadImage"+e);
+		      e.printStackTrace();
+		    }
+		 	return filepathurl;
+		
+	 }
 	 
 	/* @RequestMapping(value = "/savepro", method = RequestMethod.GET)
 	 @ResponseBody
