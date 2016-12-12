@@ -7,13 +7,13 @@ import tk.mybatis.mapper.common.Mapper;
 public interface ReportMapper extends Mapper<Report>{
     /* int deleteByPrimaryKey(ReportKey key); */
 
-    int insert(Report record);
+  /*  int insert(Report record);
 
     int insertSelective(Report record);
 
-    /* Report selectByPrimaryKey(ReportKey key); */
+     Report selectByPrimaryKey(ReportKey key); 
 
-    int updateByPrimaryKeySelective(Report record);
-
-    int updateByPrimaryKey(Report record);
+    int updateByPrimaryKeySelective(Report record);*/
+/*
+    int updateByPrimaryKey(Report record);*/
 }

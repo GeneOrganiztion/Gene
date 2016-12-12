@@ -14,9 +14,9 @@ public class Product {
 
     private String proHead;
 
-    private Integer proPrice;
+    private Integer productPrice;
 
-    private Integer proCount;
+    private Integer proSum;
 
     private Integer proRateprice;
 
@@ -70,20 +70,20 @@ public class Product {
         this.proHead = proHead == null ? null : proHead.trim();
     }
 
-    public Integer getProPrice() {
-        return proPrice;
+    public Integer getProductPrice() {
+        return productPrice;
     }
 
-    public void setProPrice(Integer proPrice) {
-        this.proPrice = proPrice;
+    public void setProductPrice(Integer productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public Integer getProCount() {
-        return proCount;
+    public Integer getProSum() {
+        return proSum;
     }
 
-    public void setProCount(Integer proCount) {
-        this.proCount = proCount;
+    public void setProSum(Integer proSum) {
+        this.proSum = proSum;
     }
 
     public Integer getProRateprice() {

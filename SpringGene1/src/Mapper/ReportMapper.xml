@@ -30,7 +30,7 @@
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
   </delete> -->
-  <insert id="insert" parameterType="po.Report" >
+<!--   <insert id="insert" parameterType="po.Report" >
     insert into report (reportid_id, pro_id, ord_id, user_id, 
       rep_name, rep_result, rep_state, 
       rep_pdf, isdelete, create_time, 
@@ -145,8 +145,8 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="po.Report" >
+  </update> -->
+  <!-- <update id="updateByPrimaryKey" parameterType="po.Report" >
     update report
     set user_id = #{userId,jdbcType=INTEGER},
    	  odr_id = #{ordId,jdbcType=INTEGER},
@@ -158,5 +158,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-  </update>
+  </update> -->
 </mapper>

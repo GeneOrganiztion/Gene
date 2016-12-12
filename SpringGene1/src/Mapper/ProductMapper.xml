@@ -5,8 +5,8 @@
     <id column="product_id" property="product_id" jdbcType="INTEGER" />
     <result column="pro_name" property="proName" jdbcType="VARCHAR" />
     <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
-    <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
-    <result column="pro_count" property="proCount" jdbcType="INTEGER" />
+    <result column="product_price" property="productPrice" jdbcType="INTEGER" />
+    <result column="pro_sum" property="proSum" jdbcType="INTEGER" />
     <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
     <result column="pro_online" property="proOnline" jdbcType="BIT" />
     <result column="pro_image" property="proImage" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
   			</collection>
   </resultMap> 
    <sql id="Base_Column_List" >
-    product.product_id, product.pro_name, product.pro_head, product.pro_price, product.pro_count, product.pro_rateprice, product.pro_online, product.pro_image, 
+    product.product_id, product.pro_name, product.pro_head, product.product_price, product.pro_sum, product.pro_rateprice, product.pro_online, product.pro_image, 
     product.pro_detail, product.pro_area, product.classify_id, product.isdelete,
   </sql>
   <!--  

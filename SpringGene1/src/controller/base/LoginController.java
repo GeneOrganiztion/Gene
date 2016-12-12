@@ -71,6 +71,7 @@ public class LoginController extends BaseController {
             return mv;
           }
         session.setAttribute("SESSION_USER", admin);
+        
         String path = request.getContextPath(); 
         mv.setView(new RedirectView(path + "/" + DASHBOARD));
         return mv;
