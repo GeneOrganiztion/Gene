@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import po.Admin;
 import service.AdminService;
@@ -33,8 +34,9 @@ public class LoginController extends BaseController {
     @Autowired
     private AdminService adminService;
 
-    private String LOGIN_JSP = "login";
-    private String INDEX_JSP = "index";
+    private final String LOGIN_JSP = "login";
+    private final String INDEX_JSP = "index";
+    private final String DASHBOARD = "CoreServlet/dashboard.do";
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView formnoticedetail1(HttpServletRequest request,
@@ -69,7 +71,8 @@ public class LoginController extends BaseController {
             return mv;
           }
         session.setAttribute("SESSION_USER", admin);
-        mv.setViewName(INDEX_JSP);
+        String path = request.getContextPath(); 
+        mv.setView(new RedirectView(path + "/" + DASHBOARD));
         return mv;
     }
     @RequestMapping(value = "/loginjsp", method = RequestMethod.GET)
@@ -79,5 +82,10 @@ public class LoginController extends BaseController {
     	mv.setViewName(LOGIN_JSP);
     	return mv;
     }
-
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public ModelAndView dashboard() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(INDEX_JSP);
+        return modelAndView;
+    }
 }

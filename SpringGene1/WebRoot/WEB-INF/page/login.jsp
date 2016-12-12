@@ -78,18 +78,18 @@
 
 											<div class="space-6"></div>
 
-											<form>
+											<form id ="loginForm" action="<%=basePath%>CoreServlet/login.do">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" id="userName" />
+															<input type="text" class="form-control" name="user" id="user"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" id="passWord" />
+															<input type="password" class="form-control" name="psd" id="psd"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -318,18 +318,14 @@
 			 });
 			 
 			 $("#loginBtn").click(function(){
-				 var webroot = $("#_webroot_").val();
-				 var user = $("#userName").val();
-				 var psd = $("#passWord").val();
-				 $.ajax({
-					type:"get",
-					url:webroot + "CoreServlet/login.do",
-					data:{"user":user,"psd":psd},
-					success:function(data){
-						
-					}
-				});
-			 });
+				 var user = $("#user").val();
+				 var psd = $("#psd").val();
+				 if(user == null || psd == null || user == "" || psd == ""){
+					 alert("用户名和密码不能为空");
+					 return;
+			     }
+				$("#loginForm").submit();
+			 }); 
 			 
 		   }); 
 			

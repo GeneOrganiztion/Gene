@@ -1,7 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<script src="pagejs/studentManage.js"></script>
-<script src="assets/js/jqGrid/jquery.jqGrid.src.js"></script>
-<script src="assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+%>
+<script src="<%=path%>/pagejs/studentManage.js"></script>
+<script src="<%=path%>/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="<%=path%>/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">

@@ -28,11 +28,11 @@
 		<link rel="stylesheet" href="<%=path%>/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="assets/css/ace-part2.css" class="ace-main-stylesheet" />
+			<link rel="stylesheet" href="<%=path%>/assets/css/ace-part2.css" class="ace-main-stylesheet" />
 		<![endif]-->
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="assets/css/ace-ie.css" />
+		  <link rel="stylesheet" href="<%=path%>/assets/css/ace-ie.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -43,8 +43,8 @@
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>
-		<script src="assets/js/html5shiv.js"></script>
-		<script src="assets/js/respond.js"></script>
+		<script src="<%=path%>/assets/js/html5shiv.js"></script>
+		<script src="<%=path%>/assets/js/respond.js"></script>
 		<![endif]-->
 	</head>
 
@@ -249,7 +249,7 @@
 									<ul class="dropdown-menu dropdown-navbar">
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<img src="<%=path%>/assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -266,7 +266,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<img src="<%=path%>/assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -283,7 +283,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<img src="<%=path%>/assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -300,7 +300,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<img src="<%=path%>/assets/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -317,7 +317,7 @@
 
 										<li>
 											<a href="#" class="clearfix">
-												<img src="assets/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<img src="<%=path%>/assets/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
 												<span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -346,7 +346,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" />
+								<img class="nav-user-photo" src="<%=path%>/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>Welcome,</small>
 									Jason
@@ -854,12 +854,12 @@
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='<%=path%>/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");
 		</script>
-		<script src="assets/js/bootstrap.js"></script>
+		<script src="<%=path%>/assets/js/bootstrap.js"></script>
 
 		<!-- page specific plugin scripts -->
 
 		<!--[if lte IE 8]>
-		  <script src="assets/js/excanvas.js"></script>
+		  <script src="<%=path%>/assets/js/excanvas.js"></script>
 		<![endif]-->
 		<script src="<%=path%>/assets/js/jquery-ui.custom.js"></script>
 		<script src="<%=path%>/assets/js/jquery.ui.touch-punch.js"></script>
@@ -1113,8 +1113,8 @@
 		</script>
 
 		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
-		<!-- <link rel="stylesheet" href="assets/css/ace.onpage-help.css" /> -->
-		<!-- <link rel="stylesheet" href="docs/assets/js/themes/sunburst.css" /> -->
+		<!-- <link rel="stylesheet" href="<%=path%>/assets/css/ace.onpage-help.css" /> -->
+		<!-- <link rel="stylesheet" href="<%=path%>/docs/assets/js/themes/sunburst.css" /> -->
 		
 		
 		<!-- 新增 start -->
@@ -1205,14 +1205,14 @@
 		<script src="<%=path%>/assets/js/jquery.js"></script>
 		
 		<script src="<%=path%>/plugins/js/msgTips.js"></script>
-		<!--<script src="plugins/js/echarts/dist/echarts-all.js"></script>--!>
-		<script src="plugins/js/lobibox.js"></script>
+		<!--<script src="<%=path%>/plugins/js/echarts/dist/echarts-all.js"></script>--!>
+		<script src="<%=path%>/plugins/js/lobibox.js"></script>
 		
 		<!-- ztree -->
-		<!-- <script src="plugins/js/ztree/jquery.ztree.core-3.5.js"></script>
-		<script src="plugins/js/ztree/jquery.ztree.excheck-3.5.js"></script>
-		<script src="plugins/js/ztree/jquery.ztree.exedit-3.5.js"></script>
-		<script src="plugins/js/ztree/jquery.ztree.exhide-3.5.min.js"></script> -->
+		<!-- <script src="<%=path%>/plugins/js/ztree/jquery.ztree.core-3.5.js"></script>
+		<script src="<%=path%>/plugins/js/ztree/jquery.ztree.excheck-3.5.js"></script>
+		<script src="<%=path%>/plugins/js/ztree/jquery.ztree.exedit-3.5.js"></script>
+		<script src="<%=path%>/plugins/js/ztree/jquery.ztree.exhide-3.5.min.js"></script> -->
 
 		<script src="<%=path%>/assets/js/date-time/moment-with-locales.js"></script><!--时间获取和处理js -->
 		<script src="<%=path%>/assets/js/date-time/moment.js"></script>
@@ -1234,13 +1234,13 @@
 		
 		
 		<script type="text/javascript"> ace.vars['base'] = '..'; </script>
-		<!-- <script src="assets/js/ace/elements.onpage-help.js"></script> -->
-		<!-- <script src="assets/js/ace/ace.onpage-help.js"></script> -->
-		<!-- <script src="docs/assets/js/rainbow.js"></script> -->
-		<!-- <script src="docs/assets/js/language/generic.js"></script> -->
-		<!-- <script src="docs/assets/js/language/html.js"></script> -->
-		<!-- <script src="docs/assets/js/language/css.js"></script> -->
-		<!-- <script src="docs/assets/js/language/javascript.js"></script> -->
+		<!-- <script src="<%=path%>/assets/js/ace/elements.onpage-help.js"></script> -->
+		<!-- <script src="<%=path%>/assets/js/ace/ace.onpage-help.js"></script> -->
+		<!-- <script src="<%=path%>/docs/assets/js/rainbow.js"></script> -->
+		<!-- <script src="<%=path%>/docs/assets/js/language/generic.js"></script> -->
+		<!-- <script src="<%=path%>/docs/assets/js/language/html.js"></script> -->
+		<!-- <script src="<%=path%>/docs/assets/js/language/css.js"></script> -->
+		<!-- <script src="<%=path%>/docs/assets/js/language/javascript.js"></script> -->
 		<script type="text/javascript">
 		//js中全局的项目路径变量           http://localhost:8080/SpringGene1/
 		var webroot;
