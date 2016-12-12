@@ -21,6 +21,7 @@ import com.abc.spring.FileUpload;
 import po.Classify;
 import po.ClassifyDemo;
 import po.Product;
+import po.ResponseMessage;
 import service.ClassifyService;
 import service.ProductService;
 import utils.ST;
@@ -104,22 +105,25 @@ public class ProductInfoController extends BaseController{
 	 
 	 @RequestMapping(value = "/UploadImage", method = RequestMethod.POST)
 	 @ResponseBody
-	 public String UploadImage(HttpServletRequest request,
+	 public ResponseMessage UploadImage(HttpServletRequest request,
 			 @RequestParam("file") MultipartFile file) throws Exception {
 		 	String filepathurl=null;
-		 	int i=0;
 		 	System.out.println("fileSize="+file.getSize());
+		 	
 		 	try {
+		 		
 		      String filepath = FileUpload.uploadFile(file, request);
-		      //System.out.println("error="+(1/i));
 		      System.out.println("filepath="+filepath);
 		      filepathurl = filepath;
 		      System.out.println("filepath=" + filepath);
 		    } catch (Exception e) {
 		      logger.info("UploadImage"+e);
 		      e.printStackTrace();
+		      
 		    }
-		 	return filepathurl;
+		 	ResponseMessage msg=new ResponseMessage();
+		 	msg.setMessage("error");
+		 	return msg;
 		
 	 }
 	 
