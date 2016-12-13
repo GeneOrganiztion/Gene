@@ -35,10 +35,10 @@
         and realname = LIKE '%${realName}%'
       </if>
       <if test="beginTime != null ">
-          AND CREATE_TIME > #{beginTime} +" 00:00:00"
+          AND CREATE_TIME > #{beginTime} 
       </if>
       <if test="endTime != null ">
-          AND #{endTime} + " 23:59:59" > CREATE_TIME
+          <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
       </if>
       	and isdelete = 0
       <if test="sidx != null">

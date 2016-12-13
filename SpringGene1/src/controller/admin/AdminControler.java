@@ -60,9 +60,13 @@ public class AdminControler extends BaseController{
             map.put("sord", sord);// 升序降序
             map.put("rowCount", oneRecord);//一页几行
             map.put("pageNo", pageNo);
+            if(!ST.isNull(beginTime)){
+            	map.put("beginTime", beginTime + " 00:00:00");
+            }
+            if(!ST.isNull(endTime)){
+            	map.put("endTime", endTime + " 59:59:59");
+            }
             map.put("userName", userName);
-            map.put("beginTime", beginTime);
-            map.put("endTime", endTime);
             pageInfo= (PageInfo)adminService.selectAdminByParams(map);
 		} catch (Exception e) {
 			logger.error("selectAdmin error:" + e);

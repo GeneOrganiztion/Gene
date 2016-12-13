@@ -213,8 +213,8 @@ function deleteAdmin(){
 		return;
 	}
 	var ids = "";
-	for(var id in selectedIds){
-		var rowData = $('#grid-table').getRowData(selectedIds[id]);//获取选中行的记录
+	for(var i = 0; i < selectedIds.length; i ++){
+		var rowData = $('#grid-table').getRowData(selectedIds[i]);//获取选中行的记录
 		var adminId = rowData.id;
 		ids =ids + adminId + ",";
 	}
@@ -255,6 +255,7 @@ function saveAdmin(){
 	var confirmPassword = $("#addAdminModal input[name='confirmPassword']").val();
 	if(password != confirmPassword){
 		alertmsg("warning","输入密码不一致!");
+		$("#addAdminModal").modal("show");
 		return;
 	}
 	var data = getParams("#addAdminModal");
