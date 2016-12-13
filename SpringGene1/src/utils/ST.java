@@ -1,6 +1,8 @@
 package utils;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -25,8 +27,6 @@ public final class ST {
     private ST() {
     }
 
-    public static void main(String[] args) {
-    }
 
     /**
      * 检查对象是否为空
@@ -341,4 +341,17 @@ public final class ST {
 
         return list;
     }
+    
+    public static void main(String[] args) {
+    	String time = "1481082823000";
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	Date d = new Date(time);
+    	/*try {
+    		date = dateFormat.parse(time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+    	System.out.println(d);
+	}
 }

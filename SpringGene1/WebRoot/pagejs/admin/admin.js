@@ -28,8 +28,8 @@ function initAdminManager(){
           	{name:'username',index:'username',width:80, editable:true},
 			{name:'email',index:'email', width:80, sorttype:"int", editable: true},
 			{name:'phone',index:'phone',width:80, editable:true},
-			{name:'createTime',index:'create_time',width:80, editable:true,formatter: 'date', formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80, editable:true, formatter: 'date', formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}}
+			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -180,6 +180,15 @@ function initAdminManager(){
 		$(grid_selector).jqGrid('GridUnload');
 		$('.ui-jqdialog').remove();
 	});
+	function TimeAdd0(time){
+		return time < 10 ? ("0" + time) : time;
+	}
+	function formatDate(cellvalue, options, rowObject){
+		var date = new Date(cellvalue);
+		var time = date.getFullYear() + "-" + TimeAdd0((date.getMonth() + 1)) + "-" + TimeAdd0(date.getDate()) 
+					+ " " + TimeAdd0(date.getHours()) + ":" + TimeAdd0(date.getMinutes()) + ":" + TimeAdd0(date.getSeconds());
+		return time;
+	}
 	
 }
 
@@ -196,11 +205,11 @@ function queryAdmin(){
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
 }
-//删除内容
+//删除用户
 function deleteAdmin(){
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
-		alert("请至少选中一行");
+		alertmsg("warning", "请至少选中一行!");
 		return;
 	}
 	var ids = "";
@@ -209,16 +218,31 @@ function deleteAdmin(){
 		var adminId = rowData.id;
 		ids =ids + adminId + ",";
 	}
-	$.ajax({
-		type:"post",
-		url:webroot+"admin/delete.do",
-		data:{"adminIds":ids},
-		success:function(data){
-			//删除成功重新加载jqGrid
-			$("#grid-table").jqGrid('setGridParam',{ 
-		        page:1,
-		        mtype:"post"
-		    }).trigger("reloadGrid"); //重新载入 
-		}
-	});
+    Lobibox.confirm({ 
+        title:"删除用户",      //提示框标题 
+        msg: "是否确认确认删除",   //提示框文本内容 
+        callback: function ($this, type, ev) {               //回调函数 
+            if (type === 'yes') { 
+            	$.ajax({
+            		type:"post",
+            		url:webroot+"admin/delete.do",
+            		data:{"adminIds":ids},
+            		success:function(data){
+            			//删除成功重新加载jqGrid
+            			$("#grid-table").jqGrid('setGridParam',{ 
+            		        page:1,
+            		        mtype:"post"
+            		    }).trigger("reloadGrid"); //重新载入 
+            		}
+            	});
+            } else if (type === 'no') { 
+                       
+            } 
+       } 
+     });
+	
+}
+//添加用户
+function addAdmin(){
+	$("#addAdminModal").modal("show");
 }

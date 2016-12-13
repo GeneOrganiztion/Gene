@@ -3,8 +3,6 @@
 	String path = request.getContextPath();
 %>
 <script src="<%=path%>/pagejs/admin/admin.js"></script>
-<script src="<%=path%>/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
-<script src="<%=path%>/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
@@ -98,7 +96,7 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加</button>
+        <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加</button>
         <button type="button" onclick="" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改</button>
         <button type="button" onclick="deleteAdmin()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除媒资</button>
     </div>
@@ -116,6 +114,44 @@
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 </div><!-- /.page-content -->
+<!-- 添加用户model start -->
+<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title" >添加用户</h4>
+		     </div>
+		     <div class="modal-body">
+				<form class="form-horizontal" id = "addform" onsubmit="return false;">
+              		<div class="form-group no-margin-bottom">				               		
+	               	 	<!-- <textarea class ="form-control" rows="4" id ="viewFailReasonText"></textarea> -->
+	               	 	<div class="col-xs-12">
+							<label class="col-sm-3 control-label">姓名</label>
+							<div class="col-sm-8">
+								<select class="chosen-select form-control" name="isUrgency" data-placeholder="请选择">
+									<option value=""></option>
+									<option value="0">1111</option>
+									<option value="1">2222</option>
+									<option value="2">3333</option>
+								</select>
+							</div>
+						</div>
+                	</div>
+            	</form>					     
+		     </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-md" onclick="saveIsUrgency()" data-dismiss="modal">
+			    	保存
+			    </button>
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 添加用户model end -->
 <script type="text/javascript">
 
 jQuery(function($) {
