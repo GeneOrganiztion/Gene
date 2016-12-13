@@ -97,7 +97,7 @@
 	</div>
 	<div id="actions-before" class="btn-group">	
         <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加</button>
-        <button type="button" onclick="" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改</button>
+        <button type="button" onclick="editAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改</button>
         <button type="button" onclick="deleteAdmin()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除媒资</button>
     </div>
 	<div class="row">
@@ -105,11 +105,6 @@
 			<table id="grid-table"></table>
 
 			<div id="grid-pager"></div>
-
-			<script type="text/javascript">
-				var $path_base = "..";//in Ace demo this will be used for editurl parameter
-			</script>
-
 			<!-- PAGE CONTENT ENDS -->
 		</div><!-- /.col -->
 	</div><!-- /.row -->
@@ -124,24 +119,52 @@
 		     </div>
 		     <div class="modal-body">
 				<form class="form-horizontal" id = "addform" onsubmit="return false;">
-              		<div class="form-group no-margin-bottom">				               		
-	               	 	<!-- <textarea class ="form-control" rows="4" id ="viewFailReasonText"></textarea> -->
-	               	 	<div class="col-xs-12">
-							<label class="col-sm-3 control-label">姓名</label>
+              		<div class="form-group ">				               		
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label no-padding-right" for="username">用户名</label>
 							<div class="col-sm-8">
-								<select class="chosen-select form-control" name="isUrgency" data-placeholder="请选择">
-									<option value=""></option>
-									<option value="0">1111</option>
-									<option value="1">2222</option>
-									<option value="2">3333</option>
-								</select>
+								<input type="text" name="username" class="form-control" />
 							</div>
 						</div>
-                	</div>
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label" for="shortName">真实名</label>
+							<div class="col-sm-8">
+								<input type="text" name="realname" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">				               		
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label no-padding-right" for="password">密码</label>
+							<div class="col-sm-8">
+								<input type="password" name="password" class="form-control" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label" for="confirmPassword">确认密码</label>
+							<div class="col-sm-8">
+								<input type="password" name="confirmPassword" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group ">				               		
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label no-padding-right" for="phone">手机</label>
+							<div class="col-sm-8">
+								<input type="text" name="phone" class="form-control" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label" for="email">email</label>
+							<div class="col-sm-8">
+								<input type="text" name="email" class="form-control" />
+							</div>
+						</div>
+					</div>
             	</form>					     
 		     </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md" onclick="saveIsUrgency()" data-dismiss="modal">
+				<button type="button" class="btn btn-md" onclick="saveAdmin()" data-dismiss="modal">
 			    	保存
 			    </button>
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
@@ -152,6 +175,73 @@
     </div><!-- /.modal -->
 </div>
 <!-- 添加用户model end -->
+<div class="modal fade" id="editAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title" >添加用户</h4>
+		     </div>
+		     <div class="modal-body">
+				<form class="form-horizontal" id = "editform" onsubmit="return false;">
+					<input type="hidden" name="id" class="form-control" />
+              		<div class="form-group ">				               		
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label no-padding-right" for="username">用户名</label>
+							<div class="col-sm-8">
+								<input type="text" name="username" class="form-control" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label" for="shortName">真实名</label>
+							<div class="col-sm-8">
+								<input type="text" name="realname" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">				               		
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label no-padding-right" for="password">密码</label>
+							<div class="col-sm-8">
+								<input type="password" name="password" class="form-control" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label" for="confirmPassword">确认密码</label>
+							<div class="col-sm-8">
+								<input type="password" name="confirmPassword" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group ">				               		
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label no-padding-right" for="phone">手机</label>
+							<div class="col-sm-8">
+								<input type="text" name="phone" class="form-control" />
+							</div>
+						</div>
+						<div class="col-md-6">
+							<label class="col-sm-4 control-label" for="email">email</label>
+							<div class="col-sm-8">
+								<input type="text" name="email" class="form-control" />
+							</div>
+						</div>
+					</div>
+            	</form>					     
+		     </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-md" onclick="editAndSaveAdmin()" data-dismiss="modal">
+			    	保存
+			    </button>
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 修改用户model start -->
+<!-- 修改用户model end -->
 <script type="text/javascript">
 
 jQuery(function($) {

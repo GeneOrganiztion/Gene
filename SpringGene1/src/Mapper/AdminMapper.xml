@@ -14,7 +14,7 @@
     <result column="admin_pid" property="adminPid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    admin_id, username, password, realname, email, phone, isdelete, last_modified_time, date_format(create_time,'%Y-%c-%d %h:%i:%s') as create_time, 
+    admin_id, username, password, realname, email, phone, isdelete, last_modified_time, create_time as create_time, 
     admin_pid
   </sql>
   <select id="selectAdminByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
@@ -22,7 +22,7 @@
     <include refid="Base_Column_List" />
 	    from admin
 	    where 1=1
-	  <if test="id != null">
+	  <if test="adminId != null">
         and admin_id = #{adminId}
       </if>
       <if test="userName != null">
