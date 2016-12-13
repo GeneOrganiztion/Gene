@@ -2,10 +2,10 @@ package utils;
 
 public class Constant {
 	
-	public static final String APPID="wx38a2008b8219df6b";
-	public static final String APPSECRET="df951aace3dd4333ed000392a6258ee6";
-	public static final String PARTNER="1232148902";
-	public static final String PARTNERKEY="gfUlsTozAM00PCPvtiDFN4mnHu2dwlLu";
+	public static final String APPID="wx2047d634692d65bf";
+	public static final String APPSECRET="58a12c63dce6beb49e34af234c5ab3c7";
+	public static final String PARTNER="1358502702";
+	public static final String PARTNERKEY="03XMTNHNAITVfssfdfdjdfswBg59HUM9";
     
-	public static final String WEBACKURI="http://nbuxinxiren.cn/SpringGene1/weixin/topay.action";
+	public static final String WEBACKURI="http://nbuxinxiren.cn/SpringGene1/weixin/weixinUnion.do";
 }

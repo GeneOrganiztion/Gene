@@ -22,9 +22,9 @@
   					<association property="product" javaType="po.Product">
   						<id column="product_id" property="product_id"></id>
   						<result column="pro_name" property="proName"></result>
-  						<result column="pro_count" property="proCount"></result>
+  						<result column="pro_sum" property="proSum"></result>
 					  	<result column="pro_head" property="proHead"></result>
-					  	<result column="pro_price" property="proPrice"></result>
+					  	<result column="product_price" property="productPrice"></result>
 					  	<result column="pro_rateprice" property="proRateprice"></result>
 					  	<result column="pro_image" property="proImage"></result>
 					  	<result column="pro_online" property="proOnline"></result>

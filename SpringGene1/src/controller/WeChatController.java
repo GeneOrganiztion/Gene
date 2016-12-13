@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import utils.Constant;
 import utils.DateUtil;
@@ -49,7 +50,7 @@ public class WeChatController {
 		//授权后要跳转的链接所需的参数一般有会员号，金额，订单号之类，
 		//最好自己带上一个加密字符串将金额加上一个自定义的key用MD5签名或者自己写的签名,
 		//比如 Sign = %3D%2F%CS% 
-		backUri = backUri+"?userId=b88001&orderNo=1499900164812&describe=西瓜&money=1780.00";
+		//backUri = backUri+"?userId=b88001&orderNo=1499900164812&describe=西瓜&money=1780.00";
 		//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
 		backUri = URLEncoder.encode(backUri);
 		//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
@@ -57,10 +58,85 @@ public class WeChatController {
 				"appid=" + appid+
 				"&redirect_uri=" +
 				 backUri+
-				"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+				"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 		response.sendRedirect(url);
 		
 	}
+	
+
+	@RequestMapping("/weixinUnion")
+	@ResponseBody
+	public Map<String, Object> weixinUnion(HttpServletRequest request,
+			HttpServletResponse response) throws Exception,IOException{
+		String code = request.getParameter("code");
+//商户相关资料 
+		String appid = Constant.APPID;
+		String appsecret = Constant.APPSECRET;
+		String OPENID ="";
+		String ACCESS_TOKE="";
+		String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+appsecret+"&code="+code+"&grant_type=authorization_code";
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
+		String tempValue="";
+		if( temp == null){
+				response.sendRedirect("/SpringGene1/error.jsp");
+				logger.info("temp==null");
+		}else
+		{
+			try {
+				tempValue = temp.getStringResult();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JSONObject  jsonObj = JSONObject.fromObject(tempValue);
+			if(jsonObj.containsKey("errcode")){
+				logger.info("code huoqu errcode=");
+				System.out.println(tempValue);
+				response.sendRedirect("/SpringGene1/error.jsp");
+			}
+			OPENID = jsonObj.getString("openid");
+			ACCESS_TOKE=jsonObj.getString("access_token");
+			logger.info("openId="+OPENID);
+			logger.info("ACCESS_TOKE="+ACCESS_TOKE);
+		}
+		
+		String UserinfoURL = "https://api.weixin.qq.com/sns/userinfo?access_token="+ACCESS_TOKE+"&openid="+OPENID+"&lang=zh_CN";
+		HttpResponse userinfo = HttpConnect.getInstance().doGetStr(UserinfoURL);
+		String userValue=null;
+		if(userinfo == null){
+			response.sendRedirect("/SpringGene1/error.jsp");
+			logger.info("userinfo==null");
+		}else{
+			try {
+				userValue = userinfo.getStringResult();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JSONObject  jsonObj = JSONObject.fromObject(userValue);
+			if(jsonObj.containsKey("errcode")){
+				logger.info("errcode=");
+				System.out.println(userValue);
+				response.sendRedirect("/SpringGene1/error.jsp");
+			}
+			dataMap.put("openid", jsonObj.getString("openid"));
+			dataMap.put("nickname", jsonObj.getString("nickname"));
+			dataMap.put("sex", jsonObj.getString("sex"));
+			logger.info("dataMap sex="+dataMap.get("sex"));
+			logger.info("dataMap nickname="+dataMap.get("nickname"));
+			dataMap.put("province", jsonObj.getString("province"));
+			logger.info("dataMap province="+dataMap.get("province"));
+			dataMap.put("city", jsonObj.getString("city"));
+			dataMap.put("headimgurl", jsonObj.getString("headimgurl"));
+			logger.info("dataMap headimgurl="+dataMap.get("headimgurl"));
+		}
+		
+		return dataMap;
+	}
+	
+	
+	
 	
 	@RequestMapping("/topay")
 	public void weixinpay(HttpServletRequest request,
@@ -83,12 +159,13 @@ public class WeChatController {
 
 		
 		String openId ="";
+		String access_token="";
 		String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+appsecret+"&code="+code+"&grant_type=authorization_code";
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
 		String tempValue="";
 		if( temp == null){
-				response.sendRedirect("/weChatpay/error.jsp");
+				response.sendRedirect("/SpringGene1/error.jsp");
 				logger.info("temp==null");
 		}else
 		{
@@ -100,10 +177,12 @@ public class WeChatController {
 			}
 			JSONObject  jsonObj = JSONObject.fromObject(tempValue);
 			if(jsonObj.containsKey("errcode")){
+				logger.info("errcode=");
 				System.out.println(tempValue);
-				response.sendRedirect("/weChatpay/error.jsp");
+				response.sendRedirect("/SpringGene1/error.jsp");
 			}
 			openId = jsonObj.getString("openid");
+			
 			logger.info("openId="+openId);
 		}
 		
@@ -130,7 +209,7 @@ public class WeChatController {
 //				String body = describe;
 				
 //商品描述根据情况修改
-				String body = "力力是傻逼1";
+				String body = "基因商城测试";
 				//附加数据
 				String attach = DateUtil.format(new Date())+"1";
 				logger.info("attach="+attach);
@@ -212,8 +291,8 @@ public class WeChatController {
 					logger.info("prepay_id="+prepay_id);
 					if(prepay_id.equals("")){
 						request.setAttribute("ErrorMsg", "统一支付接口获取预支付订单出错");
-						logger.info("prepay_id=null支付失败");
-						response.sendRedirect("/weChatpay/error.jsp");
+						logger.info("prepay_id=null");
+						response.sendRedirect("/SpringGene1/error.jsp");
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

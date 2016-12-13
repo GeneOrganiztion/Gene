@@ -1,6 +1,7 @@
 package po;
 
 public class ResponseMessage {
+	
 	private String Message;
 
 	public String getMessage() {
