@@ -15,6 +15,12 @@ public interface AdminService{
 	
 	//public void deleteAdminByIds(List<Integer> ids);
 
-	boolean deleteAdminByIds(List<Integer> ids);
+	public boolean deleteAdminByIds(List<Integer> ids);
+	
+	public boolean saveAdmin(Admin admin);
+	
+	public boolean updateAdmin(Admin admin);
+	
+	public Admin selectAdminByAdminId(Map<String,Object> map);
 
 }

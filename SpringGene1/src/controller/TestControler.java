@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.github.pagehelper.PageInfo;
 
 import controller.base.BaseController;
-import po.ResponseModel;
+import po.ResModel;
 import po.Student;
 import service.StudentService;
 

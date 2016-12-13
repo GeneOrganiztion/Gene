@@ -11,17 +11,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import po.Admin;
+import po.ResModel;
+import service.AdminService;
+import utils.ST;
+
 import com.github.pagehelper.PageInfo;
 
 import controller.base.BaseController;
 import controller.order.OrderDetailController;
-import service.AdminService;
-import utils.ST;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -73,8 +77,59 @@ public class AdminControler extends BaseController{
 			List<Integer> list = ST.StringToList(adminIds);
 			adminService.deleteAdminByIds(list);
 		} catch (Exception e) {
+			logger.error("delete error:" + e);
 			return false;
 		}
 		return true;
 	}
+	@RequestMapping(value="/saveAdmin")
+	@ResponseBody
+	public ResModel saveAdmin(@ModelAttribute Admin admin,
+			HttpServletRequest request,HttpServletResponse response){
+		ResModel  resModel = new ResModel();
+		boolean bl = false;
+		try {
+			bl = adminService.saveAdmin(admin);
+		} catch (Exception e) {
+			logger.error("saveAdmin error:" + e);
+			resModel.setSuccess(bl);
+			return resModel;
+		}
+		resModel.setSuccess(bl);
+		resModel.setMsg("插入成功！");
+		return resModel;
+	}
+	@RequestMapping(value="/selectAdminByAdminId")
+	@ResponseBody
+	public Admin selectAdminByAdminId(HttpServletRequest request,HttpServletResponse response){
+		String adminId = getParam("adminId");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("adminId", adminId);
+		Admin admin = new Admin();
+		try {
+			admin = adminService.selectAdminByAdminId(map);
+		} catch (Exception e) {
+			logger.error("saveAdmin error:" + e);
+		}
+		return admin;
+	}
+	@RequestMapping(value="/updateAdmin")
+	@ResponseBody
+	public ResModel updateAdmin(@ModelAttribute Admin admin,
+			HttpServletRequest request,HttpServletResponse response){
+		ResModel  resModel = new ResModel();
+		boolean bl = false;
+		try {
+			bl = adminService.updateAdmin(admin);
+		} catch (Exception e) {
+			logger.error("saveAdmin error:" + e);
+			resModel.setSuccess(bl);
+			return resModel;
+		}
+		resModel.setSuccess(bl);
+		return resModel;
+	}
+	
+	
+	
 }

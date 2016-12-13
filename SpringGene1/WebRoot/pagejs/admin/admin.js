@@ -244,5 +244,88 @@ function deleteAdmin(){
 }
 //添加用户
 function addAdmin(){
+	//再次打开model之前清空上次的操作记录
+	$("#addAdminModal :input").val("");
 	$("#addAdminModal").modal("show");
+	
+}
+//保存用户
+function saveAdmin(){
+	var password = $("#addAdminModal input[name='password']").val();
+	var confirmPassword = $("#addAdminModal input[name='confirmPassword']").val();
+	if(password != confirmPassword){
+		alertmsg("warning","输入密码不一致!");
+		return;
+	}
+	var data = getParams("#addAdminModal");
+	$.ajax({
+		type: "post",
+		url: webroot + "admin/saveAdmin.do",
+		data: data,
+		success: function(msg){
+			if(msg.success){
+				alertmsg("success", "新增用户成功!");
+				var data = $("form").serialize();
+				var url = webroot + "admin/selectAdmin.do";
+				$("#grid-table").jqGrid('setGridParam',{ 
+			        url: url + "?" + data, 
+			        page:1,
+			        mtype:"post"
+			    }).trigger("reloadGrid"); //重新载入 
+			}
+		}
+	});
+}
+//修改用户
+function editAdmin(){
+	var id = $("#grid-table").jqGrid("getGridParam","selrow");
+	if(!isNoEmpty(id)){
+		alertmsg("warning","请至少选中一行 !");
+		return;
+	}
+	$.ajax({
+		type: "post",
+		url: webroot + "admin/selectAdminByAdminId.do",
+		data: {adminId: id},
+		success: function(msg){
+			console.log(msg);
+			$("#editAdminModal input[name='id']").val(msg.id);
+			$("#editAdminModal input[name='username']").val(msg.username);
+			$("#editAdminModal input[name='realname']").val(msg.realname);
+			$("#editAdminModal input[name='password']").val(msg.password);
+			$("#editAdminModal input[name='confirmPassword']").val(msg.password);
+			$("#editAdminModal input[name='phone']").val(msg.phone);
+			$("#editAdminModal input[name='email']").val(msg.email);
+			$("#editAdminModal").modal("show");
+		}
+	});
+}
+//修改用户
+function editAndSaveAdmin(){
+	var password = $("#editAdminModal input[name='password']").val();
+	var confirmPassword = $("#editAdminModal input[name='confirmPassword']").val();
+	if(password != confirmPassword){
+		alertmsg("warning","输入密码不一致!");
+		return;
+	}
+	var data = getParams("#editAdminModal");
+	$.ajax({
+		type: "post",
+		url: webroot + "admin/updateAdmin.do",
+		data: data,
+		success: function(msg){
+			if(msg.success){
+				alertmsg("success", "修改用户成功!");
+				var data = $("form").serialize();
+				var url = webroot + "admin/selectAdmin.do";
+				$("#grid-table").jqGrid('setGridParam',{ 
+			        url: url + "?" + data, 
+			        page:1,
+			        mtype:"post"
+			    }).trigger("reloadGrid"); //重新载入 
+			}else{
+				alertmsg("error", "修改用户失败!");
+			}
+		}
+	});
 }
