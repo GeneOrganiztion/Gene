@@ -31,9 +31,7 @@
 								<div class="widget-box">
 									<div class="widget-header widget-header-blue widget-header-flat">
 										<h4 class="widget-title lighter">商品上传</h4>
-									</div>
-
-									
+									</div>							
 									<div class="widget-body">
 										<div class="widget-main">
 											<!-- #section:plugins/fuelux.wizard -->
@@ -102,7 +100,7 @@
 															<div class="hr hr-dotted"></div>
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品原价:</label>
-																<div class="col-xs-6 col-sm-4">
+																<div class="col-xs-3 col-sm-2">
 																	<div class="clearfix">
 																		<input type="text" name="price" id="price" class="col-xs-12 col-sm-6" />
 																	</div>
@@ -111,7 +109,7 @@
 															
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品折扣:</label>
-																<div class="col-xs-6 col-sm-4">
+																<div class="col-xs-3 col-sm-2">
 																	<div class="clearfix">
 																		<input type="text" name="rateprice" id="rateprice" class="col-xs-12 col-sm-6" />
 																	</div>
@@ -145,12 +143,12 @@
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="state">商品所属类别</label>
 																<div class="col-xs-12 col-sm-9">
-																
-																
-																	<select id="classify" name="classify" class="select2" data-placeholder="请选择商品所属类别...">
 																		
+																	<select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
+														
 																	</select>
 																</div>
+																
 															</div>
 
 															<div class="space-2"></div>

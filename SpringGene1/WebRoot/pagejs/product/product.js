@@ -1,5 +1,6 @@
 function initProductManager(){
 	jQuery(function($) {
+		
 		$('#validation-form').addClass('hide');
 		
 		selectClassify();
@@ -27,7 +28,9 @@ function initProductManager(){
 						e.preventDefault();
 					}else{
 						if(info.step==1&&info.direction=="next"){
-							 alert("从第一页跳转到第二页");	 
+							var data = $("#validation-form").serialize();
+							
+							
 						}
 					}
 				}
@@ -38,14 +41,14 @@ function initProductManager(){
 				 if(info.step==2&&info.direction=="next"){ 
 					 console.log(info);
 					 if(flieuploadimagesize==null){
-					     alert("上传图片不能为空！")
+					    
 					     return false;
 					 }
 					 
 				 }
 			
 			//if(info.step == 1 && $validation) {
-				console.log(info);
+			//	console.log(info);
 			
 			//	if(!$('#validation-form').valid()) e.preventDefault();
 			//}
@@ -281,7 +284,6 @@ function selectClassify(){
 		success: function(msg){
 			var json = eval(msg);
 			var objSelect = $('#classify');
-			console.log(objSelect);
 			for(var i=0;i<json.length;i++){
 				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
 			}
@@ -291,4 +293,21 @@ function selectClassify(){
 			$('#cssloader').addClass('hide');
 		}
 	});
+}
+
+function addproduct(){
+	var data = $("#validation-form").serialize();
+	$.ajax({
+		type: "post",
+		url: webroot + "admin/updateAdmin.do",
+		data: data,
+		success: function(msg){
+			if(msg.success){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	});
+	
 }
