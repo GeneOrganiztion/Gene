@@ -21,7 +21,7 @@ function initAdminManager(){
 		url: webroot + "admin/selectAdmin.do",
 		mtype: 'post',
 		datatype: "json",
-		height: 320,
+		height: 500,
 		colNames:['用户ID','用户姓名','邮箱','电话','创建时间','最后更新时间'],
 		colModel:[
           	{name:'id',index:'admin_id', width:80, sorttype:"int", editable: true},

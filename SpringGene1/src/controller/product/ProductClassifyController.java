@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import controller.base.BaseController;
 import controller.base.LoginController;
@@ -31,6 +32,8 @@ import utils.ST;
 @RequestMapping("/classify")
 public class ProductClassifyController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(ProductClassifyController.class);
+	
+	private String PRODUCT_PAGE = "product/product";
 	@Autowired
 	private ClassifyService classifyService;
 	
@@ -61,6 +64,30 @@ public class ProductClassifyController extends BaseController {
 			e.printStackTrace();
 		}
 		return classifymodel;
+	 }  
+	 
+	 @RequestMapping(value = "/webclsall", method = RequestMethod.POST)
+	 @ResponseBody
+	 public List<Classify> webclsall(HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+		Classify cls=new Classify();
+		List<Classify>classifyall=null;
+		try{
+			classifyall=classifyService.selectAll(cls);
+		}catch(Exception e){
+			logger.info("webclsall"+e);
+		
+		}
+		return classifyall;
+	 }  
+	 
+	 
+	 @RequestMapping(value = "/productPage", method = RequestMethod.GET)
+	 public ModelAndView webpage(HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(PRODUCT_PAGE);
+		return mv;
 	 }  
 	 
 	 @RequestMapping(value = "/clsave", method = RequestMethod.GET)

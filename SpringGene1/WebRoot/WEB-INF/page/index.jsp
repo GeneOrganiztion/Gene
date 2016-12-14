@@ -26,6 +26,7 @@
 		<link rel="stylesheet" href="<%=path%>/assets/css/bootstrap-editable.css"/>
 		<link rel="stylesheet" href="<%=path%>/assets/css/bootstrap-multiselect.css" />
 		
+		<link rel="stylesheet" href="<%=path%>/assets/css/loaders.css" />
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="<%=path%>/assets/css/datepicker.css" />
 		<link rel="stylesheet" href="<%=path%>/assets/css/ui.jqgrid.css" />
@@ -573,7 +574,7 @@
 					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-list"></i>
-							<span class="menu-text"> Tables </span>
+							<span class="menu-text"> 商品管理 </span>
 
 							<b class="arrow fa fa-angle-down"></b>
 						</a>
@@ -582,9 +583,9 @@
 
 						<ul class="submenu">
 							<li class="">
-								<a href="tables.html">
+								<a a href="#" class="dropdown-toggle"  menu-url="classify/productPage.do">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Simple &amp; Dynamic
+									上传商品
 								</a>
 
 								<b class="arrow"></b>
@@ -911,6 +912,8 @@
 		<script src="<%=path%>/assets/js/flot/jquery.flot.js"></script>
 		<script src="<%=path%>/assets/js/flot/jquery.flot.pie.js"></script>
 		<script src="<%=path%>/assets/js/flot/jquery.flot.resize.js"></script>
+		<script src="<%=path%>/assets/js/jquery.validate.js"></script>
+		
 		
 		<!-- ace scripts -->
 		<script src="<%=path%>/assets/js/ace/elements.scroller.js"></script>
@@ -1002,6 +1005,10 @@
 		<script src="<%=path%>/assets/js/jquery.bootstrap-duallistbox.js"></script>
 		<script src="<%=path%>/assets/js/fuelux/fuelux.tree.js"></script>
 		<script src="<%=path%>/plugins/js/mouseRightmenu/jquery-smartMenu.js"></script>
+		
+		
+		
+		
 		<!--for transCode -->
 		<%-- <script src="<%=path%>/pages/live/imitativeChannel/js/tablednd.js"></script> --%>
 		<!-- 自定义时间控件 -->

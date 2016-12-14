@@ -164,7 +164,7 @@
             	</form>					     
 		     </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md" onclick="saveAdmin()" data-dismiss="modal">
+				<button type="button" class="btn btn-md" onclick="saveAdmin()" >
 			    	保存
 			    </button>
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
