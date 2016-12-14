@@ -285,6 +285,7 @@ function selectClassify(){
 			for(var i=0;i<json.length;i++){
 				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
 			}
+			//
 			$('#classify').trigger("chosen:updated");
 			$('#validation-form').removeClass('hide');
 			$('#cssloader').addClass('hide');
