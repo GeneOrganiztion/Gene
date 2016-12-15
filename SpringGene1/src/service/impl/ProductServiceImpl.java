@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -19,12 +20,18 @@ public class ProductServiceImpl implements ProductService{
 	private ProductMapper productMapper;
 
 	@Override
-	public List<Product> selectAll(Product product) throws Exception {
+	public List<Product> selectbyClassify(Product product) throws Exception {
 		 product.setIsdelete(false);
 		 product.setProOnline(true);
 		return productMapper.selectbyClassify(product);
 	}
-
+	
+	@Override
+	public List<Product> selectAll(Product product) throws Exception {
+		 product.setIsdelete(false);
+		 product.setProOnline(true);
+		return productMapper.select(product);
+	}
 	@Override
 	public int delProduct(Product Product) throws Exception {
 		int statcode=0;
@@ -35,23 +42,38 @@ public class ProductServiceImpl implements ProductService{
 		}
 		return 0;
 	}
-
 	@Override
 	public int saveProduct(Product Product) throws Exception {
+		Product.setIsdelete(false);
+		Product.setCreateTime(new Date());
+		Product.setLastModifiedTime(new Date());
 		int newproductid=-1;
 		try{
-			newproductid=productMapper.insert(Product);
-			System.out.println("productid="+newproductid);
+			productMapper.insertUseGeneratedKeys(Product);
+			newproductid=Product.getId();
 		}catch(Exception e){
 			logger.info("productMappersave"+e);
 		}
 		return newproductid;
 	}
 
+	
 	@Override
 	public boolean updateProduct(Product Product) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag=false;
+		try{
+			productMapper.updateByPrimaryKeySelective(Product);
+			flag=true;
+		}catch(Exception e){
+			logger.info("productMappersave"+e);
+		}
+		return flag;
+	}
+
+	@Override
+	public Product selectOne(Product Product) throws Exception {
+
+		return productMapper.selectByPrimaryKey(Product);
 	}
 	
 }

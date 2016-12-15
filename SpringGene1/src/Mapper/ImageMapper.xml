@@ -21,7 +21,7 @@
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
   </delete> -->
-  <insert id="insert" parameterType="po.Image" >
+  <!-- <insert id="insert" parameterType="po.Image" >
     insert into image (id, pro_id, url
       )
     values (#{id,jdbcType=INTEGER}, #{proId,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}
@@ -67,5 +67,5 @@
     set url = #{url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
       and pro_id = #{proId,jdbcType=INTEGER}
-  </update>
+  </update> -->
 </mapper>

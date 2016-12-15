@@ -187,7 +187,7 @@
 																      <div></div>
 																      <div></div>
 															</div>
-															<label  class="control-label col-xs-12 col-sm-12 no-padding-right" style="color: #ff6900;text-align:center; margin: 20px auto;">商品信息入库中请耐心等待....</label>
+															<label  class="control-label col-xs-12 col-sm-12 no-padding-right" style="color: #ff6900;text-align:center; margin: 20px auto;">商品信息入库中不要重复点击请耐心等待....</label>
 														</div>
 													</div>
 
@@ -200,10 +200,9 @@
 
 																<strong>
 																	<i class="ace-icon fa fa-check"></i>
-																	Well done!
+																	商品基本信息添加成功!
 																</strong>
-
-																You successfully read this important alert message.
+																请将图片拖拽到下方框图或者点击向上箭头
 																<br />
 															</div>
 
@@ -214,45 +213,46 @@
 
 																<strong>
 																	<i class="ace-icon fa fa-times"></i>
-																	Oh snap!
+																	警告!
 																</strong>
-
-																Change a few things up and try submitting again.
+																	商品展示图片未上传将会导致商品搜索失败,即使商品已上架也不会显示
 																<br />
 															</div>
-
 															<div class="alert alert-warning">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
 																</button>
-																<strong>Warning!</strong>
-
-																Best check yo self, you're not looking too good.
+																<strong>温馨提示!</strong>
+																商品展示图片名称请不要携带中文,商品上传成功后可移除上传框中的图片
 																<br />
 															</div>
-
+															
 															<div class="alert alert-info">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
 																</button>
-																<strong>Heads up!</strong>
-
-																This alert needs your attention, but it's not super important.
+																<strong>展示预览!</strong>
+																商品展示图片上传的第一张图片将作为商品展示的封面图片,商品展示图片最多上传四张
 																<br />
 															</div>
 															
 															<form action="../product/UploadImage.do" class="dropzone" id="dropzone">
-															
 																<div class="fallback">
 																	<input name="file" type="file" id="dropzonefile"/>
 																</div>
+																
 															</form>
 														</div>
 													</div>
 
 													<div class="step-pane" data-step="3">
 														<div class="center">
-															<h3 class="blue lighter">This is step 3</h3>
+															<form action="../product/UploadImage.do" class="dropzone" id="dropzone">
+																<div class="fallback">
+																	<input name="file" type="file" id="dropzonefile"/>
+																</div>
+																
+															</form>
 														</div>
 													</div>
 									

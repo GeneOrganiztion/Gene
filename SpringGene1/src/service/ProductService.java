@@ -6,6 +6,8 @@ import po.Product;
 
 public interface ProductService<T> {
 	
+	public List<T> selectbyClassify(Product Product) throws Exception;
+	
 	public List<T> selectAll(Product Product) throws Exception;
 	
 	public int delProduct(Product Product) throws Exception;
@@ -13,6 +15,8 @@ public interface ProductService<T> {
 	public int saveProduct(Product Product) throws Exception;
 	
 	public boolean updateProduct(Product Product) throws Exception;
+	
+	public T selectOne(Product Product)throws Exception;
 	
 
 }

@@ -12,19 +12,11 @@ public class Image {
 
     private String url;
     
-    private Address address;
-
+ 
     public Integer getId() {
         return image_id;
     }
 
-    public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 
 	public void setId(Integer id) {
         this.image_id = id;

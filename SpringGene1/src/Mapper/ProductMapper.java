@@ -4,8 +4,9 @@ import java.util.List;
 
 import po.Product;
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
-public interface ProductMapper extends Mapper<Product> {
+public interface ProductMapper extends Mapper<Product>,MySqlMapper<Product> {
    /* int deleteByPrimaryKey(Integer id);
 
     int insert(Product record);

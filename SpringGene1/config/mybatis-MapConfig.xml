@@ -38,7 +38,7 @@
 			
 		<!-- mapper interceptor -->
 		<plugin interceptor="tk.mybatis.mapper.mapperhelper.MapperInterceptor">
-			<property name="mappers" value="tk.mybatis.mapper.common.BaseMapper,tk.mybatis.mapper.common.Mapper" />
+			<property name="mappers" value="tk.mybatis.mapper.common.BaseMapper,tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.MySqlMapper" />
 			<property name="IDENTITY" value="MYSQL" />
 			<property name="notEmpty" value="false" />
 		</plugin>

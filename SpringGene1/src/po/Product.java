@@ -3,11 +3,14 @@ package po;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 @Table(name = "product")
 public class Product {
 	@Id
+	@GeneratedValue(generator = "JDBC")
     private Integer product_id;
 
     private String proName;
@@ -36,8 +39,9 @@ public class Product {
 
     private Date lastModifiedTime;
     
+    @Transient
     private List<Image> imagelist;
-
+    
     public List<Image> getImagelist() {
 		return imagelist;
 	}

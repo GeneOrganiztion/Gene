@@ -20,9 +20,11 @@ import com.abc.spring.FileUpload;
 
 import po.Classify;
 import po.ClassifyDemo;
+import po.Image;
 import po.Product;
 import po.ResponseMessage;
 import service.ClassifyService;
+import service.ImageService;
 import service.ProductService;
 import utils.ST;
 import controller.base.BaseController;
@@ -36,6 +38,8 @@ public class ProductInfoController extends BaseController{
 	private ProductService productService;
 	@Autowired
 	private ClassifyService classifyService;
+	@Autowired
+	private ImageService imageService;
 	 @RequestMapping(value = "/phoneproall", method = RequestMethod.GET)
 	 @ResponseBody
 	 public List<Product> phoneproall(HttpServletRequest request,
@@ -44,9 +48,22 @@ public class ProductInfoController extends BaseController{
 		 String clsId = getParam("clsId");
 		 try{
 		 Product product=new Product();
-		 product.setIsdelete(false);
-		 product.setProOnline(true);
 		 product.setClassifyId(Integer.parseInt(clsId));
+		 listproduct=productService.selectbyClassify(product);
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 logger.info("phoneproall"+e);
+		 }
+		return listproduct;
+	 }
+	 
+	 @RequestMapping(value = "/phoneall", method = RequestMethod.GET)
+	 @ResponseBody
+	 public List<Product> phoneall(HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+		 List<Product> listproduct=new ArrayList<Product>();
+		 try{
+		 Product product=new Product();
 		 listproduct=productService.selectAll(product);
 		 }catch(Exception e){
 			 e.printStackTrace();
@@ -107,26 +124,48 @@ public class ProductInfoController extends BaseController{
 	 @ResponseBody
 	 public ResponseMessage UploadImage(HttpServletRequest request,
 			 @RequestParam("file") MultipartFile file) throws Exception {
+		 	ResponseMessage msg=new ResponseMessage();
 		 	String filepathurl=null;
 		 	System.out.println("fileSize="+file.getSize());
-		 	
+			String pro_id= getParam("id");
 		 	try {
-		 		
-		      String filepath = FileUpload.uploadFile(file, request);
-		      System.out.println("filepath="+filepath);
-		      filepathurl = filepath;
-		      System.out.println("filepath=" + filepath);
+			   Image image=new Image();
+			   image.setProId(Integer.valueOf(pro_id));
+		 	   List<Image> listimage=imageService.selectbyProduct(image);
+		 	   Product product=new Product();
+		 	   product.setId(Integer.valueOf(pro_id));
+		 	   Product mysqlproduct=(Product)productService.selectOne(product);
+		 	   if(null==mysqlproduct.getProImage()||"".equals(mysqlproduct.getProImage())){
+		 		  String filepath = FileUpload.uploadFile(file, request);
+			      filepathurl = filepath;
+			      product.setProImage(filepath);
+			      productService.updateProduct(product);
+			      msg.setMessage(filepathurl);
+		 	   }else{
+		 		  if(listimage.size()<4){
+			 		  String filepath = FileUpload.uploadFile(file, request);
+				      filepathurl = filepath;
+				      image.setUrl(filepath);			      
+				      imageService.addImage(image);
+				      msg.setMessage(filepathurl);
+			 	   }else{
+			 		  msg.setMessage("tomore");
+			 	   }   
+		 	   } 
 		    } catch (Exception e) {
 		      logger.info("UploadImage"+e);
 		      e.printStackTrace();
-		      
-		    }
-		 	ResponseMessage msg=new ResponseMessage();
-		 	msg.setMessage("error");
+		      msg.setMessage("error");
+		    }	
 		 	return msg;
 		
 	 }
-	 
+	 /**
+		 * 验证是否存在此用户名
+		 * @param request
+		 * @param response    -1代表插入商品失败    >0代表插入成功
+		 * @return
+		 */
 	 @RequestMapping(value = "/insertProduct", method = RequestMethod.POST)
 	 @ResponseBody
 	 public int insertProduct(HttpServletRequest request,
@@ -156,9 +195,49 @@ public class ProductInfoController extends BaseController{
 		    } catch (Exception e) {
 		      logger.info("insertProduct"+e); 
 		    }
+		 	
+		 	System.out.println("proid="+proid);
 		 	return proid;
 		
 	 }
+	 
+	 
+	 @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+	 @ResponseBody
+	 public boolean updateProduct(HttpServletRequest request,
+			 HttpServletResponse response) throws Exception {
+		 	boolean falg=false;
+		 	String pro_id = getParam("id");
+		 	String classifyid = getParam("classify");
+		 	String name= getParam("name");
+		 	String head = getParam("head");
+		 	String price = getParam("price");
+		 	String sum = getParam("sum");
+		 	String rateprice = getParam("rateprice");
+		 	String isonline = getParam("isonline");
+		 	System.out.println("pro_id="+pro_id);
+		 	try {
+		 		Product product=new Product();
+		 		product.setId(Integer.valueOf(pro_id));
+		 		product.setClassifyId(Integer.valueOf(classifyid));
+		 		product.setProName(name);
+		 		product.setProHead(head);
+		 		product.setProductPrice(Integer.valueOf(price));
+		 		product.setProRateprice(Integer.valueOf(rateprice));
+		 		product.setProSum(Integer.valueOf(sum));
+		 		if(Integer.valueOf(isonline)==1){
+		 			product.setProOnline(true);
+		 		}else{
+		 			product.setProOnline(false);
+		 		}
+		 		falg=productService.updateProduct(product);
+		    } catch (Exception e) {
+		      logger.info("updateProduct"+e); 
+		    }
+		 	return falg;
+		
+	 }
+	 
 	 
 	/* @RequestMapping(value = "/savepro", method = RequestMethod.GET)
 	 @ResponseBody

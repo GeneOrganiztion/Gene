@@ -6,6 +6,7 @@ function initProductManager(){
 		selectClassify();
 		
 		var flieuploadimagesize=null;
+		var productid=null;
 		$('[data-rel=tooltip]').tooltip();
 	
 		$(".select2").css('width','200px').select2({allowClear:true})
@@ -22,33 +23,47 @@ function initProductManager(){
 		})
 		.on('actionclicked.fu.wizard' , function(e, info){
 				if(info.step == 1 && $validation) {
-					
 					if(!$('#validation-form').valid()){
-						
 						e.preventDefault();
 					}else{
 						if(info.step==1&&info.direction=="next"){
-							$('#validation-form').addClass('hide');
-							var pro_id=addproduct();
-							if(pro_id>0){
-								return true;
+							$('#addloader').removeClass('hide');
+							if(null==productid){
+								productid=addproduct();
+								console.log("productid="+productid);
+								if(productid>0){
+									$('#addloader').addClass('hide');
+									alertmsg("success","商品基本信息入库成功");
+									return true;
+								}else{
+									alertmsg("warning","商品信息入库失败请重新上传");
+									$('#addloader').addClass('hide');
+									return false;
+								}
 							}else{
-								alertmsg("warning","商品信息入库失败请重新上传");
-								return false;
+								var flag=updateproduct(productid);
+								if(flag==true){
+									$('#addloader').addClass('hide');
+									alertmsg("success","商品信息更新成功");
+									return true;
+								}else{
+									$('#addloader').addClass('hide');
+									alertmsg("warning","商品信息更新失败 您可以选择删除商品重新编辑");
+									return false;
+								}
+								
 							}
-							
 							
 						}
 					}
 				}
+					
 				 if(info.step==2&&info.direction=="previous"){
-					 alert("从第二页跳转到第第一页 不能跳转");
 					 return true; //不能跳转
 				 }
 				 if(info.step==2&&info.direction=="next"){ 
-					 console.log(info);
 					 if(flieuploadimagesize==null){
-					    
+						 alertmsg("error","您还有图片未上传");
 					     return false;
 					 }
 					 
@@ -83,8 +98,8 @@ function initProductManager(){
 			  var myDropzone = new Dropzone("#dropzone" , {
 			    paramName: "file", // The name that will be used to transfer the file
 			    maxFilesize: 0.5, // MB
-			    maxFiles:3,
-			    dictMaxFilesExceeded: "您最多只能上传3个文件！",
+			    maxFiles:4,
+			    dictMaxFilesExceeded: "您最多只能上传4个文件！",
 			    dictFileTooBig:"文件过大上传文件最大支持.",
 			    acceptedFiles: ".jpg,.gif,.png",
 			    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
@@ -97,17 +112,20 @@ function initProductManager(){
 				dictResponseError: 'Error while uploading file!',
 				previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
 				sending: function(file, xhr, formData) {
+					formData.append("id",productid);
 					flieuploadimagesize=file.size;
+					
 				},
 				success: function (file, response, e) {
-						//var res = JSON.parse(response);
 						console.log(response.message);
-						/* console.log(response.message);
-						if (response.message=="error") {
-					        $(file.dictResponseError).children('.dz-error-mark').css('opacity', '1');
-					        $(file.dictResponseError).children('.dz-error-message').innerHTML="上海传智播客";
-
-					    } */
+						if(response.message=="error"){
+							alertmsg("error","商品展示图片上传失败，请重新上传");
+						}else if(response.message=="tomore"){
+							alertmsg("error","商品展示图片上传超过最大限制");
+						}else{
+							alertmsg("success","商品展示图片上传成功");
+						}
+						
 					}
 				//change the previewTemplate to use Bootstrap progress bars
 				
@@ -313,19 +331,33 @@ function selectClassify(){
 }
 
 function addproduct(){
+	var pro_id=null;
 	var data = $("#validation-form").serialize();
 	$.ajax({
 		type: "post",
-		url: webroot + "admin/updateAdmin.do",
+		async: false,
+		url: webroot + "product/insertProduct.do",
 		data: data,
 		success: function(msg){
-			console.log(msg);
-			if(msg.success){
-				return true;
-			}else{
-				return false;
-			}
+			pro_id=msg;
+		}
+	
+	});
+	return pro_id
+}
+
+function updateproduct(proid){
+	var pro_id=proid;
+	var flag=false;
+	var data = $("#validation-form").serialize();
+	$.ajax({
+		type: "post",
+		async: false,
+		url: webroot + "product/updateProduct.do?id="+pro_id+"&",
+		data: data,
+		success: function(msg){
+			flag=msg;
 		}
 	});
-	
+	return flag;
 }
