@@ -2,6 +2,7 @@
 <%
 	String path = request.getContextPath();//asdadasdadsasd
 	//asdadasdsadasfasfasf
+	////dfasfsdfsdaf
 %>
 <script src="<%=path%>/pagejs/admin/admin.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
