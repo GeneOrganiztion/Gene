@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import po.Admin;
 import service.AdminService;
 import utils.MD5Util;
+import utils.ST;
 
 /**
  *
@@ -38,7 +39,7 @@ public class LoginController extends BaseController {
     private final String INDEX_JSP = "index";
     private final String DASHBOARD = "CoreServlet/dashboard.do";
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView formnoticedetail1(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
     	ModelAndView mv = new ModelAndView();
@@ -46,30 +47,34 @@ public class LoginController extends BaseController {
     	String msg=null;
     	String username = getParam("user");//用户名
         String password = getParam("psd");//密码
+        if(ST.isNull(username) || ST.isNull(password)){
+        	mv.addObject("msg", "用户名或密码不能为空");
+        	mv.setViewName(LOGIN_JSP);
+        	return mv;
+        }
         String passwordMd5 = MD5Util.getMD5(password);
         try{
         admin=(Admin)adminService.login(username, passwordMd5);
-        System.out.println("admin="+admin);
         }catch(Exception e){
         	logger.info("login.error="+e);
         	e.printStackTrace();
         	msg = "服务器繁忙，请稍后重试";
-            request.setAttribute("msg", msg);
             mv.setViewName(LOGIN_JSP);
+            mv.addObject("msg", msg);
             return mv;
         }
         if(null==admin){
-        	msg = "用户名或密码错误,请确认是否输入正确";
-            request.setAttribute("msg", msg);
+        	msg = "用户名或密码错误";
             mv.setViewName(LOGIN_JSP);
+            mv.addObject("msg", msg);
             return mv;
         }
         if (admin.getIsdelete()) {
             msg = "当前用户已被禁用,请检查用户是否正常";
-            request.setAttribute("msg", msg);
-            mv.setViewName(INDEX_JSP);
+            mv.addObject("msg", msg);
+            mv.setViewName(LOGIN_JSP);
             return mv;
-          }
+        }
         session.setAttribute("SESSION_USER", admin);
         
         String path = request.getContextPath(); 

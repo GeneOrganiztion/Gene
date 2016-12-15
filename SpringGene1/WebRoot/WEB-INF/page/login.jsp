@@ -70,14 +70,13 @@
 								<div id="login-box" class="login-box visible widget-box no-border">
 									<div class="widget-body">
 										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-coffee green"></i>
-												请输入用户名和密码
+											<h4 class="header red lighter bigger" >
+												<div id="errorMsg"><c:if test="${msg != null }">${msg }</c:if></div>
 											</h4>
 
 											<div class="space-6"></div>
 
-											<form id ="loginForm" action="<%=basePath%>CoreServlet/login.do">
+											<form id ="loginForm" action="<%=basePath%>CoreServlet/login.do" method="post">
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
@@ -103,7 +102,7 @@
 
 														<button type="button" id="loginBtn" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">Login</span>
+															<span class="bigger-110">登录</span>
 														</button>
 													</div>
 
@@ -132,7 +131,7 @@
 											</div> -->
 										</div><!-- /.widget-main -->
 
-										<div class="toolbar clearfix">
+										<!-- <div class="toolbar clearfix">
 											<div>
 												<a href="#" data-target="#forgot-box" class="forgot-password-link">
 													<i class="ace-icon fa fa-arrow-left"></i>
@@ -146,7 +145,7 @@
 													<i class="ace-icon fa fa-arrow-right"></i>
 												</a>
 											</div>
-										</div>
+										</div> -->
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 
@@ -317,10 +316,11 @@
 			 });
 			 
 			 $("#loginBtn").click(function(){
+				 $("#errorMsg").html("");
 				 var user = $("#user").val();
 				 var psd = $("#psd").val();
 				 if(user == null || psd == null || user == "" || psd == ""){
-					 alert("用户名和密码不能为空");
+					 $("#errorMsg").append("用户名或密码不能为空");
 					 return;
 			     }
 				$("#loginForm").submit();
