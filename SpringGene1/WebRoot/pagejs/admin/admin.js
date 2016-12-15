@@ -21,7 +21,7 @@ function initAdminManager(){
 		url: webroot + "admin/selectAdmin.do",
 		mtype: 'post',
 		datatype: "json",
-		height: 500,
+		height: 320,
 		colNames:['用户ID','用户姓名','邮箱','电话','创建时间','最后更新时间'],
 		colModel:[
           	{name:'id',index:'admin_id', width:80, sorttype:"int", editable: true},
@@ -190,6 +190,173 @@ function initAdminManager(){
 		return time;
 	}
 	
+	
+	$('#addAdminform').validate({
+		errorElement: 'div',
+		errorClass: 'help-block',
+		focusInvalid: false,
+		ignore: "",
+		rules: {
+			email: {
+				required: true,
+				email:true
+			},
+			password: {
+				required: true,
+				minlength: 5
+			},
+			password2: {
+				required: true,
+				minlength: 5,
+				equalTo: "#addAdminModal input[name='password']"
+			},
+			username: {
+				required: true
+			},
+			realname: {
+				required: true
+			},
+			phone: {
+				required: true,
+				minlength: 11
+			}
+		},
+
+		messages: {
+			email: {
+				required: "请输入email",
+				email: "email格式错误"
+			},
+			password: {
+				required: "请输入密码",
+				minlength: "密码格式错误",
+			},
+			password2: {
+				required: "请输入密码",
+				password2: "密码格式错误"
+			},
+			phone: {
+				required: "请输入手机号",
+				minlength: "手机号小于11位",
+			},
+			username: "请输入用户名",
+			realname: "请输入真实姓名"
+		},
+
+
+		highlight: function (e) {
+			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+		},
+
+		success: function (e) {
+			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+			$(e).remove();
+		},
+
+		errorPlacement: function (error, element) {
+			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+				var controls = element.closest('div[class*="col-"]');
+				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+			}
+			else if(element.is('.select2')) {
+				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+			}
+			else if(element.is('.chosen-select')) {
+				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+			}
+			else error.insertAfter(element.parent());
+		},
+
+		submitHandler: function (form) {
+		},
+		invalidHandler: function (form) {
+		}
+	});
+	
+	$('#editAdminform').validate({
+		errorElement: 'div',
+		errorClass: 'help-block',
+		focusInvalid: false,
+		ignore: "",
+		rules: {
+			email: {
+				required: true,
+				email:true
+			},
+			password: {
+				required: true,
+				minlength: 5
+			},
+			password2: {
+				required: true,
+				minlength: 5,
+				equalTo: "#editAdminform input[name='password']"
+			},
+			username: {
+				required: true
+			},
+			realname: {
+				required: true
+			},
+			phone: {
+				required: true,
+				minlength: 11
+			}
+		},
+
+		messages: {
+			email: {
+				required: "请输入email",
+				email: "email格式错误"
+			},
+			password: {
+				required: "请输入密码",
+				minlength: "密码格式错误",
+			},
+			password2: {
+				required: "请输入密码",
+				password2: "密码格式错误"
+			},
+			phone: {
+				required: "请输入手机号",
+				minlength: "手机号小于11位",
+			},
+			username: "请输入用户名",
+			realname: "请输入真实姓名"
+		},
+
+
+		highlight: function (e) {
+			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+		},
+
+		success: function (e) {
+			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+			$(e).remove();
+		},
+
+		errorPlacement: function (error, element) {
+			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+				var controls = element.closest('div[class*="col-"]');
+				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+			}
+			else if(element.is('.select2')) {
+				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+			}
+			else if(element.is('.chosen-select')) {
+				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+			}
+			else error.insertAfter(element.parent());
+		},
+
+		submitHandler: function (form) {
+		},
+		invalidHandler: function (form) {
+		}
+	});
+	
 }
 
 
@@ -244,35 +411,50 @@ function deleteAdmin(){
 }
 //添加用户
 function addAdmin(){
+	
 	//再次打开model之前清空上次的操作记录
 	$("#addAdminModal :input").val("");
 	$("#addAdminModal").modal("show");
 	
+	
 }
 //保存用户
 function saveAdmin(){
-	var password = $("#addAdminModal input[name='password']").val();
-	var confirmPassword = $("#addAdminModal input[name='confirmPassword']").val();
-	if(password != confirmPassword){
-		alertmsg("warning","输入密码不一致!");
-		$("#addAdminModal").modal("show");
+	//form中验证不通过直接返回
+	if(!($('#addAdminform').valid())){
 		return;
 	}
-	var data = getParams("#addAdminModal");
+	//验证是否已存在此用户名
+	var name = $("#addAdminform input[name='username'").val();
 	$.ajax({
 		type: "post",
-		url: webroot + "admin/saveAdmin.do",
-		data: data,
+		url: webroot + "admin/validateAdmin.do",
+		data: {name: name},
 		success: function(msg){
 			if(msg.success){
-				alertmsg("success", "新增用户成功!");
-				var data = $("form").serialize();
-				var url = webroot + "admin/selectAdmin.do";
-				$("#grid-table").jqGrid('setGridParam',{ 
-			        url: url + "?" + data, 
-			        page:1,
-			        mtype:"post"
-			    }).trigger("reloadGrid"); //重新载入 
+				alertmsg("warning","用户名已存在!");
+				return;
+			}else{
+				//保存用户信息
+				var data = getParams("#addAdminModal");
+				$.ajax({
+					type: "post",
+					url: webroot + "admin/saveAdmin.do",
+					data: data,
+					success: function(msg){
+						if(msg.success){
+							alertmsg("success", "新增用户成功!");
+							var data = $("form").serialize();
+							var url = webroot + "admin/selectAdmin.do";
+							$("#grid-table").jqGrid('setGridParam',{ 
+						        url: url + "?" + data, 
+						        page:1,
+						        mtype:"post"
+						    }).trigger("reloadGrid"); //重新载入 
+						}
+					}
+				});
+				$("#addAdminModal").modal("hide");
 			}
 		}
 	});
@@ -289,12 +471,11 @@ function editAdmin(){
 		url: webroot + "admin/selectAdminByAdminId.do",
 		data: {adminId: id},
 		success: function(msg){
-			console.log(msg);
 			$("#editAdminModal input[name='id']").val(msg.id);
 			$("#editAdminModal input[name='username']").val(msg.username);
 			$("#editAdminModal input[name='realname']").val(msg.realname);
 			$("#editAdminModal input[name='password']").val(msg.password);
-			$("#editAdminModal input[name='confirmPassword']").val(msg.password);
+			$("#editAdminModal input[name='password2']").val(msg.password);
 			$("#editAdminModal input[name='phone']").val(msg.phone);
 			$("#editAdminModal input[name='email']").val(msg.email);
 			$("#editAdminModal").modal("show");
@@ -303,29 +484,41 @@ function editAdmin(){
 }
 //修改用户
 function editAndSaveAdmin(){
-	var password = $("#editAdminModal input[name='password']").val();
-	var confirmPassword = $("#editAdminModal input[name='confirmPassword']").val();
-	if(password != confirmPassword){
-		alertmsg("warning","输入密码不一致!");
+	//form中验证不通过直接返回
+	if(!($('#editAdminform').valid())){
 		return;
 	}
-	var data = getParams("#editAdminModal");
+	//验证是否已存在此用户名
+	var name = $("#editAdminform input[name='username'").val();
 	$.ajax({
 		type: "post",
-		url: webroot + "admin/updateAdmin.do",
-		data: data,
+		url: webroot + "admin/validateAdmin.do",
+		data: {name: name},
 		success: function(msg){
 			if(msg.success){
-				alertmsg("success", "修改用户成功!");
-				var data = $("form").serialize();
-				var url = webroot + "admin/selectAdmin.do";
-				$("#grid-table").jqGrid('setGridParam',{ 
-			        url: url + "?" + data, 
-			        page:1,
-			        mtype:"post"
-			    }).trigger("reloadGrid"); //重新载入 
+				alertmsg("warning","用户名已存在!");
+				return;
 			}else{
-				alertmsg("error", "修改用户失败!");
+				//保存用户信息
+				var data = getParams("#editAdminform");
+				$.ajax({
+					type: "post",
+					url: webroot + "admin/updateAdmin.do",
+					data: data,
+					success: function(msg){
+						if(msg.success){
+							alertmsg("success", "修改用户成功!");
+							var data = $("form").serialize();
+							var url = webroot + "admin/selectAdmin.do";
+							$("#grid-table").jqGrid('setGridParam',{ 
+						        url: url + "?" + data, 
+						        page:1,
+						        mtype:"post"
+						    }).trigger("reloadGrid"); //重新载入 
+						}
+					}
+				});
+				$("#editAdminModal").modal("hide");
 			}
 		}
 	});

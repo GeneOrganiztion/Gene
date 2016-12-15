@@ -103,5 +103,12 @@ public class AdminServiceImpl implements AdminService {
 			return new Admin();
 		}
 	}
+	@Override
+	public List<Admin> validateAdmin(String name){
+		Admin admin = new Admin();
+		admin.setIsdelete(false);
+		admin.setUsername(name);
+		return adminMapper.select(admin);
+	}
 
 }

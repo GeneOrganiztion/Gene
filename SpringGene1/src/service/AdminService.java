@@ -23,4 +23,5 @@ public interface AdminService{
 	
 	public Admin selectAdminByAdminId(Map<String,Object> map);
 
+	public List<Admin> validateAdmin(String name);
 }

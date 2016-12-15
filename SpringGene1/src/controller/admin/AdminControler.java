@@ -133,7 +133,34 @@ public class AdminControler extends BaseController{
 		resModel.setSuccess(bl);
 		return resModel;
 	}
-	
+	/**
+	 * 验证是否存在此用户名
+	 * @param request
+	 * @param response    resModel    true:存在重复的用户名      false:不存在重复的用户名
+	 * @return
+	 */
+	@RequestMapping(value="/validateAdmin")
+	@ResponseBody
+	public ResModel validateAdmin(HttpServletRequest request,HttpServletResponse response){
+		String name = getParam("name");
+		ResModel  resModel = new ResModel();
+		boolean bl = false;
+		List<Admin> listAdmin = null;
+		try {
+			listAdmin = adminService.validateAdmin(name);
+		} catch (Exception e) {
+			logger.error("validateAdmin error:" + e);
+			resModel.setSuccess(bl);
+			return resModel;
+		}
+		if(listAdmin != null && listAdmin.size() > 0){
+			resModel.setSuccess(true);
+		}else{
+			resModel.setSuccess(bl);
+		}
+		
+		return resModel;
+	}
 	
 	
 }
