@@ -37,9 +37,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public boolean saveProduct(Product Product) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public int saveProduct(Product Product) throws Exception {
+		int newproductid=-1;
+		try{
+			newproductid=productMapper.insert(Product);
+			System.out.println("productid="+newproductid);
+		}catch(Exception e){
+			logger.info("productMappersave"+e);
+		}
+		return newproductid;
 	}
 
 	@Override
@@ -48,5 +54,4 @@ public class ProductServiceImpl implements ProductService{
 		return false;
 	}
 	
-
 }

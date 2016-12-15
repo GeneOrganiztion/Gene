@@ -10,8 +10,9 @@ public interface ProductService<T> {
 	
 	public int delProduct(Product Product) throws Exception;
 	
-	public boolean saveProduct(Product Product) throws Exception;
+	public int saveProduct(Product Product) throws Exception;
 	
 	public boolean updateProduct(Product Product) throws Exception;
+	
 
 }

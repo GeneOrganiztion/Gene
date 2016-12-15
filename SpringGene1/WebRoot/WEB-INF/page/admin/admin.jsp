@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
-	String path = request.getContextPath();
+	String path = request.getContextPath();//asdadasdadsasd
+	//asdadasdsadasfasfasf
 %>
 <script src="<%=path%>/pagejs/admin/admin.js"></script>
 <!-- #section:basics/content.breadcrumbs -->

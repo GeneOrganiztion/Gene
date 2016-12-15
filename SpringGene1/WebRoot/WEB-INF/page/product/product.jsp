@@ -46,7 +46,7 @@
 
 														<li data-step="2">
 															<span class="step">2</span>
-															<span class="title">商品图片上传</span>
+															<span class="title">商品展示图片上传</span>
 														</li>
 
 														<li data-step="3">
@@ -64,25 +64,28 @@
 												<!-- #section:plugins/fuelux.wizard.container -->
 												<div class="step-content pos-rel">
 													<div class="step-pane active" data-step="1">
-														<h3 class="lighter block green">请在此处填写商品的基本信息</h3>
-															   <div class="loader-inner ball-spin-fade-loader" id="cssloader"style="margin: 40px auto;width:0%;">
-															      <div></div>
-															      <div></div>
-															      <div></div>
-															      <div></div>
-															      <div></div>
-															      <div></div>
-															      <div></div>
-															      <div></div>
-															    </div>
+														<h3 class="lighter block green">请在下方填写商品的基本信息</h3>
+															   <div id="cssloader">
+																   <div class="loader-inner ball-spin-fade-loader" style="margin: 40px auto;width:0%;height:1px;">
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																    </div>
+																    <label  class="control-label col-xs-12 col-sm-12 no-padding-right" style="color: #ff6900;text-align:center; margin: 20px auto;">加载中...</label>
+																 </div>
 														<form class="form-horizontal" id="validation-form" method="get">
 														
-															<div class="form-group">
+															<div class="form-group" >
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">商品名称:</label>
 
 																<div class="col-xs-12 col-sm-9">
 																	<div class="clearfix">
-																		<input type="text" id="name" name="name" class="col-xs-12 col-sm-5" />
+																		<input type="text" id="name" name="name" class="col-xs-4 col-sm-3" />
 																	</div>
 																</div>
 															</div>
@@ -97,7 +100,7 @@
 															
 															
 									
-															<div class="hr hr-dotted"></div>
+															<div class="hr hr-dotted" style="margin-bottom: 20px;"></div>
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品原价:</label>
 																<div class="col-xs-3 col-sm-2">
@@ -108,15 +111,25 @@
 															</div>
 															
 															<div class="form-group">
-																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品折扣:</label>
+																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品折扣价:</label>
 																<div class="col-xs-3 col-sm-2">
 																	<div class="clearfix">
 																		<input type="text" name="rateprice" id="rateprice" class="col-xs-12 col-sm-6" />
 																	</div>
 																</div>
 															</div>
+															
+															<div class="form-group">
+																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品库存:</label>
+																<div class="col-xs-3 col-sm-2">
+																	<div class="clearfix">
+																		<input type="text" name="sum" id="sum" class="col-xs-12 col-sm-6" />
+																	</div>
+																</div>
+															</div>
+															
 
-															<div class="space-2"></div>
+															<div class="space-2" ></div>
 
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right">商品是否上线</label>
@@ -138,15 +151,15 @@
 																</div>
 															</div>
 
-															<div class="hr hr-dotted"></div>
+															<div class="hr hr-dotted" style="margin-bottom: 20px;"></div>
 
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="state">商品所属类别</label>
-																<div class="col-xs-12 col-sm-9">
-																		
-																	<select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
-														
-																	</select>
+																<div class="col-xs-8 col-sm-9">
+																	<div>
+																		<select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
+																		</select>
+																	</div>
 																</div>
 																
 															</div>
@@ -162,6 +175,20 @@
 																</div>
 															</div>
 														</form>
+														
+														<div id="addloader" class="hide">
+															<div class="loader-inner ball-spin-fade-loader" style="margin: 40px auto;width:0%;height:2px;">
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+																      <div></div>
+															</div>
+															<label  class="control-label col-xs-12 col-sm-12 no-padding-right" style="color: #ff6900;text-align:center; margin: 20px auto;">商品信息入库中请耐心等待....</label>
+														</div>
 													</div>
 
 													<div class="step-pane" data-step="2">

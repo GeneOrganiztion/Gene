@@ -28,7 +28,14 @@ function initProductManager(){
 						e.preventDefault();
 					}else{
 						if(info.step==1&&info.direction=="next"){
-							var data = $("#validation-form").serialize();
+							$('#validation-form').addClass('hide');
+							var pro_id=addproduct();
+							if(pro_id>0){
+								return true;
+							}else{
+								alertmsg("warning","商品信息入库失败请重新上传");
+								return false;
+							}
 							
 							
 						}
@@ -189,6 +196,11 @@ function initProductManager(){
 				isonline: {
 					required: true
 				},
+				sum:{
+					required: true,
+					digits:true,
+					min:1  
+				},
 			},
 	
 			messages: {
@@ -214,9 +226,14 @@ function initProductManager(){
 				isonline:{
 					required:"请选择商品状态"
 				},
+				sum:{
+					required:"商品库存为必填字段",
+					digits: "商品库存不能小于1",
+					min:"商品库存不能小于1"
+				},
 				state: "Please choose state",
 				subscription: "Please choose at least one option",
-				classify: "请选择商品类别",
+				classify: "请选择商品类别  如商品类别列表为空请先添加商品类别",
 			},
 	
 	
@@ -302,6 +319,7 @@ function addproduct(){
 		url: webroot + "admin/updateAdmin.do",
 		data: data,
 		success: function(msg){
+			console.log(msg);
 			if(msg.success){
 				return true;
 			}else{

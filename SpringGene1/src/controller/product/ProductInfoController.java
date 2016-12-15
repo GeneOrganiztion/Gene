@@ -127,6 +127,39 @@ public class ProductInfoController extends BaseController{
 		
 	 }
 	 
+	 @RequestMapping(value = "/insertProduct", method = RequestMethod.POST)
+	 @ResponseBody
+	 public int insertProduct(HttpServletRequest request,
+			 HttpServletResponse response) throws Exception {
+		 	int proid=-1;
+		 	String classifyid = getParam("classify");
+		 	String name= getParam("name");
+		 	String head = getParam("head");
+		 	String price = getParam("price");
+		 	String sum = getParam("sum");
+		 	String rateprice = getParam("rateprice");
+		 	String isonline = getParam("isonline");
+		 	try {
+		 		Product product=new Product();
+		 		product.setClassifyId(Integer.valueOf(classifyid));
+		 		product.setProName(name);
+		 		product.setProHead(head);
+		 		product.setProductPrice(Integer.valueOf(price));
+		 		product.setProRateprice(Integer.valueOf(rateprice));
+		 		product.setProSum(Integer.valueOf(sum));
+		 		if(Integer.valueOf(isonline)==1){
+		 			product.setProOnline(true);
+		 		}else{
+		 			product.setProOnline(false);
+		 		}
+		 		proid=productService.saveProduct(product);
+		    } catch (Exception e) {
+		      logger.info("insertProduct"+e); 
+		    }
+		 	return proid;
+		
+	 }
+	 
 	/* @RequestMapping(value = "/savepro", method = RequestMethod.GET)
 	 @ResponseBody
 	 public List<Product> savepro(HttpServletRequest request,
