@@ -35,8 +35,8 @@ import wepay.utils.HttpResponse;
 @RequestMapping("/weixin")
 public class WeChatController {
 	private static final Logger logger = LoggerFactory.getLogger(WeChatController.class);
-	 
 	@RequestMapping("/oauth")
+	 
 	public void oauthuser(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 		//共账号及商户相关参数
@@ -313,6 +313,20 @@ public class WeChatController {
 				logger.info("最后阶段finalsign="+finalsign);
 				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
 		
+	}
+	@RequestMapping("/topaytest")
+	@ResponseBody
+	public HashMap<String,String> topaytest(HttpServletRequest request,
+			HttpServletResponse response) throws Exception,IOException{
+		HashMap<String,String> hashMap=new HashMap<String,String>();
+		hashMap.put("appid", Constant.APPID);
+		hashMap.put("timeStamp", "1231231241113123");
+		hashMap.put("nonceStr","131312412412245");
+		hashMap.put("package","adasd123123123123");
+		hashMap.put("sign", "asdasdasd21312");
+		String out_trade_no = DateUtil.format(new Date());
+		hashMap.put("orderid", out_trade_no);
+		return hashMap;
 	}
 	
 	
