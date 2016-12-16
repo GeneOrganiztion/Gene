@@ -239,24 +239,22 @@ public class ProductInfoController extends BaseController{
 	 }
 	 
 	 
-	/* @RequestMapping(value = "/savepro", method = RequestMethod.GET)
+	 @RequestMapping(value = "/UploadDetailImage", method = RequestMethod.POST)
 	 @ResponseBody
-	 public List<Product> savepro(HttpServletRequest request,
-	            HttpServletResponse response) throws Exception {
-		 String pro_name = getParam("pro_name");
-		 String pro_head = getParam("pro_head");
-		 String pro_price = getParam("pro_price");
-		 String pro_count = getParam("pro_count");
-		 String pro_rateprice = getParam("pro_rateprice");
-		 String pro_online = getParam("pro_online");
-		 String pro_image = getParam("pro_image");
-		 String pro_detail = getParam("pro_detail");
-		 String clsId = getParam("clsId");
-		 Product product=new Product();
-		 product.setIsdelete(false);
-		 product.setProOnline(true);
-		 product.
-		return productService.selectAll(product);
-	 }   */
+	 public ResponseMessage UploaddetailImage(HttpServletRequest request,
+			 @RequestParam("file") MultipartFile file) throws Exception {
+		 	ResponseMessage msg=new ResponseMessage();
+		 	try {
+		 		  String filepathurl=null;
+		 		  String filepath = FileUpload.uploadFile(file, request);
+			      filepathurl = filepath;
+			      msg.setMessage(filepathurl);
+		 	   }catch (Exception e) {
+		      logger.info("UploaddetailImage"+e);
+		      e.printStackTrace();
+		      msg.setMessage("error");
+		    }	
+		 	return msg;
+	 }
 
 }

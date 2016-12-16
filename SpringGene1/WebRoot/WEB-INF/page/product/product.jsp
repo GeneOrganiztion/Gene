@@ -66,18 +66,11 @@
 													<div class="step-pane active" data-step="1">
 														<h3 class="lighter block green">请在下方填写商品的基本信息</h3>
 															   <div id="cssloader">
-																   <div class="loader-inner ball-spin-fade-loader" style="margin: 40px auto;width:0%;height:1px;">
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																    </div>
-																    <label  class="control-label col-xs-12 col-sm-12 no-padding-right" style="color: #ff6900;text-align:center; margin: 20px auto;">加载中...</label>
-																 </div>
+																		<i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="text-align:center; margin: 20px auto;width:100%;height:100%;font-size: 600% !important;"></i>
+																		<div style="color: #ff6900 !important;text-align:center; margin: 0px auto;width:100%;height:100%" class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">
+																		加载中.......
+																		</div>							
+																</div>
 														<form class="form-horizontal" id="validation-form" method="get">
 														
 															<div class="form-group" >
@@ -177,17 +170,10 @@
 														</form>
 														
 														<div id="addloader" class="hide">
-															<div class="loader-inner ball-spin-fade-loader" style="margin: 40px auto;width:0%;height:2px;">
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-																      <div></div>
-															</div>
-															<label  class="control-label col-xs-12 col-sm-12 no-padding-right" style="color: #ff6900;text-align:center; margin: 20px auto;">商品信息入库中不要重复点击请耐心等待....</label>
+															<i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="text-align:center; margin: 20px auto;width:100%;height:100%;font-size:300% !important;"></i>
+																		<div style="color: #ff6900 !important;text-align:center; margin: 0px auto;width:100%;height:100%" class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">
+																		商品信息入库中请耐心等待.......
+																		</div>	
 														</div>
 													</div>
 
@@ -246,16 +232,82 @@
 													</div>
 
 													<div class="step-pane" data-step="3">
+													
+														<div class="alert alert-success">
+																<button type="button" class="close" data-dismiss="alert">
+																	<i class="ace-icon fa fa-times"></i>
+																</button>
+
+																<strong>
+																	<i class="ace-icon fa fa-check"></i>
+																	商品展示图片添加成功!
+																</strong>
+																请将编辑好的商品详情图片拖拽到下方框图或者点击向上箭头,上传成功会在下方显示出已上传的商品详情图片
+																<br />
+															</div>
+													
+														<div class="alert alert-danger">
+																<button type="button" class="close" data-dismiss="alert">
+																	<i class="ace-icon fa fa-times"></i>
+																</button>
+
+																<strong>
+																	<i class="ace-icon fa fa-times"></i>
+																	警告!
+																</strong>
+																	商品详情请在编辑框中进行,插入的图片要先上传到云端再将商品的路径粘帖进来。不要将本地图片直接上传
+																<br />
+															</div>
+															<div class="alert alert-warning"  style="margin-bottom:20px">
+																<button type="button" class="close" data-dismiss="alert">
+																	<i class="ace-icon fa fa-times"></i>
+																</button>
+																<strong>温馨提示!</strong>
+																商品详情图片名称请不要携带中文,图片上传上传成功后会在下方显示，请点击预览并将图片路径拷贝出来。点击编辑器的Insert picture按钮将图片路径复制进来插入图片
+																<br />
+															</div>								
 														<div class="center">
-															<form action="../product/UploadImage.do" class="dropzone" id="dropzone">
+															<form action="../product/UploadDetailImage.do" class="dropzone" id="dropzone1">
 																<div class="fallback">
 																	<input name="file" type="file" id="dropzonefile"/>
 																</div>
 																
 															</form>
+															
+														<div class="alert alert-info">
+																<button type="button" class="close" data-dismiss="alert"  >
+																	<i class="ace-icon fa fa-times"></i>
+																</button>
+																<strong>商品详情已上传图片预览,第一张为测试图片!</strong>
+																<br />
+															</div>	
+															
+															<ul class="ace-thumbnails clearfix" id="gread">
+																		<!-- #section:pages/gallery -->
+																		<li>
+																			<a href="../assets/images/gallery/image-1.jpg" title="请将此处的图片路径拷贝下来" data-rel="colorbox">
+																				<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
+																			</a>
+																		
+																		</li>
+								
+								
+																		<!-- /section:pages/gallery.caption -->
+
+																
+																	</ul>
+														<!-- PAGE CONTENT BEGINS -->
+																<h4 class="header green clearfix">
+																	商品详情页面请在此编辑,确保图片已经上传至云端,
+																	在编辑之前请先设置居中显示,以便在手机中显示正常
+																</h4>
+								
+																<div class="wysiwyg-editor" id="editor1" style="max-height: 550px; height:500px; border: 1px solid #BBC0CA; width: 500px;
+    															margin: 0px auto;"></div>
 														</div>
 													</div>
-									
+													
+													
 									
 												</div>
 

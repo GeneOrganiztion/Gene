@@ -1,9 +1,12 @@
 function initProductManager(){
+	
+	
+	
 	jQuery(function($) {
 		
 		$('#validation-form').addClass('hide');
 		
-		selectClassify();
+		selectClassify();	
 		
 		var flieuploadimagesize=null;
 		var productid=null;
@@ -22,7 +25,7 @@ function initProductManager(){
 			//buttons: '.wizard-actions:eq(0)'
 		})
 		.on('actionclicked.fu.wizard' , function(e, info){
-				if(info.step == 1 && $validation) {
+			/*	if(info.step == 1 && $validation) {
 					if(!$('#validation-form').valid()){
 						e.preventDefault();
 					}else{
@@ -67,7 +70,7 @@ function initProductManager(){
 					     return false;
 					 }
 					 
-				 }
+				 }*/
 			
 			//if(info.step == 1 && $validation) {
 			//	console.log(info);
@@ -142,7 +145,58 @@ function initProductManager(){
 			} catch(e) {
 			  alert('Dropzone.js does not support older browsers!');
 			}
-	
+			
+			
+			
+			
+			try {
+				  Dropzone.autoDiscover = false;
+				  var myDropzone = new Dropzone("#dropzone1" , {
+				    paramName: "file", // The name that will be used to transfer the file
+				    maxFilesize: 1, // MB
+				    maxFiles:6,
+				    dictMaxFilesExceeded: "您最多只能上传6张商品详情图片！",
+				    dictFileTooBig:"文件过大上传文件最大支持.",
+				    acceptedFiles: ".jpg,.gif,.png",
+				    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
+					addRemoveLinks : true,
+					dictDefaultMessage :
+					'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+					<span class="smaller-80 grey">(or click)</span> <br /> \
+					<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
+				,
+					dictResponseError: 'Error while uploading file!',
+					previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+					sending: function(file, xhr, formData) {
+						formData.append("id",productid);
+						flieuploadimagesize=file.size;
+						
+					},
+					success: function (file, response, e) {
+
+							if(response.message=="error"){
+								alertmsg("error","商品详情图片上传失败，请重新上传");
+							}else{
+								alertmsg("success","商品详情图片上传成功");
+								addpir(response.message);
+							}
+							
+						}
+					//change the previewTemplate to use Bootstrap progress bars
+					
+				  });
+				  
+				  
+				  
+				   $(document).one('ajaxloadstart.page', function(e) {
+						try {
+							myDropzone.destroy();
+						} catch(e) {}
+				   });
+				
+				} catch(e) {
+				  alert('Dropzone.js does not support older browsers!');
+				}
 		//jump to a step
 		/**
 		var wizard = $('#fuelux-wizard-container').data('fu.wizard')
@@ -287,6 +341,94 @@ function initProductManager(){
 	
 		
 		
+	
+		//文本编辑框js
+		function showErrorAlert (reason, detail) {
+			var msg='';
+			if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+			else {
+				//console.log("error uploading file", reason, detail);
+			}
+			$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+			 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+		}
+
+		$('#editor1').ace_wysiwyg({
+			toolbar:
+			[
+				'font',
+				null,
+				'fontSize',
+				null,
+				{name:'bold', className:'btn-info'},
+				{name:'italic', className:'btn-info'},
+				{name:'strikethrough', className:'btn-info'},
+				{name:'underline', className:'btn-info'},
+				null,
+				{name:'insertunorderedlist', className:'btn-success'},
+				{name:'insertorderedlist', className:'btn-success'},
+				{name:'outdent', className:'btn-purple'},
+				{name:'indent', className:'btn-purple'},
+				null,
+				{name:'justifyleft', className:'btn-primary'},
+				{name:'justifycenter', className:'btn-primary'},
+				{name:'justifyright', className:'btn-primary'},
+				{name:'justifyfull', className:'btn-inverse'},
+				null,
+				{name:'createLink', className:'btn-pink'},
+				{name:'unlink', className:'btn-pink'},
+				null,
+				{name:'insertImage', className:'btn-success'},
+				null,
+				'foreColor',
+				null,
+				{name:'undo', className:'btn-grey'},
+				{name:'redo', className:'btn-grey'}
+			],
+			'wysiwyg': {
+				fileUploadError: showErrorAlert
+			}
+		}).prev().addClass('wysiwyg-style2');
+	
+		
+		//相册显示框js
+		var $overflow = '';
+		var colorbox_params = {
+			rel: 'colorbox',
+			reposition:true,
+			scalePhotos:true,
+			scrolling:false,
+			previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+			next:'<i class="ace-icon fa fa-arrow-right"></i>',
+			close:'&times;',
+			current:'{current} of {total}',
+			maxWidth:'100%',
+			maxHeight:'100%',
+			onOpen:function(){
+				$overflow = document.body.style.overflow;
+				document.body.style.overflow = 'hidden';
+			},
+			onClosed:function(){
+				document.body.style.overflow = $overflow;
+			},
+			onComplete:function(){
+				$.colorbox.resize();
+			}
+		};
+
+		
+		
+		
+		$('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+		$("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");//let's add a custom loading icon
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		$('#modal-wizard-container').ace_wizard();
 		$('#modal-wizard .wizard-actions .btn[data-dismiss=modal]').removeAttr('disabled');
@@ -309,8 +451,28 @@ function initProductManager(){
 		});
 	});
 }
+function addpir(url){
+	var parent1 = document.getElementById("gread");
+	var div12 = document.createElement("li");
+	var a= document.createElement("a");
+		a.setAttribute("href",url);
+		a.setAttribute("data-rel","colorbox");
+		a.setAttribute("class","cboxElement");
+		a.setAttribute("title",url);
+		var img= document.createElement("img");
+		img.setAttribute("width",150);
+		img.setAttribute("height",150);
+		img.setAttribute("alt",150);
+		img.setAttribute("src",url);
+		a.appendChild(img);
+　　　　div12.appendChild(a);
+　　　　parent1.appendChild(div12);
+}
 
-
+function geteditor(){
+	alert($('#editor1').html());
+	
+}
 //查询所有分类
 function selectClassify(){
 	$.ajax({

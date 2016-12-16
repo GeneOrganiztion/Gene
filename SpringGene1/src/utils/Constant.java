@@ -7,5 +7,5 @@ public class Constant {
 	public static final String PARTNER="1358502702";
 	public static final String PARTNERKEY="03XMTNHNAITVfssfdfdjdfswBg59HUM9";
     
-	public static final String WEBACKURI="http://nbuxinxiren.cn/SpringGene1/weixin/weixinUnion.do";
+	public static final String WEBACKURI="http://nbuxinxiren.cn/SpringGene1/weixin/topay.do";
 }

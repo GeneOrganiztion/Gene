@@ -26,7 +26,7 @@
 		<link rel="stylesheet" href="<%=path%>/assets/css/bootstrap-editable.css"/>
 		<link rel="stylesheet" href="<%=path%>/assets/css/bootstrap-multiselect.css" />
 		
-		<link rel="stylesheet" href="<%=path%>/assets/css/loaders.css" />
+		<%-- <link rel="stylesheet" href="<%=path%>/assets/css/loaders.css" /> --%>
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="<%=path%>/assets/css/datepicker.css" />
 		<link rel="stylesheet" href="<%=path%>/assets/css/ui.jqgrid.css" />
