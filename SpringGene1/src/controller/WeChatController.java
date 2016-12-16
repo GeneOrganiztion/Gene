@@ -50,7 +50,7 @@ public class WeChatController {
 		//授权后要跳转的链接所需的参数一般有会员号，金额，订单号之类，
 		//最好自己带上一个加密字符串将金额加上一个自定义的key用MD5签名或者自己写的签名,
 		//比如 Sign = %3D%2F%CS% 
-		//backUri = backUri+"?userId=b88001&orderNo=1499900164812&describe=西瓜&money=1780.00";
+		backUri = backUri+"?userId=b88001&orderNo=1499900164812&describe=西瓜&money=1780.00";
 		//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
 		backUri = URLEncoder.encode(backUri);
 		//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
@@ -305,12 +305,17 @@ public class WeChatController {
 				String prepay_id2 = "prepay_id="+prepay_id;
 				String packages = prepay_id2;
 				finalpackage.put("appId", appid2);  
-				finalpackage.put("timeStamp", timestamp);  
-				finalpackage.put("nonceStr", nonceStr2);  
+				logger.info("appId="+appid2);
+				finalpackage.put("timeStamp", timestamp); 
+				logger.info("timestamp="+timestamp);
+				finalpackage.put("nonceStr", nonceStr2); 
+				logger.info("nonceStr="+nonceStr2);
 				finalpackage.put("package", packages);  
+				logger.info("packages="+packages);
 				finalpackage.put("signType", "MD5");
 				String finalsign = reqHandler.createSign(finalpackage);
-				logger.info("最后阶段finalsign="+finalsign);
+				logger.info("finalsign="+finalsign);
+				
 				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
 		
 	}
@@ -329,6 +334,28 @@ public class WeChatController {
 		return hashMap;
 	}
 	
+	@RequestMapping("/ordertopay")
+	public void ordertopay(HttpServletRequest request,
+			HttpServletResponse response) throws Exception,IOException{
+				String appid2 = Constant.APPID;
+				String currTime = TenpayUtil.getCurrTime();
+				RequestHandler reqHandler = new RequestHandler(request, response);
+				reqHandler.init(appid2, Constant.APPSECRET, Constant.PARTNERKEY);		
+				SortedMap<String, String> finalpackage = new TreeMap<String, String>();		
+				String timestamp = "1481881768";
+				String nonceStr2 = "1749271314";
+				String prepay_id2 = "prepay_id="+"wx20161216174928faeaeada620530007340";
+				String packages = prepay_id2;
+				finalpackage.put("appId", appid2);  
+				finalpackage.put("timeStamp", timestamp);  
+				finalpackage.put("nonceStr", nonceStr2);  
+				finalpackage.put("package", packages);  
+				finalpackage.put("signType", "MD5");
+				String finalsign ="76D5831772F412B159609D75B265ADE4";
+				logger.info("最后阶段finalsign="+finalsign);
+				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
+		
+	}
 	
 
 }
