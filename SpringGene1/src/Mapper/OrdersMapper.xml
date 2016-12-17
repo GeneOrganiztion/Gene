@@ -23,7 +23,7 @@
   
   <resultMap type="po.Orders" id="OrderAndProductResultMap" extends="BaseResultMap">
 	<collection property="mapOrderProductList" ofType="po.MapOrderProductPo">
-		<id column="map_order_productid_id" property="map_order_product_id" jdbcType="INTEGER" />
+		<id column="map_order_product_id" property="map_order_product_id" jdbcType="INTEGER" />
 	    <result column="ord_id" property="ordId" jdbcType="INTEGER" />
 	    <result column="pro_id" property="proId" jdbcType="INTEGER" />
 	    <result column="pro_classify_id" property="proClassifyId" jdbcType="INTEGER" />
@@ -46,7 +46,7 @@
   
   
   <sql id="Base_Column_List" >
-    orderid_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
+    order_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
     ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal, isdelete, 
     create_time, last_modified_time
   </sql>
@@ -74,7 +74,33 @@
      	order by oe.order_id desc
   </select>
   
-  
+  <select id="selectOrderByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+  	select 
+    <include refid="Base_Column_List" />
+	    from orders
+	    where isdelete = 0
+	  <if test="orderId != null">
+        and order_id = #{orderId}
+      </if>
+      <if test="ordState != null">
+        AND ord_state = #{ordState}
+      </if>
+      <!-- <if test="userName != null">
+        and username LIKE '%${userName}%'
+      </if>
+      <if test="realname != null">
+        and realname = LIKE '%${realName}%'
+      </if> -->
+      <if test="beginTime != null ">
+          AND CREATE_TIME > #{beginTime} 
+      </if>
+      <if test="endTime != null ">
+          <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
+      </if>
+      <if test="sidx != null">
+        order by #{sidx} #{sord}
+      </if>
+  </select>
   <!-- <insert id="insert" parameterType="po.Orders" >
     insert into order (id, ord_num, 
       ord_pro_count, ord_state, courier_num, 

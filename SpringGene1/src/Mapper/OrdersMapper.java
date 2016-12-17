@@ -1,6 +1,9 @@
 package Mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import com.github.pagehelper.PageInfo;
 
 import po.Orders;
 import tk.mybatis.mapper.common.Mapper;
@@ -19,4 +22,6 @@ public interface OrdersMapper extends Mapper<Orders>{
     int updateByPrimaryKey(Orders record);*/
     
     List<Orders> getOrderByUserId(Orders order);
+    
+    List<Orders> selectOrderByParams(Map map);
 }

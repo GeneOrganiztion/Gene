@@ -21,7 +21,7 @@
   	select 
     <include refid="Base_Column_List" />
 	    from admin
-	    where 1=1
+	    where isdelete = 0
 	  <if test="adminId != null">
         and admin_id = #{adminId}
       </if>
@@ -40,7 +40,6 @@
       <if test="endTime != null ">
           <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
       </if>
-      	and isdelete = 0
       <if test="sidx != null">
         order by #{sidx} #{sord}
       </if>

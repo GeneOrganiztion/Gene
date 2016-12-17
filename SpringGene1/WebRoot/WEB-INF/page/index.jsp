@@ -521,30 +521,6 @@
 								class="menu-icon fa fa-caret-right"></i> Typography
 						</a> <b class="arrow"></b></li>
 
-						<li class=""><a href="elements.html"> <i
-								class="menu-icon fa fa-caret-right"></i> Elements
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="buttons.html"> <i
-								class="menu-icon fa fa-caret-right"></i> Buttons &amp; Icons
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="content-slider.html"> <i
-								class="menu-icon fa fa-caret-right"></i> Content Sliders
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="treeview.html"> <i
-								class="menu-icon fa fa-caret-right"></i> Treeview
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="jquery-ui.html"> <i
-								class="menu-icon fa fa-caret-right"></i> jQuery UI
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="nestable-list.html"> <i
-								class="menu-icon fa fa-caret-right"></i> Nestable Lists
-						</a> <b class="arrow"></b></li>
-
 						<li class=""><a href="#" class="dropdown-toggle"> <i
 								class="menu-icon fa fa-caret-right"></i> Three Level Menu <b
 								class="arrow fa fa-angle-down"></b>
@@ -605,7 +581,7 @@
 					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-pencil-square-o"></i>
-							<span class="menu-text"> Forms </span>
+							<span class="menu-text"> 订单管理 </span>
 
 							<b class="arrow fa fa-angle-down"></b>
 						</a>
@@ -614,9 +590,9 @@
 
 						<ul class="submenu">
 							<li class="">
-								<a href="form-elements.html">
+								<a href="#" menu-url="orderInfo/orderPage.do">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Form Elements
+									订单查询
 								</a>
 
 								<b class="arrow"></b>
@@ -640,23 +616,6 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="">
-								<a href="wysiwyg.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Wysiwyg &amp; Markdown
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li class="">
-								<a href="dropzone.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Dropzone File Upload
-								</a>
-
-								<b class="arrow"></b>
-							</li>
 						</ul>
 					</li>
 

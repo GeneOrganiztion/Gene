@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "orders")
 public class Orders {
@@ -44,7 +45,7 @@ public class Orders {
     private Date createTime;
 
     private Date lastModifiedTime;
-    
+    @Transient
     private List<MapOrderProductPo> mapOrderProductList;
 
     public String getOrdNum() {

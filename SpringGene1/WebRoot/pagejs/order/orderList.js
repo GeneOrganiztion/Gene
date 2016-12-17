@@ -1,4 +1,6 @@
-function initStudentManager(){
+function initOrderManager(){
+	
+	
 	var subgrid_data = 
 		[
 		 {id:"1", name:"sub grid item 1", qty: 11},
@@ -8,18 +10,9 @@ function initStudentManager(){
 		 {id:"5", name:"sub grid item 5", qty: 2},
 		 {id:"6", name:"sub grid item 6", qty: 9},
 		 {id:"7", name:"sub grid item 7", qty: 3},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
-		 {id:"8", name:"sub grid item 8", qty: 8},
 		 {id:"8", name:"sub grid item 8", qty: 8}
-		 
 		];
+	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -49,18 +42,20 @@ function initStudentManager(){
 		},
 		//for this example we are using local data
 		subGridRowExpanded: function (subgridDivId, rowId) {
-			alert(rowId);
 			var subgridTableId = subgridDivId + "_t";
 			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
 			$("#" + subgridTableId).jqGrid({
-				datatype: 'local',
-				data: subgrid_data,
-				width: 800,
-				colNames: ['ID','姓名','数字'],
+				url: webroot + "orderInfo/selectOrderAndPrductByOrderId.do",
+				mtype: 'post',
+				datatype: "json",
+				width:700,
+				postData: {orderId: rowId},
+				colNames: ['产品Id','产品名称','产品价格','产品数量'],
 				colModel: [
-					{ name: 'id', width: 50 },
-					{ name: 'name', width: 150 },
-					{ name: 'qty', width: 50 }
+					{ name: 'product_id', width: 50 },
+					{ name: 'proName', width: 50 },
+					{ name: 'proPrice', width: 50 },
+					{ name: 'proCount', width: 50 }
 				]
 			});
 		},
@@ -68,11 +63,13 @@ function initStudentManager(){
 		
 		
 		
-		url: "http://localhost:8080/SpringGene1/testStudent/test.do",
+		
+		
+		url: webroot + "orderInfo/seletcOrder.do",
 		mtype: 'post',
 		datatype: "json",
 		height: 520,
-		colNames:['','ID','年龄','姓名','电话'],
+		colNames:['','订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间'],
 		colModel:[
 			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 				formatter:'actions', 
@@ -85,9 +82,11 @@ function initStudentManager(){
 				}
 			},
           	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
-          	{name:'age',index:'age',width:80, editable:true},
-			{name:'name',index:'name', width:80, sorttype:"int", editable: true},
-			{name:'phone',index:'phone',width:80, editable:true},
+          	{name:'ordState',index:'ordState',width:80, editable:true},
+			{name:'ordPrice',index:'ordPrice', width:80, sorttype:"int", editable: true},
+			{name:'ordPay',index:'ordPay',width:80, editable:true},
+			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -238,7 +237,12 @@ function initStudentManager(){
 		$(grid_selector).jqGrid('GridUnload');
 		$('.ui-jqdialog').remove();
 	});
-	
+	function style_delete_form(form) {
+		var buttons = form.next().find('.EditButton .fm-button');
+		buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+		buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+		buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+	}
 	function beforeDeleteCallback(e) {
 		var form = $(e[0]);
 		if(form.data('styled')) return false;
@@ -248,45 +252,28 @@ function initStudentManager(){
 		
 		form.data('styled', true);
 	}
+	function TimeAdd0(time){
+		return time < 10 ? ("0" + time) : time;
+	}
+	function formatDate(cellvalue, options, rowObject){
+		var date = new Date(cellvalue);
+		var time = date.getFullYear() + "-" + TimeAdd0((date.getMonth() + 1)) + "-" + TimeAdd0(date.getDate()) 
+					+ " " + TimeAdd0(date.getHours()) + ":" + TimeAdd0(date.getMinutes()) + ":" + TimeAdd0(date.getSeconds());
+		return time;
+	}
 	
 }
 
 
 
 //查询
-function queryStuent(){
+function queryOrder(){
 	var data = $("form").serialize();
-	var url = "http://localhost:8080/SpringGene1/testStudent/test.do";
+	var url = webroot + "orderInfo/seletcOrder.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
         url: url + "?" + data, 
         //postData:jsonData, 
         page:1,
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
-}
-//删除内容
-function deleteAsset(){
-	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
-	if(selectedIds.length < 1){
-		alert("请至少选中一行");
-		return;
-	}
-	var ids = "";
-	for(var id in selectedIds){
-		var rowData = $('#grid-table').getRowData(selectedIds[id]);//获取选中行的记录
-		var contentId = rowData.id;
-		ids =ids + contentId + ",";
-	}
-	$.ajax({
-		type:"post",
-		url:webroot+"content/deletePointContent.htm",
-		data:{"contentId":ids},
-		success:function(data){
-			//删除成功重新加载jqGrid
-			$("#grid-table").jqGrid('setGridParam',{ 
-		        page:1,
-		        mtype:"post"
-		    }).trigger("reloadGrid"); //重新载入 
-		}
-	});
 }

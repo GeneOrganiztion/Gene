@@ -1,8 +1,11 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
 
 import po.Orders;
+
+import com.github.pagehelper.PageInfo;
 
 public interface OrderService<T> {
 	
@@ -10,5 +13,7 @@ public interface OrderService<T> {
 	List<T> getOrderByUserId(Orders order);
 	
 	boolean updateOrderStatus(Orders order);
+	
+	public PageInfo selectOrderByParams(Map map);
 
 }
