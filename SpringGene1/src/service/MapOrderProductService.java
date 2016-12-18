@@ -11,4 +11,6 @@ public interface MapOrderProductService {
 	
 	public MapOrderProduct selectMapOrderProductById(Integer mapOrderProductId);
 
+	public boolean updateMapOrderProduct(MapOrderProduct mapOrderProduct);
+	
 }

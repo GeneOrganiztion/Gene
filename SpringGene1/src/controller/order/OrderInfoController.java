@@ -140,6 +140,10 @@ public class OrderInfoController extends BaseController{
 			 report.setUserId(this.getUserId());
 			 report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
 			 boolean bl = reportService.insertReport(report);
+			 //更改    mapOrderProduct 表的report_is_upload字段为已上传报告    1:未上传   2：已上传
+			 mop.setReportIsUpload(2); 
+			 mapOrderProductService.updateMapOrderProduct(mop);
+			 
 		} catch (Exception e) {
 			logger.error("uploadReportPic error" + e);
 			resModel.setSuccess(false);

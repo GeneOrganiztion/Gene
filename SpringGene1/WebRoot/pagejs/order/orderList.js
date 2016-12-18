@@ -35,15 +35,16 @@ function initOrderManager(){
 				url: webroot + "orderInfo/selectOrderAndPrductByOrderId.do",
 				mtype: 'post',
 				datatype: "json",
-				width:700,
+				width:800,
 				postData: {orderId: rowId},
-				colNames: ['','产品Id','产品名称','产品价格','产品数量','操作'],
+				colNames: ['','产品Id','产品名称','产品价格','产品数量','报告是否上传','操作'],
 				colModel: [
 				    { name: 'map_order_product_id', width: 50,hidden:true},
 					{ name: 'product_id', width: 50 },
 					{ name: 'proName', width: 50 },
 					{ name: 'proPrice', width: 50 },
 					{ name: 'proCount', width: 50 },
+					{ name: 'reportIsUpload', width: 50 ,formatter: formatterReportIsUpload},
 					{ name: '', width: 50,formatter: formatterOperate}
 				]
 			});
@@ -290,6 +291,19 @@ function initOrderManager(){
 			break;
 		case 3:
 			return "其他支付";
+			break;
+		default:
+			return null;
+			break;
+		}
+	}
+	function formatterReportIsUpload(cellvalue, options, rowObject){
+		switch (parseInt(cellvalue)) {
+		case 1:
+			return "否";
+			break;
+		case 2:
+			return "是";
 			break;
 		default:
 			return null;

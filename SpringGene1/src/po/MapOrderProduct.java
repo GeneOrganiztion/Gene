@@ -28,6 +28,8 @@ public class MapOrderProduct {
 
     private Date lastModifiedTime;
 
+    private Integer reportIsUpload;
+    
     public Integer getId() {
         return map_order_product_id;
     }
@@ -107,4 +109,13 @@ public class MapOrderProduct {
     public void setLastModifiedTime(Date lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
+
+	public Integer getReportIsUpload() {
+		return reportIsUpload;
+	}
+
+	public void setReportIsUpload(Integer reportIsUpload) {
+		this.reportIsUpload = reportIsUpload;
+	}
+    
 }

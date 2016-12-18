@@ -19,6 +19,7 @@ public class OrderAndProductDTO {
 
     private Integer proCount;
 
+    private Integer reportIsUpload;
 	
 	//product 表属性
     private Integer product_id;
@@ -67,6 +68,14 @@ public class OrderAndProductDTO {
 
 	public void setMap_order_product_id(Integer map_order_product_id) {
 		this.map_order_product_id = map_order_product_id;
+	}
+
+	public Integer getReportIsUpload() {
+		return reportIsUpload;
+	}
+
+	public void setReportIsUpload(Integer reportIsUpload) {
+		this.reportIsUpload = reportIsUpload;
 	}
 
 	public Integer getProId() {

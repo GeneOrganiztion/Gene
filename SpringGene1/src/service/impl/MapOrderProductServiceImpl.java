@@ -33,4 +33,15 @@ public class MapOrderProductServiceImpl implements MapOrderProductService {
 		return mapOrderProductMapper.selectOne(mapOrderProduct);
 		
 	}
+	@Override
+	public boolean updateMapOrderProduct(MapOrderProduct mapOrderProduct){
+		try {
+			mapOrderProductMapper.updateByPrimaryKey(mapOrderProduct);
+		} catch (Exception e) {
+			logger.error("updateMapOrderProduct error:" + e);
+			return false;
+		}
+		return true;
+		
+	}
 }
