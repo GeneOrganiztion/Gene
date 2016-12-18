@@ -1,18 +1,5 @@
 function initOrderManager(){
 	
-	
-	var subgrid_data = 
-		[
-		 {id:"1", name:"sub grid item 1", qty: 11},
-		 {id:"2", name:"sub grid item 2", qty: 3},
-		 {id:"3", name:"sub grid item 3", qty: 12},
-		 {id:"4", name:"sub grid item 4", qty: 5},
-		 {id:"5", name:"sub grid item 5", qty: 2},
-		 {id:"6", name:"sub grid item 6", qty: 9},
-		 {id:"7", name:"sub grid item 7", qty: 3},
-		 {id:"8", name:"sub grid item 8", qty: 8}
-		];
-	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -50,41 +37,27 @@ function initOrderManager(){
 				datatype: "json",
 				width:700,
 				postData: {orderId: rowId},
-				colNames: ['产品Id','产品名称','产品价格','产品数量'],
+				colNames: ['','产品Id','产品名称','产品价格','产品数量','操作'],
 				colModel: [
+				    { name: 'map_order_product_id', width: 50,hidden:true},
 					{ name: 'product_id', width: 50 },
 					{ name: 'proName', width: 50 },
 					{ name: 'proPrice', width: 50 },
-					{ name: 'proCount', width: 50 }
+					{ name: 'proCount', width: 50 },
+					{ name: '', width: 50,formatter: formatterOperate}
 				]
 			});
 		},
-		
-		
-		
-		
-		
-		
 		url: webroot + "orderInfo/seletcOrder.do",
 		mtype: 'post',
 		datatype: "json",
 		height: 520,
-		colNames:['','订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间'],
+		colNames:['订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间'],
 		colModel:[
-			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-				formatter:'actions', 
-				formatoptions:{ 
-					keys:true,
-					//delbutton: false,//disable delete button
-					
-					delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-					//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-				}
-			},
           	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
           	{name:'ordState',index:'ordState',width:80, editable:true},
 			{name:'ordPrice',index:'ordPrice', width:80, sorttype:"int", editable: true},
-			{name:'ordPay',index:'ordPay',width:80, editable:true},
+			{name:'ordPay',index:'ordPay',width:80, editable:true,formatter:formatordPay},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
 			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
 		], 
@@ -105,7 +78,7 @@ function initOrderManager(){
         multiboxonly: false,
         ondblClickRow:function(rowid){
             var rowData = $('#grid-table').getRowData(rowid);//获取选中行的记录 
-            alert(rowData.id);
+            querOrderDetial(rowData.id);//查询订单详情的方法
         },
 		loadComplete : function() {
 			var table = this;
@@ -237,21 +210,60 @@ function initOrderManager(){
 		$(grid_selector).jqGrid('GridUnload');
 		$('.ui-jqdialog').remove();
 	});
-	function style_delete_form(form) {
-		var buttons = form.next().find('.EditButton .fm-button');
-		buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
-		buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
-		buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
-	}
-	function beforeDeleteCallback(e) {
-		var form = $(e[0]);
-		if(form.data('styled')) return false;
+	
+	try {
+		  Dropzone.autoDiscover = false;
+		  var myDropzone = new Dropzone("#dropzone" , {
+		    paramName: "file", // The name that will be used to transfer the file
+		    maxFilesize: 10, // MB
+		    maxFiles:4,
+		    dictMaxFilesExceeded: "您最多只能上传4个文件！",
+		    dictFileTooBig:"文件过大上传文件最大支持.",
+		    acceptedFiles: ".jpg,.gif,.png",
+		    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
+			addRemoveLinks : true,
+			dictDefaultMessage :
+			'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+			<span class="smaller-80 grey">(or click)</span> <br /> \
+			<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
+		,
+			dictResponseError: 'Error while uploading file!',
+			previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+			sending: function(file, xhr, formData) {
+				var id = $("#mapOrderProductId").val();
+				formData.append("mapOrderProductId",id);
+				flieuploadimagesize=file.size;
+				
+			},
+			success: function (file, response, e) {
+					if(response.success){
+						alertmsg("success","报告上传成功");
+					}else{
+						alertmsg("error","报告上传失败");
+					}
+					
+				}
+			//change the previewTemplate to use Bootstrap progress bars
+			
+		  });
+		  
+		  
+		  
+		   $(document).one('ajaxloadstart.page', function(e) {
+				try {
+					myDropzone.destroy();
+				} catch(e) {}
+		   });
 		
-		form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-		style_delete_form(form);
-		
-		form.data('styled', true);
-	}
+		} catch(e) {
+		  alert('Dropzone.js does not support older browsers!');
+		}
+	
+	
+	
+	
+	
+	
 	function TimeAdd0(time){
 		return time < 10 ? ("0" + time) : time;
 	}
@@ -261,7 +273,29 @@ function initOrderManager(){
 					+ " " + TimeAdd0(date.getHours()) + ":" + TimeAdd0(date.getMinutes()) + ":" + TimeAdd0(date.getSeconds());
 		return time;
 	}
-	
+	//格式化商品jqgrid之后的操作
+	function formatterOperate(cellvalue, options, rowObject){
+		var detail = "<button onclick=\"uploadReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-purple\">上传报告</button>"
+					+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
+        return detail;
+
+	}
+	function formatordPay(cellvalue, options, rowObject){
+		switch (parseInt(cellvalue)) {
+		case 1:
+			return "微信支付";
+			break;
+		case 2:
+			return "支付宝支付";
+			break;
+		case 3:
+			return "其他支付";
+			break;
+		default:
+			return null;
+			break;
+		}
+	}
 }
 
 
@@ -276,4 +310,72 @@ function queryOrder(){
         page:1,
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
+}
+//查看订单详情
+function querOrderDetial(orderId){
+	//清空上次model中的数据
+	$("#orderDetialModal :input").val("");
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/selectOrderDetail.do",
+		data: {orderId: orderId},
+		success: function(msg){
+			if(!isNoEmpty(msg)){
+				return;
+			}
+			$("#orderDetialModal input[name='ordNum']").val(msg.ordNum);
+			$("#orderDetialModal input[name='ordPrice']").val(msg.ordPrice);
+			$("#orderDetialModal input[name='ordPay']").val(msg.ordPay);
+			$("#orderDetialModal input[name='userName']").val(msg.userName);
+			$("#orderDetialModal input[name='userPhone']").val(msg.userPhone);
+			$("#orderDetialModal input[name='ordNum']").val(msg.ordNum);
+			$("#orderDetialModal select[name='ordPay']").val(msg.ordPay);
+			$("#userAddress").val(msg.userAddress);
+			$("#orderDetialModal").modal("show");
+		}
+	});
+}
+//上传报告
+function uploadReportPic(mapOrderProductId){
+	//打开model之前清空上一次的数据    ??????????????????
+	$("#mapOrderProductId").val("");
+	var file = $("#reportpic");
+	file.after(file.clone().val(""));
+	file.remove();
+	$("#reportpic").val("");  
+	
+	$("#mapOrderProductId").val(mapOrderProductId);
+	$("#uploadReportPicModal").modal("show");
+}
+//预览报告
+function viewReportPic(mapOrderProductId){
+	//???//???mapOrderProductId为空的判断
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/selectOrderByMapOrderProductId.do",
+		data: {mapOrderProductId:mapOrderProductId},
+		success: function(msg){
+			console.log(msg);
+			if(empty(msg)){
+				alertmsg("error","预览报告失败");
+				return;
+			}
+			var html;
+			for(var i =0; i < msg.length; i ++){
+				//console.log(msg);
+				var data =  "<li>" + 
+								"<a href=\""+msg[i].repPdf+"\" data-rel=\"colorbox\">" + 
+									"<img width=\"150\" height=\"150\" alt=\"150x150\" src=\""+msg[i].repPdf+"\" />" +
+									"<div class=\"text\">" +
+										"<div class=\"inner\">Sample Caption on Hover</div>" +
+									"</div>" +
+								"</a>" +
+							"</li>";
+				html = html +data;
+			}
+			$("#viewReportPicli").append(html);
+			$("#viewReportPicModal").modal("show");
+		}
+	});
+
 }

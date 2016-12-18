@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import po.Orders;
-import service.OrderService;
-import Mapper.OrdersMapper;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import Mapper.OrdersMapper;
+import po.Orders;
+import service.OrderService;
 
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
@@ -43,5 +44,12 @@ public class OrderServiceImpl implements OrderService {
 	    PageInfo pageInfo = new PageInfo(list);
 		return pageInfo;
     }
+	@Override
+	public Orders selectOrdersByOrderId(Integer orderId) {
+		Orders orders = new Orders();
+		orders.setId(orderId);
+		orders.setIsdelete(false);
+		return ordesMapper.selectOne(orders);
+	}
 
 }

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import po.MapOrderProduct;
 import po.OrderAndProductDTO;
 import service.MapOrderProductService;
 import Mapper.Map_Order_ProductMapper;
@@ -24,4 +25,12 @@ public class MapOrderProductServiceImpl implements MapOrderProductService {
 		return mapOrderProductMapper.selectOderAndProductByOrderId(oderId);
 	}
 
+	@Override
+	public MapOrderProduct selectMapOrderProductById(Integer mapOrderProductId){
+		MapOrderProduct mapOrderProduct = new MapOrderProduct();
+		mapOrderProduct.setId(mapOrderProductId);
+		mapOrderProduct.setIsdelete(false);
+		return mapOrderProductMapper.selectOne(mapOrderProduct);
+		
+	}
 }

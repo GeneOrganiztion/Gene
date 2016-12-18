@@ -13,17 +13,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import po.OrderAndProductDTO;
-import service.MapOrderProductService;
-import service.OrderService;
-import utils.ST;
-
+import com.abc.spring.FileUpload;
 import com.github.pagehelper.PageInfo;
 
 import controller.base.BaseController;
+import po.MapOrderProduct;
+import po.OrderAndProductDTO;
+import po.Orders;
+import po.Report;
+import po.ResModel;
+import service.MapOrderProductService;
+import service.OrderService;
+import service.ReportService;
+import utils.ST;
 
 
 @Controller
@@ -38,6 +46,8 @@ public class OrderInfoController extends BaseController{
 	private OrderService orderService;
 	@Autowired
 	private MapOrderProductService mapOrderProductService;
+	@Autowired
+	private ReportService reportService;
 	
 	@RequestMapping(value="/orderPage")
 	public ModelAndView adminPage(HttpServletRequest request,HttpServletResponse response){
@@ -93,5 +103,62 @@ public class OrderInfoController extends BaseController{
 		}
         return list;
 	}
-
+	@RequestMapping(value = "/selectOrderDetail")
+	@ResponseBody
+	public Orders selectOrderDetail(HttpServletRequest request,HttpServletResponse response){
+		Orders order = new Orders();
+		String orderId = getParam("orderId");
+		if(ST.isNull(orderId)){
+			return order;
+		}
+        try {
+        	order = orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
+		} catch (Exception e) {
+			logger.error("selectOrderDetail error:" + e);
+		}
+        return order;
+	}
+	@SuppressWarnings("unused")
+	@RequestMapping(value = "/uploadReportPic", method = RequestMethod.POST)
+	@ResponseBody
+	public ResModel uploadReportPic(HttpServletRequest request,
+			@RequestParam("file") MultipartFile file) throws Exception {
+		 ResModel resModel = new ResModel();
+		 String mapOrderProductId= getParam("mapOrderProductId");
+		 if(ST.isNull(mapOrderProductId)){
+			 resModel.setSuccess(false);
+			 return resModel;
+		 }
+		 try {
+			 MapOrderProduct mop = mapOrderProductService.selectMapOrderProductById(Integer.valueOf(mapOrderProductId));
+			 String filepath = FileUpload.uploadFile(file, request);
+			 Report report = new Report();
+			 report.setIsdelete(false);
+			 report.setOrdId(mop.getOrdId());
+			 report.setProId(mop.getProId());
+			 report.setRepPdf(filepath);
+			 report.setUserId(this.getUserId());
+			 report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
+			 boolean bl = reportService.insertReport(report);
+		} catch (Exception e) {
+			logger.error("uploadReportPic error" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		return resModel;
+	}
+	@RequestMapping(value = "/selectOrderByMapOrderProductId")
+	@ResponseBody
+	public List<Report> selectOrderByMapOrderProductId(HttpServletRequest request,HttpServletResponse response){
+		Report report = new Report();
+		List<Report> list = new ArrayList<Report>();
+		String mapOrderProductId = getParam("mapOrderProductId");
+		if(ST.isNull(mapOrderProductId)){
+			return 	list;
+		}
+		report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
+		list = reportService.selectReportByParams(report);
+		return list;
+	}
 }

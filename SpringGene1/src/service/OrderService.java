@@ -15,5 +15,7 @@ public interface OrderService<T> {
 	boolean updateOrderStatus(Orders order);
 	
 	public PageInfo selectOrderByParams(Map map);
+	
+	public Orders selectOrdersByOrderId(Integer orderId);
 
 }

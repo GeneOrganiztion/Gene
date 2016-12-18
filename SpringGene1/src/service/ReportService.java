@@ -7,5 +7,7 @@ import po.Report;
 public interface ReportService<T> {
 	
 	List<T> selectReportByParams(Report report);
+	
+	public boolean insertReport(Report report);
 
 }

@@ -15,6 +15,8 @@ public class Report {
     private Integer userId;
     
     private Integer ordId;
+    
+    private Integer mapOrderProductId;
 
     private String repName;
 
@@ -54,7 +56,15 @@ public class Report {
         this.proId = proId;
     }
 
-    public Integer getUserId() {
+    public Integer getMapOrderProductId() {
+		return mapOrderProductId;
+	}
+
+	public void setMapOrderProductId(Integer mapOrderProductId) {
+		this.mapOrderProductId = mapOrderProductId;
+	}
+
+	public Integer getUserId() {
         return userId;
     }
 

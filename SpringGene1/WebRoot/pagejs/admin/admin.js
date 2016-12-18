@@ -489,7 +489,7 @@ function editAndSaveAdmin(){
 		return;
 	}
 	//验证是否已存在此用户名
-	var name = $("#editAdminform input[name='username'").val();
+	var name = $("#editAdminform input[name='username']").val();
 	$.ajax({
 		type: "post",
 		url: webroot + "admin/validateAdmin.do",

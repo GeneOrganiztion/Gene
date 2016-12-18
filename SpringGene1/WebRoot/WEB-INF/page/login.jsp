@@ -80,14 +80,14 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" name="user" id="user"/>
+															<input type="text" class="form-control" value="admin" name="user" id="user"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" name="psd" id="psd"/>
+															<input type="password" class="form-control" value="admin" name="psd" id="psd"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>

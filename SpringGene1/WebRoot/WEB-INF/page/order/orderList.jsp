@@ -115,6 +115,140 @@
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 </div><!-- /.page-content -->
+<!-- 订单详情model start -->
+<div class="modal fade" id="orderDetialModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title" >订单详情</h4>
+		     </div>
+		     <div class="modal-body">
+            	<form class="form-horizontal">
+           			<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 ">订单编号:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<input type="text" disabled="disabled" name="ordNum" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+						<label class="control-label col-xs-12 col-sm-2 ">订单价格:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<input type="text" disabled="disabled" name="ordPrice" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+					</div>
+					<div class="space-2"></div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 ">付款方式:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<!-- <input type="text" disabled="disabled" name="ordPay" class="col-xs-12 col-sm-12" /> -->
+								<select class="chosen-select form-control" disabled="disabled" name="ordPay" >
+									<option value="1">微信支付</option>
+									<option value="2">支付宝支付</option>
+									<option value="3">其他支付</option>
+								</select>
+							</div>
+						</div>
+						<label class="control-label col-xs-12 col-sm-2 ">姓名:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<input type="text" disabled="disabled" name="userName" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+					</div>
+					<div class="space-2"></div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 ">电话:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<input type="text" disabled="disabled" name="userPhone" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+					</div>
+					<div class="space-2"></div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 ">地址:</label>
+						<div class="col-xs-12 col-sm-10">
+							<div class="clearfix">				               		
+		               	 		<textarea class ="form-control" id="userAddress" rows="4" disabled="disabled"></textarea>
+		                	</div>
+						</div>
+					</div>
+				</form>				     
+		     </div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+		</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 订单详情model end -->
+<!-- 上传报告model begin -->
+<div class="modal fade" id="uploadReportPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title">上传报告</h4>
+		     </div>
+		     <div class="modal-body">
+		     	<div class="row">
+					<div class="col-xs-12">
+						<!-- PAGE CONTENT BEGINS -->
+						<input type="hidden" id="mapOrderProductId"></input>
+						<div>
+							<form action="<%=path%>/orderInfo/uploadReportPic.do" class="dropzone" method="post" id="dropzone">
+								<div class="fallback">
+									<input name="file" id="reportpic" type="file" multiple="" />
+								</div>
+							</form>
+						</div><!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+		     </div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+		</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 上传报告model end -->
+
+<!-- 预览报告model begin -->
+<div class="modal fade" id="viewReportPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title">预览报告</h4>
+		     </div>
+		     <div class="modal-body">
+		     	<div class="row">
+					<div class="col-xs-12">
+						<div>
+							<ul class="ace-thumbnails clearfix" id="viewReportPicli">
+							</ul>
+						</div><!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+		     </div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+		</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 预览报告model end -->
+
 <script type="text/javascript">
 jQuery(function($) {
 	initOrderManager();
