@@ -3,6 +3,14 @@
 	String path = request.getContextPath();
 %>
 <script src="<%=path%>/pagejs/product/product.js"></script>
+<style type="text/css">
+	#editor1{
+	text-align: center;
+	}
+	#editor1 img{
+	width: 100%;
+	}
+</style>
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try {
@@ -263,7 +271,7 @@
 																	<i class="ace-icon fa fa-times"></i>
 																</button>
 																<strong>温馨提示!</strong>
-																商品详情图片名称请不要携带中文,图片上传上传成功后会在下方显示，请点击预览并将图片路径拷贝出来。点击编辑器的Insert picture按钮将图片路径复制进来插入图片
+																商品详情图片名称请不要携带中文,图片上传上传成功后会在下方显示，请鼠标移动到图片上点击右键拷贝图片路径。点击编辑器的Insert picture按钮将图片路径复制进来插入图片
 																<br />
 															</div>								
 														<div class="center">
@@ -285,25 +293,25 @@
 															<ul class="ace-thumbnails clearfix" id="gread">
 																		<!-- #section:pages/gallery -->
 																		<li>
-																			<a href="../assets/images/gallery/image-1.jpg" title="请将此处的图片路径拷贝下来" data-rel="colorbox">
+																			<a href="../assets/images/gallery/image-1.jpg" title="请选择图片右键拷贝图片路径" data-rel="colorbox">
 																				<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
 																			</a>
 																		
 																		</li>
-								
-								
 																		<!-- /section:pages/gallery.caption -->
 
 																
 																	</ul>
 														<!-- PAGE CONTENT BEGINS -->
 																<h4 class="header green clearfix">
-																	商品详情页面请在此编辑,确保图片已经上传至云端,
-																	在编辑之前请先设置居中显示,以便在手机中显示正常
+																	商品详情页面请在此编辑,确保图片已经上传至云端
 																</h4>
-								
-																<div class="wysiwyg-editor" id="editor1" style="max-height: 550px; height:500px; border: 1px solid #BBC0CA; width: 500px;
-    															margin: 0px auto;"></div>
+																
+																	<div class="wysiwyg-editor" id="editor1" style="max-height: 800px; height: 800px; border: 1px solid #BBC0CA; width: 450px;
+	    															margin: 0px auto;">
+    															</div>
+    															
+    															<button class="btn" onclick="geteditor()">显示全部内容</button>
 														</div>
 													</div>
 													

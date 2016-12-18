@@ -60,6 +60,7 @@ public static DefaultHttpClient httpclient;
 	    }
 	    Map map = doXMLParse(jsonStr);
 	    String return_code  = (String) map.get("return_code");
+	    logger.info("return_prapery_code="+return_code);
 	    prepay_id  = (String) map.get("prepay_id");
 	} catch (Exception e) {
 		// TODO Auto-generated catch block

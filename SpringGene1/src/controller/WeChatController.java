@@ -213,8 +213,18 @@ public class WeChatController {
 				//附加数据
 				String attach = DateUtil.format(new Date())+"1";
 				logger.info("attach="+attach);
+				//订单日期起止时间
+				 Date d=new Date();  
+				 String time_start = DateUtil.format(d);
+		    	 String split_time_start=time_start.substring(0,14);
+		    	 logger.info("split_time_start="+split_time_start);
+		    	 
+		    	 String time_expire = DateUtil.format(new Date(d.getTime() + (long)3 * 24 * 60 * 60 * 1000));
+		    	 String split_time_expire=time_expire.substring(0,14);
+		    	 logger.info("split_time_expire="+split_time_expire);
+				
 				//商户订单号
-				String out_trade_no = DateUtil.format(new Date());
+				String out_trade_no = DateUtil.format(d);
 				int intMoney = Integer.parseInt(finalmoney);
 				logger.info("out_trade_no="+out_trade_no);
 				//总金额以分为单位，不带小数点
@@ -249,7 +259,9 @@ public class WeChatController {
 				packageParams.put("total_fee", "1");  
 //				packageParams.put("total_fee", "finalmoney");  
 				packageParams.put("spbill_create_ip", spbill_create_ip);  
-				packageParams.put("notify_url", notify_url);  
+				packageParams.put("notify_url", notify_url); 
+				packageParams.put("time_start", split_time_start);  
+				packageParams.put("time_expire", split_time_expire); 
 				
 				packageParams.put("trade_type", trade_type);  
 				packageParams.put("openid", openid);  
@@ -266,11 +278,10 @@ public class WeChatController {
 						"<body><![CDATA["+body+"]]></body>"+
 						"<attach>"+attach+"</attach>"+
 						"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-						"<attach>"+attach+"</attach>"+
-	//金额，这里写的1 分到时修改
 						"<total_fee>"+1+"</total_fee>"+
-//						"<total_fee>"+finalmoney+"</total_fee>"+
 						"<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"+
+						"<time_start>"+split_time_start+"</time_start>"+
+						"<time_expire>"+split_time_expire+"</time_expire>"+
 						"<notify_url>"+notify_url+"</notify_url>"+
 						"<trade_type>"+trade_type+"</trade_type>"+
 						"<openid>"+openid+"</openid>"+
@@ -337,21 +348,22 @@ public class WeChatController {
 	@RequestMapping("/ordertopay")
 	public void ordertopay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
+
 				String appid2 = Constant.APPID;
 				String currTime = TenpayUtil.getCurrTime();
 				RequestHandler reqHandler = new RequestHandler(request, response);
 				reqHandler.init(appid2, Constant.APPSECRET, Constant.PARTNERKEY);		
 				SortedMap<String, String> finalpackage = new TreeMap<String, String>();		
-				String timestamp = "1481881768";
-				String nonceStr2 = "1749271314";
-				String prepay_id2 = "prepay_id="+"wx20161216174928faeaeada620530007340";
+				String timestamp = "1481960236";
+				String nonceStr2 = "1537164492";
+				String prepay_id2 = "prepay_id="+"wx20161217153716ed37a1ce500970530591";
 				String packages = prepay_id2;
 				finalpackage.put("appId", appid2);  
 				finalpackage.put("timeStamp", timestamp);  
 				finalpackage.put("nonceStr", nonceStr2);  
 				finalpackage.put("package", packages);  
 				finalpackage.put("signType", "MD5");
-				String finalsign ="76D5831772F412B159609D75B265ADE4";
+				String finalsign ="D237058958F6BD1716A60A413CED26F5";
 				logger.info("最后阶段finalsign="+finalsign);
 				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
 		
