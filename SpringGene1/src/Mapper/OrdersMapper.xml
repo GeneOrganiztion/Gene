@@ -71,8 +71,30 @@
      	<if test="ordState != null">
      		and oe.ord_state = #{ordState}
      	</if>
+     	<if test="id != null">
+     		and oe.order_id = #{id}
+     	</if>
      	order by oe.order_id desc
   </select>
+  
+  <select id="getOrderByOrderId" resultMap="OrderAndProductResultMap" parameterType="java.lang.Integer">
+     	SELECT 
+	     	oe.*,
+	     	mp.*,
+	     	pt.* 
+     	FROM  
+	     	orders oe ,
+	     	map_order_product mp , 
+	     	product pt 
+     	WHERE 
+	     	oe.`order_id`= mp.`ord_id`
+	     	AND mp.`pro_id`= pt.`product_id` 
+	     	AND oe.`isdelete`= 0 
+	     	AND mp.`isdelete`= 0 
+	     	AND pt.`isdelete`= 0 
+     		and oe.order_id = #{orderId}
+  </select>
+  
   
   <select id="selectOrderByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
   	select 

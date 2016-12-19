@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import controller.base.BaseController;
 import po.Orders;
 import service.OrderService;
 import utils.ST;
+import controller.base.BaseController;
 
 @Controller
 @RequestMapping("/order")
@@ -50,6 +50,29 @@ public class OrderDetailController extends BaseController{
 			logger.error("getOrderByUserId error:" + e);
 		}
 		return listOrd;
+	}
+	/**
+	 *  根据oerderId 查询订单详情
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/phoneGetOrdersByOrderId", method = RequestMethod.GET)
+	@ResponseBody
+	public Orders getOrdersByOrderId(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		String orderId = getParam("orderId");
+		Orders order = new Orders();
+		if(ST.isNull(orderId)){
+			return 	order;
+		}
+		try {
+			order = orderService.getOrderByOrderId(Integer.valueOf(orderId));
+		} catch (Exception e) {
+			logger.error("getOrderByUserId error:" + e);
+		}
+		return order;
 	}
 	/**
 	 * 根据订单Id更改订单状态

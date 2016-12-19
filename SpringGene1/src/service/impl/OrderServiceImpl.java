@@ -51,5 +51,10 @@ public class OrderServiceImpl implements OrderService {
 		orders.setIsdelete(false);
 		return ordesMapper.selectOne(orders);
 	}
-
+	@Override
+	public Orders getOrderByOrderId(Integer orderId){
+		return ordesMapper.getOrderByOrderId(orderId);
+	}
+	
+	
 }

@@ -18,4 +18,5 @@ public interface OrderService<T> {
 	
 	public Orders selectOrdersByOrderId(Integer orderId);
 
+	public Orders getOrderByOrderId(Integer orderId);
 }
