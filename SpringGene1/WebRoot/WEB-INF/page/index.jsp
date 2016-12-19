@@ -568,9 +568,9 @@
 							</li>
 
 							<li class="">
-								<a href="jqgrid.html">
+								<a a href="#" class="dropdown-toggle"  menu-url="product/productPage.do">
 									<i class="menu-icon fa fa-caret-right"></i>
-									jqGrid plugin
+									商品查询
 								</a>
 
 								<b class="arrow"></b>

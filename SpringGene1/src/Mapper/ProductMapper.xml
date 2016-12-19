@@ -27,8 +27,8 @@
   			</collection>
   </resultMap> 
    <sql id="Base_Column_List" >
-    product.product_id, product.pro_name, product.pro_head, product.product_price, product.pro_sum, product.pro_rateprice, product.pro_online, product.pro_image, 
-    product.pro_detail, product.pro_area, product.classify_id, product.isdelete,
+    product_id, pro_name, pro_head, product_price,pro_sum, pro_rateprice, pro_online, pro_image, 
+    pro_detail, pro_area, classify_id, isdelete,create_time, last_modified_time
   </sql>
   <!--  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -222,5 +222,41 @@
 		    AND product.isdelete= false AND product.pro_online=true
 		   	AND image.pro_id=product.product_id
   </select>
+ 
+ 
+ <select id="selectProductByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select 
+    <include refid="Base_Column_List" />
+	    from product
+	    where isdelete = 0
+	   <if test="ProductId != null">
+        and product_id = #{ProductId}
+      </if>
+      <if test="proName != null" >
+        and pro_name =  LIKE '%${productName}%'
+      </if>
+      <if test="productPrice != null" >
+        and product_price =#{productPrice}
+      </if>
+      <if test="productSum != null" >
+        and pro_sum = #{productSum}
+      </if>
+      <if test="productRateprice != null" >
+         and pro_rateprice = #{productRateprice}
+      </if>
+      <if test="productOnline != null" >
+       and pro_online = #{productOnline}
+      </if>
+     <if test="beginTime != null ">
+          AND CREATE_TIME > #{beginTime} 
+      </if>
+      <if test="endTime != null ">
+          <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
+      </if>
+       <if test="sidx != null">
+        order by #{sidx} #{sord}
+      </if>
+    </select>
+    
  
 </mapper>

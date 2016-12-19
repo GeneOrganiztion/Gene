@@ -1,7 +1,9 @@
 package controller.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.abc.spring.FileUpload;
+import com.github.pagehelper.PageInfo;
 
 import po.Classify;
 import po.ClassifyDemo;
@@ -39,8 +43,17 @@ public class ProductInfoController extends BaseController{
 	private ProductService productService;
 	@Autowired
 	private ClassifyService classifyService;
+	private String PRODUCT_PAGE = "product/productall";
 	@Autowired
 	private ImageService imageService;
+	
+	@RequestMapping(value="/productPage")
+	public ModelAndView adminPage(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(PRODUCT_PAGE);
+		return mv;
+	}
+ 
 	 @RequestMapping(value = "/phoneproall", method = RequestMethod.GET)
 	 @ResponseBody
 	 public List<Product> phoneproall(HttpServletRequest request,
@@ -299,5 +312,46 @@ public class ProductInfoController extends BaseController{
 		 return msg; 	
 	 }
 	 
-
+	 	@RequestMapping(value = "/selectProduct")
+	    @ResponseBody
+	    public PageInfo selectAdminByParams(HttpServletRequest request, HttpServletResponse response)throws Exception{
+		 	String sidx = getParam("sidx");// 排序字段;
+	        String sord = getParam("sord");// 升序降序;
+	        PageInfo pageInfo = new PageInfo();
+	        try {
+	        	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
+	            int pageNo = Integer.valueOf(getParam("page"));// 第几页
+	            String productName = getParam("productName");
+	            String productPrice = getParam("productPrice");
+	            String productRatePrice = getParam("productRatePrice");
+	            String productSum = getParam("productSum");
+	            String productOnline = getParam("productOnline");        
+	            String beginTime = getParam("beginTime");
+	            String endTime = getParam("endTime");
+	            Map<String, Object> map = new HashMap<String, Object>();
+	            map.put("productName", productName);
+	         /*   map.put("productPrice", Integer.valueOf(productPrice));
+	            map.put("productRatePrice", Integer.valueOf(productRatePrice));
+	            map.put("productSum", Integer.valueOf(productSum));
+	            map.put("productOnline", Integer.valueOf(productOnline));*/
+	            map.put("sidx", sidx);// 排序字段
+	            map.put("sord", sord);// 升序降序
+	            map.put("rowCount", oneRecord);//一页几行
+	            map.put("pageNo", pageNo);
+	            if(!ST.isNull(beginTime)){
+	            	map.put("beginTime", beginTime + " 00:00:00");
+	            }
+	            if(!ST.isNull(endTime)){
+	            	map.put("endTime", endTime + " 59:59:59");
+	            }
+	            map.put("productName", productName);
+	            pageInfo= (PageInfo)productService.selectProductByParams(map);
+			} catch (Exception e) {
+				logger.error("selectProduct error:" + e);
+			}
+	        return pageInfo;
+		}
+	 
+	 	
+	 
 }

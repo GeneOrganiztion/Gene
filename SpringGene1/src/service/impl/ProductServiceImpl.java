@@ -2,12 +2,17 @@ package service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import po.Admin;
 import po.Product;
 import service.ProductService;
 import Mapper.AdminMapper;
@@ -74,6 +79,14 @@ public class ProductServiceImpl implements ProductService{
 	public Product selectOne(Product Product) throws Exception {
 
 		return productMapper.selectByPrimaryKey(Product);
+	}
+
+	@Override
+	public PageInfo selectProductByParams(Map map) throws Exception {
+		PageHelper.startPage((Integer)map.get("pageNo"),(Integer)map.get("rowCount"));
+		List<Product> list = productMapper.selectProductByParams(map);
+	    PageInfo page = new PageInfo(list);
+		return page;
 	}
 	
 }

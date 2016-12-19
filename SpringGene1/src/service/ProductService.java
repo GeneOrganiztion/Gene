@@ -1,6 +1,9 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.github.pagehelper.PageInfo;
 
 import po.Product;
 
@@ -17,6 +20,8 @@ public interface ProductService<T> {
 	public boolean updateProduct(Product Product) throws Exception;
 	
 	public T selectOne(Product Product)throws Exception;
+	
+	public PageInfo selectProductByParams(Map<String, Object> map) throws Exception;
 	
 
 }
