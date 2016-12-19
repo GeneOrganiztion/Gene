@@ -235,8 +235,8 @@ function initProductManager(){
 				  var myDropzone = new Dropzone("#dropzone1" , {
 				    paramName: "file", // The name that will be used to transfer the file
 				    maxFilesize: 1, // MB
-				    maxFiles:10,
-				    dictMaxFilesExceeded: "您最多只能上传10张商品详情图片！",
+				    maxFiles:2,
+				    dictMaxFilesExceeded: "您最多只能上传2张商品详情图片！",
 				    dictFileTooBig:"文件过大上传文件最大支持.",
 				    acceptedFiles: ".jpg,.gif,.png,.pdf",
 				    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
