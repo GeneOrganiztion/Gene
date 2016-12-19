@@ -107,6 +107,9 @@ function initProductManager(){
 			    acceptedFiles: ".jpg,.gif,.png",
 			    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
 				addRemoveLinks : true,
+				 //每次上传的最多文件数，经测试默认为2，坑啊
+	            //记得修改web.config 限制上传文件大小的节
+				parallelUploads: 100,
 				dictDefaultMessage :
 				'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
 				<span class="smaller-80 grey">(or click)</span> <br /> \
@@ -114,6 +117,17 @@ function initProductManager(){
 			,
 				dictResponseError: 'Error while uploading file!',
 				previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+				
+				init: function() {
+				  var submitButton = document.querySelector("#submit-all");
+				        myDropzone = this; // closure
+				    submitButton.addEventListener("click", function() {
+				      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+				    });
+
+				    // You might want to show the submit button only when 
+				    // files are dropped here:
+				  },				
 				sending: function(file, xhr, formData) {
 					formData.append("id",productid);
 					flieuploadimagesize=file.size;
@@ -129,7 +143,8 @@ function initProductManager(){
 							alertmsg("success","商品展示图片上传成功");
 						}
 						
-					}
+					},
+				
 				//change the previewTemplate to use Bootstrap progress bars
 				
 			  });
@@ -154,12 +169,16 @@ function initProductManager(){
 				  var myDropzone = new Dropzone("#dropzone1" , {
 				    paramName: "file", // The name that will be used to transfer the file
 				    maxFilesize: 1, // MB
-				    maxFiles:20,
-				    dictMaxFilesExceeded: "您最多只能上传20张商品详情图片！",
+				    maxFiles:10,
+				    dictMaxFilesExceeded: "您最多只能上传10张商品详情图片！",
 				    dictFileTooBig:"文件过大上传文件最大支持.",
-				    acceptedFiles: ".jpg,.gif,.png",
-				    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
+				    acceptedFiles: ".jpg,.gif,.png,.pdf",
+				    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
 					addRemoveLinks : true,
+					autoProcessQueue :false,
+					 //每次上传的最多文件数，经测试默认为2，坑啊
+		            //记得修改web.config 限制上传文件大小的节
+					parallelUploads: 100,
 					dictDefaultMessage :
 					'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
 					<span class="smaller-80 grey">(or click)</span> <br /> \
@@ -167,13 +186,12 @@ function initProductManager(){
 				,
 					dictResponseError: 'Error while uploading file!',
 					previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
-					sending: function(file, xhr, formData) {
+					/*sending: function(file, xhr, formData) {
 						formData.append("id",productid);
 						flieuploadimagesize=file.size;
 						
 					},
 					success: function (file, response, e) {
-
 							if(response.message=="error"){
 								alertmsg("error","商品详情图片上传失败，请重新上传");
 							}else{
@@ -181,7 +199,69 @@ function initProductManager(){
 								addpir(response.message);
 							}
 							
-						}
+						},
+					removedfile:function(file){
+							
+							removeImage(file.name);
+						
+					}*/
+					
+					
+					init: function () {
+		                var submitButton = document.querySelector("#submit-all")
+		                myDropzone = this; // closure
+
+		                //为上传按钮添加点击事件
+		                submitButton.addEventListener("click", function () {
+		                    //手动上传所有图片
+		                    myDropzone.processQueue();
+		                });
+
+		                //当添加图片后的事件，上传按钮恢复可用
+		                this.on("addedfile", function () {
+		                    $("#submit-all").removeAttr("disabled");
+		                });
+		                
+		                this.on("success", function (file, response, e) {
+		                	if(response.message=="error"){
+								alertmsg("error","商品详情图片上传失败，请重新上传");
+							}else{
+								alertmsg("success","商品详情图片上传成功");
+								addpir(response.message);
+							}
+		                });
+		                //当上传完成后的事件，接受的数据为JSON格式
+		                this.on("complete", function (data) {
+		                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+		                        var res =data;
+		                        console.log(res);
+		                        var msg;
+		                        if (res.message=="error") {
+		                        	alertmsg("error","商品详情图片上传失败，请重新上传");
+		                        }
+		                        else {
+		                        	alertmsg("success","商品详情图片上传完成");
+		                        }
+		                        
+		                    }
+		                });
+		                
+
+		                //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
+		                this.on("removedfile", function (file) {
+		                    if (this.getAcceptedFiles().length === 0) {
+		                        $("#submit-all").attr("disabled", true);
+		                    }
+		                    removeImage(file.name);
+		                    delpir(file.name);
+		                });
+		            }
+					
+					
+					
+					
+					
+					
 					//change the previewTemplate to use Bootstrap progress bars
 					
 				  });
@@ -455,6 +535,7 @@ function initProductManager(){
 function addpir(url){
 	var parent1 = document.getElementById("gread");
 	var div12 = document.createElement("li");
+	div12.setAttribute("id",url);
 	var a= document.createElement("a");
 		a.setAttribute("href",url);
 		a.setAttribute("data-rel","colorbox");
@@ -469,6 +550,21 @@ function addpir(url){
 　　　　div12.appendChild(a);
 　　　　parent1.appendChild(div12);
 }
+
+function delpir(url){
+	var rooturl='http://myfirst1990.oss-cn-shanghai.aliyuncs.com/';
+	remove(rooturl+url);
+}
+function remove(id){
+	var dd=document.getElementById("gread");
+	var aa=dd.children;
+	for(var i=0;i<aa.length;i++){
+	if(aa[i].id==id){
+	dd.removeChild(aa[i]);
+	}
+	}
+}
+
 
 function geteditor(){
 	alert($('#editor1').html());
@@ -493,6 +589,23 @@ function selectClassify(){
 	});
 }
 
+
+//删除图片
+function removeImage(filename){
+	var message=null;
+	$.ajax({
+		type: "post",
+		data: {filename: filename},
+		url: webroot + "product/DeleteImage.do",
+		success: function(msg){
+			
+			alert(msg.message);
+			
+			
+		}
+	});
+	return message;
+}
 function addproduct(){
 	var pro_id=null;
 	var data = $("#validation-form").serialize();
@@ -506,7 +619,7 @@ function addproduct(){
 		}
 	
 	});
-	return pro_id
+	return pro_id;
 }
 
 function updateproduct(proid){

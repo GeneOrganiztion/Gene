@@ -256,5 +256,27 @@ public class ProductInfoController extends BaseController{
 		    }	
 		 	return msg;
 	 }
+	 @RequestMapping(value = "/DeleteImage", method = RequestMethod.POST)
+	 @ResponseBody
+	 public ResponseMessage DeleteImage(HttpServletRequest request,HttpServletResponse response
+			) throws Exception {
+		 String filename = getParam("filename");
+		 ResponseMessage msg=new ResponseMessage();
+		 System.out.println("filename="+filename);
+		 try{
+			 
+			 if(FileUpload.deleteObject(filename)){
+				 msg.setMessage("success");	 
+			 }else{
+			 msg.setMessage("error");	 
+			 }
+		 }catch(Exception e){
+			 logger.info("DeleteImage"+e);
+			 e.printStackTrace();
+			 msg.setMessage("error");	 
+		 }
+		 return msg; 	
+	 }
+	 
 
 }

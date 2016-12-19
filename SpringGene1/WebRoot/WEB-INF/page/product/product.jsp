@@ -281,6 +281,7 @@
 																</div>
 																
 															</form>
+															<button class="btn" id="submit-all" disabled="disabled">Submit all files</button>
 															
 														<div class="alert alert-info">
 																<button type="button" class="close" data-dismiss="alert"  >
@@ -311,6 +312,8 @@
 	    															margin: 0px auto;">
     															</div>
     															
+    															
+    										
     															<button class="btn" onclick="geteditor()">显示全部内容</button>
 														</div>
 													</div>

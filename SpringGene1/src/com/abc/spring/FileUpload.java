@@ -3,7 +3,11 @@ package com.abc.spring;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.GetObjectRequest;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.ObjectMetadata;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -19,23 +26,38 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 public class FileUpload
 {
   private static String responsemessage = null;
+  
+  /**
+   * 阿里云ACCESS_ID
+   */
+  private static String ACCESS_ID = "ONzYRFQQ7TQoVBiY";
+  /**
+   * 阿里云ACCESS_KEY
+   */
+  private  static String ACCESS_KEY = "E6zzurPsNtKNIxCjYHaxKBf2K7xG6j";
+  /**
+   * 阿里云OSS_ENDPOINT  青岛Url
+   */
+  private static String OSS_ENDPOINT = "http://oss-cn-shanghai.aliyuncs.com";
+  
+  /**
+   * 阿里云BUCKET_NAME  OSS
+   */
+  private static String BUCKET_NAME = "myfirst1990";
 
   public static String uploadFile(MultipartFile file, HttpServletRequest request)
     throws IOException
   {
     String fileName = file.getOriginalFilename();
-
-    String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
-    String accessKeyId = "ONzYRFQQ7TQoVBiY";
-    String accessKeySecret = "E6zzurPsNtKNIxCjYHaxKBf2K7xG6j";
-    String bucketName = "myfirst1990";
-
+    String endpoint = OSS_ENDPOINT;
+    String accessKeyId = ACCESS_ID;
+    String accessKeySecret = ACCESS_KEY;
+    String bucketName = BUCKET_NAME;
     System.out.println("创建OSSClient之前");
     OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-    String key = new Date().getTime() + fileName;
+    String key = fileName;
     try
     {
-      System.out.println("正在上传...");
       uploadFile(client, bucketName, key, file);
     } catch (Exception e) {
       e.printStackTrace();
@@ -44,17 +66,15 @@ public class FileUpload
     client.shutdown();
     return "http://" + bucketName + ".oss-cn-shanghai.aliyuncs.com/" + key;
   }
+  
 
   private static void uploadFile(OSSClient client, String bucketName, String Objectkey, MultipartFile filename)
-    throws OSSException, ClientException, FileNotFoundException
-  {
+    throws OSSException, ClientException, FileNotFoundException{
     ObjectMetadata objectMeta = new ObjectMetadata();
     objectMeta.setContentLength(filename.getSize());
-
     CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile)filename;
     DiskFileItem diskFileItem = (DiskFileItem)commonsMultipartFile.getFileItem();
     File file = diskFileItem.getStoreLocation();
-
     objectMeta.setContentType("image/png");
     try
     {
@@ -65,4 +85,46 @@ public class FileUpload
       e.printStackTrace();
     }
   }
+  
+  /**
+   * 删除一个Bucket和其中的Objects
+   *
+   * @param client  OSSClient对象
+   * @param bucketName  Bucket名
+   * @throws OSSException
+   * @throws ClientException
+   */
+  public static boolean deleteObject(String filename)
+		    throws IOException{
+		    OSSClient client = new OSSClient(OSS_ENDPOINT, ACCESS_ID, ACCESS_KEY);
+		    boolean flag=false;
+		    try
+		    {
+		    client.deleteObject(BUCKET_NAME, filename);
+		    flag=true;
+		    } catch (Exception e) {
+		      e.printStackTrace(); 
+		      flag=false; 
+		    }
+		    client.shutdown();
+		    return flag;
+		  }
+  
+  /**
+   *  下载文件
+   *
+   * @param client  OSSClient对象
+   * @param bucketName  Bucket名
+   * @param Objectkey  上传到OSS起的名
+   * @param filename 文件下载到本地保存的路径
+   * @throws OSSException
+   * @throws ClientException
+   */
+ /* private static void downloadFile(OSSClient client, String bucketName, String Objectkey, String filename)
+          throws OSSException, ClientException {
+      client.getObject(new GetObjectRequest(bucketName, Objectkey),
+              new File(filename));
+  }*/
+  
+  
 }

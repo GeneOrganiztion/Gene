@@ -35,24 +35,24 @@ function initOrderManager(){
 				url: webroot + "orderInfo/selectOrderAndPrductByOrderId.do",
 				mtype: 'post',
 				datatype: "json",
-				width:800,
+				width:1600,
 				postData: {orderId: rowId},
 				colNames: ['','产品Id','产品名称','产品价格','产品数量','报告是否上传','操作'],
 				colModel: [
 				    { name: 'map_order_product_id', width: 50,hidden:true},
-					{ name: 'product_id', width: 50 },
-					{ name: 'proName', width: 50 },
-					{ name: 'proPrice', width: 50 },
-					{ name: 'proCount', width: 50 },
-					{ name: 'reportIsUpload', width: 50 ,formatter: formatterReportIsUpload},
-					{ name: '', width: 50,formatter: formatterOperate}
+					{ name: 'product_id', width: 80 },
+					{ name: 'proName', width: 80 },
+					{ name: 'proPrice', width: 80 },
+					{ name: 'proCount', width: 80 },
+					{ name: 'reportIsUpload', width: 80 ,formatter: formatterReportIsUpload},
+					{ name: '', width: 80,formatter: formatterOperate}
 				]
 			});
 		},
 		url: webroot + "orderInfo/seletcOrder.do",
 		mtype: 'post',
 		datatype: "json",
-		height: 520,
+		height: 800,
 		colNames:['订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间'],
 		colModel:[
           	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
