@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="po.Orders" >
     <id column="order_id" property="order_id" jdbcType="INTEGER" />
     <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
-    <result column="ord_pro_count" property="ordProCount" jdbcType="INTEGER" />
     <result column="ord_state" property="ordState" jdbcType="VARCHAR" />
     <result column="courier_num" property="courierNum" jdbcType="VARCHAR" />
     <result column="courier_name" property="courierName" jdbcType="VARCHAR" />
@@ -46,7 +45,7 @@
   
   
   <sql id="Base_Column_List" >
-    order_id, ord_num, ord_pro_count, ord_state, courier_num, courier_name, courier_phone, 
+    order_id, ord_num, ord_state, courier_num, courier_name, courier_phone, 
     ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal, isdelete, 
     create_time, last_modified_time
   </sql>

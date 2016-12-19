@@ -12,11 +12,7 @@ public class Orders {
 	@Id
     private Integer order_id;
 
-    private Integer productId;
-
     private String ordNum;
-
-    private Integer ordProCount;
 
     private String ordState;
 
@@ -60,24 +56,8 @@ public class Orders {
         this.order_id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
     public void setOrdNum(String ordNum) {
         this.ordNum = ordNum == null ? null : ordNum.trim();
-    }
-
-    public Integer getOrdProCount() {
-        return ordProCount;
-    }
-
-    public void setOrdProCount(Integer ordProCount) {
-        this.ordProCount = ordProCount;
     }
 
     public String getOrdState() {
