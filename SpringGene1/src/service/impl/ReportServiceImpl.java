@@ -16,17 +16,27 @@ public class ReportServiceImpl implements ReportService {
 	private static final Logger logger = LoggerFactory.getLogger(ReportServiceImpl.class);
 	@Autowired
     private ReportMapper reportMapper;
-	
+	@Override
 	public List<Report> selectReportByParams(Report report){
 		report.setIsdelete(false);
 		return reportMapper.select(report);
 	}
-	
+	@Override
 	public boolean insertReport(Report report){
 		try {
 			reportMapper.insertSelective(report);
 		} catch (Exception e) {
 			logger.error("insertReport error:" + e);
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean delReportByRepUrl(Report report){
+		try {
+			reportMapper.delete(report);
+		} catch (Exception e) {
+			logger.error("delReportByRepUrl error:" + e);
 			return false;
 		}
 		return true;

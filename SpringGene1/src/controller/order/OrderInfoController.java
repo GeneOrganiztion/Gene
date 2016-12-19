@@ -31,6 +31,7 @@ import po.ResModel;
 import service.MapOrderProductService;
 import service.OrderService;
 import service.ReportService;
+import utils.Constant;
 import utils.ST;
 
 
@@ -118,28 +119,49 @@ public class OrderInfoController extends BaseController{
 		}
         return order;
 	}
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/uploadReportPic", method = RequestMethod.POST)
 	@ResponseBody
 	public ResModel uploadReportPic(HttpServletRequest request,
 			@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
 		 String mapOrderProductId= getParam("mapOrderProductId");
+		 String reportName = getParam("reportName");
+		 String reportResult = getParam("reportResult");
 		 if(ST.isNull(mapOrderProductId)){
 			 resModel.setSuccess(false);
 			 return resModel;
 		 }
+		 //验证上传报告是否大于产品数量
+		 MapOrderProduct mop = mapOrderProductService.selectMapOrderProductById(Integer.valueOf(mapOrderProductId));
+		 int proCount = mop.getProCount();
+		 Report rt = new Report();
+		 rt.setIsdelete(false);
+		 rt.setMapOrderProductId(mop.getId());
+		 List<Report> list = reportService.selectReportByParams(rt);
+		 if(list != null && list.size() > 0){
+			 if(list.size() > proCount){
+				 resModel.setSuccess(false);
+				 resModel.setMsg("上传报告大于产品数量");
+				 return resModel; 
+			 }
+		 }
 		 try {
-			 MapOrderProduct mop = mapOrderProductService.selectMapOrderProductById(Integer.valueOf(mapOrderProductId));
 			 String filepath = FileUpload.uploadFile(file, request);
 			 Report report = new Report();
 			 report.setIsdelete(false);
 			 report.setOrdId(mop.getOrdId());
 			 report.setProId(mop.getProId());
 			 report.setRepPdf(filepath);
+			 report.setRepName(reportName);
 			 report.setUserId(this.getUserId());
 			 report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
+			 report.setRepResult(reportResult);
 			 boolean bl = reportService.insertReport(report);
+			 if(!bl){
+				 resModel.setSuccess(false);
+				 return resModel;
+			 }
 			 //更改    mapOrderProduct 表的report_is_upload字段为已上传报告    1:未上传   2：已上传
 			 mop.setReportIsUpload(2); 
 			 mapOrderProductService.updateMapOrderProduct(mop);
@@ -164,5 +186,26 @@ public class OrderInfoController extends BaseController{
 		report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
 		list = reportService.selectReportByParams(report);
 		return list;
+	}
+	
+	@RequestMapping(value = "/removeOrderByPdf")
+	@ResponseBody
+	public ResModel removeOrderPdf(HttpServletRequest request,HttpServletResponse response){
+		ResModel resModel = new ResModel();
+		String filename = getParam("filename");
+		String url = Constant.OSS_ENDPOINT+filename;
+		if(ST.isNull(url)){
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		Report report = new Report();
+		report.setRepPdf(url);
+		boolean bl = reportService.delReportByRepUrl(report);
+		if(!bl){
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		return resModel;
 	}
 }

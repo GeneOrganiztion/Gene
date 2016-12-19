@@ -199,17 +199,48 @@
 		     </div>
 		     <div class="modal-body">
 		     	<div class="row">
+		     		<div class="col-xs-12 ">
+		     			<form class="form-horizontal">
+			     			<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-2 ">报告名称:</label>
+								<div class="col-xs-12 col-sm-4">
+									<div class="clearfix">
+										<input type="text" id="reportName" class="col-xs-12 col-sm-12" />
+									</div>
+								</div>
+								<label class="control-label col-xs-12 col-sm-2 ">报告结果:</label>
+								<div class="col-xs-12 col-sm-4">
+									<div class="clearfix">
+										<input type="text" id="reportResult" class="col-xs-12 col-sm-12" />
+									</div>
+								</div>
+							</div>
+						</form>
+		     		</div>
+		     		<div class="space-2"></div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<input type="hidden" id="mapOrderProductId"></input>
 						<div>
-							<form action="<%=path%>/orderInfo/uploadReportPic.do" class="dropzone" method="post" id="dropzone">
+							<form action="<%=path%>/orderInfo/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
 								<div class="fallback">
 									<input name="file" id="reportpic" type="file" multiple="" />
 								</div>
 							</form>
 						</div><!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
+					<div class="col-xs-12 center">
+						<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">上传报告</button>
+					</div>
+					<!-- <div class="col-xs-12 center">
+						<ul class="ace-thumbnails clearfix" id="gread">
+							<li>
+								<a href="../assets/images/gallery/image-1.jpg" title="请选择图片右键拷贝图片路径" data-rel="colorbox">
+									<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
+								</a>
+							</li>
+						</ul>
+					</div> -->
 				</div><!-- /.row -->
 		     </div>
 			<div class="modal-footer">

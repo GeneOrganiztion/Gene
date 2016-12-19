@@ -35,7 +35,7 @@ function initOrderManager(){
 				url: webroot + "orderInfo/selectOrderAndPrductByOrderId.do",
 				mtype: 'post',
 				datatype: "json",
-				width:1600,
+				width:800,
 				postData: {orderId: rowId},
 				colNames: ['','产品Id','产品名称','产品价格','产品数量','报告是否上传','操作'],
 				colModel: [
@@ -220,9 +220,10 @@ function initOrderManager(){
 		    maxFiles:4,
 		    dictMaxFilesExceeded: "您最多只能上传4个文件！",
 		    dictFileTooBig:"文件过大上传文件最大支持.",
-		    acceptedFiles: ".jpg,.gif,.png",
-		    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
+		    acceptedFiles: ".jpg,.gif,.png,.pdf",
+		    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
 			addRemoveLinks : true,
+			autoProcessQueue :false,
 			dictDefaultMessage :
 			'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
 			<span class="smaller-80 grey">(or click)</span> <br /> \
@@ -230,25 +231,68 @@ function initOrderManager(){
 		,
 			dictResponseError: 'Error while uploading file!',
 			previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
-			sending: function(file, xhr, formData) {
-				var id = $("#mapOrderProductId").val();
-				formData.append("mapOrderProductId",id);
-				flieuploadimagesize=file.size;
-				
-			},
-			success: function (file, response, e) {
-					if(response.success){
+			init: function () {
+                var submitButton = document.querySelector("#submit-all")
+                myDropzone = this; // closure
+
+                submitButton.addEventListener("click", function () {
+                	Lobibox.confirm({ 
+                        title:"确认提交",      //提示框标题 
+                        msg: "请仔细确认，一旦提交将无法更改",   //提示框文本内容 
+                        callback: function ($this, type, ev) {               //回调函数 
+                            if (type === 'yes') { 
+                            	myDropzone.processQueue();
+                            } else if (type === 'no') { 
+                                       
+                            } 
+                       } 
+                     });
+                });
+
+                //当添加图片后的事件，上传按钮恢复可用
+                this.on("addedfile", function () {
+                    $("#submit-all").removeAttr("disabled");
+                });
+                
+                this.on("success", function (file, response, e) {
+                	if(response.success){
 						alertmsg("success","报告上传成功");
 					}else{
-						alertmsg("error","报告上传失败");
+						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
 					}
-					
-				}
-			//change the previewTemplate to use Bootstrap progress bars
+                });
+                this.on("sending", function (file, xhr, formData) {
+                	formData.append("mapOrderProductId",$("#mapOrderProductId").val());
+                	formData.append("reportName",$("#reportName").val());
+                	formData.append("reportResult",$("#reportResult").val());
+                });
+                //当上传完成后的事件，接受的数据为JSON格式
+                /*this.on("complete", function (data) {
+                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                        var res =data;
+                        var msg;
+                        if (res.message=="error") {
+                        	alertmsg("error","商品详情图片上传失败，请重新上传");
+                        }
+                        else {
+                        	alertmsg("success","商品详情图片上传完成");
+                        }
+                        
+                    }
+                });*/
+                
+
+                //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
+                this.on("removedfile", function (file) {
+                    if (this.getAcceptedFiles().length === 0) {
+                        $("#submit-all").attr("disabled", true);
+                    }
+                    removeImage(file.name);
+                    //delpir(file.name);
+                });
+            }
 			
 		  });
-		  
-		  
 		  
 		   $(document).one('ajaxloadstart.page', function(e) {
 				try {
@@ -260,9 +304,21 @@ function initOrderManager(){
 		  alert('Dropzone.js does not support older browsers!');
 		}
 	
-	
-	
-	
+	//删除报告
+	function removeImage(filename){
+		$.ajax({
+			type: "post",
+			data: {filename: filename},
+			url: webroot + "orderInfo/removeOrderByPdf.do",
+			success: function(msg){
+				if(msg.success){
+					alertmsg("success","报告删除成功");
+				}else{
+					alertmsg("error", "报告删除失败");
+				}
+			}
+		});
+	}
 	
 	
 	function TimeAdd0(time){
@@ -352,11 +408,7 @@ function querOrderDetial(orderId){
 //上传报告
 function uploadReportPic(mapOrderProductId){
 	//打开model之前清空上一次的数据    ??????????????????
-	$("#mapOrderProductId").val("");
-	var file = $("#reportpic");
-	file.after(file.clone().val(""));
-	file.remove();
-	$("#reportpic").val("");  
+	$("#uploadReportPicModal :input").val("");
 	
 	$("#mapOrderProductId").val(mapOrderProductId);
 	$("#uploadReportPicModal").modal("show");
