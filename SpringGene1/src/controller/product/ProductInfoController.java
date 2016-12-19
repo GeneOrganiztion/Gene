@@ -26,6 +26,7 @@ import po.ResponseMessage;
 import service.ClassifyService;
 import service.ImageService;
 import service.ProductService;
+import utils.Constant;
 import utils.ST;
 import controller.base.BaseController;
 import controller.order.OrderDetailController;
@@ -126,23 +127,16 @@ public class ProductInfoController extends BaseController{
 			 @RequestParam("file") MultipartFile file) throws Exception {
 		 	ResponseMessage msg=new ResponseMessage();
 		 	String filepathurl=null;
-		 	System.out.println("fileSize="+file.getSize());
-			String pro_id= getParam("id");
+			String pro_id= getParam("pro_id");
+			System.out.println("pro_idhoutai="+pro_id);
 		 	try {
 			   Image image=new Image();
 			   image.setProId(Integer.valueOf(pro_id));
 		 	   List<Image> listimage=imageService.selectbyProduct(image);
-		 	   Product product=new Product();
-		 	   product.setId(Integer.valueOf(pro_id));
-		 	   Product mysqlproduct=(Product)productService.selectOne(product);
-		 	   if(null==mysqlproduct.getProImage()||"".equals(mysqlproduct.getProImage())){
-		 		  String filepath = FileUpload.uploadFile(file, request);
-			      filepathurl = filepath;
-			      product.setProImage(filepath);
-			      productService.updateProduct(product);
-			      msg.setMessage(filepathurl);
+		 	   if(null==pro_id||"".equals(pro_id)){
+			      msg.setMessage("error");
 		 	   }else{
-		 		  if(listimage.size()<4){
+		 		  if(listimage.size()<5){
 			 		  String filepath = FileUpload.uploadFile(file, request);
 				      filepathurl = filepath;
 				      image.setUrl(filepath);			      
@@ -153,9 +147,10 @@ public class ProductInfoController extends BaseController{
 			 	   }   
 		 	   } 
 		    } catch (Exception e) {
+		      msg.setMessage("error");
 		      logger.info("UploadImage"+e);
 		      e.printStackTrace();
-		      msg.setMessage("error");
+		      return null;
 		    }	
 		 	return msg;
 		
@@ -262,16 +257,42 @@ public class ProductInfoController extends BaseController{
 			) throws Exception {
 		 String filename = getParam("filename");
 		 ResponseMessage msg=new ResponseMessage();
-		 System.out.println("filename="+filename);
 		 try{
 			 
 			 if(FileUpload.deleteObject(filename)){
 				 msg.setMessage("success");	 
+				 
 			 }else{
 			 msg.setMessage("error");	 
 			 }
 		 }catch(Exception e){
 			 logger.info("DeleteImage"+e);
+			 e.printStackTrace();
+			 msg.setMessage("error");	 
+		 }
+		 return msg; 	
+	 }
+	 
+	 @RequestMapping(value = "/DeleteShowImage", method = RequestMethod.POST)
+	 @ResponseBody
+	 public ResponseMessage DeleteShowImage(HttpServletRequest request,HttpServletResponse response
+			) throws Exception {
+		 String filename = getParam("filename");
+		 String Url=Constant.OSS_ENDPOINT+filename;
+		 ResponseMessage msg=new ResponseMessage();
+		 try{
+			 
+			 if(FileUpload.deleteObject(filename)){
+				 Image image=new Image();
+				 System.out.println("Url="+Url);
+				 image.setUrl(Url);
+				 imageService.deleteImage(image);
+				 msg.setMessage("success");	 
+			 }else{
+			 msg.setMessage("error");	 
+			 }
+		 }catch(Exception e){
+			 logger.info("DeleteShowImage"+e);
 			 e.printStackTrace();
 			 msg.setMessage("error");	 
 		 }

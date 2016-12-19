@@ -25,7 +25,7 @@ function initProductManager(){
 			//buttons: '.wizard-actions:eq(0)'
 		})
 		.on('actionclicked.fu.wizard' , function(e, info){
-/*				if(info.step == 1 && $validation) {
+			if(info.step == 1 && $validation) {
 					if(!$('#validation-form').valid()){
 						e.preventDefault();
 					}else{
@@ -33,11 +33,13 @@ function initProductManager(){
 							$('#addloader').removeClass('hide');
 							if(null==productid){
 								productid=addproduct();
-								console.log("productid="+productid);
+								console.log("productidaaaa="+productid);
 								if(productid>0){
 									$('#addloader').addClass('hide');
 									alertmsg("success","商品基本信息入库成功");
 									return true;
+									Dropzoneinit();
+									
 								}else{
 									alertmsg("warning","商品信息入库失败请重新上传");
 									$('#addloader').addClass('hide');
@@ -59,7 +61,7 @@ function initProductManager(){
 							
 						}
 					}
-				}*/
+				}
 					
 				/* if(info.step==2&&info.direction=="previous"){
 					 return true; //不能跳转
@@ -95,12 +97,14 @@ function initProductManager(){
 		
 		
 		
-		
+	
+
 		try {
 			  Dropzone.autoDiscover = false;
-			  var myDropzone = new Dropzone("#dropzone" , {
+			  var myDropzone1 = new Dropzone("#dropzone" , {
+				url:webroot+"product/UploadImage.do",
 			    paramName: "file", // The name that will be used to transfer the file
-			    maxFilesize: 0.5, // MB
+			    maxFilesize: 1, // MB
 			    maxFiles:4,
 			    dictMaxFilesExceeded: "您最多只能上传4个文件！",
 			    dictFileTooBig:"文件过大上传文件最大支持.",
@@ -109,6 +113,7 @@ function initProductManager(){
 				addRemoveLinks : true,
 				 //每次上传的最多文件数，经测试默认为2，坑啊
 	            //记得修改web.config 限制上传文件大小的节
+				autoProcessQueue :false,
 				parallelUploads: 100,
 				dictDefaultMessage :
 				'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
@@ -118,7 +123,68 @@ function initProductManager(){
 				dictResponseError: 'Error while uploading file!',
 				previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
 				
-				init: function() {
+				init: function () {
+	                var submitButton = document.querySelector("#submit-product")
+	                myDropzone1 = this; // closure
+
+	                //为上传按钮添加点击事件
+	                submitButton.addEventListener("click", function () {
+	                    //手动上传所有图片
+	                    myDropzone1.processQueue();
+	                    
+	                });
+	                
+	                this.on("sending", function (file, xhr, formData) {
+	                	formData.append("pro_id",productid);
+	                });
+	                
+	                //当添加图片后的事件，上传按钮恢复可用
+	                this.on("addedfile", function () {
+	                    $("#submit-product").removeAttr("disabled");
+	                  
+	                });
+	                
+	                this.on("success", function (file, response, e) {
+		                	if(response.message=="error"){
+								alertmsg("error","商品展示图片上传失败，请重新上传");
+								 $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
+							}else if(response.message=="tomore"){
+								alertmsg("error","商品展示图片文件个数上传超过最大限制");
+								  $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
+							}else{
+								alertmsg("success","商品展示图片上传成功");	
+							}
+						
+	                });
+	                //当上传完成后的事件，接受的数据为JSON格式
+	                this.on("complete", function (data) {
+	                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+	                        var res =data;
+	                        console.log(res);
+	                        var msg;
+	                        if (res.message=="error") {
+	                        	alertmsg("error","商品展示图片上传失败，请重新上传");
+	                        }
+	                        else {
+	                        	alertmsg("success","商品展示图片上传完成");
+	                        }
+	                        
+	                    }
+	                });
+	                
+
+	                //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
+	                this.on("removedfile", function (file) {
+	                    if (this.getAcceptedFiles().length === 0) {
+	                        $("#submit-product").attr("disabled", true);
+	                    }
+	                    removeShowImage(file.name);
+	                    
+	                });
+	            }
+				
+				
+				/*init: function() {
 				  var submitButton = document.querySelector("#submit-all");
 				        myDropzone = this; // closure
 				    submitButton.addEventListener("click", function() {
@@ -144,7 +210,7 @@ function initProductManager(){
 						}
 						
 					},
-				
+				*/
 				//change the previewTemplate to use Bootstrap progress bars
 				
 			  });
@@ -161,7 +227,7 @@ function initProductManager(){
 			  alert('Dropzone.js does not support older browsers!');
 			}
 			
-			
+	
 			
 			
 			try {
@@ -186,26 +252,6 @@ function initProductManager(){
 				,
 					dictResponseError: 'Error while uploading file!',
 					previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
-					/*sending: function(file, xhr, formData) {
-						formData.append("id",productid);
-						flieuploadimagesize=file.size;
-						
-					},
-					success: function (file, response, e) {
-							if(response.message=="error"){
-								alertmsg("error","商品详情图片上传失败，请重新上传");
-							}else{
-								alertmsg("success","商品详情图片上传成功");
-								addpir(response.message);
-							}
-							
-						},
-					removedfile:function(file){
-							
-							removeImage(file.name);
-						
-					}*/
-					
 					
 					init: function () {
 		                var submitButton = document.querySelector("#submit-all")
@@ -606,6 +652,19 @@ function removeImage(filename){
 	});
 	return message;
 }
+function removeShowImage(filename){
+	var message=null;
+	$.ajax({
+		type: "post",
+		data: {filename: filename},
+		url: webroot + "product/DeleteShowImage.do",
+		success: function(msg){
+			alert(msg.message);
+		}
+	});
+	return message;
+}
+
 function addproduct(){
 	var pro_id=null;
 	var data = $("#validation-form").serialize();

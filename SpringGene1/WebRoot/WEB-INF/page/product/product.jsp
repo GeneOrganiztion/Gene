@@ -230,12 +230,14 @@
 																<br />
 															</div>
 															
-															<form action="../product/UploadImage.do" class="dropzone" id="dropzone">
+															<form  class="dropzone" id="dropzone">
 																<div class="fallback">
 																	<input name="file" type="file" id="dropzonefile"/>
 																</div>
 																
 															</form>
+															
+															<button class="btn" id="submit-product" disabled="disabled" style="margin:20px auto">点击开始上传商品展示图片</button>
 														</div>
 													</div>
 
@@ -281,7 +283,7 @@
 																</div>
 																
 															</form>
-															<button class="btn" id="submit-all" disabled="disabled">Submit all files</button>
+															<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">点击开始上传商品详情图片</button>
 															
 														<div class="alert alert-info">
 																<button type="button" class="close" data-dismiss="alert"  >

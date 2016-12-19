@@ -30,5 +30,18 @@ public class ImageServiceImpl implements ImageService{
 	public List<Image> selectbyProduct(Image image) throws Exception {
 		return imageMapper.select(image);
 	}
+	@Override
+	public boolean deleteImage(Image image) throws Exception {
+		boolean flag=false;
+		try{
+			imageMapper.delete(image);
+			flag=true;
+		}catch(Exception e){
+			logger.info("deleteImage="+e);
+		}
+		return flag;
+	}
+	
+	
 
 }
