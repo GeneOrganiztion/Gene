@@ -36,7 +36,17 @@ public class BaseController {
     }
 
     protected String getParam(String k) {
-        return getParam(k, null);
+        String value = getParam(k, null);
+        if(value != null && value != ""){
+        	String data = null;
+			try {
+				data = new String(value.getBytes("ISO8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+			}
+        	return data;
+        }else{
+        	return null;
+        }
     }
 
     protected String getParam(String k, String def) {
