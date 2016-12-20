@@ -290,7 +290,11 @@ function initOrderManager(){
                     if (this.getAcceptedFiles().length === 0) {
                         $("#submit-all").attr("disabled", true);
                     }
-                    removeImage($("#deleteReportId").val());
+                    //上传失败的不删数据库中的数据
+                    var val = $(file.previewTemplate).children('.dz-error-mark').css("opacity");
+                    if(val != 1){
+                    	removeImage($("#deleteReportId").val());
+                    }
                 });
             }
 			
@@ -334,7 +338,13 @@ function initOrderManager(){
 	}
 	//格式化商品jqgrid之后的操作
 	function formatterOperate(cellvalue, options, rowObject){
-		var detail = "<button onclick=\"uploadReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-purple\">上传报告</button>"
+		//options.gid  Grid的Id
+		//rowObject.id  第几行
+		//rowObject.map_order_product_id    
+		console.log(options);
+		var str = options.gid + "||" +  rowObject.id + "||" + rowObject.map_order_product_id;
+		console.log("strdsfdfjljl" + str);
+		var detail = "<button onclick=\"uploadReportPic(" + str + ")\" class=\"btn btn-minier btn-purple\">上传报告</button>"
 					+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
         return detail;
 
@@ -408,9 +418,16 @@ function querOrderDetial(orderId){
 	});
 }
 //上传报告
-function uploadReportPic(mapOrderProductId){
+function uploadReportPic(value){
+	/*var strArr = value.split("--");
+	console.log("1111:" + strArr[0]);
+	console.log("2222:" + strArr[1]);
+	console.log("3333:" + strArr[2]);*/
 	//打开model之前清空上一次的数据    
 	$("#uploadReportPicModal :input").val("");
+	
+	
+	
 	
 	$("#mapOrderProductId").val(mapOrderProductId);
 	$("#uploadReportPicModal").modal("show");
