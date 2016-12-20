@@ -17,12 +17,12 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
     private ReportMapper reportMapper;
 	@Override
-	public List<Report> selectReportByParams(Report report){
+	public List<Report> selectReportByParams(Report report)throws Exception{
 		report.setIsdelete(false);
 		return reportMapper.select(report);
 	}
 	@Override
-	public boolean insertReport(Report report){
+	public boolean insertReport(Report report)throws Exception{
 		try {
 			reportMapper.insertSelective(report);
 		} catch (Exception e) {
@@ -32,11 +32,26 @@ public class ReportServiceImpl implements ReportService {
 		return true;
 	}
 	@Override
-	public boolean delReportByRepUrl(Report report){
+	public boolean delReportByRepUrl(Report report)throws Exception{
 		try {
 			reportMapper.delete(report);
 		} catch (Exception e) {
 			logger.error("delReportByRepUrl error:" + e);
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public Integer insertReportReturnId(Report report)throws Exception{
+		reportMapper.insertUseGeneratedKeys(report);
+		return report.getId();
+	}
+	@Override
+	public boolean delReportByOrderId(Report report)throws Exception{
+		try {
+			reportMapper.delete(report);
+		} catch (Exception e) {
+			logger.error("delReportByOrderId error:" + e);
 			return false;
 		}
 		return true;

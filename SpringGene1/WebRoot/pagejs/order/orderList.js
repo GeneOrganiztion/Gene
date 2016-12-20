@@ -217,8 +217,8 @@ function initOrderManager(){
 		  var myDropzone = new Dropzone("#dropzone" , {
 		    paramName: "file", // The name that will be used to transfer the file
 		    maxFilesize: 10, // MB
-		    maxFiles:4,
-		    dictMaxFilesExceeded: "您最多只能上传4个文件！",
+		    maxFiles:1,
+		    dictMaxFilesExceeded: "您最多只能上传1个文件！",
 		    dictFileTooBig:"文件过大上传文件最大支持.",
 		    acceptedFiles: ".jpg,.gif,.png,.pdf",
 		    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
@@ -257,8 +257,10 @@ function initOrderManager(){
                 this.on("success", function (file, response, e) {
                 	if(response.success){
 						alertmsg("success","报告上传成功");
+						$("#deleteReportId").val(response.returnId);
 					}else{
 						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
+						 $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
 					}
                 });
                 this.on("sending", function (file, xhr, formData) {
@@ -284,11 +286,11 @@ function initOrderManager(){
 
                 //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
                 this.on("removedfile", function (file) {
+                	console.log(file);
                     if (this.getAcceptedFiles().length === 0) {
                         $("#submit-all").attr("disabled", true);
                     }
-                    removeImage(file.name);
-                    //delpir(file.name);
+                    removeImage($("#deleteReportId").val());
                 });
             }
 			
@@ -305,11 +307,11 @@ function initOrderManager(){
 		}
 	
 	//删除报告
-	function removeImage(filename){
+	function removeImage(id){
 		$.ajax({
 			type: "post",
-			data: {filename: filename},
-			url: webroot + "orderInfo/removeOrderByPdf.do",
+			data: {orderId: id},
+			url: webroot + "orderInfo/removeOrderById.do",
 			success: function(msg){
 				if(msg.success){
 					alertmsg("success","报告删除成功");
@@ -349,7 +351,7 @@ function initOrderManager(){
 			return "其他支付";
 			break;
 		default:
-			return null;
+			return "无";
 			break;
 		}
 	}
@@ -362,7 +364,7 @@ function initOrderManager(){
 			return "是";
 			break;
 		default:
-			return null;
+			return "无";
 			break;
 		}
 	}
@@ -407,7 +409,7 @@ function querOrderDetial(orderId){
 }
 //上传报告
 function uploadReportPic(mapOrderProductId){
-	//打开model之前清空上一次的数据    ??????????????????
+	//打开model之前清空上一次的数据    
 	$("#uploadReportPicModal :input").val("");
 	
 	$("#mapOrderProductId").val(mapOrderProductId);

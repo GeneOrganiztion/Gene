@@ -1,6 +1,7 @@
 package controller.order;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.abc.spring.FileUpload;
-import com.github.pagehelper.PageInfo;
-
-import controller.base.BaseController;
 import po.MapOrderProduct;
 import po.OrderAndProductDTO;
 import po.Orders;
@@ -33,6 +30,11 @@ import service.OrderService;
 import service.ReportService;
 import utils.Constant;
 import utils.ST;
+
+import com.abc.spring.FileUpload;
+import com.github.pagehelper.PageInfo;
+
+import controller.base.BaseController;
 
 
 @Controller
@@ -140,14 +142,14 @@ public class OrderInfoController extends BaseController{
 		 rt.setMapOrderProductId(mop.getId());
 		 List<Report> list = reportService.selectReportByParams(rt);
 		 if(list != null && list.size() > 0){
-			 if(list.size() > proCount){
+			 if(list.size() >= proCount){
 				 resModel.setSuccess(false);
 				 resModel.setMsg("上传报告大于产品数量");
 				 return resModel; 
 			 }
 		 }
 		 try {
-			 String filepath = FileUpload.uploadFile(file, request);
+			 String filepath = FileUpload.upFileRename(file, request);
 			 Report report = new Report();
 			 report.setIsdelete(false);
 			 report.setOrdId(mop.getOrdId());
@@ -157,11 +159,10 @@ public class OrderInfoController extends BaseController{
 			 report.setUserId(this.getUserId());
 			 report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
 			 report.setRepResult(reportResult);
-			 boolean bl = reportService.insertReport(report);
-			 if(!bl){
-				 resModel.setSuccess(false);
-				 return resModel;
-			 }
+			 report.setCreateTime(new Date());
+			 report.setLastModifiedTime(new Date());
+			 Integer id = reportService.insertReportReturnId(report);
+			 resModel.setReturnId(id);
 			 //更改    mapOrderProduct 表的report_is_upload字段为已上传报告    1:未上传   2：已上传
 			 mop.setReportIsUpload(2); 
 			 mapOrderProductService.updateMapOrderProduct(mop);
@@ -184,23 +185,34 @@ public class OrderInfoController extends BaseController{
 			return 	list;
 		}
 		report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
-		list = reportService.selectReportByParams(report);
+		try {
+			list = reportService.selectReportByParams(report);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		}
 		return list;
 	}
 	
-	@RequestMapping(value = "/removeOrderByPdf")
+	@RequestMapping(value = "/removeOrderById")
 	@ResponseBody
-	public ResModel removeOrderPdf(HttpServletRequest request,HttpServletResponse response){
+	public ResModel removeOrderById(HttpServletRequest request,HttpServletResponse response){
 		ResModel resModel = new ResModel();
-		String filename = getParam("filename");
-		String url = Constant.OSS_ENDPOINT+filename;
-		if(ST.isNull(url)){
+		String orderId = getParam("orderId");
+		if(ST.isNull(orderId)){
 			resModel.setSuccess(false);
 			return resModel;
 		}
 		Report report = new Report();
-		report.setRepPdf(url);
-		boolean bl = reportService.delReportByRepUrl(report);
+		report.setId(Integer.valueOf(orderId));
+		boolean bl = false;
+		try {
+			bl = reportService.delReportByOrderId(report);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("removeOrderById error:" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
 		if(!bl){
 			resModel.setSuccess(false);
 			return resModel;

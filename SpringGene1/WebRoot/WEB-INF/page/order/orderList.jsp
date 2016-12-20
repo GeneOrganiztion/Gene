@@ -221,6 +221,7 @@
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<input type="hidden" id="mapOrderProductId"></input>
+						<input type="hidden" id="deleteReportId"></input>
 						<div>
 							<form action="<%=path%>/orderInfo/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
 								<div class="fallback">

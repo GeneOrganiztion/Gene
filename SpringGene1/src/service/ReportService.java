@@ -6,10 +6,14 @@ import po.Report;
 
 public interface ReportService<T> {
 	
-	List<T> selectReportByParams(Report report);
+	List<T> selectReportByParams(Report report)throws Exception;
 	
-	public boolean insertReport(Report report);
+	public boolean insertReport(Report report)throws Exception;
 	
-	public boolean delReportByRepUrl(Report report);
+	public boolean delReportByRepUrl(Report report)throws Exception;
+	
+	public boolean delReportByOrderId(Report report)throws Exception;
+	
+	public Integer insertReportReturnId(Report report)throws Exception;
 
 }
