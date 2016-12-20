@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.abc.spring.FileUpload;
+import com.github.pagehelper.PageInfo;
+
+import controller.base.BaseController;
 import po.MapOrderProduct;
 import po.OrderAndProductDTO;
 import po.Orders;
@@ -30,11 +34,6 @@ import service.OrderService;
 import service.ReportService;
 import utils.Constant;
 import utils.ST;
-
-import com.abc.spring.FileUpload;
-import com.github.pagehelper.PageInfo;
-
-import controller.base.BaseController;
 
 
 @Controller
@@ -99,8 +98,15 @@ public class OrderInfoController extends BaseController{
 		if(ST.isNull(orderId)){
 			return list;
 		}
+		//查询订单状态
+		Orders order = orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
         try {
         	list = mapOrderProductService.selectOderAndProductByOrderId(Integer.valueOf(orderId));
+        	for(OrderAndProductDTO orDTO: list){
+        		orDTO.setOrdState(order.getOrdState());
+        		Integer count = reportService.selectCountByMapOrderProductId(orDTO.getMap_order_product_id());
+        		orDTO.setReportCount(count);
+        	}
 		} catch (Exception e) {
 			logger.error("selectOrderAndPrductByOrderId error:" + e);
 		}
@@ -220,4 +226,94 @@ public class OrderInfoController extends BaseController{
 		resModel.setSuccess(true);
 		return resModel;
 	}
+	
+	@RequestMapping(value = "/reloadUploadRrportCount")
+	@ResponseBody
+	public ResModel reloadUploadRrportCount(HttpServletRequest request,HttpServletResponse response){
+		ResModel resModel = new ResModel();
+		String mapOrderProductId = getParam("mapOrderProductId");
+		if(ST.isNull(mapOrderProductId)){
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		Integer count = 0;
+		try {
+			count = reportService.selectCountByMapOrderProductId(Integer.valueOf(mapOrderProductId));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("reloadUploadRrportCount error:" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		resModel.setReturnId(count);
+		return resModel;
+	}
+	@RequestMapping(value = "/saveDeliverProduct")
+	@ResponseBody
+	public ResModel saveDeliverProduct(HttpServletRequest request,HttpServletResponse response){
+		ResModel resModel = new ResModel();
+		String orderId = getParam("orderId");
+		String courierNum = getParam("courierNum");
+		String courierName = getParam("courierName");
+		if(ST.isNull(orderId)){
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		Orders order = new Orders();
+		order.setId(Integer.valueOf(orderId));
+		order.setCourierNum(courierNum);
+		order.setCourierName(courierName);
+		order.setOrdState(Constant.ORDER_STATUS3);
+		//order.setIsdelete(false);
+		order.setLastModifiedTime(new Date());
+		try {
+			orderService.updateOrder(order);
+		} catch (Exception e) {
+			logger.error("saveDeliverProduct error:" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		return resModel;
+	}
+	
+	@RequestMapping(value = "/selectOrderStatus")
+	@ResponseBody
+	public ResModel selectOrderStatus(HttpServletRequest request,HttpServletResponse response){
+		ResModel resModel = new ResModel();
+		String orderId = getParam("orderId");
+		if(ST.isNull(orderId)){
+			return resModel;
+		}
+		Orders order = orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
+		resModel.setReturnId(Integer.valueOf(order.getOrdState()));
+		return resModel;
+	}
+	
+	@RequestMapping(value = "/confirmRceliveProduct")
+	@ResponseBody
+	public ResModel confirmRceliveProduct(HttpServletRequest request,HttpServletResponse response){
+		ResModel resModel = new ResModel();
+		String orderId = getParam("orderId");
+		if(ST.isNull(orderId)){
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		Orders order = new Orders();
+		order.setId(Integer.valueOf(orderId));
+		order.setOrdState(Constant.ORDER_STATUS6);
+		//order.setIsdelete(false);
+		order.setLastModifiedTime(new Date());
+		try {
+			orderService.updateOrder(order);
+		} catch (Exception e) {
+			logger.error("confirmRceliveProduct error:" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		return resModel;
+	}
+	
 }

@@ -103,9 +103,8 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <!-- <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加</button> -->
-        <button type="button" onclick="editAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改</button>
-        <button type="button" onclick="deleteAdmin()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除用户</button>
+        <button type="button" onclick="deliverProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;发货</button>
+        <button type="button" onclick="confirmRceliveProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;确认收货</button>
     </div>
 	<div class="row">
 		<div class="col-xs-12">
@@ -221,6 +220,8 @@
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<input type="hidden" id="mapOrderProductId"></input>
+						<input type="hidden" id="subGridId"></input>
+						<input type="hidden" id="subGridLine"></input>
 						<input type="hidden" id="deleteReportId"></input>
 						<div>
 							<form action="<%=path%>/orderInfo/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
@@ -281,6 +282,46 @@
     </div><!-- /.modal -->
 </div>
 <!-- 预览报告model end -->
+
+<!-- 发货详情model begin -->
+<div class="modal fade" id="deliverProductModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title" >发货详情</h4>
+		     </div>
+		     <div class="modal-body">
+            	<form class="form-horizontal">
+            		<input type="hidden" id="deliverProductOrderId"></input>
+           			<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-2 ">快递号:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<input type="text"  name="courierNum" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+						<label class="control-label col-xs-12 col-sm-2 ">快递名称:</label>
+						<div class="col-xs-12 col-sm-4">
+							<div class="clearfix">
+								<input type="text"  name="courierName" class="col-xs-12 col-sm-12" />
+							</div>
+						</div>
+					</div>
+				</form>				     
+		     </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-md" onclick="saveDeliverProduct()">
+			    	保存
+			    </button>
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+		</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 发货详情model end -->
 
 <script type="text/javascript">
 jQuery(function($) {

@@ -6,6 +6,11 @@ import java.util.List;
 import javax.persistence.Transient;
 public class OrderAndProductDTO {
 	
+	//order 状态
+	private String ordState;
+	//此订单已上传报告数量
+	private Integer reportCount;
+	
 	// map_order_product 表属性
 	private Integer map_order_product_id;
 	    
@@ -61,7 +66,22 @@ public class OrderAndProductDTO {
 		this.imagelist = imagelist;
 	}
 
-	
+	public String getOrdState() {
+		return ordState;
+	}
+
+	public void setOrdState(String ordState) {
+		this.ordState = ordState;
+	}
+
+	public Integer getReportCount() {
+		return reportCount;
+	}
+
+	public void setReportCount(Integer reportCount) {
+		this.reportCount = reportCount;
+	}
+
 	public Integer getMap_order_product_id() {
 		return map_order_product_id;
 	}
@@ -125,14 +145,6 @@ public class OrderAndProductDTO {
 	public void setProduct_id(Integer product_id) {
 		this.product_id = product_id;
 	}
-
-	public Integer getId() {
-        return product_id;
-    }
-
-    public void setId(Integer id) {
-        this.product_id = id;
-    }
 
     public String getProName() {
         return proName;

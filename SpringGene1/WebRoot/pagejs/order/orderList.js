@@ -37,14 +37,15 @@ function initOrderManager(){
 				datatype: "json",
 				width:800,
 				postData: {orderId: rowId},
-				colNames: ['','产品Id','产品名称','产品价格','产品数量','报告是否上传','操作'],
+				colNames: ['','','产品Id','产品名称','产品价格','产品数量','已上传报告数量','操作'],
 				colModel: [
 				    { name: 'map_order_product_id', width: 50,hidden:true},
+				    { name: 'ordState', width: 50,hidden:true},
 					{ name: 'product_id', width: 80 },
 					{ name: 'proName', width: 80 },
-					{ name: 'proPrice', width: 80 },
-					{ name: 'proCount', width: 80 },
-					{ name: 'reportIsUpload', width: 80 ,formatter: formatterReportIsUpload},
+					{ name: 'proPrice', width: 60 },
+					{ name: 'proCount', width: 60 },
+					{ name: 'reportCount', width: 80 },
 					{ name: '', width: 80,formatter: formatterOperate}
 				]
 			});
@@ -53,14 +54,15 @@ function initOrderManager(){
 		mtype: 'post',
 		datatype: "json",
 		height: 800,
-		colNames:['订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间'],
+		colNames:['订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
 		colModel:[
           	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
           	{name:'ordState',index:'ordState',width:80, editable:true},
 			{name:'ordPrice',index:'ordPrice', width:80, sorttype:"int", editable: true},
 			{name:'ordPay',index:'ordPay',width:80, editable:true,formatter:formatordPay},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
+			{ name: '', width: 80,formatter: formatterGridOperate}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -79,7 +81,7 @@ function initOrderManager(){
         multiboxonly: false,
         ondblClickRow:function(rowid){
             var rowData = $('#grid-table').getRowData(rowid);//获取选中行的记录 
-            querOrderDetial(rowData.id);//查询订单详情的方法
+            //querOrderDetial(rowData.id);//查询订单详情的方法
         },
 		loadComplete : function() {
 			var table = this;
@@ -258,6 +260,8 @@ function initOrderManager(){
                 	if(response.success){
 						alertmsg("success","报告上传成功");
 						$("#deleteReportId").val(response.returnId);
+						//重新加载报告上传数量
+						reloadUploadRrportCount();
 					}else{
 						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
 						 $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
@@ -286,15 +290,13 @@ function initOrderManager(){
 
                 //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
                 this.on("removedfile", function (file) {
-                	console.log(file);
                     if (this.getAcceptedFiles().length === 0) {
                         $("#submit-all").attr("disabled", true);
                     }
                     //上传失败的不删数据库中的数据
                     var val = $(file.previewTemplate).children('.dz-error-mark').css("opacity");
-                    if(val != 1){
-                    	removeImage($("#deleteReportId").val());
-                    }
+                    console.log("ddddddd:" + val);//todo  真删和假删除区分开
+                    removeImage($("#deleteReportId").val());
                 });
             }
 			
@@ -319,6 +321,8 @@ function initOrderManager(){
 			success: function(msg){
 				if(msg.success){
 					alertmsg("success","报告删除成功");
+					//重新加载已上传报告数量
+                	reloadUploadRrportCount();
 				}else{
 					alertmsg("error", "报告删除失败");
 				}
@@ -341,14 +345,25 @@ function initOrderManager(){
 		//options.gid  Grid的Id
 		//rowObject.id  第几行
 		//rowObject.map_order_product_id    
-		console.log(options);
-		var str = options.gid + "||" +  rowObject.id + "||" + rowObject.map_order_product_id;
-		console.log("strdsfdfjljl" + str);
-		var detail = "<button onclick=\"uploadReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-purple\">上传报告</button>"
+		
+		var str = options.gid + "||" +  options.rowId + "||" + rowObject.map_order_product_id;
+		var detail = "<button onclick=\"uploadReportPic('" + str + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>"
 					+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
         return detail;
 
 	}
+	
+	function formatterGridOperate(cellvalue, options, rowObject){
+		//options.gid  Grid的Id
+		//rowObject.id  第几行
+		//rowObject.map_order_product_id    
+		alert(rowObject.id)
+		var detail = "<button onclick=\"querOrderDetial(" + rowObject.id + ")\" class=\"btn btn-minier btn-purple\">查看详情	</button>"
+        return detail;
+
+	}
+	
+	
 	function formatordPay(cellvalue, options, rowObject){
 		switch (parseInt(cellvalue)) {
 		case 1:
@@ -380,7 +395,23 @@ function initOrderManager(){
 	}
 }
 
-
+//重新加载上传报告数量
+function reloadUploadRrportCount(){
+	var mapOrderProductId = $("#mapOrderProductId").val();
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/reloadUploadRrportCount.do",
+		data: {mapOrderProductId: mapOrderProductId},
+		success: function(msg){
+			if(msg.success){
+				var suGrid = $("#subGridId").val(); 
+				var subGridLine = $("#subGridLine").val();
+				console.log("suGrid:" + suGrid + "-----" + "subGridLine:" + subGridLine + "-----" + "value:" + msg.returnId);
+				jQuery("#" + suGrid).setCell(subGridLine, 'reportCount', msg.returnId);
+			}
+		}		
+	});
+}
 
 //查询
 function queryOrder(){
@@ -418,18 +449,19 @@ function querOrderDetial(orderId){
 	});
 }
 //上传报告
-function uploadReportPic(value){
-	/*var strArr = value.split("--");
-	console.log("1111:" + strArr[0]);
-	console.log("2222:" + strArr[1]);
-	console.log("3333:" + strArr[2]);*/
+function uploadReportPic(str){
+	var strArr = str.split("||");
+	//strArr[0]   sugrid 的名字
+	//strArr[1]   第几行
+	//strArr[2]   mapOrderProductId
 	//打开model之前清空上一次的数据    
 	$("#uploadReportPicModal :input").val("");
 	
 	
 	
-	
-	$("#mapOrderProductId").val(mapOrderProductId);
+	$("#subGridId").val(strArr[0]);
+	$("#subGridLine").val(strArr[1]);
+	$("#mapOrderProductId").val(strArr[2]);
 	$("#uploadReportPicModal").modal("show");
 }
 //预览报告
@@ -462,5 +494,80 @@ function viewReportPic(mapOrderProductId){
 			$("#viewReportPicModal").modal("show");
 		}
 	});
-
 }
+//显示发货modal
+function deliverProduct(){
+	var id = $("#grid-table").jqGrid("getGridParam","selrow");
+	if(!isNoEmpty(id)){
+		alertmsg("warning","请至少选中一行 !");
+		return;
+	}
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/selectOrderStatus.do",
+		data: {orderId:id},
+		success: function(msg){
+			if(msg.returnId != 2){
+				alertmsg("warning","请选择待发货状态订单");
+				return;
+			}else{
+				$("#deliverProductModal :input").val("");
+				$("#deliverProductOrderId").val(id);
+				$("#deliverProductModal").modal("show");
+			}
+		}		
+	});
+}
+function saveDeliverProduct(){
+	var id = $("#deliverProductOrderId").val();
+	var data = getParams("#deliverProductModal");
+	data["orderId"] = id;
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/saveDeliverProduct.do",
+		data: data,
+		success: function(msg){
+			if(msg.success){
+				$("#deliverProductModal").modal("hide");
+				alertmsg("success","发货成功");
+				queryOrder();
+			}else{
+				alertmsg("error","发货失败");
+			}
+		}		
+	});
+}
+//确认收货
+function confirmRceliveProduct(){
+	var id = $("#grid-table").jqGrid("getGridParam","selrow");
+	if(!isNoEmpty(id)){
+		alertmsg("warning","请至少选中一行 !");
+		return;
+	}
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/selectOrderStatus.do",
+		data: {orderId:id},
+		success: function(msg){
+			if(msg.returnId != 5){
+				alertmsg("warning","买家未发货不能确认收货");
+				return;
+			}else{
+				$.ajax({
+					type: "post",
+					url: webroot + "orderInfo/confirmRceliveProduct.do",
+					data: {orderId:id},
+					success: function(msg){
+						if(msg.success){
+							alertmsg("success","确认收货成功");
+							queryOrder();
+						}else{
+							alertmsg("error","确认收货失败");
+						}
+					}		
+				});
+			}
+		}		
+	});
+}
+

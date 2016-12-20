@@ -56,4 +56,10 @@ public class ReportServiceImpl implements ReportService {
 		}
 		return true;
 	}
+	@Override
+	public Integer selectCountByMapOrderProductId(Integer mapOrderProductId) throws Exception {
+		// TODO Auto-generated method stub
+		return reportMapper.selectCountByMapOrderProductId(mapOrderProductId);
+	}
+	
 }

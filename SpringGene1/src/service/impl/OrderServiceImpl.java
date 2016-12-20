@@ -55,6 +55,15 @@ public class OrderServiceImpl implements OrderService {
 	public Orders getOrderByOrderId(Integer orderId){
 		return ordesMapper.getOrderByOrderId(orderId);
 	}
-	
+	@Override
+	public boolean updateOrder(Orders order) throws Exception{
+		try {
+			ordesMapper.updateByPrimaryKeySelective(order);
+		} catch (Exception e) {
+			logger.error("updateOrderStatus error:" + e);
+			return false;
+		}
+		return true;
+	}
 	
 }

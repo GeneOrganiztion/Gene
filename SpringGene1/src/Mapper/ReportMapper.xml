@@ -18,6 +18,9 @@
     reportid_id, pro_id, ord_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
     last_modified_time
   </sql>
+  <select id="selectCountByMapOrderProductId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	SELECT COUNT(1) FROM report rt WHERE rt.`map_order_product_id`= #{mapOrderProductId}
+  </select>
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
     select 
     <include refid="Base_Column_List" />
