@@ -375,6 +375,107 @@ function initAdminManager(){
 		}
 	}
 	
+	$('#editProductModal').validate({
+		errorElement: 'div',
+		errorClass: 'help-block',
+		focusInvalid: false,
+		ignore: "",
+		rules: {
+			proName: {
+				required: true,
+				maxlength: 10
+			},
+			proHead:{
+				required: true,
+				maxlength: 20
+			},
+			classify_id: {
+				required: true
+			},
+			productPrice: {
+				required: true,
+				digits:true,
+				min:0    
+			},
+			proRateprice: {
+				required: true,
+				digits:true,
+				min:0   
+			},
+			proOnline: {
+				required: true
+			},
+			proSum:{
+				required: true,
+				digits:true,
+				min:1  
+			},
+		},
+
+		messages: {
+		
+			proName:{
+				required:"商品名称为必填字段",
+				maxlength: "商品名称不能超过10个字符"
+			},
+			proHead:{
+				required:"商品标题为必填字段",
+				maxlength: "商品标题不能超过20个字符"
+			},
+			productPrice:{
+				required:"商品价格为必填字段",
+				digits: "商品价格必须正为整数",
+				min:"商品价格不能小于0"
+			},
+			proRateprice:{
+				required:"商品折扣价为必填字段",
+				digits: "商品折扣价必须为正整数",
+				min:"商品折扣价不能小于0"
+			},
+			proOnline:{
+				required:"请选择商品状态"
+			},
+			proSum:{
+				required:"商品库存为必填字段",
+				digits: "商品库存不能小于1",
+				min:"商品库存不能小于1"
+			},
+			state: "Please choose state",
+			subscription: "Please choose at least one option",
+			classify_id: "请选择商品类别  如商品类别列表为空请先添加商品类别",
+		},
+
+
+		highlight: function (e) {
+			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+		},
+
+		success: function (e) {
+			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+			$(e).remove();
+		},
+
+		errorPlacement: function (error, element) {
+			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+				var controls = element.closest('div[class*="col-"]');
+				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+			}
+			else if(element.is('.select2')) {
+				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+			}
+			else if(element.is('.chosen-select')) {
+				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+			}
+			else error.insertAfter(element.parent());
+		},
+
+		submitHandler: function (form) {
+		},
+		invalidHandler: function (form) {
+		}
+	});
+	
 }
 
 
@@ -448,7 +549,7 @@ function selectClassify(){
 		}
 	});
 }
-//添加用户
+/*//添加用户
 function addAdmin(){
 	
 	//再次打开model之前清空上次的操作记录
@@ -456,15 +557,15 @@ function addAdmin(){
 	$("#addAdminModal").modal("show");
 	
 	
-}
+}*/
 //保存用户
-function saveAdmin(){
+function saveProduct(){
 	//form中验证不通过直接返回
-	if(!($('#addAdminform').valid())){
+	if(!($('#addProductform').valid())){
 		return;
 	}
-	//验证是否已存在此用户名
-	var name = $("#addAdminform input[name='username'").val();
+/*	//验证是否已存在此用户名
+	var name = $("#addProductform input[name='username'").val();*/
 	$.ajax({
 		type: "post",
 		url: webroot + "admin/validateAdmin.do",
@@ -510,12 +611,14 @@ function editProduct(){
 		url: webroot + "product/selectOneProduct.do",
 		data: {ProductId: id},
 		success: function(msg){
+			
 			$("#editProductModal input[name='proName']").val(msg.proName);
 			$("#editProductModal input[name='proHead']").val(msg.proHead);
 			$("#editProductModal input[name='productPrice']").val(msg.productPrice);
 			$("#editProductModal input[name='proRateprice']").val(msg.proRateprice);
 			$("#editProductModal input[name='proSum']").val(msg.proSum);
-			$("#editProductModal input[name='proOnline']").val(msg.proOnline);
+			/*$("#editProductModal input[name='proOnline']").val(msg.proOnline);
+			$("#editProductModal input[name='classify_id']").val(msg.classify_id);*/
 			/*$("#editAdminModal input[name='email']").val(msg.email);*/
 			$("#editProductModal").modal("show");
 		}

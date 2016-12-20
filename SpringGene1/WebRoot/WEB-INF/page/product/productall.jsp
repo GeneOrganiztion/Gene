@@ -209,28 +209,41 @@
 					</div> -->
 					
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">商品是否上线</label>
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proOnline">商品是否上线</label>
 						<div class="col-xs-12 col-sm-8">
 							<div>
 								<label class="line-height-1 blue">
-									<input name="proOnline" value="1" type="radio" class="ace" />
+									<input name="proOnline" value=true type="radio" class="ace" />
 									<span class="lbl">是</span>
 								</label>
 							</div>
 	
 								<div>
 									<label class="line-height-1 blue">
-									<input name="proOnline" value="0" type="radio" class="ace" />
+									<input name="proOnline" value=false type="radio" class="ace" />
 									<span class="lbl">否</span>
 									</label>
 								</div>	
 																	
 						</div>
 					</div>
+					<div class="form-group">
+						
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="shortName">商品所属类别</label>
+							<div class="col-xs-12 col-sm-8">
+								<div>
+									<select id="classify" name="classify_id" class="input-medium" data-placeholder="请选择商品所属类别...">
+									</select>
+								</div>
+						</div>									
+								
+					</div>
+					
+					
 				</form>
 		     </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md" onclick="saveAdmin()" >
+				<button type="button" class="btn btn-md" onclick="saveProduct()" >
 			    	保存
 			    </button>
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
