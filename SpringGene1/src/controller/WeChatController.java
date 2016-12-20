@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -27,6 +28,7 @@ import com.github.pagehelper.PageInfo;
 import wepay.utils.GetWxOrderno;
 import wepay.utils.RequestHandler;
 import utils.Sha1Util;
+import wepay.utils.HttpXmlClient;
 import wepay.utils.TenpayUtil;
 import wepay.utils.HttpConnect;
 import wepay.utils.HttpResponse;
@@ -36,7 +38,6 @@ import wepay.utils.HttpResponse;
 public class WeChatController {
 	private static final Logger logger = LoggerFactory.getLogger(WeChatController.class);
 	@RequestMapping("/oauth")
-	 
 	public void oauthuser(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 		//共账号及商户相关参数
@@ -368,6 +369,159 @@ public class WeChatController {
 				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
 		
 	}
+	@RequestMapping("/address")
+	public void address(HttpServletRequest request,
+			HttpServletResponse response) throws Exception,IOException{
+	        
+		String code = request.getParameter("code");
+		//商户相关资料 
+				String appid = Constant.APPID;
+				String appsecret = Constant.APPSECRET;
+				String ACCESS_TOKE="";
+				String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+appsecret+"&code="+code+"&grant_type=authorization_code";
+				HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
+				String tempValue="";
+				if(temp == null){
+						response.sendRedirect("/SpringGene1/error.jsp");
+						logger.info("temp==null");
+				}else
+				{
+					try {
+						tempValue = temp.getStringResult();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					JSONObject  jsonObj = JSONObject.fromObject(tempValue);
+					if(jsonObj.containsKey("errcode")){
+						logger.info("code huoqu errcode=");
+						System.out.println(tempValue);
+						response.sendRedirect("/SpringGene1/error.jsp");
+					}
+					ACCESS_TOKE=jsonObj.getString("access_token");
+					logger.info("ACCESS_TOKE="+ACCESS_TOKE);
+				}
+		
+		
+	        String currTime = TenpayUtil.getCurrTime();
+			//8位日期
+			String strTime = currTime.substring(8, currTime.length());
+			//四位随机数
+			String strRandom = TenpayUtil.buildRandom(4) + "";
+			//10位序列号,可以自行调整。
+			String strReq = strTime + strRandom;
+			String path = request.getContextPath();
+		        
+			//以为我配置的菜单是http://yo.bbdfun.com/first_maven_project/，最后是有"/"的，所以url也加上了"/"
+		    String url = request.getScheme() + "://" + request.getServerName() +  path + "/address.jsp/";  
+		    logger.info("url="+url);
+	        String noncestr = strReq;        
+	        String timestamp = Sha1Util.getTimeStamp();
+	    /*	SortedMap<String, String> packageParams = new TreeMap<String, String>();
+			packageParams.put("appid", appid);  
+			packageParams.put("url", url);
+			packageParams.put("timestamp", timestamp); 
+			packageParams.put("nonceStr", noncestr);  
+			packageParams.put("accessToken", ACCESS_TOKE);  */
+	      /*  RequestHandler reqHandler = new RequestHandler(request, response);
+			String addrSign = reqHandler.createSign(packageParams);*/
+			//String addrSign =Sha1Util.createSHA1Sign(packageParams);
+	        String str = "appid=" + appid +
+	                "&noncestr=" + noncestr +
+	                "&timestamp=" + timestamp +
+	                "&url=" + url;
+			String addrSign = HttpXmlClient.SHA1(str);
+			logger.info("addrSign="+addrSign);
+	        System.out.println("noncestr=" + noncestr);
+	        logger.info("noncestr="+noncestr);
+	        System.out.println("timestamp=" + timestamp);
+	        logger.info("timestamp="+timestamp);
+	        System.out.println("addrSign=" + addrSign);
+	        logger.info("addrSign="+addrSign);
+	        response.sendRedirect("/SpringGene1/address.jsp?appid="+appid+"&timeStamp="+timestamp+"&nonceStr="+noncestr+"&addrSign="+addrSign);
+		
+	}
 	
+	@RequestMapping("/addresstest")
+	public void addresstest(HttpServletRequest request,
+			HttpServletResponse response) throws Exception,IOException{
+		String ACCESS_TOKE="";
+		String URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+Constant.APPID+"&secret="+Constant.APPSECRET;
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
+		String tempValue="";
+		if( temp == null){
+				response.sendRedirect("/SpringGene1/error.jsp");
+				logger.info("temp==null");
+		}else
+		{
+			try {
+				tempValue = temp.getStringResult();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JSONObject  jsonObj = JSONObject.fromObject(tempValue);
+			if(jsonObj.containsKey("errcode")){
+				logger.info("accesstoken huoqu errcode=");
+				System.out.println(tempValue);
+				response.sendRedirect("/SpringGene1/error.jsp");
+			}
+
+			 ACCESS_TOKE=jsonObj.getString("access_token");
+			logger.info("ACCESS_TOKE="+ACCESS_TOKE);
+		}
+		
+        //获取ticket
+		String JsApiTicket="";
+		String URLTICK = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token="+ACCESS_TOKE;
+		HttpResponse temptick = HttpConnect.getInstance().doGetStr(URLTICK);		
+		String tempValue1="";
+		if( temptick == null){
+				response.sendRedirect("/SpringGene1/error.jsp");
+				logger.info("temp==null");
+		}else
+		{
+			try {
+				tempValue1 = temptick.getStringResult();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JSONObject  jsonObj1 = JSONObject.fromObject(tempValue1);
+			if(jsonObj1.containsKey("errcode")){
+				logger.info("tick huoqu errcode");
+				System.out.println(tempValue1);
+				response.sendRedirect("/SpringGene1/error.jsp");
+			}
+
+			JsApiTicket=jsonObj1.getString("ticket");
+			logger.info("JsApiTicket="+JsApiTicket);
+		}
+
+		String currTime = TenpayUtil.getCurrTime();
+		//8位日期
+		String strTime = currTime.substring(8, currTime.length());
+		//四位随机数
+		String strRandom = TenpayUtil.buildRandom(4) + "";
+		//10位序列号,可以自行调整。
+		String strReq = strTime + strRandom;
+        String noncestr = strReq;
+        String timestamp =Sha1Util.getTimeStamp();
+        //获取请求url
+        String path = request.getContextPath();
+        //以为我配置的菜单是http://yo.bbdfun.com/first_maven_project/，最后是有"/"的，所以url也加上了"/"
+        String url = request.getScheme() + "://" + request.getServerName() +  path + "/";  
+        String str = "jsapi_ticket=" + JsApiTicket +
+                "&noncestr=" + noncestr +
+                "&timestamp=" + timestamp +
+                "&url=" + url;
+        //sha1加密
+        String signature = HttpXmlClient.SHA1(str);
+        logger.info("signature="+signature);
+        response.sendRedirect("/SpringGene1/address.jsp?appid="+Constant.APPID+"&timeStamp="+timestamp+"&nonceStr="+noncestr+"&signature="+signature); 
+	
+	
+	}
 
 }
