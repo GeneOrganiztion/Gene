@@ -344,7 +344,7 @@ function initOrderManager(){
 		console.log(options);
 		var str = options.gid + "||" +  rowObject.id + "||" + rowObject.map_order_product_id;
 		console.log("strdsfdfjljl" + str);
-		var detail = "<button onclick=\"uploadReportPic(" + str + ")\" class=\"btn btn-minier btn-purple\">上传报告</button>"
+		var detail = "<button onclick=\"uploadReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-purple\">上传报告</button>"
 					+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
         return detail;
 
