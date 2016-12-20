@@ -159,6 +159,7 @@
 																<div class="col-xs-8 col-sm-9">
 																	<div>
 																		<select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
+																			<option value=""></option>
 																		</select>
 																	</div>
 																</div>

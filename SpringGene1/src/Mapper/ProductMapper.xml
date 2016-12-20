@@ -229,23 +229,17 @@
     <include refid="Base_Column_List" />
 	    from product
 	    where isdelete = 0
-	   <if test="ProductId != null">
-        and product_id = #{ProductId}
+	   <if test="productID != null">
+        and product_id =  #{productID}
       </if>
-      <if test="proName != null" >
-        and pro_name =  LIKE '%${productName}%'
-      </if>
-      <if test="productPrice != null" >
-        and product_price =#{productPrice}
-      </if>
-      <if test="productSum != null" >
-        and pro_sum = #{productSum}
-      </if>
-      <if test="productRateprice != null" >
-         and pro_rateprice = #{productRateprice}
+      <if test="productName != null" >
+        and pro_name  LIKE '%${productName}%'
       </if>
       <if test="productOnline != null" >
        and pro_online = #{productOnline}
+      </if>
+       <if test="classify_id != null" >
+       and classify_id = #{classify_id}
       </if>
      <if test="beginTime != null ">
           AND CREATE_TIME > #{beginTime} 
@@ -257,6 +251,4 @@
         order by #{sidx} #{sord}
       </if>
     </select>
-    
- 
 </mapper>

@@ -226,7 +226,7 @@ public class ProductInfoController extends BaseController{
 		 	System.out.println("pro_id="+pro_id);
 		 	try {
 		 		Product product=new Product();
-		 		product.setId(Integer.valueOf(pro_id));
+		 		product.setproduct_id(Integer.valueOf(pro_id));
 		 		product.setClassifyId(Integer.valueOf(classifyid));
 		 		product.setProName(name);
 		 		product.setProHead(head);
@@ -322,29 +322,35 @@ public class ProductInfoController extends BaseController{
 	        	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
 	            int pageNo = Integer.valueOf(getParam("page"));// 第几页
 	            String productName = getParam("productName");
-	            String productPrice = getParam("productPrice");
-	            String productRatePrice = getParam("productRatePrice");
-	            String productSum = getParam("productSum");
-	            String productOnline = getParam("productOnline");        
+	            String productID = getParam("productID"); 
+	            String productOnline = getParam("productOnline");
+	            String classify_id = getParam("classify_id");
+	            Object IsOnline=true;
+	            if("true".equals(productOnline)){
+	            	IsOnline=true;
+	            }else if("false".equals(productOnline)){
+	            	IsOnline=false;
+	            }else{
+	            	IsOnline=null;
+	            }
+	            Map<String, Object> map = new HashMap<String, Object>();
+	            map.put("productOnline", IsOnline);
 	            String beginTime = getParam("beginTime");
 	            String endTime = getParam("endTime");
-	            Map<String, Object> map = new HashMap<String, Object>();
 	            map.put("productName", productName);
-	         /*   map.put("productPrice", Integer.valueOf(productPrice));
-	            map.put("productRatePrice", Integer.valueOf(productRatePrice));
-	            map.put("productSum", Integer.valueOf(productSum));
-	            map.put("productOnline", Integer.valueOf(productOnline));*/
+	            map.put("productID", productID);
+	            map.put("classify_id",classify_id);
 	            map.put("sidx", sidx);// 排序字段
 	            map.put("sord", sord);// 升序降序
 	            map.put("rowCount", oneRecord);//一页几行
 	            map.put("pageNo", pageNo);
+	            
 	            if(!ST.isNull(beginTime)){
 	            	map.put("beginTime", beginTime + " 00:00:00");
 	            }
 	            if(!ST.isNull(endTime)){
 	            	map.put("endTime", endTime + " 59:59:59");
 	            }
-	            map.put("productName", productName);
 	            pageInfo= (PageInfo)productService.selectProductByParams(map);
 			} catch (Exception e) {
 				logger.error("selectProduct error:" + e);
@@ -352,6 +358,21 @@ public class ProductInfoController extends BaseController{
 	        return pageInfo;
 		}
 	 
-	 	
+	 	 @RequestMapping(value = "/selectOneProduct", method = RequestMethod.POST)
+		 @ResponseBody
+		 public Product selectOneProduct(HttpServletRequest request,
+		            HttpServletResponse response) throws Exception {
+	 		 String pro_id = getParam("ProductId");// 排序字段;
+	 		 Product ResultProduct=new Product();
+			 try{
+			 Product product=new Product();
+			 product.setproduct_id(Integer.valueOf(pro_id));
+			 ResultProduct=(Product)productService.selectOne(product);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 logger.info("selectOneProduct"+e);
+			 }
+			return ResultProduct;
+		 }
 	 
 }

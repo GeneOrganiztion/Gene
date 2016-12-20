@@ -1,5 +1,6 @@
 function initAdminManager(){
-	
+	//查询分类
+	selectClassify();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -24,12 +25,12 @@ function initAdminManager(){
 		height: 320,
 		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','创建时间','最后更新时间'],
 		colModel:[
-          	{name:'id',index:'product_id', width:80, sorttype:"int", editable: true},
+          	{name:'product_id',index:'product_id', width:80, sorttype:"int", editable: true},
           	{name:'proName',index:'pro_name',width:80, editable:true},
 			{name:'productPrice',index:'product_price', width:80, sorttype:"int", editable: true},
-			{name:'proRateprice',index:'pro_rateprice',width:80, editable:true},
-			{name:'proSum',index:'pro_sum',width:80, editable:true},
-			{name:'proOnline',index:'pro_online',width:80, editable:true},
+			{name:'proRateprice',index:'pro_rateprice',width:80,sorttype:"int", editable:true},
+			{name:'proSum',index:'pro_sum',width:80,sorttype:"int", editable:true},
+			{name:'proOnline',index:'pro_online',width:80, editable:true,formatter:formatterProductIsOnline},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
 			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
 		], 
@@ -359,14 +360,30 @@ function initAdminManager(){
 		}
 	});
 	
+	
+	function formatterProductIsOnline(cellvalue, options, rowObject){
+		switch (cellvalue) {
+		case true:
+			return "是";
+			break;
+		case false:
+			return "否";
+			break;
+		default:
+			return null;
+			break;
+		}
+	}
+	
 }
 
 
 
 //查询
-function queryAdmin(){
-	var data = $("form").serialize();
+function queryProduct(){
+	var data = $("#queryAssetForm").serialize();
 	var url = webroot + "product/selectProduct.do";
+	console.log(data);
 	$("#grid-table").jqGrid('setGridParam',{ 
         url: url + "?" + data, 
         //postData:jsonData, 
@@ -410,6 +427,26 @@ function deleteAdmin(){
        } 
      });
 	
+}
+
+//查询所有分类
+function selectClassify(){
+	$.ajax({
+		type: "post",
+		url: webroot + "classify/webclsall.do",
+		success: function(msg){
+			var json = eval(msg);
+			var objSelect = $('#classify');
+			objSelect.append("<option value=''></option>");
+			for(var i=0;i<json.length;i++){
+				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
+			}
+			//
+			$('#classify').trigger("chosen:updated");
+			$('#validation-form').removeClass('hide');
+			$('#cssloader').addClass('hide');
+		}
+	});
 }
 //添加用户
 function addAdmin(){
@@ -462,7 +499,7 @@ function saveAdmin(){
 	});
 }
 //修改用户
-function editAdmin(){
+function editProduct(){
 	var id = $("#grid-table").jqGrid("getGridParam","selrow");
 	if(!isNoEmpty(id)){
 		alertmsg("warning","请至少选中一行 !");
@@ -470,17 +507,17 @@ function editAdmin(){
 	}
 	$.ajax({
 		type: "post",
-		url: webroot + "admin/selectAdminByAdminId.do",
-		data: {adminId: id},
+		url: webroot + "product/selectOneProduct.do",
+		data: {ProductId: id},
 		success: function(msg){
-			$("#editAdminModal input[name='id']").val(msg.id);
-			$("#editAdminModal input[name='username']").val(msg.username);
-			$("#editAdminModal input[name='realname']").val(msg.realname);
-			$("#editAdminModal input[name='password']").val(msg.password);
-			$("#editAdminModal input[name='password2']").val(msg.password);
-			$("#editAdminModal input[name='phone']").val(msg.phone);
-			$("#editAdminModal input[name='email']").val(msg.email);
-			$("#editAdminModal").modal("show");
+			$("#editProductModal input[name='proName']").val(msg.proName);
+			$("#editProductModal input[name='proHead']").val(msg.proHead);
+			$("#editProductModal input[name='productPrice']").val(msg.productPrice);
+			$("#editProductModal input[name='proRateprice']").val(msg.proRateprice);
+			$("#editProductModal input[name='proSum']").val(msg.proSum);
+			$("#editProductModal input[name='proOnline']").val(msg.proOnline);
+			/*$("#editAdminModal input[name='email']").val(msg.email);*/
+			$("#editProductModal").modal("show");
 		}
 	});
 }

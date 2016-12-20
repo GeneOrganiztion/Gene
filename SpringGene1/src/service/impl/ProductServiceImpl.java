@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService{
 		int newproductid=-1;
 		try{
 			productMapper.insertUseGeneratedKeys(Product);
-			newproductid=Product.getId();
+			newproductid=Product.getproduct_id();
 		}catch(Exception e){
 			logger.info("productMappersave"+e);
 		}

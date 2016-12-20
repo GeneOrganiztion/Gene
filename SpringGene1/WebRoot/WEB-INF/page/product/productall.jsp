@@ -54,6 +54,12 @@
 			  <form id="queryAssetForm" class="form-horizontal" role="form">
 				<!-- #section:elements.form -->
 				<div class="form-group">
+				<div class="col-md-3">
+						<label class="col-sm-4 control-label no-padding-right" for="shortName">商品ID</label>
+						<div class="col-sm-8">
+							<input type="text" name="productID" class="form-control" />
+						</div>
+					</div>
 					<div class="col-md-3">
 						<label class="col-sm-4 control-label no-padding-right" for="shortName">商品名称</label>
 						<div class="col-sm-8">
@@ -61,29 +67,27 @@
 						</div>
 					</div>
 					<div class="col-md-3">
-						<label class="col-sm-4 control-label no-padding-right" for="shortName">商品原价</label>
-						<div class="col-sm-8">
-							<input type="text" name="productPrice" class="form-control" />
-						</div>
-					</div>
-						<div class="col-md-3">
-						<label class="col-sm-4 control-label no-padding-right" for="shortName">商品折扣价</label>
-						<div class="col-sm-8">
-							<input type="text" name="productRatePrice" class="form-control" />
-						</div>
-					</div>
-					<div class="col-md-3">
-						<label class="col-sm-4 control-label no-padding-right" for="shortName">商品库存</label>
-						<div class="col-sm-8">
-							<input type="text" name="productSum" class="form-control" />
-						</div>
-					</div>
-					<div class="col-md-3">
 						<label class="col-sm-4 control-label no-padding-right" for="shortName">商品是否上架</label>
 						<div class="col-sm-8">
-							<input type="text" name="productOnline" class="form-control" />
+
+							<select name="productOnline" id="number"  class="form-control">
+								<option value=></option>	
+								<option value=true>是</option>
+								<option value=false>否</option>
+							</select>
+							<!-- <input type="text" name="productOnline" class="form-control" /> -->
 						</div>
 					</div>
+					<div class="col-md-3">
+							<label class="col-sm-4 control-label no-padding-right" for="shortName">商品所属类别</label>
+							<div class="col-sm-8">
+								<div>
+									<select id="classify" name="classify_id" class="input-medium" data-placeholder="请选择商品所属类别...">
+									</select>
+									</div>
+							</div>									
+					</div>								
+					
 					
 				</div>
 				<div class="form-group">
@@ -107,7 +111,7 @@
                         </div>	
 					</div> 
 					<div class="col-md-6 text-right">
-						<button type="button" class="btn btn-md" onclick="queryAdmin()">
+						<button type="button" class="btn btn-md" onclick="queryProduct()">
 							<i class="ace-icon fa fa-search orange"></i>搜索
 						</button>
 						<button type="button" class="btn btn-md" onclick="reset()">
@@ -122,7 +126,7 @@
 	</div>
 	<div id="actions-before" class="btn-group">	
         <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;预览商品</button>
-        <button type="button" onclick="editAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改</button>
+        <button type="button" onclick="editProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改商品基本信息</button>
         <button type="button" onclick="deleteAdmin()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除商品</button>
     </div>
 	<div class="row">
@@ -135,72 +139,92 @@
 	</div><!-- /.row -->
 </div><!-- /.page-content -->
 <!-- 添加用户model start -->
-<div class="modal fade" id="addAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
              <div class="modal-header">
              	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title" >添加用户</h4>
+			    <h4 class="modal-title" >修改商品基本信息</h4>
 		     </div>
 		     <div class="modal-body">
-            	<form class="form-horizontal " id="addAdminform" >
+            	<form class="form-horizontal " id="addProductform" >
            			<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="username">用户名</label>
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proName">商品名称</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name="username" class="col-xs-12 col-sm-6" />
+								<input type="text" name="proName" class="col-xs-12 col-sm-6" />
 							</div>
 						</div>
 					</div>
 					<div class="space-2"></div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="realname">真实名</label>
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proHead">商品标题</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name="realname" class="col-xs-12 col-sm-6" />
+								<input type="text" name="proHead" class="col-xs-12 col-sm-12" />
 							</div>
 						</div>
 					</div>
 					<div class="space-2"></div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="phone">手机</label>
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="productPrice">商品原价</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="tel" name="phone" class="col-xs-12 col-sm-6" />
+								<input type="text" name=productPrice class="col-xs-12 col-sm-3" />
 							</div>
 						</div>
 					</div>
 					<div class="space-2"></div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="email">email:</label>
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proRateprice">商品折扣价</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="email" name="email"  class="col-xs-12 col-sm-7" />
+								<input type="text" name="proRateprice"  class="col-xs-12 col-sm-3" />
 							</div>
 						</div>
 					</div>
 					<div class="space-2"></div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password">密码:</label>
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proSum">商品库存</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="password" name="password" class="col-xs-12 col-sm-6" />
+								<input type="text" name="proSum" class="col-xs-12 col-sm-2" />
 							</div>
 						</div>
 					</div>
 					<div class="space-2"></div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">确认密码:</label>
+					<!-- <div class="form-group">
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">商品所属类别</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
 								<input type="password" name="password2" class="col-xs-12 col-sm-6" />
 							</div>
+						</div>
+					</div> -->
+					
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">商品是否上线</label>
+						<div class="col-xs-12 col-sm-8">
+							<div>
+								<label class="line-height-1 blue">
+									<input name="proOnline" value="1" type="radio" class="ace" />
+									<span class="lbl">是</span>
+								</label>
+							</div>
+	
+								<div>
+									<label class="line-height-1 blue">
+									<input name="proOnline" value="0" type="radio" class="ace" />
+									<span class="lbl">否</span>
+									</label>
+								</div>	
+																	
 						</div>
 					</div>
 				</form>
