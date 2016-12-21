@@ -44,4 +44,12 @@ public class MapOrderProductServiceImpl implements MapOrderProductService {
 		return true;
 		
 	}
+
+	@Override
+	public List<MapOrderProduct> selectMapOrderProductByOrdId(Integer oderId) {
+		MapOrderProduct mapOrderProduct = new MapOrderProduct();
+		mapOrderProduct.setOrdId(oderId);
+		mapOrderProduct.setIsdelete(false);
+		return mapOrderProductMapper.select(mapOrderProduct);
+	}
 }

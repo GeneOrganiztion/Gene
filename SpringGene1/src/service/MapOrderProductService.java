@@ -13,4 +13,6 @@ public interface MapOrderProductService {
 
 	public boolean updateMapOrderProduct(MapOrderProduct mapOrderProduct);
 	
+	public List<MapOrderProduct>  selectMapOrderProductByOrdId(Integer oderId); 
+	
 }

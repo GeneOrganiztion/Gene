@@ -266,8 +266,9 @@ function initOrderManager(){
                 	if(response.success){
 						alertmsg("success","报告上传成功");
 						$("#deleteReportId").val(response.returnId);
+						queryOrder();
 						//重新加载报告上传数量
-						reloadUploadRrportCount();
+						//reloadUploadRrportCount();
 					}else{
 						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
 						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
@@ -325,8 +326,8 @@ function initOrderManager(){
 		}
 		$.ajax({
 			type: "post",
-			data: {orderId: id},
-			url: webroot + "orderInfo/removeOrderById.do",
+			data: {reportId: id},
+			url: webroot + "orderInfo/removeReportById.do",
 			success: function(msg){
 				if(msg.success){
 					alertmsg("success","报告删除成功");

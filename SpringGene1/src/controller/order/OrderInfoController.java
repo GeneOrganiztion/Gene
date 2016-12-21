@@ -104,8 +104,6 @@ public class OrderInfoController extends BaseController{
         	list = mapOrderProductService.selectOderAndProductByOrderId(Integer.valueOf(orderId));
         	for(OrderAndProductDTO orDTO: list){
         		orDTO.setOrdState(order.getOrdState());
-        		Integer count = reportService.selectCountByMapOrderProductId(orDTO.getMap_order_product_id());
-        		orDTO.setReportCount(count);
         	}
 		} catch (Exception e) {
 			logger.error("selectOrderAndPrductByOrderId error:" + e);
@@ -169,9 +167,25 @@ public class OrderInfoController extends BaseController{
 			 report.setLastModifiedTime(new Date());
 			 Integer id = reportService.insertReportReturnId(report);
 			 resModel.setReturnId(id);
-			 //更改    mapOrderProduct 表的report_is_upload字段为已上传报告    1:未上传   2：已上传
-			 mop.setReportIsUpload(2); 
+			 //上传成功更改 map_order_product 中已上传报表的数量
+			 mop.setReportCount(mop.getReportCount() + 1);
 			 mapOrderProductService.updateMapOrderProduct(mop);
+			 //更改订单表的状态
+			 List<MapOrderProduct> listMp = mapOrderProductService.selectMapOrderProductByOrdId(mop.getOrdId());
+			 //循环判断订单下的商品如果有一个商品上传的报告小于商品的数量不更改订单表的状态
+			 boolean flag = true;
+			 for(MapOrderProduct mopt: listMp){
+				 if(mopt.getProCount() != mopt.getReportCount()){
+					 flag = false;
+					 break;
+				 }
+			 }
+			 if(flag){
+				 Orders orders = new Orders();
+				 orders.setId(mop.getOrdId());
+				 orders.setOrdState(Constant.ORDER_STATUS7);//已完成
+				 orderService.updateOrderStatus(orders);
+			 }
 			 
 		} catch (Exception e) {
 			logger.error("uploadReportPic error" + e);
@@ -199,20 +213,29 @@ public class OrderInfoController extends BaseController{
 		return list;
 	}
 	
-	@RequestMapping(value = "/removeOrderById")
+	@RequestMapping(value = "/removeReportById")
 	@ResponseBody
-	public ResModel removeOrderById(HttpServletRequest request,HttpServletResponse response){
+	public ResModel removeReportById(HttpServletRequest request,HttpServletResponse response){
 		ResModel resModel = new ResModel();
-		String orderId = getParam("orderId");
-		if(ST.isNull(orderId)){
+		String reportId = getParam("reportId");
+		if(ST.isNull(reportId)){
 			resModel.setSuccess(false);
 			return resModel;
 		}
 		Report report = new Report();
-		report.setId(Integer.valueOf(orderId));
+		report.setId(Integer.valueOf(reportId));
 		boolean bl = false;
 		try {
-			bl = reportService.delReportByOrderId(report);
+			//删除报告之前先查询出要删除的数据，删除成功，把map_order_product表中的已上传报告数量减一
+			Report reportDelBefor = reportService.selectReportByReportId(Integer.valueOf(reportId));
+			bl = reportService.delReportByReportId(report);
+			//删除成功更改 map_order_product 中已上传报表的数量
+			if(bl){
+				MapOrderProduct mapOrderProduct = mapOrderProductService.selectMapOrderProductById(reportDelBefor.getMapOrderProductId());
+				mapOrderProduct.setReportCount(mapOrderProduct.getReportCount() - 1);
+				mapOrderProductService.updateMapOrderProduct(mapOrderProduct);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("removeOrderById error:" + e);
@@ -238,7 +261,8 @@ public class OrderInfoController extends BaseController{
 		}
 		Integer count = 0;
 		try {
-			count = reportService.selectCountByMapOrderProductId(Integer.valueOf(mapOrderProductId));
+			MapOrderProduct mapOrderProduct = mapOrderProductService.selectMapOrderProductById(Integer.valueOf(mapOrderProductId));
+			count = mapOrderProduct.getReportCount();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("reloadUploadRrportCount error:" + e);

@@ -28,7 +28,7 @@ public class MapOrderProduct {
 
     private Date lastModifiedTime;
 
-    private Integer reportIsUpload;
+    private Integer reportCount;
     
     public Integer getId() {
         return map_order_product_id;
@@ -110,12 +110,12 @@ public class MapOrderProduct {
         this.lastModifiedTime = lastModifiedTime;
     }
 
-	public Integer getReportIsUpload() {
-		return reportIsUpload;
+	public Integer getReportCount() {
+		return reportCount;
 	}
 
-	public void setReportIsUpload(Integer reportIsUpload) {
-		this.reportIsUpload = reportIsUpload;
+	public void setReportCount(Integer reportCount) {
+		this.reportCount = reportCount;
 	}
     
 }

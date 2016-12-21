@@ -47,7 +47,7 @@ public class ReportServiceImpl implements ReportService {
 		return report.getId();
 	}
 	@Override
-	public boolean delReportByOrderId(Report report)throws Exception{
+	public boolean delReportByReportId(Report report)throws Exception{
 		try {
 			reportMapper.delete(report);
 		} catch (Exception e) {
@@ -60,6 +60,13 @@ public class ReportServiceImpl implements ReportService {
 	public Integer selectCountByMapOrderProductId(Integer mapOrderProductId) throws Exception {
 		// TODO Auto-generated method stub
 		return reportMapper.selectCountByMapOrderProductId(mapOrderProductId);
+	}
+	@Override
+	public Report selectReportByReportId(Integer reportId) throws Exception {
+		Report report = new Report();
+		report.setIsdelete(false);
+		report.setId(reportId);
+		return reportMapper.selectByPrimaryKey(report);
 	}
 	
 }

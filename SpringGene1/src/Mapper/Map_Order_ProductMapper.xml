@@ -12,7 +12,7 @@
     <result column="isdelete" property="isdelete" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
-    <result column="report_is_upload" property="reportIsUpload" jdbcType="INTEGER" />
+    <result column="report_count" property="reportCount" jdbcType="INTEGER" />
   </resultMap>
   
    <resultMap id="orderAndProduct" type="po.OrderAndProductDTO" >
@@ -21,7 +21,7 @@
     <result column="pro_classify_id" property="proClassifyId" jdbcType="INTEGER" />
     <result column="pro_price" property="proPrice" jdbcType="INTEGER" />
     <result column="pro_count" property="proCount" jdbcType="INTEGER" />
-    <result column="report_is_upload" property="reportIsUpload" jdbcType="INTEGER" />
+    <result column="report_count" property="reportCount" jdbcType="INTEGER" />
     <result column="product_id" property="product_id" jdbcType="INTEGER" />
     <result column="pro_name" property="proName" jdbcType="VARCHAR" />
     <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
@@ -38,7 +38,7 @@
   
   <sql id="Base_Column_List" >
     map_order_product_id, ord_id, pro_id, pro_classify_id, pro_name, pro_price, pro_count, isdelete, create_time, 
-    last_modified_time,report_is_upload
+    last_modified_time,report_count
   </sql>
   
   <select id="selectOderAndProductByOrderId" resultMap="orderAndProduct" parameterType="java.lang.Integer">
@@ -48,7 +48,7 @@
 		 mp.`pro_classify_id`,
 		 mp.`pro_price`,
 		 mp.`pro_count`,
-		 mp.`report_is_upload`,
+		 mp.`report_count`,
 		 pt.`product_id`,
 		 pt.`pro_name`,
 		 pt.`pro_head`,
