@@ -30,12 +30,13 @@ function initOrderManager(){
 		//for this example we are using local data
 		subGridRowExpanded: function (subgridDivId, rowId) {
 			var subgridTableId = subgridDivId + "_t";
-			$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
+			$("#" + subgridDivId).html("<table style='height:35px;' id='" + subgridTableId + "'></table>");
 			$("#" + subgridTableId).jqGrid({
 				url: webroot + "orderInfo/selectOrderAndPrductByOrderId.do",
 				mtype: 'post',
 				datatype: "json",
 				width:800,
+				//height: 500,
 				postData: {orderId: rowId},
 				colNames: ['','','产品Id','产品名称','产品价格','产品数量','已上传报告数量','操作'],
 				colModel: [
@@ -319,6 +320,9 @@ function initOrderManager(){
 	
 	//删除报告
 	function removeImage(id){
+		if(empty(id)){
+			return;
+		}
 		$.ajax({
 			type: "post",
 			data: {orderId: id},
