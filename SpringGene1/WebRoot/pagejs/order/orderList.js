@@ -57,7 +57,7 @@ function initOrderManager(){
 		colNames:['订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
 		colModel:[
           	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
-          	{name:'ordState',index:'ordState',width:80, editable:true},
+          	{name:'ordState',index:'ordState',width:80, editable:true, formatter:formatOrdState},
 			{name:'ordPrice',index:'ordPrice', width:80, sorttype:"int", editable: true},
 			{name:'ordPay',index:'ordPay',width:80, editable:true,formatter:formatordPay},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
@@ -232,7 +232,12 @@ function initOrderManager(){
 			<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
 		,
 			dictResponseError: 'Error while uploading file!',
-			previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+			previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    " +
+					"<div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    " +
+					"<img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\">" +
+					"<div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  " +
+					"<div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\">" +
+					"<span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
 			init: function () {
                 var submitButton = document.querySelector("#submit-all")
                 myDropzone = this; // closure
@@ -264,7 +269,7 @@ function initOrderManager(){
 						reloadUploadRrportCount();
 					}else{
 						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
-						 $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
+						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
 					}
                 });
                 this.on("sending", function (file, xhr, formData) {
@@ -347,8 +352,14 @@ function initOrderManager(){
 		//rowObject.map_order_product_id    
 		
 		var str = options.gid + "||" +  options.rowId + "||" + rowObject.map_order_product_id;
-		var detail = "<button onclick=\"uploadReportPic('" + str + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>"
-					+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
+		var detail = "";
+		if(rowObject.ordState != 6){
+			detail = "<button disabled=\"disabled\" onclick=\"uploadReportPic('" + str + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>"
+				+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
+		}else{
+			detail = "<button onclick=\"uploadReportPic('" + str + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>"
+			+"<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
+		}
         return detail;
 
 	}
@@ -357,7 +368,6 @@ function initOrderManager(){
 		//options.gid  Grid的Id
 		//rowObject.id  第几行
 		//rowObject.map_order_product_id    
-		alert(rowObject.id)
 		var detail = "<button onclick=\"querOrderDetial(" + rowObject.id + ")\" class=\"btn btn-minier btn-purple\">查看详情	</button>"
         return detail;
 
@@ -380,13 +390,28 @@ function initOrderManager(){
 			break;
 		}
 	}
-	function formatterReportIsUpload(cellvalue, options, rowObject){
+	function formatOrdState(cellvalue, options, rowObject){
 		switch (parseInt(cellvalue)) {
 		case 1:
-			return "否";
+			return "未支付";
 			break;
 		case 2:
-			return "是";
+			return "待发货";
+			break;
+		case 3:
+			return "待收货";
+			break;
+		case 4:
+			return "待收货";
+			break;
+		case 5:
+			return "待收货";
+			break;
+		case 6:
+			return "待检测";
+			break;
+		case 7:
+			return "完成";
 			break;
 		default:
 			return "无";
@@ -497,7 +522,9 @@ function viewReportPic(mapOrderProductId){
 }
 //显示发货modal
 function deliverProduct(){
-	var id = $("#grid-table").jqGrid("getGridParam","selrow");
+	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
+	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
+	var id = rowData.id;
 	if(!isNoEmpty(id)){
 		alertmsg("warning","请至少选中一行 !");
 		return;
@@ -539,7 +566,9 @@ function saveDeliverProduct(){
 }
 //确认收货
 function confirmRceliveProduct(){
-	var id = $("#grid-table").jqGrid("getGridParam","selrow");
+	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
+	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
+	var id = rowData.id;
 	if(!isNoEmpty(id)){
 		alertmsg("warning","请至少选中一行 !");
 		return;

@@ -461,7 +461,9 @@ function saveAdmin(){
 }
 //修改用户
 function editAdmin(){
-	var id = $("#grid-table").jqGrid("getGridParam","selrow");
+	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
+	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
+	var id = rowData.id;
 	if(!isNoEmpty(id)){
 		alertmsg("warning","请至少选中一行 !");
 		return;
