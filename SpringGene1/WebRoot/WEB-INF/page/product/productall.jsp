@@ -83,6 +83,9 @@
 							<div class="col-sm-8">
 								<div>
 									<select id="classify" name="classify_id" class="input-medium" data-placeholder="请选择商品所属类别...">
+													
+											
+									
 									</select>
 									</div>
 							</div>									
@@ -148,6 +151,7 @@
 		     </div>
 		     <div class="modal-body">
             	<form class="form-horizontal " id="addProductform" >
+            		
            			<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proName">商品名称</label>
 
@@ -211,20 +215,12 @@
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proOnline">商品是否上线</label>
 						<div class="col-xs-12 col-sm-8">
-							<div>
-								<label class="line-height-1 blue">
-									<input name="proOnline" value=true type="radio" class="ace" />
-									<span class="lbl">是</span>
-								</label>
-							</div>
-	
-								<div>
-									<label class="line-height-1 blue">
-									<input name="proOnline" value=false type="radio" class="ace" />
-									<span class="lbl">否</span>
-									</label>
-								</div>	
-																	
+								 <div>
+									<select id="isonlinePro" name="isonline_product" class="input-medium" data-placeholder="请选择商品状态">
+										<option value="1">是</option>
+										<option value="0">否</option>
+									</select>
+								</div>		 			
 						</div>
 					</div>
 					<div class="form-group">
@@ -232,7 +228,7 @@
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="shortName">商品所属类别</label>
 							<div class="col-xs-12 col-sm-8">
 								<div>
-									<select id="classify" name="classify_id" class="input-medium" data-placeholder="请选择商品所属类别...">
+									<select id="classify1" name="classify_product" class="input-medium" data-placeholder="请选择商品所属类别...">
 									</select>
 								</div>
 						</div>									

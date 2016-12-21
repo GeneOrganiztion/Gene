@@ -194,173 +194,6 @@ function initAdminManager(){
 	}
 	
 	
-	$('#addAdminform').validate({
-		errorElement: 'div',
-		errorClass: 'help-block',
-		focusInvalid: false,
-		ignore: "",
-		rules: {
-			email: {
-				required: true,
-				email:true
-			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-			password2: {
-				required: true,
-				minlength: 5,
-				equalTo: "#addAdminModal input[name='password']"
-			},
-			username: {
-				required: true
-			},
-			realname: {
-				required: true
-			},
-			phone: {
-				required: true,
-				minlength: 11
-			}
-		},
-
-		messages: {
-			email: {
-				required: "请输入email",
-				email: "email格式错误"
-			},
-			password: {
-				required: "请输入密码",
-				minlength: "密码格式错误",
-			},
-			password2: {
-				required: "请输入密码",
-				password2: "密码格式错误"
-			},
-			phone: {
-				required: "请输入手机号",
-				minlength: "手机号小于11位",
-			},
-			username: "请输入用户名",
-			realname: "请输入真实姓名"
-		},
-
-
-		highlight: function (e) {
-			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-		},
-
-		success: function (e) {
-			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
-			$(e).remove();
-		},
-
-		errorPlacement: function (error, element) {
-			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
-				var controls = element.closest('div[class*="col-"]');
-				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
-				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
-			}
-			else if(element.is('.select2')) {
-				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
-			}
-			else if(element.is('.chosen-select')) {
-				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
-			}
-			else error.insertAfter(element.parent());
-		},
-
-		submitHandler: function (form) {
-		},
-		invalidHandler: function (form) {
-		}
-	});
-	
-	$('#editAdminform').validate({
-		errorElement: 'div',
-		errorClass: 'help-block',
-		focusInvalid: false,
-		ignore: "",
-		rules: {
-			email: {
-				required: true,
-				email:true
-			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-			password2: {
-				required: true,
-				minlength: 5,
-				equalTo: "#editAdminform input[name='password']"
-			},
-			username: {
-				required: true
-			},
-			realname: {
-				required: true
-			},
-			phone: {
-				required: true,
-				minlength: 11
-			}
-		},
-
-		messages: {
-			email: {
-				required: "请输入email",
-				email: "email格式错误"
-			},
-			password: {
-				required: "请输入密码",
-				minlength: "密码格式错误",
-			},
-			password2: {
-				required: "请输入密码",
-				password2: "密码格式错误"
-			},
-			phone: {
-				required: "请输入手机号",
-				minlength: "手机号小于11位",
-			},
-			username: "请输入用户名",
-			realname: "请输入真实姓名"
-		},
-
-
-		highlight: function (e) {
-			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-		},
-
-		success: function (e) {
-			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
-			$(e).remove();
-		},
-
-		errorPlacement: function (error, element) {
-			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
-				var controls = element.closest('div[class*="col-"]');
-				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
-				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
-			}
-			else if(element.is('.select2')) {
-				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
-			}
-			else if(element.is('.chosen-select')) {
-				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
-			}
-			else error.insertAfter(element.parent());
-		},
-
-		submitHandler: function (form) {
-		},
-		invalidHandler: function (form) {
-		}
-	});
-	
-	
 	function formatterProductIsOnline(cellvalue, options, rowObject){
 		switch (cellvalue) {
 		case true:
@@ -375,7 +208,7 @@ function initAdminManager(){
 		}
 	}
 	
-	$('#editProductModal').validate({
+	$('#addProductform').validate({
 		errorElement: 'div',
 		errorClass: 'help-block',
 		focusInvalid: false,
@@ -389,7 +222,7 @@ function initAdminManager(){
 				required: true,
 				maxlength: 20
 			},
-			classify_id: {
+			classify_product: {
 				required: true
 			},
 			productPrice: {
@@ -402,7 +235,7 @@ function initAdminManager(){
 				digits:true,
 				min:0   
 			},
-			proOnline: {
+			isonline_product: {
 				required: true
 			},
 			proSum:{
@@ -432,7 +265,7 @@ function initAdminManager(){
 				digits: "商品折扣价必须为正整数",
 				min:"商品折扣价不能小于0"
 			},
-			proOnline:{
+			isonline_product:{
 				required:"请选择商品状态"
 			},
 			proSum:{
@@ -442,7 +275,7 @@ function initAdminManager(){
 			},
 			state: "Please choose state",
 			subscription: "Please choose at least one option",
-			classify_id: "请选择商品类别  如商品类别列表为空请先添加商品类别",
+			classify_product: "请选择商品类别  如商品类别列表为空请先添加商品类别",
 		},
 
 
@@ -538,14 +371,16 @@ function selectClassify(){
 		success: function(msg){
 			var json = eval(msg);
 			var objSelect = $('#classify');
+			var objSelect1 = $('#classify1');
 			objSelect.append("<option value=''></option>");
 			for(var i=0;i<json.length;i++){
 				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
+				objSelect1.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
 			}
 			//
 			$('#classify').trigger("chosen:updated");
+			$('#classify1').trigger("chosen:updated");
 			$('#validation-form').removeClass('hide');
-			$('#cssloader').addClass('hide');
 		}
 	});
 }
@@ -599,26 +434,35 @@ function saveProduct(){
 		}
 	});
 }
-//修改用户
+//修改商品
 function editProduct(){
-	var id = $("#grid-table").jqGrid("getGridParam","selrow");
-	if(!isNoEmpty(id)){
+	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
+	if(!isNoEmpty(lanId)){
 		alertmsg("warning","请至少选中一行 !");
 		return;
 	}
+	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
+	var id = rowData.product_id;
+	console.log(id);
 	$.ajax({
 		type: "post",
 		url: webroot + "product/selectOneProduct.do",
 		data: {ProductId: id},
 		success: function(msg){
-			
+			if(msg.proOnline.toString()=="true"){
+				msg.proOnline=1;
+			}else{
+				msg.proOnline=0;
+			}
 			$("#editProductModal input[name='proName']").val(msg.proName);
 			$("#editProductModal input[name='proHead']").val(msg.proHead);
 			$("#editProductModal input[name='productPrice']").val(msg.productPrice);
 			$("#editProductModal input[name='proRateprice']").val(msg.proRateprice);
 			$("#editProductModal input[name='proSum']").val(msg.proSum);
-			/*$("#editProductModal input[name='proOnline']").val(msg.proOnline);
-			$("#editProductModal input[name='classify_id']").val(msg.classify_id);*/
+			$("#isonlinePro").val(msg.proOnline.toString());
+			$("#classify1").val(msg.classifyId);
+			/*$("#classify1").trigger("chosen:updated");*/
+
 			/*$("#editAdminModal input[name='email']").val(msg.email);*/
 			$("#editProductModal").modal("show");
 		}

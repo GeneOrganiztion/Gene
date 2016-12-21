@@ -124,13 +124,9 @@ public class WeChatController {
 			dataMap.put("openid", jsonObj.getString("openid"));
 			dataMap.put("nickname", jsonObj.getString("nickname"));
 			dataMap.put("sex", jsonObj.getString("sex"));
-			logger.info("dataMap sex="+dataMap.get("sex"));
-			logger.info("dataMap nickname="+dataMap.get("nickname"));
 			dataMap.put("province", jsonObj.getString("province"));
-			logger.info("dataMap province="+dataMap.get("province"));
 			dataMap.put("city", jsonObj.getString("city"));
 			dataMap.put("headimgurl", jsonObj.getString("headimgurl"));
-			logger.info("dataMap headimgurl="+dataMap.get("headimgurl"));
 		}
 		
 		return dataMap;
@@ -442,9 +438,12 @@ public class WeChatController {
 		
 	}
 	
+	
 	@RequestMapping("/addresstest")
-	public void addresstest(HttpServletRequest request,
+	@ResponseBody
+	public  HashMap<String,String> addresstest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
+		
 		String ACCESS_TOKE="";
 		String URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+Constant.APPID+"&secret="+Constant.APPSECRET;
 		Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -463,9 +462,9 @@ public class WeChatController {
 			}
 			JSONObject  jsonObj = JSONObject.fromObject(tempValue);
 			if(jsonObj.containsKey("errcode")){
-				logger.info("accesstoken huoqu errcode=");
+				logger.info("accesstoken huoqu errcode="+jsonObj.getString("errcode"));
 				System.out.println(tempValue);
-				response.sendRedirect("/SpringGene1/error.jsp");
+				//response.sendRedirect("/SpringGene1/error.jsp");
 			}
 
 			 ACCESS_TOKE=jsonObj.getString("access_token");
@@ -474,7 +473,7 @@ public class WeChatController {
 		
         //获取ticket
 		String JsApiTicket="";
-		String URLTICK = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token="+ACCESS_TOKE;
+		String URLTICK = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token="+ACCESS_TOKE+"&type=jsapi";
 		HttpResponse temptick = HttpConnect.getInstance().doGetStr(URLTICK);		
 		String tempValue1="";
 		if( temptick == null){
@@ -490,9 +489,11 @@ public class WeChatController {
 			}
 			JSONObject  jsonObj1 = JSONObject.fromObject(tempValue1);
 			if(jsonObj1.containsKey("errcode")){
-				logger.info("tick huoqu errcode");
+				logger.info("tick huoqu errcode="+jsonObj1.getString("errcode"));
+				logger.info("tick huoqu errmsg="+jsonObj1.getString("errmsg"));
 				System.out.println(tempValue1);
-				response.sendRedirect("/SpringGene1/error.jsp");
+				
+				//response.sendRedirect("/SpringGene1/error.jsp");
 			}
 
 			JsApiTicket=jsonObj1.getString("ticket");
@@ -511,15 +512,24 @@ public class WeChatController {
         //获取请求url
         String path = request.getContextPath();
         //以为我配置的菜单是http://yo.bbdfun.com/first_maven_project/，最后是有"/"的，所以url也加上了"/"
-        String url = request.getScheme() + "://" + request.getServerName() +  path + "/";  
+        String url = request.getScheme() + "://" + request.getServerName() +  path + "/address.jsp";  
         String str = "jsapi_ticket=" + JsApiTicket +
                 "&noncestr=" + noncestr +
                 "&timestamp=" + timestamp +
                 "&url=" + url;
         //sha1加密
+        HashMap<String,String> hashMap=new HashMap<String,String>();
+      
         String signature = HttpXmlClient.SHA1(str);
+        hashMap.put("signature", signature);
+        hashMap.put("appid", Constant.APPID);
+        hashMap.put("timestamp", timestamp);
+        hashMap.put("noncestr", noncestr);
         logger.info("signature="+signature);
-        response.sendRedirect("/SpringGene1/address.jsp?appid="+Constant.APPID+"&timeStamp="+timestamp+"&nonceStr="+noncestr+"&signature="+signature); 
+        logger.info("appid="+Constant.APPID);
+        logger.info("timestamp="+timestamp);
+        logger.info("noncestr="+noncestr);
+        return hashMap;
 	
 	
 	}
