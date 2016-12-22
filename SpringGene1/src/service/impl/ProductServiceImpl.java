@@ -38,6 +38,11 @@ public class ProductServiceImpl implements ProductService{
 		return productMapper.select(product);
 	}
 	@Override
+	public List<Product> selectWebAll(Product product) throws Exception {
+		 product.setIsdelete(false);
+		return productMapper.select(product);
+	}
+	@Override
 	public int delProduct(Product Product) throws Exception {
 		int statcode=0;
 		try{

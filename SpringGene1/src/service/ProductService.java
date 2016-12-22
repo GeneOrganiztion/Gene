@@ -12,6 +12,7 @@ public interface ProductService<T> {
 	public List<T> selectbyClassify(Product Product) throws Exception;
 	
 	public List<T> selectAll(Product Product) throws Exception;
+	public List<T> selectWebAll(Product Product) throws Exception;
 	
 	public int delProduct(Product Product) throws Exception;
 	

@@ -2,15 +2,7 @@
 <%
 	String path = request.getContextPath();
 %>
-<script src="<%=path%>/pagejs/product/product.js"></script>
-<style type="text/css">
-	#editor1{
-	text-align: center;
-	}
-	#editor1 img{
-	width: 100%;
-	}
-</style>
+<script src="<%=path%>/pagejs/product/producteditor.js"></script>
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try {
@@ -27,18 +19,17 @@
 		    </li> -->
 		<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">首页</a></li>
 		<li><a href="#">商品管理</a></li>
-		<li class="active"><span>商品上传</span></li>
+		<li class="active"><span>商品修改</span></li>
 	</ul>
 	<!-- /.breadcrumb -->
-			
-	</div>
+</div>
 				<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
 								<div class="widget-box">
 									<div class="widget-header widget-header-blue widget-header-flat">
-										<h4 class="widget-title lighter">商品上传</h4>
+										<h4 class="widget-title lighter">商品修改</h4>
 									</div>							
 									<div class="widget-body">
 										<div class="widget-main">
@@ -49,17 +40,17 @@
 													<ul class="steps">
 														<li data-step="1" class="active">
 															<span class="step">1</span>
-															<span class="title">商品基本信息</span>
+															<span class="title">商品基本信息修改</span>
 														</li>
 
 														<li data-step="2">
 															<span class="step">2</span>
-															<span class="title">商品展示图片上传</span>
+															<span class="title">商品展示图片修改</span>
 														</li>
 
 														<li data-step="3">
 															<span class="step">3</span>
-															<span class="title">商品详情图片上传</span>
+															<span class="title">商品详情图片修改</span>
 														</li>
 
 													</ul>
@@ -72,23 +63,36 @@
 												<!-- #section:plugins/fuelux.wizard.container -->
 												<div class="step-content pos-rel">
 													<div class="step-pane active" data-step="1">
-														<h3 class="lighter block green">请在下方填写商品的基本信息</h3>
-															   <div id="cssloader">
+														<h3 class="lighter block green">请在下方选择需要修改的商品的名称</h3>
+															   <!-- <div id="cssloader">
 																		<i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="text-align:center; margin: 20px auto;width:100%;height:100%;font-size: 600% !important;"></i>
 																		<div style="color: #ff6900 !important;text-align:center; margin: 0px auto;width:100%;height:100%" class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">
 																		加载中.......
 																		</div>							
+																</div> -->
+																
+																<!-- <form class="form-horizontal" id="validation-form" method="get"> -->
+																	
+																		<input type="text" name="product_id" id="product_id" class="hide"/>
+																	
+																
+																<div style="text-align:center; margin: 20px auto;">
+																	<div >
+																	<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="load product...">					
+																		</select>
+																		</div>
+																	<button class="btn" onclick="selectClassify()" style="margin:20px auto">加载该商品基本信息</button>
 																</div>
+																
+															
+														<div id="addloader" class="hide">
+															<i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="text-align:center; margin: 20px auto;width:100%;height:100%;font-size:300% !important;"></i>
+																		<div style="color: #ff6900 !important;text-align:center; margin: 0px auto;width:100%;height:100%" class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">
+																		商品信息加载中请耐心等待.......
+																		</div>	
+														</div>		
+																<!-- </form> -->
 														<form class="form-horizontal" id="validation-form" method="get">
-														
-															<div class="form-group" >
-																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">商品名称:</label>
-																<div class="col-xs-12 col-sm-9">
-																	<div class="clearfix">
-																		<input type="text" id="name" name="name" class="col-xs-4 col-sm-3" />
-																	</div>
-																</div>
-															</div>
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品标题:</label>
 																<div class="col-xs-12 col-sm-9">
@@ -177,12 +181,13 @@
 															</div>
 														</form>
 														
-														<div id="addloader" class="hide">
-															<i class="ace-icon fa fa-spinner fa-spin orange bigger-125" style="text-align:center; margin: 20px auto;width:100%;height:100%;font-size:300% !important;"></i>
-																		<div style="color: #ff6900 !important;text-align:center; margin: 0px auto;width:100%;height:100%" class="control-label col-xs-12 col-sm-3 no-padding-right" for="name">
-																		商品信息入库中请耐心等待.......
-																		</div>	
-														</div>
+														
+														
+														
+														
+														
+														
+													
 													</div>
 
 													<div class="step-pane" data-step="2">
@@ -428,9 +433,15 @@
 
 	<!-- inline scripts related to this page -->
 	
-<!-- 添加商品model end -->
+<!-- 添加商品model end -->					
+														
+			
+			
+			
+			
+								<!-- 添加商品model end -->
 <script type="text/javascript">
 jQuery(function($) {
-	initProductManager();
+	initproducteditorManager();
 })
 </script>

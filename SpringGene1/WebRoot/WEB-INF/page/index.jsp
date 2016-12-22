@@ -575,6 +575,16 @@
 
 								<b class="arrow"></b>
 							</li>
+							
+							
+							<li class="">
+								<a a href="#" class="dropdown-toggle"  menu-url="product/productEditorPage.do">
+									<i class="menu-icon fa fa-caret-right"></i>
+									商品修改
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
 

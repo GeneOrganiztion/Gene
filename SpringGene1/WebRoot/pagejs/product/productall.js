@@ -22,7 +22,7 @@ function initAdminManager(){
 		url: webroot + "product/selectProduct.do",
 		mtype: 'post',
 		datatype: "json",
-		height: 320,
+		height: 370,
 		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','创建时间','最后更新时间'],
 		colModel:[
           	{name:'product_id',index:'product_id', width:80, sorttype:"int", editable: true},
@@ -317,7 +317,6 @@ function initAdminManager(){
 function queryProduct(){
 	var data = $("#queryAssetForm").serialize();
 	var url = webroot + "product/selectProduct.do";
-	console.log(data);
 	$("#grid-table").jqGrid('setGridParam',{ 
         url: url + "?" + data, 
         //postData:jsonData, 
@@ -394,13 +393,13 @@ function addAdmin(){
 	
 }*/
 //保存用户
-function saveProduct(){
+/*function saveProduct(){
 	//form中验证不通过直接返回
 	if(!($('#addProductform').valid())){
 		return;
 	}
-/*	//验证是否已存在此用户名
-	var name = $("#addProductform input[name='username'").val();*/
+	//验证是否已存在此用户名
+	var name = $("#addProductform input[name='username'").val();
 	$.ajax({
 		type: "post",
 		url: webroot + "admin/validateAdmin.do",
@@ -433,7 +432,7 @@ function saveProduct(){
 			}
 		}
 	});
-}
+}*/
 //修改商品
 function editProduct(){
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
@@ -469,7 +468,7 @@ function editProduct(){
 	});
 }
 //修改用户
-function editAndSaveAdmin(){
+/*function editAndSaveAdmin(){
 	//form中验证不通过直接返回
 	if(!($('#editAdminform').valid())){
 		return;
@@ -508,4 +507,4 @@ function editAndSaveAdmin(){
 			}
 		}
 	});
-}
+}*/

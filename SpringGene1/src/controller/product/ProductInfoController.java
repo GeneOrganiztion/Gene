@@ -44,15 +44,23 @@ public class ProductInfoController extends BaseController{
 	@Autowired
 	private ClassifyService classifyService;
 	private String PRODUCT_PAGE = "product/productall";
+	private String PRODUCTEDITOR_PAGE = "product/producteditor";
 	@Autowired
 	private ImageService imageService;
 	
 	@RequestMapping(value="/productPage")
-	public ModelAndView adminPage(HttpServletRequest request,HttpServletResponse response){
+	public ModelAndView productPage(HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName(PRODUCT_PAGE);
 		return mv;
 	}
+	@RequestMapping(value="/productEditorPage")
+	public ModelAndView productEditorPage(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(PRODUCTEDITOR_PAGE);
+		return mv;
+	}
+
  
 	 @RequestMapping(value = "/phoneproall", method = RequestMethod.GET)
 	 @ResponseBody
@@ -82,6 +90,21 @@ public class ProductInfoController extends BaseController{
 		 }catch(Exception e){
 			 e.printStackTrace();
 			 logger.info("phoneproall"+e);
+		 }
+		return listproduct;
+	 }
+	 
+	 @RequestMapping(value = "/weball", method = RequestMethod.POST)
+	 @ResponseBody
+	 public List<Product> weball(HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+		 List<Product> listproduct=new ArrayList<Product>();
+		 try{
+		 Product product=new Product();
+		 listproduct=productService.selectWebAll(product);
+		 }catch(Exception e){
+			 e.printStackTrace();
+			 logger.info("weball"+e);
 		 }
 		return listproduct;
 	 }
@@ -362,7 +385,7 @@ public class ProductInfoController extends BaseController{
 		 @ResponseBody
 		 public Product selectOneProduct(HttpServletRequest request,
 		            HttpServletResponse response) throws Exception {
-	 		 String pro_id = getParam("ProductId");// 排序字段;
+	 		 String pro_id = getParam("ProductId");
 	 		 Product ResultProduct=new Product();
 			 try{
 			 Product product=new Product();
