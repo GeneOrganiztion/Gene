@@ -363,7 +363,7 @@ function initAdminManager(){
 
 //查询
 function queryAdmin(){
-	var data = $("form").serialize();
+	var data = $("#queryAdminForm").serialize();
 	var url = webroot + "admin/selectAdmin.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
         url: url + "?" + data, 
