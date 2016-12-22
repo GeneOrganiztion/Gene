@@ -78,9 +78,8 @@
        <bean class="controller.base.SessionTimeoutInterceptor">  
          <property name="allowUrls">  
            <list>  
-          
-             <value>/webLogin</value>
-             <value>/webTest</value>
+          	 <value>/CoreServlet/loginjsp.do</value>
+             <value>/CoreServlet/login.do</value>
              <value>/index</value>
              <value>/timeout</value>
              <value>/404</value>
@@ -96,15 +95,14 @@
        </bean>
    </mvc:interceptors>  
  
-   <!-- 拦截器的异常
+   
    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
      <property name="exceptionMappings">  
        <props>  
-         <prop key="controller.SessionTimeoutException">redirect:/timeout.jsp</prop>  
+         <prop key="controller.base.SessionTimeoutException">redirect:/timeout.jsp</prop>  
        </props>  
      </property>  
    </bean> 
-     -->
     <!-- 指定所上传文件的总大小不能超过5000KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 --> 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
         <property name="maxUploadSize" value="52428800"/>

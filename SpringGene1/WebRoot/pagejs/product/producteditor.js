@@ -4,7 +4,7 @@ function initproducteditorManager(){
 				selectProductAll();	
 				
 				var flieuploadimagesize=null;
-				var productid=null;
+				
 				$('[data-rel=tooltip]').tooltip();
 			
 				$(".select2").css('width','200px').select2({allowClear:true})
@@ -25,26 +25,24 @@ function initproducteditorManager(){
 								e.preventDefault();
 							}else{
 								if(info.step==1&&info.direction=="next"){
-									productid=$('#product_id').val();
-									console.log("next="+productid);
-									
+									var productid=$('#product_id').val();
+									console.log("productidnext="+productid);
 									if(null==productid){
 											alertmsg("warning","请选择要修改的商品");
 											return false;
-										}
-									}else{
-										var flag=updateproductinit(productid);
-										if(flag==true){
-											$('#addloader').addClass('hide');
+									}
+							
+									console.log("update");
+									var flag=updateproductinit(productid);
+									if(flag==true){
 											alertmsg("success","商品信息更新成功");
 											return true;
-										}else{
-											$('#addloader').addClass('hide');
+									}else{
 											alertmsg("warning","商品信息更新失败 请回退重新操作");
 											return false;
-										}
-										
 									}
+										
+								}
 									
 								
 							}
@@ -583,7 +581,7 @@ function selectProductAll(){
 			}
 			//
 			$('#form-field-select-3').trigger("chosen:updated");
-			
+			selectClassify();
 			
 		}
 	});
@@ -593,8 +591,6 @@ function selectProductAll(){
 
 //查询所有分类
 function selectClassify(){
-	$('#addloader').removeClass('hide');
-	$('#validation-form').addClass('hide');
 	$.ajax({
 		type: "post",
 		url: webroot + "classify/webclsall.do",
@@ -606,7 +602,7 @@ function selectClassify(){
 			}
 			//
 			$('#classify').trigger("chosen:updated");
-			editProduct();
+			
 		}
 	});
 }
@@ -629,6 +625,8 @@ function updateproductinit(proid){
 
 //修改商品
 function editProduct(){
+	$('#addloader').removeClass('hide');
+	$('#validation-form').addClass('hide');
 	var rowData = $('#form-field-select-3').val();//获取选中行的记录 
 	$('#product_id').val(rowData);
 	productid=rowData;
