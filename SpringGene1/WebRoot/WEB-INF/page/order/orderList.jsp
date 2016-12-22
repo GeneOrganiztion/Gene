@@ -51,7 +51,7 @@
 	    </div>
 	    <div id="searchDiv" class="panel-collapse collapse">
 	      <div class="panel-body">
-			  <form id="queryAssetForm" class="form-horizontal" role="form">
+			  <form id="queryOrderListForm" class="form-horizontal" role="form">
 				<!-- #section:elements.form -->
 				<div class="form-group">
 					<div class="col-md-3">
@@ -220,9 +220,9 @@
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<input type="hidden" id="mapOrderProductId"></input>
-						<input type="hidden" id="subGridId"></input>
-						<input type="hidden" id="subGridLine"></input>
-						<input type="hidden" id="deleteReportId"></input>
+						<!-- <input type="hidden" id="subGridId"></input>
+						<input type="hidden" id="subGridLine"></input> -->
+						<!-- <input type="hidden" id="deleteReportId"></input> -->
 						<div>
 							<form action="<%=path%>/orderInfo/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
 								<div class="fallback">

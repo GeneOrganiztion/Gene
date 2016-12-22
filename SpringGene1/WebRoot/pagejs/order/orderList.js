@@ -264,9 +264,13 @@ function initOrderManager(){
                 
                 this.on("success", function (file, response, e) {
                 	if(response.success){
+                		$("#uploadReportPicModal").modal("hide");
 						alertmsg("success","报告上传成功");
-						$("#deleteReportId").val(response.returnId);
+						//$("#deleteReportId").val(response.returnId);
 						queryOrder();
+						var file = $("#reportpic") 
+						file.after(file.clone().val("")); 
+						file.remove(); 
 						//重新加载报告上传数量
 						//reloadUploadRrportCount();
 					}else{
@@ -301,9 +305,9 @@ function initOrderManager(){
                         $("#submit-all").attr("disabled", true);
                     }
                     //上传失败的不删数据库中的数据
-                    var val = $(file.previewTemplate).children('.dz-error-mark').css("opacity");
+                    //var val = $(file.previewTemplate).children('.dz-error-mark').css("opacity");
                     console.log("ddddddd:" + val);//todo  真删和假删除区分开
-                    removeImage($("#deleteReportId").val());
+                    //removeImage($("#deleteReportId").val());
                 });
             }
 			
@@ -320,10 +324,11 @@ function initOrderManager(){
 		}
 	
 	//删除报告
-	function removeImage(id){
+	/*function removeImage(id){
 		if(empty(id)){
 			return;
 		}
+		return;
 		$.ajax({
 			type: "post",
 			data: {reportId: id},
@@ -338,7 +343,7 @@ function initOrderManager(){
 				}
 			}
 		});
-	}
+	}*/
 	
 	
 	function TimeAdd0(time){
@@ -426,7 +431,7 @@ function initOrderManager(){
 }
 
 //重新加载上传报告数量
-function reloadUploadRrportCount(){
+/*function reloadUploadRrportCount(){
 	var mapOrderProductId = $("#mapOrderProductId").val();
 	$.ajax({
 		type: "post",
@@ -441,11 +446,11 @@ function reloadUploadRrportCount(){
 			}
 		}		
 	});
-}
+}*/
 
 //查询
 function queryOrder(){
-	var data = $("form").serialize();
+	var data = $("#queryOrderListForm").serialize();
 	var url = webroot + "orderInfo/seletcOrder.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
         url: url + "?" + data, 
@@ -488,9 +493,8 @@ function uploadReportPic(str){
 	$("#uploadReportPicModal :input").val("");
 	
 	
-	
-	$("#subGridId").val(strArr[0]);
-	$("#subGridLine").val(strArr[1]);
+	/*$("#subGridId").val(strArr[0]);
+	$("#subGridLine").val(strArr[1]);*/
 	$("#mapOrderProductId").val(strArr[2]);
 	$("#uploadReportPicModal").modal("show");
 }

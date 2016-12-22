@@ -51,7 +51,7 @@
 	    </div>
 	    <div id="searchDiv" class="panel-collapse collapse">
 	      <div class="panel-body">
-			  <form id="queryAssetForm" class="form-horizontal" role="form">
+			  <form id="queryAdminForm" class="form-horizontal" role="form">
 				<!-- #section:elements.form -->
 				<div class="form-group">
 					<div class="col-md-3">
