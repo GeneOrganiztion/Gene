@@ -50,7 +50,7 @@
     create_time, last_modified_time
   </sql>
   
-  <select id="getOrderByUserId" resultMap="OrderAndProductResultMap" parameterType="po.Orders">
+  <select id="getOrderByUserId" resultMap="OrderAndProductResultMap" parameterType="java.util.HashMap">
      	SELECT 
 	     	oe.*,
 	     	mp.*,
@@ -67,13 +67,16 @@
      	<if test="ordUser != null">
      		and oe.ord_user = #{ordUser}
      	</if>
-     	<if test="ordState != null">
-     		and oe.ord_state = #{ordState}
+     	<if test="stateList != null">
+     		and oe.ord_state in 
+     		 <foreach item="item" index="index" collection="stateList" open="(" separator="," close=")">  
+			  #{item}  
+			 </foreach>  
+		</if>
+     	<if test="orderId != null">
+     		and oe.order_id = #{orderId}
      	</if>
-     	<if test="id != null">
-     		and oe.order_id = #{id}
-     	</if>
-     	order by oe.order_id desc
+     	order by oe.create_time desc
   </select>
   
   <select id="getOrderByOrderId" resultMap="OrderAndProductResultMap" parameterType="java.lang.Integer">

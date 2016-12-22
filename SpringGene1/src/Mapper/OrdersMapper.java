@@ -19,7 +19,7 @@ public interface OrdersMapper extends Mapper<Orders>{
 
     int updateByPrimaryKey(Orders record);*/
     
-    List<Orders> getOrderByUserId(Orders order);
+    List<Orders> getOrderByUserId(Map map);
     
     List<Orders> selectOrderByParams(Map map);
     

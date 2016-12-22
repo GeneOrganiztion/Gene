@@ -2,7 +2,9 @@ package controller.order;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,13 +41,19 @@ public class OrderDetailController extends BaseController{
 		List<Orders> listOrd = new ArrayList<Orders>();
 		String userId = getParam("userId");
 		String ordState = getParam("ordState");
-		System.out.println("ordState="+ordState);
+		String orderId = getParam("orderId");
+		
 		try {
-			Orders order = new Orders();
-			order.setOrdUser(Integer.valueOf(userId));
-			order.setOrdState(ordState);
-			listOrd = orderService.getOrderByUserId(order);
-			System.out.println("listOrd.size()="+listOrd.size());
+			Map<String,Object> map = new HashMap<String, Object>();
+			if(!ST.isNull(userId)){
+				map.put("ordUser", userId);
+			}
+			if(!ST.isNull(ordState)){
+				List<Integer> list = ST.StringToList(ordState);
+				map.put("stateList", list);
+			}
+			map.put("orderId", orderId);
+			listOrd = orderService.getOrderByUserId(map);
 		} catch (Exception e) {
 			logger.error("getOrderByUserId error:" + e);
 		}

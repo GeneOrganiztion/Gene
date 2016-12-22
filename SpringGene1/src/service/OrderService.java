@@ -10,7 +10,7 @@ import com.github.pagehelper.PageInfo;
 public interface OrderService<T> {
 	
 	//根据userId或其他属性查看订单的详情，以及订单下的商品
-	List<T> getOrderByUserId(Orders order);
+	List<T> getOrderByUserId(Map map);
 	
 	boolean updateOrderStatus(Orders order);
 	
@@ -21,4 +21,5 @@ public interface OrderService<T> {
 	public Orders getOrderByOrderId(Integer orderId);
 	
 	public boolean updateOrder(Orders order)throws Exception;
+
 }

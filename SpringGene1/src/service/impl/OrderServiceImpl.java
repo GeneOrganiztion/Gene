@@ -1,6 +1,5 @@
 package service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,12 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
-import Mapper.OrdersMapper;
 import po.Orders;
 import service.OrderService;
+import Mapper.OrdersMapper;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
@@ -22,9 +21,8 @@ public class OrderServiceImpl implements OrderService {
     private OrdersMapper ordesMapper;
     
     @Override
-    public List<Orders> getOrderByUserId(Orders order){
-    	System.out.println("mapperSize="+ordesMapper.getOrderByUserId(order).size());
-    	return ordesMapper.getOrderByUserId(order);
+    public List<Orders> getOrderByUserId(Map map){
+    	return ordesMapper.getOrderByUserId(map);
     }
     @Override
     public boolean updateOrderStatus(Orders order){
