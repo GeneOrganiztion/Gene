@@ -52,7 +52,9 @@ public class OrderDetailController extends BaseController{
 				List<Integer> list = ST.StringToList(ordState);
 				map.put("stateList", list);
 			}
-			map.put("orderId", orderId);
+			if(!ST.isNull(orderId)){
+				map.put("orderId", orderId);
+			}
 			listOrd = orderService.getOrderByUserId(map);
 		} catch (Exception e) {
 			logger.error("getOrderByUserId error:" + e);
