@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import po.Admin;
 import po.InfoPerson;
 
 public class SessionTimeoutInterceptor  implements HandlerInterceptor{
@@ -36,16 +37,18 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
 			arg1.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");  
 			arg1.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With"); 
 
-			return true;
-			/*if(null != allowUrls && allowUrls.length>=1){  
+			
+			if(null != allowUrls && allowUrls.length>=1){  
                 for(String url : allowUrls) {    
                     if(requestUrl.startsWith(url)) {    
                         return true;    
                     }    
                 }
         	}
-			//有session的验�?
-			InfoPerson user = (InfoPerson) arg0.getSession().getAttribute("SESSION_USER");  
+			if(requestUrl.contains("phone")||requestUrl.contains("weixin")){
+				return true;
+			}
+			Admin user = (Admin) arg0.getSession().getAttribute("SESSION_USER");  
 	        if(user != null){
 	        	Set<String> set = (Set<String>) arg0.getSession().getAttribute("SESSION_EVENT");  
 	        	if(requestUrl.indexOf(".")==-1){
@@ -70,9 +73,9 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
 					arg1.setStatus(975);
 					return false;
 				}else{
-					throw new SessionTimeoutException("当前登陆操作,请重新登�?"); 
+					throw new SessionTimeoutException("当前登陆超时,请重新登"); 
 				}
-	        }*/
+	        }
 	}
 	
 

@@ -81,7 +81,7 @@
 																	<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="load product...">					
 																		</select>
 																		</div>
-																	<button class="btn" onclick="selectClassify()" style="margin:20px auto">加载该商品基本信息</button>
+																	<button class="btn" onclick="editProduct()" style="margin:20px auto">加载该商品基本信息</button>
 																</div>
 																
 															
