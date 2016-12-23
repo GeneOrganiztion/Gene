@@ -201,6 +201,11 @@
 			    <h4 class="modal-title" >发货详情</h4>
 		     </div>
 		     <div class="modal-body">
+		     	<div class="col-sm-6 text-center">
+					<div id="imageEditer"></div>
+				</div>
+				<div class="col-sm-6">
+				</div>
             	<form class="form-horizontal">
             		<input type="hidden" id="deliverProductOrderId"></input>
            			<div class="form-group">

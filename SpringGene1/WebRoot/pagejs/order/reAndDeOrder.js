@@ -1,4 +1,9 @@
 function initOrderManager(){
+	document.hs = new $.imageEditer("#imageEditer", {
+		selector : "",
+		viewType : "edit",
+		//url : "<c:url value='/asset/assetAction!imgApplyView.htm'/>"
+	});
 	chosenSelectInit();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -320,6 +325,7 @@ function querOrderDetial(orderId){
 }
 //显示发货modal
 function deliverProduct(){
+	
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;

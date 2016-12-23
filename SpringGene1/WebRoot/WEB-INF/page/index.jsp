@@ -719,7 +719,7 @@
 		<![endif]-->
 		
 		<script src="<%=path%>/pagejs/util.js"></script>
-		
+		<script src="<%=path%>/assets/js/imageEditer.js"></script>
 		<script src="<%=path%>/assets/js/jquery-ui.custom.js"></script>
 		<script src="<%=path%>/assets/js/jquery.ui.touch-punch.js"></script>
 		<script src="<%=path%>/assets/js/flot/jquery.flot.js"></script>
