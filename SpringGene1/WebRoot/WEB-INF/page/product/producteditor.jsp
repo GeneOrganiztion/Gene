@@ -74,14 +74,26 @@
 																<!-- <form class="form-horizontal" id="validation-form" method="get"> -->
 																	
 																		<input type="text" name="product_id" id="product_id" class="hide"/>
-																	
-																
-																<div style="text-align:center; margin: 20px auto;">
-																	<div >
-																	<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="load product...">					
-																		</select>
+																	<form class="form-horizontal">
+																		<div class="form-group">
+																			<label class="control-label col-xs-12 col-sm-5 no-padding-right" for="email">商品标题:</label>
+																			<div class="col-xs-12 col-sm-2">
+																				<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="load product...">					
+																				</select>
+																			</div>
+																			<div class="col-xs-12 col-sm-5">
+																			</div>
+																			<!-- <div style="text-align:center; margin: 0px auto;">
+																				<button class="btn" onclick="editProduct()" style="margin:20px auto">加载该商品基本信息</button>
+																			</div> -->
 																		</div>
-																	<button class="btn" onclick="editProduct()" style="margin:20px auto">加载该商品基本信息</button>
+																	</form>
+																
+																<div style="text-align:center; margin: 0px auto;">
+																		<div >
+																			
+																		</div>
+																	<button class="btn" onclick="editProduct()" style="margin:20px auto;margin-top:0px;">加载该商品基本信息</button>
 																</div>
 																
 															
