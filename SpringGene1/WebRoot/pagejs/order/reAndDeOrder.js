@@ -2,7 +2,7 @@ function initOrderManager(){
 	document.hs = new $.imageEditer("#imageEditer", {
 		selector : "",
 		viewType : "edit",
-		//url : "<c:url value='/asset/assetAction!imgApplyView.htm'/>"
+		url : webroot + "product/selectImageProduct.do?ProductId=68"
 	});
 	chosenSelectInit();
 	var grid_selector = "#grid-table";

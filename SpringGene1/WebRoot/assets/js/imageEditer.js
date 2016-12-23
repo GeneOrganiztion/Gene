@@ -451,13 +451,13 @@ $.extend({
         }
         
         this.loadImage = function(callback, need) {
+        	alert(url);
         	var me = this;
         	var imgDir = "store/asset/";
-        	if(url && selector) {
-        		var aid = $("#"+selector).val();
-        		if(aid && aid !='' && !me.isloading) {
+        	if(url ) {
+        		//var aid = $("#"+selector).val();
+        		//if(aid && aid !='' && !me.isloading) {
         			var data = {
-        				aid : aid,
         				need : need||""
         			};
         			if(need == '2') {
@@ -469,7 +469,7 @@ $.extend({
         			var request = $.ajax({
         	            url: url,
         	            method: 'POST',
-        	            data: data,
+        	            data: null,
         	            dataType: 'text'
         	        });
         	        request.done(function( msg ) {
@@ -479,20 +479,23 @@ $.extend({
         	        	if(callback) {
         	        		callback();
         	        	}
-        	        	if(obj.count) {
-        	        		me.count = obj.count;
-        	        		$(".count", me.select).html(obj.count);
+        	        	console.log(obj);
+        	        	if(obj.length) {
+        	        		me.count = obj.length;
+        	        		$(".count", me.select).html(obj.length);
         	        	}
-        	        	if(obj.data) {
-        	        		for(var i=0; i<obj.data.length; i++) {
-                				var d = obj.data[i];
+        	        	console.log(obj.count);
+        	        	if(obj) {
+        	        		for(var i=0; i<obj.length; i++) {
+                				var d = obj[i];
+                				console.log(d);
                 				me.addImage({
                 					id: d.id,
-                					title: d.name,
-                	                alt: d.name,
-                	                name: d.name,
-                	                pixel: d.width + "*" + d.height,
-                	                src: imgDir + d.mpath
+                					title: "test",
+                	                alt: "name",
+                	                name: "name",
+                	                pixel: "200" + "*" + "300",
+                	                src:  d.url
                 				});
                     		}
         	        		
@@ -515,7 +518,7 @@ $.extend({
         	        	me.isloading = false;
         	            alertmsg("error", "图片获取失败"); 
         	        });
-        		}
+        		//}
         	}
         };
         
