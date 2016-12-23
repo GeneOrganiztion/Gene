@@ -106,9 +106,15 @@
 	  <if test="orderId != null">
         and order_id = #{orderId}
       </if>
-      <if test="ordState != null">
-        AND ord_state = #{ordState}
+      <if test="ordNum != null">
+        and ord_num = #{ordNum}
       </if>
+      <if test="stateList != null">
+    	 and ord_state in 
+    	 <foreach item="item" index="index" collection="stateList" open="(" separator="," close=")">  
+		  #{item}  
+		 </foreach>  
+	  </if>
       <!-- <if test="userName != null">
         and username LIKE '%${userName}%'
       </if>
@@ -123,6 +129,9 @@
       </if>
       <if test="sidx != null">
         order by #{sidx} #{sord}
+      </if>
+      <if test="sidx == null">
+        order by create_time desc
       </if>
   </select>
   <!-- <insert id="insert" parameterType="po.Orders" >

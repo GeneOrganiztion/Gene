@@ -78,7 +78,7 @@ public class FileUpload {
 		client.shutdown();
 		return "http://" + bucketName + ".oss-cn-shanghai.aliyuncs.com/" + key;
 	}
-
+	
 	private static void uploadFile(OSSClient client, String bucketName,
 			String Objectkey, MultipartFile filename) throws OSSException,
 			ClientException, FileNotFoundException {
@@ -88,7 +88,7 @@ public class FileUpload {
 		DiskFileItem diskFileItem = (DiskFileItem) commonsMultipartFile
 				.getFileItem();
 		File file = diskFileItem.getStoreLocation();
-		objectMeta.setContentType("image/png");
+		//objectMeta.setContentType("image/png");
 		try {
 			InputStream inputStream = new FileInputStream(file);
 			client.putObject(bucketName, Objectkey, inputStream, objectMeta);

@@ -42,7 +42,9 @@ public class OrderInfoController extends BaseController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(OrderInfoController.class);
 	
-	private String ORDER_PAGE = "order/orderList";
+	private String REANDDE_ORDER_PAGE = "order/reAndDeOrder";
+	private String DETECTION_ORDER_PAGE = "order/detectionOrder";
+	private String COMPLETE_ORDER_PAGE = "order/completeOrder";
 	
 	@Autowired
 	private OrderService orderService;
@@ -51,10 +53,22 @@ public class OrderInfoController extends BaseController{
 	@Autowired
 	private ReportService reportService;
 	
-	@RequestMapping(value="/orderPage")
-	public ModelAndView adminPage(HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping(value="/reAndDeOrderPage")
+	public ModelAndView reAndDeOrderPage(HttpServletRequest request,HttpServletResponse response){
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName(ORDER_PAGE);
+		mv.setViewName(REANDDE_ORDER_PAGE);
+		return mv;
+	}
+	@RequestMapping(value="/detectionOrderPage")
+	public ModelAndView detectionOrderPage(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(DETECTION_ORDER_PAGE);
+		return mv;
+	}
+	@RequestMapping(value="/completeOrderPage")
+	public ModelAndView completeOrderPage(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(COMPLETE_ORDER_PAGE);
 		return mv;
 	}
 	
@@ -68,7 +82,18 @@ public class OrderInfoController extends BaseController{
         	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
             int pageNo = Integer.valueOf(getParam("page"));// 第几页
             String orderId = getParam("orderId");
+            String ordNum = getParam("ordNum");
             String ordState = getParam("ordState");
+            String flag = getParam("flag");
+            if(ST.isNull(ordState)){
+            	if("reAndDeOrder".equals(flag)){
+            		ordState = "2,3";
+            	}else if("detectionOrder".equals(flag)){
+            		ordState = "4,5,6";
+            	}else if("completeOrder".equals(flag)){
+            		ordState = "7";
+            	}
+            }
             String beginTime = getParam("beginTime");
             String endTime = getParam("endTime");
             Map<String, Object> map = new HashMap<String, Object>();
@@ -76,6 +101,7 @@ public class OrderInfoController extends BaseController{
             map.put("sord", sord);// 升序降序
             map.put("rowCount", oneRecord);//一页几行
             map.put("pageNo", pageNo);
+            map.put("ordNum", ordNum);
             if(!ST.isNull(beginTime)){
             	map.put("beginTime", beginTime + " 00:00:00");
             }
@@ -83,13 +109,17 @@ public class OrderInfoController extends BaseController{
             	map.put("endTime", endTime + " 59:59:59");
             }
             map.put("orderId", orderId);
-            map.put("ordState", ordState);
+            if(!ST.isNull(ordState)){
+				List<Integer> list = ST.StringToList(ordState);
+				map.put("stateList", list);
+			}
             pageInfo= (PageInfo)orderService.selectOrderByParams(map);
 		} catch (Exception e) {
 			logger.error("seletcOrder error:" + e);
 		}
         return pageInfo;
 	}
+	
 	@RequestMapping(value = "/selectOrderAndPrductByOrderId")
 	@ResponseBody
 	public List<OrderAndProductDTO> selectOrderAndPrductByOrderId(HttpServletRequest request,HttpServletResponse response){
@@ -280,6 +310,7 @@ public class OrderInfoController extends BaseController{
 		String orderId = getParam("orderId");
 		String courierNum = getParam("courierNum");
 		String courierName = getParam("courierName");
+		String courierPhone = getParam("courierPhone");
 		if(ST.isNull(orderId)){
 			resModel.setSuccess(false);
 			return resModel;
@@ -288,6 +319,7 @@ public class OrderInfoController extends BaseController{
 		order.setId(Integer.valueOf(orderId));
 		order.setCourierNum(courierNum);
 		order.setCourierName(courierName);
+		order.setCourierPhone(courierPhone);
 		order.setOrdState(Constant.ORDER_STATUS3);
 		//order.setIsdelete(false);
 		order.setLastModifiedTime(new Date());

@@ -54,10 +54,12 @@ function initOrderManager(){
 		url: webroot + "orderInfo/seletcOrder.do",
 		mtype: 'post',
 		datatype: "json",
+		postData: {ordState: "7"},
 		height: 370,
-		colNames:['订单ID','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
+		colNames:['','订单编号','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
 		colModel:[
-          	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
+          	{name:'id',index:'id', width:80, sorttype:"int", hidden:true},
+          	{name:'ordNum',index:'ordNum', width:80, sorttype:"int", editable: true},
           	{name:'ordState',index:'ordState',width:80, editable:true, formatter:formatOrdState},
 			{name:'ordPrice',index:'ordPrice', width:80, sorttype:"int", editable: true},
 			{name:'ordPay',index:'ordPay',width:80, editable:true,formatter:formatordPay},
@@ -215,137 +217,6 @@ function initOrderManager(){
 		$('.ui-jqdialog').remove();
 	});
 	
-	try {
-		  Dropzone.autoDiscover = false;
-		  var myDropzone = new Dropzone("#dropzone" , {
-		    paramName: "file", // The name that will be used to transfer the file
-		    maxFilesize: 10, // MB
-		    maxFiles:1,
-		    dictMaxFilesExceeded: "您最多只能上传1个文件！",
-		    dictFileTooBig:"文件过大上传文件最大支持.",
-		    acceptedFiles: ".jpg,.gif,.png,.pdf",
-		    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
-			addRemoveLinks : true,
-			autoProcessQueue :false,
-			dictDefaultMessage :
-			'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
-			<span class="smaller-80 grey">(or click)</span> <br /> \
-			<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
-		,
-			dictResponseError: 'Error while uploading file!',
-			previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    " +
-					"<div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    " +
-					"<img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\">" +
-					"<div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  " +
-					"<div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\">" +
-					"<span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
-			init: function () {
-                var submitButton = document.querySelector("#submit-all")
-                myDropzone = this; // closure
-
-                submitButton.addEventListener("click", function () {
-                	Lobibox.confirm({ 
-                        title:"确认提交",      //提示框标题 
-                        msg: "请仔细确认，一旦提交将无法更改",   //提示框文本内容 
-                        callback: function ($this, type, ev) {               //回调函数 
-                            if (type === 'yes') { 
-                            	myDropzone.processQueue();
-                            } else if (type === 'no') { 
-                                       
-                            } 
-                       } 
-                     });
-                });
-
-                //当添加图片后的事件，上传按钮恢复可用
-                this.on("addedfile", function () {
-                    $("#submit-all").removeAttr("disabled");
-                });
-                
-                this.on("success", function (file, response, e) {
-                	if(response.success){
-                		$("#uploadReportPicModal").modal("hide");
-						alertmsg("success","报告上传成功");
-						//$("#deleteReportId").val(response.returnId);
-						queryOrder();
-						var file = $("#reportpic") 
-						file.after(file.clone().val("")); 
-						file.remove(); 
-						//重新加载报告上传数量
-						//reloadUploadRrportCount();
-					}else{
-						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
-						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
-					}
-                });
-                this.on("sending", function (file, xhr, formData) {
-                	formData.append("mapOrderProductId",$("#mapOrderProductId").val());
-                	formData.append("reportName",$("#reportName").val());
-                	formData.append("reportResult",$("#reportResult").val());
-                });
-                //当上传完成后的事件，接受的数据为JSON格式
-                /*this.on("complete", function (data) {
-                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                        var res =data;
-                        var msg;
-                        if (res.message=="error") {
-                        	alertmsg("error","商品详情图片上传失败，请重新上传");
-                        }
-                        else {
-                        	alertmsg("success","商品详情图片上传完成");
-                        }
-                        
-                    }
-                });*/
-                
-
-                //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
-                this.on("removedfile", function (file) {
-                    if (this.getAcceptedFiles().length === 0) {
-                        $("#submit-all").attr("disabled", true);
-                    }
-                    //上传失败的不删数据库中的数据
-                    //var val = $(file.previewTemplate).children('.dz-error-mark').css("opacity");
-                    console.log("ddddddd:" + val);//todo  真删和假删除区分开
-                    //removeImage($("#deleteReportId").val());
-                });
-            }
-			
-		  });
-		  
-		   $(document).one('ajaxloadstart.page', function(e) {
-				try {
-					myDropzone.destroy();
-				} catch(e) {}
-		   });
-		
-		} catch(e) {
-		  alert('Dropzone.js does not support older browsers!');
-		}
-	
-	//删除报告
-	/*function removeImage(id){
-		if(empty(id)){
-			return;
-		}
-		return;
-		$.ajax({
-			type: "post",
-			data: {reportId: id},
-			url: webroot + "orderInfo/removeReportById.do",
-			success: function(msg){
-				if(msg.success){
-					alertmsg("success","报告删除成功");
-					//重新加载已上传报告数量
-                	reloadUploadRrportCount();
-				}else{
-					alertmsg("error", "报告删除失败");
-				}
-			}
-		});
-	}*/
-	
-	
 	function TimeAdd0(time){
 		return time < 10 ? ("0" + time) : time;
 	}
@@ -373,7 +244,15 @@ function initOrderManager(){
         return detail;
 
 	}
-	
+	function formatterOperate(cellvalue, options, rowObject){
+		//options.gid  Grid的Id
+		//rowObject.id  第几行
+		//rowObject.map_order_product_id    
+		
+		var	detial = "<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
+        return detial;
+
+	}
 	function formatterGridOperate(cellvalue, options, rowObject){
 		//options.gid  Grid的Id
 		//rowObject.id  第几行
@@ -453,7 +332,7 @@ function queryOrder(){
 	var data = $("#queryOrderListForm").serialize();
 	var url = webroot + "orderInfo/seletcOrder.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
-        url: url + "?" + data, 
+        url: url + "?" + data + "&flag=completeOrder", 
         //postData:jsonData, 
         page:1,
         mtype:"post"
@@ -483,24 +362,10 @@ function querOrderDetial(orderId){
 		}
 	});
 }
-//上传报告
-function uploadReportPic(str){
-	var strArr = str.split("||");
-	//strArr[0]   sugrid 的名字
-	//strArr[1]   第几行
-	//strArr[2]   mapOrderProductId
-	//打开model之前清空上一次的数据    
-	$("#uploadReportPicModal :input").val("");
-	
-	
-	/*$("#subGridId").val(strArr[0]);
-	$("#subGridLine").val(strArr[1]);*/
-	$("#mapOrderProductId").val(strArr[2]);
-	$("#uploadReportPicModal").modal("show");
-}
 //预览报告
 function viewReportPic(mapOrderProductId){
-	//???//???mapOrderProductId为空的判断
+	//清空上次的报告
+	$("#viewReportPicli").html("");
 	$.ajax({
 		type: "post",
 		url: webroot + "orderInfo/selectOrderByMapOrderProductId.do",
@@ -511,17 +376,9 @@ function viewReportPic(mapOrderProductId){
 				alertmsg("error","预览报告失败");
 				return;
 			}
-			var html;
+			var html = "";
 			for(var i =0; i < msg.length; i ++){
-				//console.log(msg);
-				var data =  "<li>" + 
-								"<a href=\""+msg[i].repPdf+"\" data-rel=\"colorbox\">" + 
-									"<img width=\"150\" height=\"150\" alt=\"150x150\" src=\""+msg[i].repPdf+"\" />" +
-									"<div class=\"text\">" +
-										"<div class=\"inner\">Sample Caption on Hover</div>" +
-									"</div>" +
-								"</a>" +
-							"</li>";
+				var data = "<li>" + "<a target=\"_bank\" href='"+msg[i].repPdf+"' >" + msg[i].repName + "</a>" + "</li>";
 				html = html +data;
 			}
 			$("#viewReportPicli").append(html);
@@ -529,83 +386,3 @@ function viewReportPic(mapOrderProductId){
 		}
 	});
 }
-//显示发货modal
-function deliverProduct(){
-	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
-	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
-	var id = rowData.id;
-	if(!isNoEmpty(id)){
-		alertmsg("warning","请至少选中一行 !");
-		return;
-	}
-	$.ajax({
-		type: "post",
-		url: webroot + "orderInfo/selectOrderStatus.do",
-		data: {orderId:id},
-		success: function(msg){
-			if(msg.returnId != 2){
-				alertmsg("warning","请选择待发货状态订单");
-				return;
-			}else{
-				$("#deliverProductModal :input").val("");
-				$("#deliverProductOrderId").val(id);
-				$("#deliverProductModal").modal("show");
-			}
-		}		
-	});
-}
-function saveDeliverProduct(){
-	var id = $("#deliverProductOrderId").val();
-	var data = getParams("#deliverProductModal");
-	data["orderId"] = id;
-	$.ajax({
-		type: "post",
-		url: webroot + "orderInfo/saveDeliverProduct.do",
-		data: data,
-		success: function(msg){
-			if(msg.success){
-				$("#deliverProductModal").modal("hide");
-				alertmsg("success","发货成功");
-				queryOrder();
-			}else{
-				alertmsg("error","发货失败");
-			}
-		}		
-	});
-}
-//确认收货
-function confirmRceliveProduct(){
-	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
-	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
-	var id = rowData.id;
-	if(!isNoEmpty(id)){
-		alertmsg("warning","请至少选中一行 !");
-		return;
-	}
-	$.ajax({
-		type: "post",
-		url: webroot + "orderInfo/selectOrderStatus.do",
-		data: {orderId:id},
-		success: function(msg){
-			if(msg.returnId != 5){
-				alertmsg("warning","买家未发货不能确认收货");
-				return;
-			}else{
-				$.ajax({
-					type: "post",
-					url: webroot + "orderInfo/confirmRceliveProduct.do",
-					data: {orderId:id},
-					success: function(msg){
-						if(msg.success){
-							alertmsg("success","确认收货成功");
-							queryOrder();
-						}else{
-							alertmsg("error","确认收货失败");
-						}
-					}		
-				});
-			}
-		}		
-	});
-}
-

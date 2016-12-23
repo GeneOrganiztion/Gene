@@ -2,7 +2,7 @@
 <%
 	String path = request.getContextPath();
 %>
-<script src="<%=path%>/pagejs/order/orderList.js"></script>
+<script src="<%=path%>/pagejs/order/completeOrder.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
@@ -55,15 +55,9 @@
 				<!-- #section:elements.form -->
 				<div class="form-group">
 					<div class="col-md-3">
-						<label class="col-sm-4 control-label no-padding-right" for="shortName">姓名</label>
+						<label class="col-sm-4 control-label no-padding-right" for="shortName">订单编号</label>
 						<div class="col-sm-8">
-							<input type="text" name="userName" class="form-control" />
-						</div>
-					</div>
-					<div class="col-md-3">
-						<label class="col-sm-4 control-label no-padding-right" for="shortName">订单状态</label>
-						<div class="col-sm-8">
-							<input type="text" name="ordState" class="form-control" />
+							<input type="text" name="ordNum" class="form-control" />
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -102,10 +96,6 @@
 	    </div>
 	  </div>
 	</div>
-	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="deliverProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;发货</button>
-        <button type="button" onclick="confirmRceliveProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;确认收货</button>
-    </div>
 	<div class="row">
 		<div class="col-xs-12">
 			<table id="grid-table"></table>
@@ -152,7 +142,7 @@
 								</select>
 							</div>
 						</div>
-						<label class="control-label col-xs-12 col-sm-2 ">姓名:</label>
+						<label class="control-label col-xs-12 col-sm-2 ">买家姓名:</label>
 						<div class="col-xs-12 col-sm-4">
 							<div class="clearfix">
 								<input type="text" disabled="disabled" name="userName" class="col-xs-12 col-sm-12" />
@@ -161,7 +151,7 @@
 					</div>
 					<div class="space-2"></div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 ">电话:</label>
+						<label class="control-label col-xs-12 col-sm-2 ">买家电话:</label>
 						<div class="col-xs-12 col-sm-4">
 							<div class="clearfix">
 								<input type="text" disabled="disabled" name="userPhone" class="col-xs-12 col-sm-12" />
@@ -170,7 +160,7 @@
 					</div>
 					<div class="space-2"></div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 ">地址:</label>
+						<label class="control-label col-xs-12 col-sm-2 ">买家地址:</label>
 						<div class="col-xs-12 col-sm-10">
 							<div class="clearfix">				               		
 		               	 		<textarea class ="form-control" id="userAddress" rows="4" disabled="disabled"></textarea>
@@ -188,73 +178,6 @@
     </div><!-- /.modal -->
 </div>
 <!-- 订单详情model end -->
-<!-- 上传报告model begin -->
-<div class="modal fade" id="uploadReportPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-             <div class="modal-header">
-             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title">上传报告</h4>
-		     </div>
-		     <div class="modal-body">
-		     	<div class="row">
-		     		<div class="col-xs-12 ">
-		     			<form class="form-horizontal">
-			     			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-2 ">报告名称:</label>
-								<div class="col-xs-12 col-sm-4">
-									<div class="clearfix">
-										<input type="text" id="reportName" class="col-xs-12 col-sm-12" />
-									</div>
-								</div>
-								<label class="control-label col-xs-12 col-sm-2 ">报告结果:</label>
-								<div class="col-xs-12 col-sm-4">
-									<div class="clearfix">
-										<input type="text" id="reportResult" class="col-xs-12 col-sm-12" />
-									</div>
-								</div>
-							</div>
-						</form>
-		     		</div>
-		     		<div class="space-2"></div>
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="mapOrderProductId"></input>
-						<!-- <input type="hidden" id="subGridId"></input>
-						<input type="hidden" id="subGridLine"></input> -->
-						<!-- <input type="hidden" id="deleteReportId"></input> -->
-						<div>
-							<form action="<%=path%>/orderInfo/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
-								<div class="fallback">
-									<input name="file" id="reportpic" type="file" multiple="" />
-								</div>
-							</form>
-						</div><!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-					<div class="col-xs-12 center">
-						<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">上传报告</button>
-					</div>
-					<!-- <div class="col-xs-12 center">
-						<ul class="ace-thumbnails clearfix" id="gread">
-							<li>
-								<a href="../assets/images/gallery/image-1.jpg" title="请选择图片右键拷贝图片路径" data-rel="colorbox">
-									<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
-								</a>
-							</li>
-						</ul>
-					</div> -->
-				</div><!-- /.row -->
-		     </div>
-			<div class="modal-footer">
-			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
-			    	关闭
-			    </button>
-			</div>
-		</div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<!-- 上传报告model end -->
-
 <!-- 预览报告model begin -->
 <div class="modal fade" id="viewReportPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -265,9 +188,9 @@
 		     </div>
 		     <div class="modal-body">
 		     	<div class="row">
-					<div class="col-xs-12">
-						<div>
-							<ul class="ace-thumbnails clearfix" id="viewReportPicli">
+					<div class="col-xs-12 center">
+						<div >
+							<ul id="viewReportPicli">
 							</ul>
 						</div><!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
@@ -282,47 +205,6 @@
     </div><!-- /.modal -->
 </div>
 <!-- 预览报告model end -->
-
-<!-- 发货详情model begin -->
-<div class="modal fade" id="deliverProductModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-             <div class="modal-header">
-             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title" >发货详情</h4>
-		     </div>
-		     <div class="modal-body">
-            	<form class="form-horizontal">
-            		<input type="hidden" id="deliverProductOrderId"></input>
-           			<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 ">快递号:</label>
-						<div class="col-xs-12 col-sm-4">
-							<div class="clearfix">
-								<input type="text"  name="courierNum" class="col-xs-12 col-sm-12" />
-							</div>
-						</div>
-						<label class="control-label col-xs-12 col-sm-2 ">快递名称:</label>
-						<div class="col-xs-12 col-sm-4">
-							<div class="clearfix">
-								<input type="text"  name="courierName" class="col-xs-12 col-sm-12" />
-							</div>
-						</div>
-					</div>
-				</form>				     
-		     </div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-md" onclick="saveDeliverProduct()">
-			    	保存
-			    </button>
-			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
-			    	关闭
-			    </button>
-			</div>
-		</div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<!-- 发货详情model end -->
-
 <script type="text/javascript">
 jQuery(function($) {
 	initOrderManager();

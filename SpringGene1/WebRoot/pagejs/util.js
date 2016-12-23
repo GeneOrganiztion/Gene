@@ -24,7 +24,6 @@ var getParams = function(selector) {
 			data[name] = $(this).val().replace(/\n/g,"");
 		}
 	});
-	console.log(data);
 	return data;
 };
 
