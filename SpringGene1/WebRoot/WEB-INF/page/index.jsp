@@ -608,12 +608,29 @@
 					</li>
 
 					<li class="">
-						<a href="widgets.html">
+						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-list-alt"></i>
-							<span class="menu-text"> Widgets </span>
+							<span class="menu-text"> 分类管理 </span>
+							<b class="arrow fa fa-angle-down"></b>
 						</a>
 
 						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="">
+								<a href="#" menu-url="classify/oneClassifyListPage.do">
+									<i class="menu-icon fa fa-caret-right"></i>
+									一级分类
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="#" menu-url="orderInfo/detectionOrderPage.do">
+									<i class="menu-icon fa fa-caret-right"></i>
+									二级分类
+								</a>
+								<b class="arrow"></b>
+							</li>
+						</ul>
 					</li>
 
 					<li class="">
