@@ -25,7 +25,7 @@ public class Product {
 
     private Boolean proOnline;
 
-    private String proImage;
+    private String proRemark;
 
     private String proDetail;
 
@@ -106,12 +106,12 @@ public class Product {
         this.proOnline = proOnline;
     }
 
-    public String getProImage() {
-        return proImage;
+    public String getproRemark() {
+        return proRemark;
     }
 
-    public void setProImage(String proImage) {
-        this.proImage = proImage == null ? null : proImage.trim();
+    public void setproRemark(String proRemark) {
+        this.proRemark = proRemark == null ? null : proRemark.trim();
     }
 
     public String getProDetail() {

@@ -397,5 +397,23 @@ public class ProductInfoController extends BaseController{
 			 }
 			return ResultProduct;
 		 }
+	 	 
+	 	 @RequestMapping(value = "/selectImageProduct")
+		 @ResponseBody
+		 public List<Image> selectImageProduct(HttpServletRequest request,
+		            HttpServletResponse response) throws Exception {
+	 		 String pro_id = getParam("ProductId");
+	 		 Image image=new Image();
+	 		List<Image> imagelist=null;
+			 try{
+			 image.setProId(Integer.valueOf(pro_id));
+			 imagelist=imageService.ImagebyProductId(image);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 logger.info("selectImageProduct"+e);
+			 }
+			return imagelist;
+		 }
+	 	 
 	 
 }

@@ -41,6 +41,11 @@ public class ImageServiceImpl implements ImageService{
 		}
 		return flag;
 	}
+	@Override
+	public List<Image> ImagebyProductId(Image image) throws Exception {
+		
+		return imageMapper.select(image);
+	}
 	
 	
 

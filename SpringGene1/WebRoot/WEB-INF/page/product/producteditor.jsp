@@ -76,7 +76,7 @@
 																		<input type="text" name="product_id" id="product_id" class="hide"/>
 																	<form class="form-horizontal">
 																		<div class="form-group">
-																			<label class="control-label col-xs-12 col-sm-5 no-padding-right" for="email">商品标题:</label>
+																			<label class="control-label col-xs-12 col-sm-5 no-padding-right" for="email">商品名称:</label>
 																			<div class="col-xs-12 col-sm-2">
 																				<select class="chosen-select form-control" id="form-field-select-3" data-placeholder="load product...">					
 																				</select>

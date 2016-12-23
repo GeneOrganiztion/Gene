@@ -26,7 +26,7 @@
 					  	<result column="pro_head" property="proHead"></result>
 					  	<result column="product_price" property="productPrice"></result>
 					  	<result column="pro_rateprice" property="proRateprice"></result>
-					  	<result column="pro_image" property="proImage"></result>
+					  	<result column="pro_remark" property="proRemark"></result>
 					  	<result column="pro_online" property="proOnline"></result>
 					  	<result column="isdelete" property="isdelete"></result>
   					</association>

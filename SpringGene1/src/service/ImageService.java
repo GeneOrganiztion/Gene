@@ -14,4 +14,6 @@ public interface ImageService<T> {
 	public boolean deleteImage(Image image)throws Exception;
 	
 	
+	public List<T> ImagebyProductId(Image image) throws Exception;
+	
 }
