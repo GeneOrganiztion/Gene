@@ -1,5 +1,5 @@
 function initOrderManager(){
-	
+	chosenSelectInit();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -16,6 +16,7 @@ function initOrderManager(){
 			}, 0);
 		}
     })
+    
 	jQuery(grid_selector).jqGrid({
 		
 		
@@ -396,4 +397,26 @@ function confirmRceliveProduct(){
 		}		
 	});
 }
-
+function chosenSelectInit(){
+	if(!ace.vars['touch']) {
+		$('.chosen-select').chosen({allow_single_deselect:true}); 
+		//resize the chosen on window resize
+		$(".chosen-search").hide();
+		$(window)
+		.off('resize.chosen')
+		.on('resize.chosen', function() {
+			$('.chosen-select').each(function() {
+				 var $this = $(this);
+				 $this.next().css({'width': "100%"});
+			})
+		}).trigger('resize.chosen');
+		//resize chosen on sidebar collapse/expand
+		$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+			if(event_name != 'sidebar_collapsed') return;
+			$('.chosen-select').each(function() {
+				 var $this = $(this);
+				 $this.next().css({'width': "100%"});
+			})
+		});
+	}
+}
