@@ -45,18 +45,19 @@ $.extend({
 					+			"<div class='fa fa-chevron-right control spec-right orange'></div>"
 					+		"</div>"
 					+	"<hr class='hr hr2 dotted'>"
-					+	"<div class='center ctrl-bar'><button class='btn btn-sm upload'><i class='ace-icon fa fa-plus orange'></i>添加</button><button class='btn btn-sm delete'><i class='ace-icon fa fa-remove'></i>删除</button></div>"
-					+		"<div class='clearfix'>"
-					+		"<i class='ace-icon fa fa-circle green'></i>&nbsp;"
-					+		"<span class='name'></span>&nbsp;&nbsp;&nbsp;"
-					+		"<span class='pixel'></span>"
-					+		"</div>"
+					+	"<div class='center ctrl-bar'><button class='btn btn-sm delete'><i class='ace-icon fa fa-remove'></i>删除</button></div>"
 					+	"</div>"
 					+	"</div>";
 		var imodel = "<li><img class='#class' id='#id' name='#name' alt='#alt' title='#title' src='#src'/></li>";			
 		var imgViewer = "";
         $(select).html(htmlstr);
-        
+        /* 
+        <button class='btn btn-sm upload'><i class='ace-icon fa fa-plus orange'></i>添加</button>
+       +		"<div class='clearfix'>"
+		+		"<i class='ace-icon fa fa-circle green'></i>&nbsp;"
+		+		"<span class='name'></span>&nbsp;&nbsp;&nbsp;"
+		+		"<span class='pixel'></span>"
+		+		"</div>"*/
         var a = this;
         this.obj = $(".spec-list", select);
         
@@ -94,14 +95,15 @@ $.extend({
 		if(viewType == 'view') {
 			$(".ctrl-bar", select).hide();
 		}
-		
+	/*	
 		$(".jd-preview", select).click(function() {
 			var src = $(this).attr("src");
 			var name = $(".name", select).html();
 			var pixel = $(".pixel", select).html();
 			
-			var title = name + ' ' + pixel
+			var title = name + ' ' + pixel;
 			if(src != noImgSrc) {
+				
 				var param = {
 					previous: '<i class="ace-icon fa fa-arrow-left"></i>',
 		            next: '<i class="ace-icon fa fa-arrow-right"></i>',
@@ -111,13 +113,13 @@ $.extend({
 		            current: '{current} of {total}',
 					ref : 'colorbox',
 					href : src,
-					title : title
+					title : title,
 				};
 				
 				$.colorbox(param);
 			}
 			
-		});
+		});*/
 		
 		$(".delete", select).bind("click",function(){ 
 			var obj = this;

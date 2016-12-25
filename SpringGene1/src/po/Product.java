@@ -50,11 +50,11 @@ public class Product {
 		this.imagelist = imagelist;
 	}
 
-	public Integer getproduct_id() {
+	public Integer getId() {
         return product_id;
     }
 
-    public void setproduct_id(Integer id) {
+    public void setId(Integer id) {
         this.product_id = id;
     }
 

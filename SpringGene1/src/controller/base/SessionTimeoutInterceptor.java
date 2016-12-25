@@ -5,14 +5,17 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import controller.WeChatController;
 import po.Admin;
 import po.InfoPerson;
 
 public class SessionTimeoutInterceptor  implements HandlerInterceptor{
-	
+	private static final Logger logger = LoggerFactory.getLogger(SessionTimeoutInterceptor.class);
 	public String[] allowUrls;//还没发现可以直接配置不拦截的资源，所以在代码里面来排�? 
     
     public void setAllowUrls(String[] allowUrls) {  
@@ -33,11 +36,13 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
 			String requestUrl = arg0.getRequestURI().replace(arg0.getContextPath(), "");  
 			
 			//angularjs跨域请求限制
+			logger.info("requestUrl="+requestUrl);
+			System.out.println("requestUrl="+requestUrl);
 			arg1.setHeader("Access-Control-Allow-Origin", "*");  
 			arg1.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");  
 			arg1.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With"); 
-
-			
+			logger.info("requestUrlend="+requestUrl);
+			System.out.println("requestUrlend="+requestUrl);
 			if(null != allowUrls && allowUrls.length>=1){  
                 for(String url : allowUrls) {    
                     if(requestUrl.startsWith(url)) {    
@@ -45,7 +50,7 @@ public class SessionTimeoutInterceptor  implements HandlerInterceptor{
                     }    
                 }
         	}
-			if(requestUrl.contains("phone")||requestUrl.contains("weixin")){
+			if(requestUrl.contains("phone")||requestUrl.contains("/weixin")){
 				return true;
 			}
 			Admin user = (Admin) arg0.getSession().getAttribute("SESSION_USER");  

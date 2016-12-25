@@ -36,12 +36,16 @@ public class BaseController {
     }
 
     protected String getParam(String k) {
-        String value = getParam(k, null);
+        String value = getParam(k, null);  
         if(value != null && value != ""){
         	String data = null;
 			try {
-				data = new String(value.getBytes("ISO8859-1"),"UTF-8");
-			} catch (UnsupportedEncodingException e) {
+				/*data = new String(value.getBytes("ISO8859-1"),"UTF-8");*/ //有问题,在本地页面提交的中文是没有乱码现象的,如果再转一次就乱了
+				data=value;
+			}/* catch (UnsupportedEncodingException e) {
+			}*/
+			catch(Exception e){
+				
 			}
         	return data;
         }else{

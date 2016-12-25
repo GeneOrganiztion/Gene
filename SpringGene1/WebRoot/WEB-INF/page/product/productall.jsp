@@ -128,9 +128,9 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;预览商品</button>
+        <button type="button" onclick="SelectProduct()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;预览商品</button>
         <button type="button" onclick="editProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改商品基本信息</button>
-        <button type="button" onclick="deleteAdmin()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除商品</button>
+        <button type="button" onclick="deleteProduct()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除商品</button>
     </div>
 	<div class="row">
 		<div class="col-xs-12">
@@ -251,81 +251,19 @@
 </div>
 <!-- 添加用户model end -->
 <!-- 修改用户model start -->
-<div class="modal fade" id="editAdminModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="SelectProductModol" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:450px;">
              <div class="modal-header">
              	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title" >修改用户</h4>
+			    <h4 class="modal-title" >预览商品</h4>
 		     </div>
-		     <div class="modal-body">
-            	<form class="form-horizontal " id="editAdminform" >
-            		<input type="hidden" name="id" class="col-xs-12 col-sm-6" />
-           			<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="username">用户名</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="text" name="username" class="col-xs-12 col-sm-6" />
-							</div>
-						</div>
-					</div>
-					<div class="space-2"></div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="realname">真实名</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="text" name="realname" class="col-xs-12 col-sm-6" />
-							</div>
-						</div>
-					</div>
-					<div class="space-2"></div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="phone">手机</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="tel" name="phone" class="col-xs-12 col-sm-6" />
-							</div>
-						</div>
-					</div>
-					<div class="space-2"></div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="email">email:</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="email" name="email"  class="col-xs-12 col-sm-7" />
-							</div>
-						</div>
-					</div>
-					<div class="space-2"></div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password">密码:</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="password" name="password" class="col-xs-12 col-sm-6" />
-							</div>
-						</div>
-					</div>
-					<div class="space-2"></div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">确认密码:</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="password" name="password2" class="col-xs-12 col-sm-6" />
-							</div>
-						</div>
-					</div>
-				</form>				     
+		     <div class="modal-body" >
+  				<div class="col-sm-12 text-center">
+					<div id="imageEditer"></div>
+				</div>			     
 		     </div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-md" onclick="editAndSaveAdmin()">
-			    	保存
-			    </button>
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
 			    	关闭
 			    </button>

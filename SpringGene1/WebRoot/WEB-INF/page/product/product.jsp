@@ -35,7 +35,7 @@
 				<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-
+								
 								<div class="widget-box">
 									<div class="widget-header widget-header-blue widget-header-flat">
 										<h4 class="widget-title lighter">商品上传</h4>
@@ -68,7 +68,7 @@
 												</div>
 
 												<hr />
-
+												<input type="text" name="product_id" id="product_id" class="hide"/>
 												<!-- #section:plugins/fuelux.wizard.container -->
 												<div class="step-content pos-rel">
 													<div class="step-pane active" data-step="1">
@@ -310,13 +310,9 @@
 																	商品详情页面请在此编辑,确保图片已经上传至云端
 																</h4>
 																
-																	<div class="wysiwyg-editor" id="editor1" style="max-height: 800px; height: 800px; border: 1px solid #BBC0CA; width: 450px;
+																	<div class="wysiwyg-editor" id="editor1" style="max-height: 800px; height: 600px; border: 1px solid #BBC0CA; width: 450px;
 	    															margin: 0px auto;">
-    															</div>
-    															
-    															
-    										
-    															<button class="btn" onclick="geteditor()">显示全部内容</button>
+    															</div>   										
 														</div>
 													</div>
 													

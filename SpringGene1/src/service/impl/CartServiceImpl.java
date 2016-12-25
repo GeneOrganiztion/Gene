@@ -1,5 +1,7 @@
 package service.impl;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,22 @@ public class CartServiceImpl implements CartService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int insertCart(Cart cart) throws Exception {
+		int newpcartid=-1;
+		cart.setCartProCount(0);
+		cart.setIsdelete(false);
+		cart.setLastModifiedTime(new Date());
+		cart.setCreateTime(new Date());
+		try{
+			cartMapper.insertUseGeneratedKeys(cart);
+			newpcartid=cart.getId();
+		}catch(Exception e){
+			logger.info("insertCart error"+e);
+		}
+		return newpcartid;
 	}
 
 }

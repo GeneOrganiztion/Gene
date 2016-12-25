@@ -125,7 +125,7 @@ public class ProductInfoController extends BaseController{
 			 classifydemo.setId(Integer.parseInt(clsId));
 			 Product product=new Product();
 			 product.setClassifyId(Integer.parseInt(clsId));
-			 classifydemo.setListProduct(productService.selectAll(product));
+			 classifydemo.setListProduct(productService.selectbyClassify(product));
 			 classifydemolist.add(classifydemo);
 		 }else{
 			 for(int i=0;i<listClassify.size();i++){
@@ -139,7 +139,7 @@ public class ProductInfoController extends BaseController{
 						classifydemo.setClaName(listClassify.get(i).getClaName());
 						Product product=new Product();
 						product.setClassifyId(classifyid);
-						classifydemo.setListProduct(productService.selectAll(product));
+						classifydemo.setListProduct(productService.selectbyClassify(product));
 						classifydemolist.add(classifydemo);
 					}else{
 						System.out.println("classifyid="+listClassify.get(i).getId());
@@ -206,6 +206,7 @@ public class ProductInfoController extends BaseController{
 		 	String name= getParam("name");
 		 	String head = getParam("head");
 		 	String price = getParam("price");
+			String comment = getParam("comment");
 		 	String sum = getParam("sum");
 		 	String rateprice = getParam("rateprice");
 		 	String isonline = getParam("isonline");
@@ -214,6 +215,7 @@ public class ProductInfoController extends BaseController{
 		 		product.setClassifyId(Integer.valueOf(classifyid));
 		 		product.setProName(name);
 		 		product.setProHead(head);
+		 		product.setproRemark(comment);
 		 		product.setProductPrice(Integer.valueOf(price));
 		 		product.setProRateprice(Integer.valueOf(rateprice));
 		 		product.setProSum(Integer.valueOf(sum));
@@ -249,7 +251,7 @@ public class ProductInfoController extends BaseController{
 		 	System.out.println("pro_id="+pro_id);
 		 	try {
 		 		Product product=new Product();
-		 		product.setproduct_id(Integer.valueOf(pro_id));
+		 		product.setId(Integer.valueOf(pro_id));
 		 		product.setClassifyId(Integer.valueOf(classifyid));
 		 		product.setProName(name);
 		 		product.setProHead(head);
@@ -389,7 +391,7 @@ public class ProductInfoController extends BaseController{
 	 		 Product ResultProduct=new Product();
 			 try{
 			 Product product=new Product();
-			 product.setproduct_id(Integer.valueOf(pro_id));
+			 product.setId(Integer.valueOf(pro_id));
 			 ResultProduct=(Product)productService.selectOne(product);
 			 }catch(Exception e){
 				 e.printStackTrace();
@@ -415,5 +417,36 @@ public class ProductInfoController extends BaseController{
 			return imagelist;
 		 }
 	 	 
-	 
+	 	 @RequestMapping(value = "/addProductContent")
+		 @ResponseBody
+		 public Boolean addProductContent(HttpServletRequest request,
+		            HttpServletResponse response) throws Exception {
+	 		 String pro_id = getParam("ProductId");
+	 		 String proDetail = getParam("productDetail");
+	 		 Product product=new Product();
+	 		 boolean flag=false;
+			 try{
+			  product.setId(Integer.valueOf(pro_id));
+			  product.setProDetail(proDetail);
+			  flag=productService.updateProduct(product);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 logger.info("addProductContent"+e);
+			 }
+			return flag;
+		 }
+	 	 
+	 	@RequestMapping(value="/deleteproduct", method = RequestMethod.POST)
+		@ResponseBody
+		public boolean delete(HttpServletRequest request,HttpServletResponse response){
+			String 	productIds = getParam("ProductId");
+			try {
+				List<Integer> list = ST.StringToList(productIds);
+				productService.deleteProductIds(list);
+			} catch (Exception e) {
+				logger.error("deleteProduct error:" + e);
+				return false;
+			}
+			return true;
+		}
 }

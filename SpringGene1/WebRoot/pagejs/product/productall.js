@@ -25,7 +25,7 @@ function initAdminManager(){
 		height: 370,
 		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','创建时间','最后更新时间'],
 		colModel:[
-          	{name:'product_id',index:'product_id', width:80, sorttype:"int", editable: true},
+          	{name:'id',index:'product_id', width:80, sorttype:"int", editable: true},
           	{name:'proName',index:'pro_name',width:80, editable:true},
 			{name:'productPrice',index:'product_price', width:80, sorttype:"int", editable: true},
 			{name:'proRateprice',index:'pro_rateprice',width:80,sorttype:"int", editable:true},
@@ -325,7 +325,8 @@ function queryProduct(){
     }).trigger("reloadGrid"); //重新载入 
 }
 //删除用户
-function deleteAdmin(){
+function deleteProduct(){
+	
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
 		alertmsg("warning", "请至少选中一行!");
@@ -334,18 +335,18 @@ function deleteAdmin(){
 	var ids = "";
 	for(var i = 0; i < selectedIds.length; i ++){
 		var rowData = $('#grid-table').getRowData(selectedIds[i]);//获取选中行的记录
-		var adminId = rowData.id;
-		ids =ids + adminId + ",";
+		var ProductId = rowData.id;
+		ids =ids + ProductId + ",";
 	}
     Lobibox.confirm({ 
-        title:"删除用户",      //提示框标题 
+        title:"删除商品",      //提示框标题 
         msg: "是否确认确认删除",   //提示框文本内容 
         callback: function ($this, type, ev) {               //回调函数 
             if (type === 'yes') { 
             	$.ajax({
             		type:"post",
-            		url:webroot+"admin/delete.do",
-            		data:{"adminIds":ids},
+            		url:webroot+"product/deleteproduct.do",
+            		data:{"ProductId":ids},
             		success:function(data){
             			//删除成功重新加载jqGrid
             			$("#grid-table").jqGrid('setGridParam',{ 
@@ -383,56 +384,26 @@ function selectClassify(){
 		}
 	});
 }
-/*//添加用户
-function addAdmin(){
-	
-	//再次打开model之前清空上次的操作记录
-	$("#addAdminModal :input").val("");
-	$("#addAdminModal").modal("show");
-	
-	
-}*/
-//保存用户
-/*function saveProduct(){
-	//form中验证不通过直接返回
-	if(!($('#addProductform').valid())){
+//预览商品
+function SelectProduct(){
+	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
+	if(!isNoEmpty(lanId)){
+		alertmsg("warning","请至少选中一行 !");
 		return;
 	}
-	//验证是否已存在此用户名
-	var name = $("#addProductform input[name='username'").val();
-	$.ajax({
-		type: "post",
-		url: webroot + "admin/validateAdmin.do",
-		data: {name: name},
-		success: function(msg){
-			if(msg.success){
-				alertmsg("warning","用户名已存在!");
-				return;
-			}else{
-				//保存用户信息
-				var data = getParams("#addAdminModal");
-				$.ajax({
-					type: "post",
-					url: webroot + "admin/saveAdmin.do",
-					data: data,
-					success: function(msg){
-						if(msg.success){
-							alertmsg("success", "新增用户成功!");
-							var data = $("form").serialize();
-							var url = webroot + "admin/selectAdmin.do";
-							$("#grid-table").jqGrid('setGridParam',{ 
-						        url: url + "?" + data, 
-						        page:1,
-						        mtype:"post"
-						    }).trigger("reloadGrid"); //重新载入 
-						}
-					}
-				});
-				$("#addAdminModal").modal("hide");
-			}
-		}
+	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
+	var id = rowData.id;
+	document.hs = new $.imageEditer("#imageEditer", {
+		selector : "",
+		viewType : "edit",
+		url : webroot + "product/selectImageProduct.do?ProductId="+id
 	});
-}*/
+	//再次打开model之前清空上次的操作记录
+	$("#SelectProductModol :input").val("");
+	$("#SelectProductModol").modal("show");
+	
+	
+}
 //修改商品
 function editProduct(){
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
@@ -441,8 +412,7 @@ function editProduct(){
 		return;
 	}
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
-	var id = rowData.product_id;
-	console.log(id);
+	var id = rowData.id;
 	$.ajax({
 		type: "post",
 		url: webroot + "product/selectOneProduct.do",

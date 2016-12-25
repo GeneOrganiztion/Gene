@@ -16,10 +16,16 @@ import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import po.Cart;
+import po.User;
+import service.AdminService;
+import service.CartService;
+import service.UserService;
 import utils.Constant;
 import utils.DateUtil;
 
@@ -36,6 +42,12 @@ import wepay.utils.HttpResponse;
 @Controller
 @RequestMapping("/weixin")
 public class WeChatController {
+	
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private CartService cartService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(WeChatController.class);
 	@RequestMapping("/oauth")
 	public void oauthuser(HttpServletRequest request,
@@ -51,7 +63,7 @@ public class WeChatController {
 		//授权后要跳转的链接所需的参数一般有会员号，金额，订单号之类，
 		//最好自己带上一个加密字符串将金额加上一个自定义的key用MD5签名或者自己写的签名,
 		//比如 Sign = %3D%2F%CS% 
-		backUri = backUri+"?userId=b88001&orderNo=1499900164812&describe=西瓜&money=1780.00";
+		backUri = backUri;
 		//URLEncoder.encode 后可以在backUri 的url里面获取传递的所有参数
 		backUri = URLEncoder.encode(backUri);
 		//scope 参数视各自需求而定，这里用scope=snsapi_base 不弹出授权页面直接授权目的只获取统一支付接口的openid
@@ -66,8 +78,7 @@ public class WeChatController {
 	
 
 	@RequestMapping("/weixinUnion")
-	@ResponseBody
-	public Map<String, Object> weixinUnion(HttpServletRequest request,
+	public void weixinUnion(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 		String code = request.getParameter("code");
 //商户相关资料 
@@ -76,7 +87,7 @@ public class WeChatController {
 		String OPENID ="";
 		String ACCESS_TOKE="";
 		String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+appsecret+"&code="+code+"&grant_type=authorization_code";
-		Map<String, Object> dataMap = new HashMap<String, Object>();
+		/*Map<String, Object> dataMap = new HashMap<String, Object>();*/
 		HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
 		String tempValue="";
 		if( temp == null){
@@ -105,6 +116,8 @@ public class WeChatController {
 		String UserinfoURL = "https://api.weixin.qq.com/sns/userinfo?access_token="+ACCESS_TOKE+"&openid="+OPENID+"&lang=zh_CN";
 		HttpResponse userinfo = HttpConnect.getInstance().doGetStr(UserinfoURL);
 		String userValue=null;
+		String openid=null;
+		String userid=null;
 		if(userinfo == null){
 			response.sendRedirect("/SpringGene1/error.jsp");
 			logger.info("userinfo==null");
@@ -121,15 +134,49 @@ public class WeChatController {
 				System.out.println(userValue);
 				response.sendRedirect("/SpringGene1/error.jsp");
 			}
-			dataMap.put("openid", jsonObj.getString("openid"));
-			dataMap.put("nickname", jsonObj.getString("nickname"));
-			dataMap.put("sex", jsonObj.getString("sex"));
-			dataMap.put("province", jsonObj.getString("province"));
-			dataMap.put("city", jsonObj.getString("city"));
-			dataMap.put("headimgurl", jsonObj.getString("headimgurl"));
+			openid=jsonObj.getString("openid");
+			String nickname=jsonObj.getString("nickname");
+			String sex=jsonObj.getString("sex");
+			boolean isman=true;
+			if("1".equals(sex)){
+				
+			}else{
+				isman=false;
+			}
+			String province=jsonObj.getString("province");
+			String city=jsonObj.getString("city");
+			String headimgurl=jsonObj.getString("headimgurl");
+			User user =new User();
+			user.setOpenid(openid);
+			User own=(User)userService.select(user);
+			if(null==own){
+				user.setOpenid(openid);
+				user.setCity(city);
+				user.setProvince(province);
+				user.setHeadImgurl(headimgurl);
+				user.setNickname(nickname);
+				user.setSex(isman);
+				int uid=userService.insertUser(user);
+				userid=String.valueOf(uid);
+				Cart cart=new Cart();
+				cart.setUserId(uid);
+				cartService.insertCart(cart);
+			}else{
+				userid=String.valueOf(own.getId());
+				user.setId(own.getId());
+				user.setCity(city);
+				user.setHeadImgurl(headimgurl);
+				user.setNickname(nickname);
+				user.setSex(isman);
+				userService.updateUser(user);
+			}		
 		}
+		logger.info("userid="+userid);
+		logger.info("openid="+openid);
 		
-		return dataMap;
+		/*response.sendRedirect("/DNAjiankang/index.html#/home/"+userid+"/"+openid);*/
+		
+		//response.sendRedirect("/SpringGene1/test.jsp?dataMap="+openid);
 	}
 	
 	

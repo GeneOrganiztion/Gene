@@ -10,7 +10,7 @@
     <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
     <result column="pro_online" property="proOnline" jdbcType="BIT" />
     <result column="pro_remark" property="proRemark" jdbcType="VARCHAR" />
-    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
+    <result column="pro_detail" property="proDetail" jdbcType="LONGVARCHAR" />
     <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
     <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
     <result column="isdelete" property="isdelete" jdbcType="BIT" />
@@ -218,12 +218,25 @@
 	    from 
 		    product,
 		    image
-		    where product.classify_id=#{classifyId,jdbcType=INTEGER} 
-		    AND product.isdelete= false AND product.pro_online=true
+		    where 
+		     <if test="classifyId != null" >
+		        product.classify_id=#{classifyId,jdbcType=INTEGER} AND
+		     </if>
+		     product.isdelete= false AND product.pro_online=true
 		   	AND image.pro_id=product.product_id
   </select>
  
- 
+ <select id="SelectProductAndImage" resultMap="ProductAndImagesResultMap" >
+    	select 
+	   	 	product.*,
+		    image.*
+	    from 
+		    product,
+		    image
+		   	where product.isdelete= false
+       		AND product.product_id=#{Id,jdbcType=INTEGER}
+		   	AND image.pro_id=#{Id,jdbcType=INTEGER}
+  </select>
  <select id="selectProductByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
     select 
     <include refid="Base_Column_List" />
@@ -251,4 +264,13 @@
         order by #{sidx} #{sord}
       </if>
     </select>
+    <update id="deleteProductByIds" parameterType="java.util.List">
+      <![CDATA[
+        UPDATE product SET isdelete = 1 WHERE product_id IN
+     ]]>
+     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+       #{item}  
+     </foreach>  
+  </update>
+    
 </mapper>

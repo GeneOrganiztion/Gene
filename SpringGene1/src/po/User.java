@@ -15,14 +15,22 @@ public class User {
 
     private String password;
 
-    private String realname;
+    private String nickname;
 
     private String phone;
 
     private String email;
 
     private Boolean isdelete;
-
+    
+	private String province;
+    
+    private String city;
+    
+    private String headimgurl;
+    
+    private Boolean sex;
+    
     private Date createTime;
 
     private Date lastModifiedTime;
@@ -35,6 +43,37 @@ public class User {
         this.user_id = id;
     }
 
+    public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getHeadImgurl() {
+		return headimgurl;
+	}
+
+	public void setHeadImgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
+	}
+
+	public Boolean getSex() {
+		return sex;
+	}
+
+	public void setSex(Boolean sex) {
+		this.sex = sex;
+	}
     public String getUsername() {
         return username;
     }
@@ -59,12 +98,12 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getRealname() {
-        return realname;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
     }
 
     public String getPhone() {

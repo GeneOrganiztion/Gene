@@ -24,5 +24,6 @@ public interface ProductService<T> {
 	
 	public PageInfo selectProductByParams(Map<String, Object> map) throws Exception;
 	
+	public boolean deleteProductIds(List<Integer> ids)throws Exception;
 
 }

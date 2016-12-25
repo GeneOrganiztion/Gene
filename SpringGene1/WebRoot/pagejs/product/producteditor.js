@@ -26,13 +26,10 @@ function initproducteditorManager(){
 							}else{
 								if(info.step==1&&info.direction=="next"){
 									var productid=$('#product_id').val();
-									console.log("productidnext="+productid);
 									if(null==productid){
 											alertmsg("warning","请选择要修改的商品");
 											return false;
 									}
-							
-									console.log("update");
 									var flag=updateproductinit(productid);
 									if(flag==true){
 											alertmsg("success","商品信息更新成功");
@@ -91,7 +88,7 @@ function initproducteditorManager(){
 					    paramName: "file", // The name that will be used to transfer the file
 					    maxFilesize: 1, // MB
 					    maxFiles:4,
-					    dictMaxFilesExceeded: "您最多只能上传4个文件！",
+					    dictMaxFilesExceeded: "您最多只能上传4个图片！",
 					    dictFileTooBig:"文件过大上传文件最大支持.",
 					    acceptedFiles: ".jpg,.gif,.png",
 					    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
@@ -577,7 +574,7 @@ function selectProductAll(){
 			var json = eval(msg);
 			var objSelect = $('#form-field-select-3');
 			for(var i=0;i<json.length;i++){
-				objSelect.append("<option value='"+json[i].product_id+"'>"+json[i].proName+"</option>");
+				objSelect.append("<option value='"+json[i].id+"'>"+json[i].proName+"</option>");
 			}
 			//
 			$('#form-field-select-3').trigger("chosen:updated");
@@ -630,7 +627,6 @@ function editProduct(){
 	var rowData = $('#form-field-select-3').val();//获取选中行的记录 
 	$('#product_id').val(rowData);
 	productid=rowData;
-	console.log("productid="+productid);
 	$.ajax({
 		type: "post",
 		url: webroot + "product/selectOneProduct.do",
@@ -645,6 +641,7 @@ function editProduct(){
 			$("#validation-form input[name='price']").val(msg.productPrice);
 			$("#validation-form input[name='rateprice']").val(msg.proRateprice);
 			$("#validation-form input[name='sum']").val(msg.proSum);
+			$("#validation-form textarea[name='comment']").val(msg.proRemark);
 			$("#isonlinePro").val(msg.proOnline.toString());
 			$("#classify").val(msg.classifyId);
 			/*$("#classify1").trigger("chosen:updated");*/

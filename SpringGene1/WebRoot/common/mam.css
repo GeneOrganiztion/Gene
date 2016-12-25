@@ -183,8 +183,8 @@ a > span.fa-level-down {
 /* asset/css/jdMarquee.css */
 .jd-picture {
 	overflow: hidden;
-	width: 310px;
-	height: 310px;
+/* 	width: 310px; */
+/* 	height: 310px; */
 	line-height: 300px;
 	border-radius: 5px;
 	position: relative;
@@ -211,6 +211,7 @@ a > span.fa-level-down {
 
 .jd-preview-h {
 	height: 300px;
+	 width:100%;
 }
 .jd-preview-header {
 	z-index: 100;
@@ -1144,7 +1145,7 @@ div#rMenu ul li {
 .plus-tag-add a.plus{background-position:-289px -96px;}
 /* labelBox */
 
-/*图册begin*/
+/*鍥惧唽begin*/
  ul,li{ list-style:none;}
  #zSlider{margin:0px auto; width:800px; overflow:hidden; border:1px solid #dadada; }
  #picshow{position:relative; width:100%; float:left;}
@@ -1160,7 +1161,7 @@ div#rMenu ul li {
  .picNext:hover{font-size:60px !important;}
  #word_save{position:relative;top:-10px;right:-130px;};
  .myColor{border:1px solid #FFAA33;}
-/*图册end*/
+/*鍥惧唽end*/
 
 /* lunbo start */
 
@@ -1223,7 +1224,7 @@ div#rMenu ul li {
     overflow: hidden;
     text-align: center
 }
-/* 图片垂直居中,不是很准确 */
+/* 鍥剧墖鍨傜洿灞呬腑,涓嶆槸寰堝噯纭�*/
 
 .successlunbo .change li .imgWrap {
     display: table-cell;
@@ -1242,7 +1243,7 @@ div#rMenu ul li {
     vertical-align: middle;
     overflow: hidden
 }
-/* 描述部分 */
+/* 鎻忚堪閮ㄥ垎 */
 
 .successlunbo .change li .textDesc {
     width: 100%;
@@ -1277,7 +1278,7 @@ div#rMenu ul li {
     color: #e6e6e6;
 }
 /*.change li .text{color:#b7b7b7;line-height:18px;padding:5px 15px;font-size:12px;}*/
-/* 翻页按钮 */
+/* 缈婚〉鎸夐挳 */
 
 .successlunbo .ssprev,
 .ssnext {
@@ -1309,7 +1310,7 @@ div#rMenu ul li {
     _filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=crop, src="../images/arrows_02.png");
     _background: none
 }
-/* 分页 */
+/* 鍒嗛〉 */
 .successlunbo .pageClass {
     text-align: center;
     z-index: 9;
@@ -1336,7 +1337,7 @@ div#rMenu ul li {
     border: 1px solid #be230a;
     background: #be230a
 }
-/* 缩图部分 */
+/* 缂╁浘閮ㄥ垎 */
 
 .thumbWrap {
     width: 145px;
@@ -1384,7 +1385,7 @@ div#rMenu ul li {
     overflow: hidden
 }
 .thumbWrap ul li.cur {}
-/* 缩图按钮 */
+/* 缂╁浘鎸夐挳 */
 .thumbPrev,
 .thumbNext {
     width: 100px;

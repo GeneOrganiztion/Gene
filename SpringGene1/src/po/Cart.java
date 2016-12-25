@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "cart")
 public class Cart {
@@ -20,7 +21,8 @@ public class Cart {
     private Date createTime;
 
     private Date lastModifiedTime;
-    
+   
+    @Transient
     private List<MapProductCartDemo> listOrderProduct;
     
     public List<MapProductCartDemo> getListOrderProduct() {

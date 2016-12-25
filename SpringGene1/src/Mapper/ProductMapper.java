@@ -24,5 +24,9 @@ public interface ProductMapper extends Mapper<Product>,MySqlMapper<Product> {
 	int deleteByClassifyKey(Product product);
 	public List<Product> selectbyClassify(Product product);
 	
+	public Product SelectProductAndImage(Product product);
+	
+	void deleteProductByIds(List<Integer> ids);
+	
 	List<Product> selectProductByParams(Map<String, Object> map);
 }

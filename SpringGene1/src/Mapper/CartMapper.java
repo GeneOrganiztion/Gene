@@ -2,8 +2,9 @@ package Mapper;
 
 import po.Cart;
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
-public interface CartMapper extends Mapper<Cart>{
+public interface CartMapper extends Mapper<Cart>,MySqlMapper<Cart>{
     /* int deleteByPrimaryKey(CartKey key); */
 
     int insert(Cart record);

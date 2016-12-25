@@ -1,7 +1,4 @@
 function initProductManager(){
-	
-	
-	
 	jQuery(function($) {
 		
 		$('#validation-form').addClass('hide');
@@ -31,9 +28,9 @@ function initProductManager(){
 					}else{
 						if(info.step==1&&info.direction=="next"){
 							$('#addloader').removeClass('hide');
-							if(null==productid){
+							console.log("product id="+productid);
+							if(null==productid||""==productid){
 								productid=addproduct();
-								console.log("productidaaaa="+productid);
 								if(productid>0){
 									$('#addloader').addClass('hide');
 									alertmsg("success","商品基本信息入库成功");
@@ -63,9 +60,7 @@ function initProductManager(){
 					}
 				}
 					
-				/* if(info.step==2&&info.direction=="previous"){
-					 return true; //不能跳转
-				 }
+			/*
 				 if(info.step==2&&info.direction=="next"){ 
 					 if(flieuploadimagesize==null){
 						 alertmsg("error","您还有图片未上传");
@@ -73,23 +68,35 @@ function initProductManager(){
 					 }
 					 
 				 }*/
-			
-			//if(info.step == 1 && $validation) {
-			//	console.log(info);
-			
-			//	if(!$('#validation-form').valid()) e.preventDefault();
-			//}
 		})
 		.on('finished.fu.wizard', function(e) {
-			bootbox.dialog({
-				message: "Thank you! Your information was successfully saved!", 
-				buttons: {
-					"success" : {
-						"label" : "OK",
-						"className" : "btn-sm btn-primary"
-					}
-				}
-			});
+				 Lobibox.confirm({ 
+				        title:"提交商品",      //提示框标题 
+				        msg: "是否确认编辑完成？",   //提示框文本内容 
+				        callback: function ($this, type, ev) {  //回调函数 
+				        	var productid=$('#product_id').val();
+				        	var productDetail=$('#editor1').html();
+				            if (type === 'yes') { 
+				            	$.ajax({
+				            		type:"post",
+				            		url:webroot+"product/addProductContent.do",
+				            		data:{"ProductId":productid,"productDetail":productDetail},
+				            		success:function(data){
+					            		var result=eval(data);				    
+				            			if(data==true){
+				            				alertmsg("success","商品详情信息入库成功");
+				            			}else{
+				            				alertmsg("error","商品详情编辑出错请重新编辑");
+				            			}	
+				            		}
+				            	});
+				            	
+				            } else if (typ==='no') { 
+				                       
+				            } 
+				       } 
+				     });
+			
 		}).on('stepclick.fu.wizard', function(e){
 			//e.preventDefault();//this will prevent clicking and selecting steps
 		});
@@ -181,38 +188,7 @@ function initProductManager(){
 	                    removeShowImage(file.name);
 	                    
 	                });
-	            }
-				
-				
-				/*init: function() {
-				  var submitButton = document.querySelector("#submit-all");
-				        myDropzone = this; // closure
-				    submitButton.addEventListener("click", function() {
-				      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-				    });
-
-				    // You might want to show the submit button only when 
-				    // files are dropped here:
-				  },				
-				sending: function(file, xhr, formData) {
-					formData.append("id",productid);
-					flieuploadimagesize=file.size;
-					
-				},
-				success: function (file, response, e) {
-						console.log(response.message);
-						if(response.message=="error"){
-							alertmsg("error","商品展示图片上传失败，请重新上传");
-						}else if(response.message=="tomore"){
-							alertmsg("error","商品展示图片上传超过最大限制");
-						}else{
-							alertmsg("success","商品展示图片上传成功");
-						}
-						
-					},
-				*/
-				//change the previewTemplate to use Bootstrap progress bars
-				
+	            }			
 			  });
 			  
 			  
@@ -235,8 +211,8 @@ function initProductManager(){
 				  var myDropzone = new Dropzone("#dropzone1" , {
 				    paramName: "file", // The name that will be used to transfer the file
 				    maxFilesize: 1, // MB
-				    maxFiles:2,
-				    dictMaxFilesExceeded: "您最多只能上传2张商品详情图片！",
+				    maxFiles:10,
+				    dictMaxFilesExceeded: "您最多只能上传10张商品详情图片！",
 				    dictFileTooBig:"文件过大上传文件最大支持.",
 				    acceptedFiles: ".jpg,.gif,.png,.pdf",
 				    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
@@ -612,10 +588,7 @@ function remove(id){
 }
 
 
-function geteditor(){
-	alert($('#editor1').html());
-	
-}
+
 //查询所有分类
 function selectClassify(){
 	$.ajax({
@@ -674,6 +647,8 @@ function addproduct(){
 		url: webroot + "product/insertProduct.do",
 		data: data,
 		success: function(msg){
+			$('#product_id').val(msg);
+			console.log("msg="+msg);
 			pro_id=msg;
 		}
 	

@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> selectWebAll(Product product) throws Exception {
 		 product.setIsdelete(false);
-		return productMapper.select(product);
+		return productMapper.selectbyClassify(product);
 	}
 	@Override
 	public int delProduct(Product Product) throws Exception {
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService{
 		int newproductid=-1;
 		try{
 			productMapper.insertUseGeneratedKeys(Product);
-			newproductid=Product.getproduct_id();
+			newproductid=Product.getId();
 		}catch(Exception e){
 			logger.info("productMappersave"+e);
 		}
@@ -92,6 +92,17 @@ public class ProductServiceImpl implements ProductService{
 		List<Product> list = productMapper.selectProductByParams(map);
 	    PageInfo page = new PageInfo(list);
 		return page;
+	}
+
+	@Override
+	public boolean deleteProductIds(List ids) throws Exception {
+		try {
+			productMapper.deleteProductByIds(ids);
+		} catch (Exception e) {
+			logger.error("AdminServiceImpl deleteAdminByIds error:" + e);
+			return false;
+		}
+		return true;
 	}
 	
 }
