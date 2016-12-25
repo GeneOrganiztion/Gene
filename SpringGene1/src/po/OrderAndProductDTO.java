@@ -41,8 +41,6 @@ public class OrderAndProductDTO {
 
     private Boolean proOnline;
 
-    private String proImage;
-
     private String proDetail;
 
     private String proArea;
@@ -192,14 +190,6 @@ public class OrderAndProductDTO {
 
     public void setProOnline(Boolean proOnline) {
         this.proOnline = proOnline;
-    }
-
-    public String getProImage() {
-        return proImage;
-    }
-
-    public void setProImage(String proImage) {
-        this.proImage = proImage == null ? null : proImage.trim();
     }
 
     public String getProDetail() {

@@ -29,7 +29,6 @@
     <result column="pro_sum" property="proSum" jdbcType="INTEGER" />
     <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
     <result column="pro_online" property="proOnline" jdbcType="BIT" />
-    <result column="pro_remark" property="proRemark" jdbcType="VARCHAR" />
     <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
     <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
     <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
@@ -56,7 +55,6 @@
 		 pt.`pro_sum`,
 		 pt.`pro_rateprice`,
 		 pt.`pro_online`,
-		 pt.`pro_remark`,
 		 pt.`pro_detail`,
 		 pt.`pro_area`,
 		 pt.`classify_id`
