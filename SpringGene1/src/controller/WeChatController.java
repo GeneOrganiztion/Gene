@@ -31,6 +31,7 @@ import service.CartService;
 import service.UserService;
 import utils.Constant;
 import utils.DateUtil;
+import utils.WePay;
 
 import com.github.pagehelper.PageInfo;
 
@@ -197,13 +198,13 @@ public class WeChatController {
 	public Map<String,String> weixinpay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 		//网页授权后获取传递的参数
-		String userId = request.getParameter("openId"); 	
+		String openId = request.getParameter("openId"); 	
 		String finalmoney = request.getParameter("finalmoney"); 
 		String orderId = request.getParameter("orderId"); 
-		logger.info("userId="+userId);
+		logger.info("openid="+openId);
 		logger.info("finalmoney="+finalmoney);
 //商户相关资料 
-		String appsecret = Constant.APPSECRET;
+/*		String appsecret = Constant.APPSECRET;
 		String partnerkey = Constant.PARTNERKEY;
 		String appid = Constant.APPID;
 		String partner = Constant.PARTNER;
@@ -213,8 +214,8 @@ public class WeChatController {
 				String mch_id = partner;
 				//子商户号  非必输
 //				String sub_mch_id="";
-				/*//设备号   非必输
-				String device_info="";*/
+				//设备号   非必输
+				String device_info="";
 				
 				//商品描述
 //				String body = describe;
@@ -227,21 +228,21 @@ public class WeChatController {
 				String attach = DateUtil.format(new Date())+"1";
 				logger.info("attach="+attach);
 				//订单日期起止时间
-				/*if(null==orderId){*/
+				if(null==orderId){
 				 Date d=new Date();  
-				/* String time_start = DateUtil.format(d);
+				 String time_start = DateUtil.format(d);
 		    	 String split_time_start=time_start.substring(0,14);
 		    	 logger.info("split_time_start="+split_time_start);
 		    	 
 		    	 String time_expire = DateUtil.format(new Date(d.getTime() + (long)3 * 24 * 60 * 60 * 1000));
 		    	 String split_time_expire=time_expire.substring(0,14);
-		    	 logger.info("split_time_expire="+split_time_expire);*/
+		    	 logger.info("split_time_expire="+split_time_expire);
 		    	 out_trade_no= DateUtil.format(d);
 		    	 
 		    	 
 				//}else{
 					
-					/*out_trade_no=orderId;*/
+					out_trade_no=orderId;
 					
 				//}
 				int intMoney = Integer.parseInt(finalmoney);
@@ -282,7 +283,7 @@ public class WeChatController {
 				packageParams.put("out_trade_no", out_trade_no);  
 				//这里写的金额为1 分到时修改
 				packageParams.put("total_fee", "1");  
-				/*packageParams.put("total_fee", "finalmoney");  */
+				packageParams.put("total_fee", "finalmoney");  
 				packageParams.put("spbill_create_ip", spbill_create_ip);  
 				packageParams.put("notify_url", notify_url); 
 				packageParams.put("trade_type", trade_type);  
@@ -352,7 +353,28 @@ public class WeChatController {
 				map.put("timeStamp", timestamp);
 				map.put("nonceStr", nonceStr2);
 				map.put("package", packages);
-				map.put("paySign", finalsign);
+				map.put("paySign", finalsign);*/
+		
+		
+		
+		
+		
+		
+				if(null==orderId||"".equals(orderId)&&finalmoney!=null){
+					int money=Integer.valueOf(finalmoney);
+					WePay.toPay(openId, money, productName, request, response)
+					
+				}else{
+					
+					
+				}
+		
+		
+		
+		
+		
+		
+		
 				return map;
 				
 				/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
