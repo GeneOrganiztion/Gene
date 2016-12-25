@@ -1,14 +1,17 @@
 package service.impl;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import controller.base.LoginController;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import Mapper.ClassifyMapper;
 import Mapper.ProductMapper;
 import po.Classify;
@@ -83,5 +86,47 @@ public class ClassifyServiceImpl implements ClassifyService {
 			}
 			return true;
 	}
-
+	@Override
+    public PageInfo selectClassifyParams(Map map){
+    	PageHelper.startPage((Integer)map.get("pageNo"),(Integer)map.get("rowCount"));
+		List<Classify> list = new ArrayList<Classify>();
+		try {
+			list = classifyMapper.selectClassifyParams(map);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("selectClassifyParams error:" + e);
+		}
+	    PageInfo pageInfo = new PageInfo(list);
+		return pageInfo;
+    }
+	@Override
+	public Integer insertOneClassifyReturnId(Classify cls)throws Exception{
+		classifyMapper.insertUseGeneratedKeys(cls);
+		return cls.getId();
+	}
+	@Override
+	public boolean delOneClassifyById(Classify cls)throws Exception{
+		try {
+			classifyMapper.delete(cls);
+		} catch (Exception e) {
+			logger.error("delOneClassifyById error:" + e);
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public List<Classify> selectTwoClassify(Classify cls) throws Exception{
+		cls.setIsdelete(false);
+		return classifyMapper.select(cls);
+	}
+	@Override
+	public List<Classify> selectAllOneClassify(Classify cls) throws Exception{
+		cls.setIsdelete(false);
+		return classifyMapper.select(cls);
+	}
+	@Override
+	public Classify selectOneClassify(Classify cls) throws Exception{
+		cls.setIsdelete(false);
+		return classifyMapper.selectOne(cls);
+	}
 }

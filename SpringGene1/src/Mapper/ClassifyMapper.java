@@ -1,9 +1,14 @@
 package Mapper;
 
-import po.Classify;
-import tk.mybatis.mapper.common.Mapper;
+import java.util.List;
+import java.util.Map;
 
-public interface ClassifyMapper extends Mapper<Classify>{
+import po.Classify;
+import po.Report;
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
+
+public interface ClassifyMapper extends Mapper<Classify>,MySqlMapper<Classify>{
   /*  int deleteByPrimaryKey(Integer id);
 
     int insert(Classify record);
@@ -15,4 +20,6 @@ public interface ClassifyMapper extends Mapper<Classify>{
     int updateByPrimaryKeySelective(Classify record);
 
     int updateByPrimaryKey(Classify record);*/
+	
+	List<Classify> selectClassifyParams(Map map) throws Exception;
 }

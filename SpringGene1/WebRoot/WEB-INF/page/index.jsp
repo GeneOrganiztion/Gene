@@ -624,7 +624,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="#" menu-url="orderInfo/detectionOrderPage.do">
+								<a href="#" menu-url="classify/twoClassifyListPage.do">
 									<i class="menu-icon fa fa-caret-right"></i>
 									二级分类
 								</a>

@@ -2,7 +2,7 @@
 <%
 	String path = request.getContextPath();
 %>
-<script src="<%=path%>/pagejs/classify/oneClassifyList.js"></script>
+<script src="<%=path%>/pagejs/classify/twoClassifyList.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
@@ -21,7 +21,7 @@
 		    </li> -->
 		<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">首页</a></li>
 		<li><a href="#">分类管理</a></li>
-		<li class="active"><span>一级分类</span></li>
+		<li class="active"><span>二级分类</span></li>
 	</ul>
 	<!-- /.breadcrumb -->
 </div>
@@ -51,7 +51,7 @@
 	    </div>
 	    <div id="searchDiv" class="panel-collapse collapse">
 	      <div class="panel-body">
-			  <form id="queryOneClassifyForm" class="form-horizontal" role="form">
+			  <form id="queryTwoClassifyForm" class="form-horizontal" role="form">
 				<!-- #section:elements.form -->
 				<div class="form-group">
 					<div class="col-md-3">
@@ -88,7 +88,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-md" onclick="queryOneClassify()">
+						<button type="button" class="btn btn-md" onclick="queryTwoClassify()">
 							<i class="ace-icon fa fa-search orange"></i>搜索
 						</button>
 						<button type="button" class="btn btn-md" onclick="reset()">
@@ -102,8 +102,8 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="addOneClassify()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加分类</button>
-        <button type="button" onclick="editOneClassify()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改分类</button>
+        <button type="button" onclick="addTwoClassify()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加分类</button>
+        <button type="button" onclick="editTwoClassify()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改分类</button>
         <button type="button" onclick="deleteOneClassify()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除分类</button>
     </div>
 	<div class="row">
@@ -116,7 +116,7 @@
 	</div><!-- /.row -->
 </div><!-- /.page-content -->
 <!-- 添加分类model start -->
-<div class="modal fade" id="addOneClassifyModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="addTwoClassifyModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
              <div class="modal-header">
@@ -126,35 +126,31 @@
 		     <div class="modal-body">
 		     	<div class="row">
 		     		<div class="col-xs-12 ">
-		            	<form class="form-horizontal" id="addOneClassifyform" >
+		            	<form class="form-horizontal" id="addTwoClassifyform" >
 		           			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">分类名</label>
-								<div class="col-xs-12 col-sm-8">
-									<div class="clearfix">
-										<input type="text" id="claName" name="claName" class="col-xs-12 col-sm-6" />
+		           				<div class="col-xs-6 ">
+									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">分类名</label>
+									<div class="col-xs-12 col-sm-8">
+										<div class="clearfix">
+											<input type="text" id="addclaName" name="claName" class="col-xs-12 col-sm-12" />
+										</div>
 									</div>
+								</div>
+								<div class="col-xs-6 ">
+									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
+									<select id="oneClassify" name="oneclassify" class="input-medium" data-placeholder="请选择一级分类">
+										<option value=""></option>
+									</select>
 								</div>
 							</div>
 		 				</form>
 	 				</div>
-	 				<div class="space-2"></div>
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="oneClassifyId"></input>
-						<div>
-							<form action="<%=path%>/classify/saveOneClassify.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
-								<div class="fallback">
-									<input name="file" id="oneClassifypic" type="file" multiple="" />
-								</div>
-							</form>
-						</div><!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-					<div class="col-xs-12 center">
-						<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">保存</button>
-					</div>
 	 			</div>
 		     </div>
 			<div class="modal-footer">
+			    <button type="button" class="btn btn-md" onclick="saveTwoClassify()" >
+			    	保存
+			    </button>
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
 			    	关闭
 			    </button>
@@ -164,7 +160,7 @@
 </div>
 <!-- 添加分类model end -->
 <!-- 修改分类model start -->
-<div class="modal fade" id="editOneClassifyModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="editTwoClassifyModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
              <div class="modal-header">
@@ -174,35 +170,32 @@
 		     <div class="modal-body">
 		     	<div class="row">
 		     		<div class="col-xs-12 ">
-		            	<form class="form-horizontal" id="editOneClassifyform" >
+		            	<form class="form-horizontal" id="editTwoClassifyform" >
 		           			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">分类名</label>
-								<div class="col-xs-12 col-sm-8">
-									<div class="clearfix">
-										<input type="text" id="editOneClassifyName" name="claName" class="col-xs-12 col-sm-6" />
+		           				<div class="col-xs-6 ">
+		           					<input type="hidden" id="twoClassifyId" class="col-xs-12 col-sm-12" />
+									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">分类名</label>
+									<div class="col-xs-12 col-sm-8">
+										<div class="clearfix">
+											<input type="text" id="editclaName" name="editclaName" class="col-xs-12 col-sm-12" />
+										</div>
 									</div>
+								</div>
+								<div class="col-xs-6 ">
+									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
+									<select id="editOneClassify" name="editOneClassify" class="input-medium" data-placeholder="请选择一级分类">
+										<option value=""></option>
+									</select>
 								</div>
 							</div>
 		 				</form>
 	 				</div>
-	 				<div class="space-2"></div>
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="editOneClassifyId"></input>
-						<div>
-							<form action="<%=path%>/classify/editOneClassify.do" enctype="multipart/form-data" class="dropzone" method="post" id="editOneClassifyDropzone">
-								<div class="fallback">
-									<input name="file"  type="file" multiple="" />
-								</div>
-							</form>
-						</div><!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-					<div class="col-xs-12 center">
-						<button class="btn" id="editOneClassify-submit-all" disabled="disabled" style="margin:20px auto">保存</button>
-					</div>
 	 			</div>
 		     </div>
 			<div class="modal-footer">
+			    <button type="button" class="btn btn-md" onclick="saveAndEditTwoClassify()" >
+			    	保存
+			    </button>
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
 			    	关闭
 			    </button>
@@ -210,7 +203,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<!-- 修改分类model end -->
+<!-- 修改分类model start -->
 
 <!-- 删除图片model begin -->
 <div class="modal fade" id="viewOneClassifyPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -242,7 +235,7 @@
 
 <script type="text/javascript">
 jQuery(function($) {
-	initOneClassifyManager();
+	initTwoClassifyManager();
 })
 </script>
 

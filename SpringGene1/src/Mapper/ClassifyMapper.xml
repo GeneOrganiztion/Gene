@@ -10,6 +10,41 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <sql id="Base_Column_List" >
+    classify_id, cla_name, cla_content, cla_pid, isdelete, create_time, last_modified_time
+  </sql>
+  
+  <select id="selectClassifyParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+  	select 
+    <include refid="Base_Column_List" />
+	    from classify
+	    where isdelete = 0
+	  <if test="classifyId != null">
+        and classify_id = #{classifyId}
+      </if>
+	  <if test="claName != null">
+        and cla_name like '%${claName}%'
+      </if>
+      <if test="flag !=null and flag == 'oneClassify'">
+        and cla_pid = 0
+      </if>
+      <if test="flag !=null and flag == 'twoClassify'">
+        <![CDATA[and cla_pid <> 0 ]]>
+      </if>
+      <if test="beginTime != null ">
+        AND CREATE_TIME > #{beginTime} 
+      </if>
+      <if test="endTime != null ">
+        <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
+      </if>
+      <if test="sidx != null">
+        order by #{sidx} #{sord}
+      </if>
+      <if test="sidx == null">
+        order by create_time desc
+      </if>
+  </select>
  <!--  <sql id="Base_Column_List" >
     id, cla_name, cla_content, cla_pid, isdelete, create_time, last_modified_time
   </sql>

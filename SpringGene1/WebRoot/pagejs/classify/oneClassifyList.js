@@ -1,4 +1,4 @@
-function initAdminManager(){
+function initOneClassifyManager(){
 	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -21,15 +21,15 @@ function initAdminManager(){
 		url: webroot + "classify/seletcClassify.do",
 		mtype: 'post',
 		datatype: "json",
+		postData: {flag: "oneClassify"},
 		height: 320,
-		colNames:['用户ID','用户姓名','邮箱','电话','创建时间','最后更新时间'],
+		colNames:['分类ID','分类名称','创建时间','最后更新时间','操作'],
 		colModel:[
-          	{name:'id',index:'admin_id', width:80, sorttype:"int", editable: true},
-          	{name:'username',index:'username',width:80, editable:true},
-			{name:'email',index:'email', width:80, sorttype:"int", editable: true},
-			{name:'phone',index:'phone',width:80, editable:true},
+          	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
+          	{name:'claName',index:'claName',width:80, editable:true},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
+			{ name: '', width: 80,formatter: formatterOperate}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -190,190 +190,277 @@ function initAdminManager(){
 		return time;
 	}
 	
-	
-	$('#addAdminform').validate({
-		errorElement: 'div',
-		errorClass: 'help-block',
-		focusInvalid: false,
-		ignore: "",
-		rules: {
-			email: {
-				required: true,
-				email:true
-			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-			password2: {
-				required: true,
-				minlength: 5,
-				equalTo: "#addAdminModal input[name='password']"
-			},
-			username: {
-				required: true
-			},
-			realname: {
-				required: true
-			},
-			phone: {
-				required: true,
-				minlength: 11
-			}
-		},
-
-		messages: {
-			email: {
-				required: "请输入email",
-				email: "email格式错误"
-			},
-			password: {
-				required: "请输入密码",
-				minlength: "密码格式错误",
-			},
-			password2: {
-				required: "请输入密码",
-				password2: "密码格式错误"
-			},
-			phone: {
-				required: "请输入手机号",
-				minlength: "手机号小于11位",
-			},
-			username: "请输入用户名",
-			realname: "请输入真实姓名"
-		},
-
-
-		highlight: function (e) {
-			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-		},
-
-		success: function (e) {
-			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
-			$(e).remove();
-		},
-
-		errorPlacement: function (error, element) {
-			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
-				var controls = element.closest('div[class*="col-"]');
-				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
-				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
-			}
-			else if(element.is('.select2')) {
-				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
-			}
-			else if(element.is('.chosen-select')) {
-				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
-			}
-			else error.insertAfter(element.parent());
-		},
-
-		submitHandler: function (form) {
-		},
-		invalidHandler: function (form) {
+	//格式化商品jqgrid之后的操作
+	function formatterOperate(cellvalue, options, rowObject){
+		var detial;
+		if(empty(rowObject.claContent)){
+			detial = "<button disabled=\"disabled\" onclick=\"viewOneClassifyPic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
+		}else{
+			detial = "<button onclick=\"viewOneClassifyPic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
 		}
-	});
+        return detial;
+	}
 	
-	$('#editAdminform').validate({
-		errorElement: 'div',
-		errorClass: 'help-block',
-		focusInvalid: false,
-		ignore: "",
-		rules: {
-			email: {
-				required: true,
-				email:true
-			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-			password2: {
-				required: true,
-				minlength: 5,
-				equalTo: "#editAdminform input[name='password']"
-			},
-			username: {
-				required: true
-			},
-			realname: {
-				required: true
-			},
-			phone: {
-				required: true,
-				minlength: 11
-			}
-		},
+	try {
+		  Dropzone.autoDiscover = false;
+		  var myDropzone = new Dropzone("#dropzone" , {
+		    paramName: "file", // The name that will be used to transfer the file
+		    maxFilesize: 10, // MB
+		    maxFiles:1,
+		    dictMaxFilesExceeded: "您最多只能上传1个文件！",
+		    dictFileTooBig:"文件过大上传文件最大支持.",
+		    acceptedFiles: ".jpg,.gif,.png",
+		    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png",
+			addRemoveLinks : true,
+			autoProcessQueue :false,
+			dictDefaultMessage :
+			'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+			<span class="smaller-80 grey">(or click)</span> <br /> \
+			<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
+		,
+			dictResponseError: 'Error while uploading file!',
+			previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    " +
+					"<div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    " +
+					"<img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\">" +
+					"<div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  " +
+					"<div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\">" +
+					"<span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+			init: function () {
+              var submitButton = document.querySelector("#submit-all")
+              myDropzone = this; // closure
 
-		messages: {
-			email: {
-				required: "请输入email",
-				email: "email格式错误"
-			},
-			password: {
-				required: "请输入密码",
-				minlength: "密码格式错误",
-			},
-			password2: {
-				required: "请输入密码",
-				password2: "密码格式错误"
-			},
-			phone: {
-				required: "请输入手机号",
-				minlength: "手机号小于11位",
-			},
-			username: "请输入用户名",
-			realname: "请输入真实姓名"
-		},
+              submitButton.addEventListener("click", function () {
+              	//验证报告名称不能为空
+              	var claName = $("#claName").val();
+              	if(empty(claName)){
+              		alertmsg("warning", "分类名称不能为空");
+              		return;
+              	}
+              	Lobibox.confirm({ 
+                      title:"确认提交",      //提示框标题 
+                      msg: "是否确认新增分类",   //提示框文本内容 
+                      callback: function ($this, type, ev) {               //回调函数 
+                          if (type === 'yes') { 
+                          	myDropzone.processQueue();
+                          } else if (type === 'no') { 
+                                     
+                          } 
+                     } 
+                   });
+              });
 
+              //当添加图片后的事件，上传按钮恢复可用
+              this.on("addedfile", function () {
+                  $("#submit-all").removeAttr("disabled");
+              });
+              
+              this.on("success", function (file, response, e) {
+              	if(response.success){
+              			$("#addOneClassifyModal").modal("hide");
+						alertmsg("success","分类添加成功");
+						$("#oneClassifyId").val(response.returnId);
+						queryOneClassify();
+					}else{
+						alertmsg("error",empty(response.msg) == true ? "分类添加失败" : response.msg);
+						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
+					}
+              });
+              this.on("sending", function (file, xhr, formData) {
+              	formData.append("claName",$("#claName").val());
+              });
+              //当上传完成后的事件，接受的数据为JSON格式
+              /*this.on("complete", function (data) {
+                  if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                      var res =data;
+                      var msg;
+                      if (res.message=="error") {
+                      	alertmsg("error","商品详情图片上传失败，请重新上传");
+                      }
+                      else {
+                      	alertmsg("success","商品详情图片上传完成");
+                      }
+                      
+                  }
+              });*/
+              
 
-		highlight: function (e) {
-			$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-		},
-
-		success: function (e) {
-			$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
-			$(e).remove();
-		},
-
-		errorPlacement: function (error, element) {
-			if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
-				var controls = element.closest('div[class*="col-"]');
-				if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
-				else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
-			}
-			else if(element.is('.select2')) {
-				error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
-			}
-			else if(element.is('.chosen-select')) {
-				error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
-			}
-			else error.insertAfter(element.parent());
-		},
-
-		submitHandler: function (form) {
-		},
-		invalidHandler: function (form) {
+              //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
+              this.on("removedfile", function (file) {
+                  if (this.getAcceptedFiles().length === 0) {
+                      $("#submit-all").attr("disabled", true);
+                  }
+                  //上传失败的不删数据库中的数据
+                  removeImage($("#oneClassifyId").val());
+              });
+          }
+			
+		  });
+		  
+		   $(document).one('ajaxloadstart.page', function(e) {
+				try {
+					myDropzone.destroy();
+				} catch(e) {}
+		   });
+		
+		} catch(e) {
+		  alert('Dropzone.js does not support older browsers!');
 		}
-	});
+		
+		
+		try {
+			  Dropzone.autoDiscover = false;
+			  var myDropzone = new Dropzone("#editOneClassifyDropzone" , {
+			    paramName: "file", // The name that will be used to transfer the file
+			    maxFilesize: 10, // MB
+			    maxFiles:1,
+			    dictMaxFilesExceeded: "您最多只能上传1个文件！",
+			    dictFileTooBig:"文件过大上传文件最大支持.",
+			    acceptedFiles: ".jpg,.gif,.png",
+			    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png",
+				addRemoveLinks : true,
+				autoProcessQueue :false,
+				dictDefaultMessage :
+				'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
+				<span class="smaller-80 grey">(or click)</span> <br /> \
+				<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
+			,
+				dictResponseError: 'Error while uploading file!',
+				previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    " +
+						"<div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    " +
+						"<img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\">" +
+						"<div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  " +
+						"<div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\">" +
+						"<span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
+				init: function () {
+	              var submitButton = document.querySelector("#editOneClassify-submit-all")
+	              editDropzone = this; // closure
+
+	              submitButton.addEventListener("click", function () {
+	              	//验证报告名称不能为空
+	              	var claName = $("#editOneClassifyName").val();
+	              	if(empty(claName)){
+	              		alertmsg("warning", "分类名称不能为空");
+	              		return;
+	              	}
+	              	Lobibox.confirm({ 
+	                      title:"确认提交",      //提示框标题 
+	                      msg: "是否确认修改分类",   //提示框文本内容 
+	                      callback: function ($this, type, ev) {               //回调函数 
+	                          if (type === 'yes') { 
+	                        	  editDropzone.processQueue();
+	                          } else if (type === 'no') { 
+	                                     
+	                          } 
+	                     } 
+	                   });
+	              });
+
+	              //当添加图片后的事件，上传按钮恢复可用
+	              this.on("addedfile", function () {
+	                  $("#editOneClassify-submit-all").removeAttr("disabled");
+	              });
+	              
+	              this.on("success", function (file, response, e) {
+	              	if(response.success){
+	              			$("#editOneClassifyModal").modal("hide");
+							alertmsg("success","分类修改成功");
+							$("#editOneClassifyId").val(response.returnId);
+							queryOneClassify();
+						}else{
+							alertmsg("error",empty(response.msg) == true ? "分类 修改失败" : response.msg);
+							$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
+						}
+	              });
+	              this.on("sending", function (file, xhr, formData) {
+	              	formData.append("claName",$("#editOneClassifyName").val());
+	              	formData.append("classifyId",$("#editOneClassifyId").val());
+	              });
+	              //当上传完成后的事件，接受的数据为JSON格式
+	              /*this.on("complete", function (data) {
+	                  if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+	                      var res =data;
+	                      var msg;
+	                      if (res.message=="error") {
+	                      	alertmsg("error","商品详情图片上传失败，请重新上传");
+	                      }
+	                      else {
+	                      	alertmsg("success","商品详情图片上传完成");
+	                      }
+	                      
+	                  }
+	              });*/
+	              
+
+	              //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
+	              this.on("removedfile", function (file) {
+	                  if (this.getAcceptedFiles().length === 0) {
+	                      $("#editOneClassify-submit-all").attr("disabled", true);
+	                  }
+	                  //上传失败的不删数据库中的数据
+	                  removeImage($("#editOneClassifyId").val());
+	              });
+	          }
+				
+			  });
+			  
+			   $(document).one('ajaxloadstart.page', function(e) {
+					try {
+						myDropzone.destroy();
+					} catch(e) {}
+			   });
+			
+			} catch(e) {
+			  alert('Dropzone.js does not support older browsers!');
+			}
+	
 	
 }
-
-
+//预览图片
+function viewOneClassifyPic(id){
+	//清空上次的报告
+	$("#viewOneClassifyPicli").html("");
+	$.ajax({
+		type: "post",
+		url: webroot + "classify/selectOneClassify.do",
+		data: {classifyId:id},
+		success: function(msg){
+			console.log(msg);
+			if(empty(msg)){
+				alertmsg("error","预览图片失败");
+				return;
+			}
+			var html = "<li>" + "<a target=\"_bank\" href='"+msg.claContent+"' >" + msg.claName + "</a>" +
+				"<button onclick=\"delectOneClassifyPic(" + msg.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>"+ "</li>";
+			$("#viewOneClassifyPicli").append(html);
+			$("#viewOneClassifyPicModal").modal("show");
+		}
+	});
+}
+function delectOneClassifyPic(id){
+	$.ajax({
+		type:"post",
+		url:webroot+"classify/delectOneClassifyPic.do",
+		data:{"oneClassifyId":id},
+		success:function(data){
+			queryOneClassify();
+			$("#viewOneClassifyPicModal").modal("hide");
+		}
+	});
+}
 
 //查询
-function queryAdmin(){
-	var data = $("#queryAdminForm").serialize();
-	var url = webroot + "admin/selectAdmin.do";
+function queryOneClassify(){
+	var data = $("#queryOneClassifyForm").serialize();
+	var url = webroot + "classify/seletcClassify.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
-        url: url + "?" + data, 
+        url: url + "?" + data + "&flag=oneClassify", 
         //postData:jsonData, 
         page:1,
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
 }
-//删除用户
-function deleteAdmin(){
+//删除分类
+function deleteOneClassify(){
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
 		alertmsg("warning", "请至少选中一行!");
@@ -382,18 +469,18 @@ function deleteAdmin(){
 	var ids = "";
 	for(var i = 0; i < selectedIds.length; i ++){
 		var rowData = $('#grid-table').getRowData(selectedIds[i]);//获取选中行的记录
-		var adminId = rowData.id;
-		ids =ids + adminId + ",";
+		var classifyId = rowData.id;
+		ids =ids + classifyId + ",";
 	}
     Lobibox.confirm({ 
-        title:"删除用户",      //提示框标题 
-        msg: "是否确认确认删除",   //提示框文本内容 
+        title:"删除分类",      //提示框标题 
+        msg: "删除一级分类将删除它之下的二级分类和商品",   //提示框文本内容 
         callback: function ($this, type, ev) {               //回调函数 
             if (type === 'yes') { 
             	$.ajax({
             		type:"post",
-            		url:webroot+"admin/delete.do",
-            		data:{"adminIds":ids},
+            		url:webroot+"classify/deleteOneClassify.do",
+            		data:{"oneClassifyIds":ids},
             		success:function(data){
             			//删除成功重新加载jqGrid
             			$("#grid-table").jqGrid('setGridParam',{ 
@@ -409,58 +496,36 @@ function deleteAdmin(){
      });
 	
 }
-//添加用户
-function addAdmin(){
+//添加分类
+function addOneClassify(){
 	
 	//再次打开model之前清空上次的操作记录
-	$("#addAdminModal :input").val("");
-	$("#addAdminModal").modal("show");
+	$("#addOneClassifyModal :input").val("");
+	$("#addOneClassifyModal").modal("show");
 	
 	
 }
-//保存用户
-function saveAdmin(){
-	//form中验证不通过直接返回
-	if(!($('#addAdminform').valid())){
+//删除分类
+function removeImage(id){
+	if(empty(id)){
 		return;
 	}
-	//验证是否已存在此用户名
-	var name = $("#addAdminform input[name='username'").val();
 	$.ajax({
 		type: "post",
-		url: webroot + "admin/validateAdmin.do",
-		data: {name: name},
+		data: {oneClassifyId: id},
+		url: webroot + "classify/removeOneClassfyById.do",
 		success: function(msg){
 			if(msg.success){
-				alertmsg("warning","用户名已存在!");
-				return;
+				alertmsg("success","报告图片成功");
+				queryOneClassify();
 			}else{
-				//保存用户信息
-				var data = getParams("#addAdminModal");
-				$.ajax({
-					type: "post",
-					url: webroot + "admin/saveAdmin.do",
-					data: data,
-					success: function(msg){
-						if(msg.success){
-							alertmsg("success", "新增用户成功!");
-							var data = $("form").serialize();
-							var url = webroot + "admin/selectAdmin.do";
-							$("#grid-table").jqGrid('setGridParam',{ 
-						        url: url + "?" + data, 
-						        page:1,
-						        mtype:"post"
-						    }).trigger("reloadGrid"); //重新载入 
-						}
-					}
-				});
-				$("#addAdminModal").modal("hide");
+				alertmsg("error", "报告图片失败");
 			}
 		}
 	});
 }
-//修改用户
-function editAdmin(){
+//修改分类
+function editOneClassify(){
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;
@@ -470,58 +535,11 @@ function editAdmin(){
 	}
 	$.ajax({
 		type: "post",
-		url: webroot + "admin/selectAdminByAdminId.do",
-		data: {adminId: id},
+		url: webroot + "classify/selectOneClassify.do",
+		data: {classifyId: id},
 		success: function(msg){
-			$("#editAdminModal input[name='id']").val(msg.id);
-			$("#editAdminModal input[name='username']").val(msg.username);
-			$("#editAdminModal input[name='realname']").val(msg.realname);
-			$("#editAdminModal input[name='password']").val(msg.password);
-			$("#editAdminModal input[name='password2']").val(msg.password);
-			$("#editAdminModal input[name='phone']").val(msg.phone);
-			$("#editAdminModal input[name='email']").val(msg.email);
-			$("#editAdminModal").modal("show");
-		}
-	});
-}
-//修改用户
-function editAndSaveAdmin(){
-	//form中验证不通过直接返回
-	if(!($('#editAdminform').valid())){
-		return;
-	}
-	//验证是否已存在此用户名
-	var name = $("#editAdminform input[name='username']").val();
-	$.ajax({
-		type: "post",
-		url: webroot + "admin/validateAdmin.do",
-		data: {name: name},
-		success: function(msg){
-			if(msg.success){
-				alertmsg("warning","用户名已存在!");
-				return;
-			}else{
-				//保存用户信息
-				var data = getParams("#editAdminform");
-				$.ajax({
-					type: "post",
-					url: webroot + "admin/updateAdmin.do",
-					data: data,
-					success: function(msg){
-						if(msg.success){
-							alertmsg("success", "修改用户成功!");
-							var data = $("form").serialize();
-							var url = webroot + "admin/selectAdmin.do";
-							$("#grid-table").jqGrid('setGridParam',{ 
-						        url: url + "?" + data, 
-						        page:1,
-						        mtype:"post"
-						    }).trigger("reloadGrid"); //重新载入 
-						}
-					}
-				});
-				$("#editAdminModal").modal("hide");
-			}
+			$("#editOneClassifyName").val(msg.id);
+			$("#editOneClassifyModal").modal("show");
 		}
 	});
 }
