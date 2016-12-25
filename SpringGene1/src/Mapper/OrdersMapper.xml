@@ -35,7 +35,7 @@
 		    <result column="pro_head" property="proHead" jdbcType="VARCHAR" />
 		    <result column="product_price" property="productPrice" jdbcType="INTEGER" />
 		    <result column="pro_online" property="proOnline" jdbcType="BIT" />
-		    <result column="pro_remark" property="proImage" jdbcType="VARCHAR" />
+		    <result column="pro_remark" property="proRemark" jdbcType="VARCHAR" />
 		    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
 		    <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
 		    <result column="classify_id" property="classifyId" jdbcType="INTEGER" />

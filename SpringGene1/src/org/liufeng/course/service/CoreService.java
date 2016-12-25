@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
@@ -15,6 +16,10 @@ import org.apache.http.util.EntityUtils;
 import org.liufeng.course.message.resp.MessageTransInfo;
 import org.liufeng.course.message.resp.TextMessage;
 import org.liufeng.course.util.MessageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import controller.order.OrderDetailController;
 
 /*import com.geloin.spring.po.AttendanceSheet;
 import com.geloin.spring.service.UserService;
@@ -27,7 +32,9 @@ import com.wechat.tuling.TulingService;*/
  * @date 2013-09-29
  */
 public class CoreService {
-	//private UserService userService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(CoreService.class);
+	
 	/**
 	 * 处理微信发来的请求
 	 * 
@@ -36,7 +43,7 @@ public class CoreService {
 	 */
 	
 	@SuppressWarnings("unused")
-	public static String processRequest(HttpServletRequest request,int model) {
+	public static String processRequest(HttpServletRequest request) {
 		
 		// xml格式的消息数据
 		String respXml ="";
@@ -64,30 +71,14 @@ public class CoreService {
 
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
-				if(model==1){
-					
+			
+				logger.info("jinru test.....");
+				
 	//					respContent=Today_weather_Service.getTodayInHistoryInfo();
 							
 	//				String INFO = URLEncoder.encode(content, "utf-8"); 
-					
-					System.out.println("微信content="+content);
-					
-					String requesturl = "http://www.tuling123.com/openapi/api?key=1328b4befe53af35152c816c045e0ff0&info="+content; 
-					HttpGet tulingrequest = new HttpGet(requesturl); 
-					HttpResponse response = HttpClients.createDefault().execute(tulingrequest); 
-					//200即正确的返回码 
-					if(response.getStatusLine().getStatusCode()==200){ 
-						String result_tuling = EntityUtils.toString(response.getEntity());
-						JSONObject json =JSONObject.fromObject(result_tuling);
-						result_tuling=json.getString("text");
-						respContent=result_tuling;
-					}
-				}else{
-					return respXml;
-				}
-					
-					
-				
+				logger.info("content="+content);	
+				respContent="hanhan";		
 			}
 			
 			// 图片消息
@@ -96,7 +87,7 @@ public class CoreService {
                 String picUrl = requestMap.get("PicUrl");  
                 // 人脸检测  
                 String detectResult = FaceService.detect(picUrl);
-				respContent = detectResult;
+				respContent ="您发送的是图片!"  ;
 			}
 			
 			// 语音消息
@@ -122,13 +113,7 @@ public class CoreService {
 				String eventType = requestMap.get("Event");
 				// 关注
 				if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-					respContent = "欢迎关注我们宁大信息人公众号，我们致力于打造具有信息人特色的全校一流的综合类服务性平台,平台目前已接入【人脸识别】、【小e机器人】等功能." +
-							"我们信息人的宗旨是立足于同学的基本需求，主动贴近同学、服务同学，如有任何问题或者意见可以通过我们的平台进行互动\n\n" +
-							"图灵机器人功能包括:\n【查询天气】（发送:城市+天气）\n【快递查询】（发送:快递+快递单号）\n【笑话】、【生活百科】、【新闻】等等功能，还可以和我们的机器人聊天唠嗑\n\n"+
-							
-							"人脸识别功能介绍:\n"+
-							"发送一张带有人脸的图片到平台即可进行人脸识别哦"
-							;
+					respContent = "欢迎您关注DNAjiankang!";
 				}
 				
 				// 取消关注
@@ -179,68 +164,8 @@ public class CoreService {
 						return respXml;
 					}
 					if(eventKey.equals("sign")){
-						Date now = new Date();
-						SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");//可以方便地修改日期格式
-						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-						SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-						String datetime = datetimeFormat.format(now);
-						String date = dateFormat.format(now);
-						String time = timeFormat.format(now);
-						int votecount = 1;
-						int rand_number = (int) (Math.random() * 10);
-						System.out.println("rand_number=" + rand_number);
-						int datevote = 50 + rand_number;
-						//AttendanceSheet attendancesheet=userService.selectattend(fromUserName);
-						/*if (null != attendancesheet) {
-
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-							String mysqldate = sdf.format(attendancesheet.getDate());
-							System.out.println("mysqldate="+mysqldate);
-							String mydatetime=attendancesheet.getDatetime();
-							System.out.println("mydatetime="+mydatetime);
-							int myvotes=attendancesheet.getVotes();
-							System.out.println("myvotes="+myvotes);
-							if (date.equals(mysqldate)) {
-								respContent="您今天已经签过了哦\n\n "+"签到时间 "+mydatetime+"\n\n"+"您当前共有"+myvotes+
-										"点积分\n\n"+"<a href=\"http://nbuxinxiren.cn/NBU_weixin/ranking.jsp?today="+date+"&todaytime="+date+" "+time+"&vote="+datevote
-										+"&openid="+fromUserName+"\">点击查看排行榜</a>";
-								System.out.println("sign-respContent="+respContent);
-								textMessage.setContent(respContent);
-								// 将文本消息对象转换成xml
-								respXml = MessageUtil.messageToXml(textMessage);
-								return respXml;
-
-							} else {
-								//System.out.println("vote=" + attendancesheet.getVotes());
-								//int vote = attendancesheet.getVotes() + datevote;
-							//	System.out.println("Votecount()="
-							//			+ attendancesheet.getVotecount());
-								//votecount = attendancesheet.getVotecount() + 1;
-								userService.updateattend(fromUserName, date, vote, datetime,
-										datevote, votecount);
-								respContent="恭喜签到成功，您的签到积分为:"+datevote+"\n\n"+"您当前共有"+myvotes+
-										"点积分\n\n"+"<a href=\"http://nbuxinxiren.cn/NBU_weixin/ranking.jsp?today="+date+"&todaytime="+date+" "+time+"&vote="+datevote
-										+"&openid="+fromUserName+"\">点击查看排行榜</a>";
-								System.out.println("update");
-								textMessage.setContent(respContent);
-								// 将文本消息对象转换成xml
-								respXml = MessageUtil.messageToXml(textMessage);
-								return respXml;
-							}
-
-						} else {
-							String name="请设置昵称";
-							userService.insertattend(fromUserName,name,date, datetime,
-									datevote, votecount);
-							respContent="恭喜签到成功，您的签到积分为:"+datevote;
-							System.out.println("insert");
-							textMessage.setContent(respContent);
-							// 将文本消息对象转换成xml
-							respXml = MessageUtil.messageToXml(textMessage);
-							return respXml;
-						}
 						
-						*/
+						
 					}
 				}
 			}

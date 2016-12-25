@@ -3,11 +3,11 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-String appId = request.getParameter("appid");
+/* String appId = request.getParameter("appid");
 String timeStamp = request.getParameter("timeStamp");
 String nonceStr = request.getParameter("nonceStr");
 String packageValue = request.getParameter("package");
-String paySign = request.getParameter("sign");
+String paySign = request.getParameter("sign"); */
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -34,7 +34,7 @@ String paySign = request.getParameter("sign");
   <script type="text/javascript">
   	function callpay(){
 		 WeixinJSBridge.invoke('getBrandWCPayRequest',{
-  		 "appId" : "<%=appId%>","timeStamp" : "<%=timeStamp%>", "nonceStr" : "<%=nonceStr%>", "package" : "<%=packageValue%>","signType" : "MD5", "paySign" : "<%=paySign%>" 
+  		 "appId":"wx2047d634692d65bf","timeStamp":"1482660899", "nonceStr":"1814583503", "package":"prepay_id=wx2016122518145914884e31420137411926","signType" : "MD5", "paySign":"F5381215E7AF48153F29E9EBBB80D4AF" 
    			},function(res){
 				WeixinJSBridge.log(res.err_msg);
 // 				alert(res.err_code + res.err_desc + res.err_msg);

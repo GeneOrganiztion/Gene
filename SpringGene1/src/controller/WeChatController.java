@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.liufeng.course.service.CoreService;
+import org.liufeng.course.util.SignUtil;
+import org.liufeng.course.util.WeChat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,63 +121,70 @@ public class WeChatController {
 		String userValue=null;
 		String openid=null;
 		String userid=null;
-		if(userinfo == null){
-			response.sendRedirect("/SpringGene1/error.jsp");
-			logger.info("userinfo==null");
-		}else{
-			try {
-				userValue = userinfo.getStringResult();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONObject  jsonObj = JSONObject.fromObject(userValue);
-			if(jsonObj.containsKey("errcode")){
-				logger.info("errcode=");
-				System.out.println(userValue);
+		try{
+			if(userinfo == null){
 				response.sendRedirect("/SpringGene1/error.jsp");
-			}
-			openid=jsonObj.getString("openid");
-			String nickname=jsonObj.getString("nickname");
-			String sex=jsonObj.getString("sex");
-			boolean isman=true;
-			if("1".equals(sex)){
-				
+				logger.info("userinfo==null");
 			}else{
-				isman=false;
-			}
-			String province=jsonObj.getString("province");
-			String city=jsonObj.getString("city");
-			String headimgurl=jsonObj.getString("headimgurl");
-			User user =new User();
-			user.setOpenid(openid);
-			User own=(User)userService.select(user);
-			if(null==own){
+				try {
+					userValue = userinfo.getStringResult();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				JSONObject  jsonObj = JSONObject.fromObject(userValue);
+				if(jsonObj.containsKey("errcode")){
+					logger.info("errcode=");
+					System.out.println(userValue);
+					response.sendRedirect("/SpringGene1/error.jsp");
+				}
+				openid=jsonObj.getString("openid");
+				String nickname=jsonObj.getString("nickname");
+				String sex=jsonObj.getString("sex");
+				boolean isman=true;
+				if("1".equals(sex)){
+					
+				}else{
+					isman=false;
+				}
+				String province=jsonObj.getString("province");
+				String city=jsonObj.getString("city");
+				String headimgurl=jsonObj.getString("headimgurl");
+				User user =new User();
 				user.setOpenid(openid);
-				user.setCity(city);
-				user.setProvince(province);
-				user.setHeadImgurl(headimgurl);
-				user.setNickname(nickname);
-				user.setSex(isman);
-				int uid=userService.insertUser(user);
-				userid=String.valueOf(uid);
-				Cart cart=new Cart();
-				cart.setUserId(uid);
-				cartService.insertCart(cart);
-			}else{
-				userid=String.valueOf(own.getId());
-				user.setId(own.getId());
-				user.setCity(city);
-				user.setHeadImgurl(headimgurl);
-				user.setNickname(nickname);
-				user.setSex(isman);
-				userService.updateUser(user);
-			}		
+				User own=(User)userService.select(user);
+				if(null==own){
+					user.setOpenid(openid);
+					user.setCity(city);
+					user.setProvince(province);
+					user.setHeadImgurl(headimgurl);
+					user.setNickname(nickname);
+					user.setSex(isman);
+					int uid=userService.insertUser(user);
+					userid=String.valueOf(uid);
+					Cart cart=new Cart();
+					cart.setUserId(uid);
+					cartService.insertCart(cart);
+				}else{
+					userid=String.valueOf(own.getId());
+					user.setId(own.getId());
+					user.setCity(city);
+					user.setHeadImgurl(headimgurl);
+					user.setNickname(nickname);
+					user.setSex(isman);
+					userService.updateUser(user);
+				}		
+			}
+			
+		}catch(Exception e){
+			
+			logger.info("weixinUnion errcode="+e);
 		}
+		
 		logger.info("userid="+userid);
 		logger.info("openid="+openid);
 		
-		/*response.sendRedirect("/DNAjiankang/index.html#/home/"+userid+"/"+openid);*/
+		response.sendRedirect("/DNAjiankang/index.html#/home/"+userid+"/"+openid);
 		
 		//response.sendRedirect("/SpringGene1/test.jsp?dataMap="+openid);
 	}
@@ -183,92 +193,57 @@ public class WeChatController {
 	
 	
 	@RequestMapping("/topay")
-	public void weixinpay(HttpServletRequest request,
+	@ResponseBody
+	public Map<String,String> weixinpay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 		//网页授权后获取传递的参数
-		String userId = request.getParameter("userId"); 	
-		String orderNo = request.getParameter("orderNo"); 	
-		String money = request.getParameter("money");
-		String code = request.getParameter("code");
-		//金额转化为分为单位
-		float sessionmoney = Float.parseFloat(money);
-		String finalmoney = String.format("%.2f", sessionmoney);
-		finalmoney = finalmoney.replace(".", "");
-		
+		String userId = request.getParameter("openId"); 	
+		String finalmoney = request.getParameter("finalmoney"); 
+		String orderId = request.getParameter("orderId"); 
+		logger.info("userId="+userId);
+		logger.info("finalmoney="+finalmoney);
 //商户相关资料 
-		String appid = Constant.APPID;
 		String appsecret = Constant.APPSECRET;
-		String partner = Constant.PARTNER;
 		String partnerkey = Constant.PARTNERKEY;
-
-		
-		String openId ="";
-		String access_token="";
-		String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+appsecret+"&code="+code+"&grant_type=authorization_code";
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
-		String tempValue="";
-		if( temp == null){
-				response.sendRedirect("/SpringGene1/error.jsp");
-				logger.info("temp==null");
-		}else
-		{
-			try {
-				tempValue = temp.getStringResult();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONObject  jsonObj = JSONObject.fromObject(tempValue);
-			if(jsonObj.containsKey("errcode")){
-				logger.info("errcode=");
-				System.out.println(tempValue);
-				response.sendRedirect("/SpringGene1/error.jsp");
-			}
-			openId = jsonObj.getString("openid");
-			
-			logger.info("openId="+openId);
-		}
-		
+		String appid = Constant.APPID;
+		String partner = Constant.PARTNER;
 		
 		//获取openId后调用统一支付接口https://api.mch.weixin.qq.com/pay/unifiedorder
-				String currTime = TenpayUtil.getCurrTime();
-				//8位日期
-				String strTime = currTime.substring(8, currTime.length());
-				//四位随机数
-				String strRandom = TenpayUtil.buildRandom(4) + "";
-				//10位序列号,可以自行调整。
-				String strReq = strTime + strRandom;
-				
-				
 				//商户号
 				String mch_id = partner;
 				//子商户号  非必输
 //				String sub_mch_id="";
-				//设备号   非必输
-				String device_info="";
-				//随机数 
-				String nonce_str = strReq;
+				/*//设备号   非必输
+				String device_info="";*/
+				
 				//商品描述
 //				String body = describe;
 				
 //商品描述根据情况修改
 				String body = "基因商城测试";
+				//商户订单号
+				String out_trade_no=null;
 				//附加数据
 				String attach = DateUtil.format(new Date())+"1";
 				logger.info("attach="+attach);
 				//订单日期起止时间
+				/*if(null==orderId){*/
 				 Date d=new Date();  
-				 String time_start = DateUtil.format(d);
+				/* String time_start = DateUtil.format(d);
 		    	 String split_time_start=time_start.substring(0,14);
 		    	 logger.info("split_time_start="+split_time_start);
 		    	 
 		    	 String time_expire = DateUtil.format(new Date(d.getTime() + (long)3 * 24 * 60 * 60 * 1000));
 		    	 String split_time_expire=time_expire.substring(0,14);
-		    	 logger.info("split_time_expire="+split_time_expire);
-				
-				//商户订单号
-				String out_trade_no = DateUtil.format(d);
+		    	 logger.info("split_time_expire="+split_time_expire);*/
+		    	 out_trade_no= DateUtil.format(d);
+		    	 
+		    	 
+				//}else{
+					
+					/*out_trade_no=orderId;*/
+					
+				//}
 				int intMoney = Integer.parseInt(finalmoney);
 				logger.info("out_trade_no="+out_trade_no);
 				//总金额以分为单位，不带小数点
@@ -283,11 +258,19 @@ public class WeChatController {
 //				String goods_tag = "";
 				
 				//这里notify_url是 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等。
-				String notify_url ="http://192.168.1.111:8082/testPay/aa.htm";
-				
+				String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/wexin.do";
+				//随机数 
+				String currTime = TenpayUtil.getCurrTime();
+				//8位日期
+				String strTime = currTime.substring(8, currTime.length());
+				//四位随机数
+				String strRandom = TenpayUtil.buildRandom(4) + "";
+				//10位序列号,可以自行调整。
+				String strReq = strTime + strRandom;
+				String nonce_str = strReq;
 				
 				String trade_type = "JSAPI";
-				String openid = openId;
+				String openid = userId;
 				//非必输
 //				String product_id = "";
 				SortedMap<String, String> packageParams = new TreeMap<String, String>();
@@ -297,16 +280,11 @@ public class WeChatController {
 				packageParams.put("body", body);  
 				packageParams.put("attach", attach);  
 				packageParams.put("out_trade_no", out_trade_no);  
-				
-				
 				//这里写的金额为1 分到时修改
 				packageParams.put("total_fee", "1");  
-//				packageParams.put("total_fee", "finalmoney");  
+				/*packageParams.put("total_fee", "finalmoney");  */
 				packageParams.put("spbill_create_ip", spbill_create_ip);  
 				packageParams.put("notify_url", notify_url); 
-				packageParams.put("time_start", split_time_start);  
-				packageParams.put("time_expire", split_time_expire); 
-				
 				packageParams.put("trade_type", trade_type);  
 				packageParams.put("openid", openid);  
 
@@ -324,8 +302,6 @@ public class WeChatController {
 						"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
 						"<total_fee>"+1+"</total_fee>"+
 						"<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"+
-						"<time_start>"+split_time_start+"</time_start>"+
-						"<time_expire>"+split_time_expire+"</time_expire>"+
 						"<notify_url>"+notify_url+"</notify_url>"+
 						"<trade_type>"+trade_type+"</trade_type>"+
 						"<openid>"+openid+"</openid>"+
@@ -354,6 +330,7 @@ public class WeChatController {
 					e1.printStackTrace();
 				}
 				SortedMap<String, String> finalpackage = new TreeMap<String, String>();
+				Map<String,String> map=new HashMap<String,String>();
 				String appid2 = appid;
 				String timestamp = Sha1Util.getTimeStamp();
 				String nonceStr2 = nonce_str;
@@ -370,29 +347,20 @@ public class WeChatController {
 				finalpackage.put("signType", "MD5");
 				String finalsign = reqHandler.createSign(finalpackage);
 				logger.info("finalsign="+finalsign);
+				map.put("appId", appid2);
+				map.put("signType", "MD5");
+				map.put("timeStamp", timestamp);
+				map.put("nonceStr", nonceStr2);
+				map.put("package", packages);
+				map.put("paySign", finalsign);
+				return map;
 				
-				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
+				/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
 		
 	}
-	@RequestMapping("/topaytest")
-	@ResponseBody
-	public HashMap<String,String> topaytest(HttpServletRequest request,
-			HttpServletResponse response) throws Exception,IOException{
-		HashMap<String,String> hashMap=new HashMap<String,String>();
-		hashMap.put("appid", Constant.APPID);
-		hashMap.put("timeStamp", "1231231241113123");
-		hashMap.put("nonceStr","131312412412245");
-		hashMap.put("package","adasd123123123123");
-		hashMap.put("sign", "asdasdasd21312");
-		String out_trade_no = DateUtil.format(new Date());
-		hashMap.put("orderid", out_trade_no);
-		return hashMap;
-	}
-	
 	@RequestMapping("/ordertopay")
 	public void ordertopay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
-
 				String appid2 = Constant.APPID;
 				String currTime = TenpayUtil.getCurrTime();
 				RequestHandler reqHandler = new RequestHandler(request, response);
@@ -412,85 +380,11 @@ public class WeChatController {
 				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
 		
 	}
+	
 	@RequestMapping("/address")
-	public void address(HttpServletRequest request,
-			HttpServletResponse response) throws Exception,IOException{
-	        
-		String code = request.getParameter("code");
-		//商户相关资料 
-				String appid = Constant.APPID;
-				String appsecret = Constant.APPSECRET;
-				String ACCESS_TOKE="";
-				String URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appid+"&secret="+appsecret+"&code="+code+"&grant_type=authorization_code";
-				HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
-				String tempValue="";
-				if(temp == null){
-						response.sendRedirect("/SpringGene1/error.jsp");
-						logger.info("temp==null");
-				}else
-				{
-					try {
-						tempValue = temp.getStringResult();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					JSONObject  jsonObj = JSONObject.fromObject(tempValue);
-					if(jsonObj.containsKey("errcode")){
-						logger.info("code huoqu errcode=");
-						System.out.println(tempValue);
-						response.sendRedirect("/SpringGene1/error.jsp");
-					}
-					ACCESS_TOKE=jsonObj.getString("access_token");
-					logger.info("ACCESS_TOKE="+ACCESS_TOKE);
-				}
-		
-		
-	        String currTime = TenpayUtil.getCurrTime();
-			//8位日期
-			String strTime = currTime.substring(8, currTime.length());
-			//四位随机数
-			String strRandom = TenpayUtil.buildRandom(4) + "";
-			//10位序列号,可以自行调整。
-			String strReq = strTime + strRandom;
-			String path = request.getContextPath();
-		        
-			//以为我配置的菜单是http://yo.bbdfun.com/first_maven_project/，最后是有"/"的，所以url也加上了"/"
-		    String url = request.getScheme() + "://" + request.getServerName() +  path + "/address.jsp/";  
-		    logger.info("url="+url);
-	        String noncestr = strReq;        
-	        String timestamp = Sha1Util.getTimeStamp();
-	    /*	SortedMap<String, String> packageParams = new TreeMap<String, String>();
-			packageParams.put("appid", appid);  
-			packageParams.put("url", url);
-			packageParams.put("timestamp", timestamp); 
-			packageParams.put("nonceStr", noncestr);  
-			packageParams.put("accessToken", ACCESS_TOKE);  */
-	      /*  RequestHandler reqHandler = new RequestHandler(request, response);
-			String addrSign = reqHandler.createSign(packageParams);*/
-			//String addrSign =Sha1Util.createSHA1Sign(packageParams);
-	        String str = "appid=" + appid +
-	                "&noncestr=" + noncestr +
-	                "&timestamp=" + timestamp +
-	                "&url=" + url;
-			String addrSign = HttpXmlClient.SHA1(str);
-			logger.info("addrSign="+addrSign);
-	        System.out.println("noncestr=" + noncestr);
-	        logger.info("noncestr="+noncestr);
-	        System.out.println("timestamp=" + timestamp);
-	        logger.info("timestamp="+timestamp);
-	        System.out.println("addrSign=" + addrSign);
-	        logger.info("addrSign="+addrSign);
-	        response.sendRedirect("/SpringGene1/address.jsp?appid="+appid+"&timeStamp="+timestamp+"&nonceStr="+noncestr+"&addrSign="+addrSign);
-		
-	}
-	
-	
-	@RequestMapping("/addresstest")
 	@ResponseBody
 	public  HashMap<String,String> addresstest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
-		
 		String ACCESS_TOKE="";
 		String URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+Constant.APPID+"&secret="+Constant.APPSECRET;
 		Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -517,7 +411,6 @@ public class WeChatController {
 			 ACCESS_TOKE=jsonObj.getString("access_token");
 			logger.info("ACCESS_TOKE="+ACCESS_TOKE);
 		}
-		
         //获取ticket
 		String JsApiTicket="";
 		String URLTICK = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token="+ACCESS_TOKE+"&type=jsapi";
@@ -536,17 +429,12 @@ public class WeChatController {
 			}
 			JSONObject  jsonObj1 = JSONObject.fromObject(tempValue1);
 			if(jsonObj1.containsKey("errcode")){
-				logger.info("tick huoqu errcode="+jsonObj1.getString("errcode"));
 				logger.info("tick huoqu errmsg="+jsonObj1.getString("errmsg"));
-				System.out.println(tempValue1);
-				
 				//response.sendRedirect("/SpringGene1/error.jsp");
 			}
-
 			JsApiTicket=jsonObj1.getString("ticket");
 			logger.info("JsApiTicket="+JsApiTicket);
 		}
-
 		String currTime = TenpayUtil.getCurrTime();
 		//8位日期
 		String strTime = currTime.substring(8, currTime.length());
@@ -557,16 +445,13 @@ public class WeChatController {
         String noncestr = strReq;
         String timestamp =Sha1Util.getTimeStamp();
         //获取请求url
-        String path = request.getContextPath();
-        //以为我配置的菜单是http://yo.bbdfun.com/first_maven_project/，最后是有"/"的，所以url也加上了"/"
-        String url = request.getScheme() + "://" + request.getServerName() +  path + "/address.jsp";  
+        String url="http://nbuxinxiren.cn/DNAjiankang/index.html#/orderPay/";
         String str = "jsapi_ticket=" + JsApiTicket +
                 "&noncestr=" + noncestr +
                 "&timestamp=" + timestamp +
                 "&url=" + url;
         //sha1加密
         HashMap<String,String> hashMap=new HashMap<String,String>();
-      
         String signature = HttpXmlClient.SHA1(str);
         hashMap.put("signature", signature);
         hashMap.put("appid", Constant.APPID);
@@ -580,5 +465,50 @@ public class WeChatController {
 	
 	
 	}
+	  @RequestMapping(value={"/wexin"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
+	  @ResponseBody
+	  public String xxtInterface(WeChat wc) throws Exception { 
+	    String signature = wc.getSignature();
+	    String timestamp = wc.getTimestamp();
+	    String nonce = wc.getNonce();
+	    String echostr = wc.getEchostr();
+
+	    if (SignUtil.checkSignature(signature, timestamp, nonce)) {
+	      return echostr;
+	    }
+	    
+	    return null; 
+	    }
+	  @RequestMapping(value={"/wexin"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	  @ResponseBody
+	  public String getWeiXinMessage(HttpServletRequest request, HttpServletResponse response) throws Exception
+	  {
+	    request.setCharacterEncoding("UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+
+	    String respXml = CoreService.processRequest(request);
+	    return respXml;
+	  }
+	  
+	    @RequestMapping(value={"/totest"},method={org.springframework.web.bind.annotation.RequestMethod.POST})
+		@ResponseBody
+		public Map<String,String> totest(HttpServletRequest request,
+				HttpServletResponse response) throws Exception,IOException{
+	    	
+			//网页授权后获取传递的参数
+			String userId = request.getParameter("openId"); 	
+			String finalmoney = request.getParameter("finalmoney"); 
+			String orderId = request.getParameter("orderId"); 
+			System.out.println("userId="+ userId);
+			System.out.println("finalmoney="+ finalmoney);
+
+			Map<String,String> map=new HashMap<String,String>();
+			
+			map.put("userId", userId);
+			map.put("finalmoney", finalmoney);
+			return map;	
+					/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
+			
+		}
 
 }
