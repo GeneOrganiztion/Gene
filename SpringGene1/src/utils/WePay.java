@@ -20,14 +20,14 @@ import wepay.utils.TenpayUtil;
 public class WePay {
 	private static final Logger logger = LoggerFactory.getLogger(WePay.class);
 	
-	public static Map<String,String> toPay(String openId,int finalmoney,String productName,HttpServletRequest request,
+	public static Map<String,String> toPay(String openId,int finalmoney,HttpServletRequest request,
 			HttpServletResponse response){
 		String appsecret = Constant.APPSECRET;
 		String partnerkey = Constant.PARTNERKEY;
 		String appid = Constant.APPID;
 		String partner = Constant.PARTNER;
 		String mch_id = partner;
-		String body = productName;
+		String body = "帝恩艾健康基因检测商品";
 		//商户订单号
 		String out_trade_no=null;
 		//附加数据

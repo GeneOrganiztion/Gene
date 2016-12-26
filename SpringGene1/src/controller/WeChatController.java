@@ -200,7 +200,8 @@ public class WeChatController {
 		//网页授权后获取传递的参数
 		String openId = request.getParameter("openId"); 	
 		String finalmoney = request.getParameter("finalmoney"); 
-		String orderId = request.getParameter("orderId"); 
+		String orderId = request.getParameter("orderId");
+		
 		logger.info("openid="+openId);
 		logger.info("finalmoney="+finalmoney);
 //商户相关资料 
@@ -360,22 +361,13 @@ public class WeChatController {
 		
 		
 		
-				if(null==orderId||"".equals(orderId)&&finalmoney!=null){
+		/*		if(null==orderId||"".equals(orderId)&&finalmoney!=null){
 					int money=Integer.valueOf(finalmoney);
-					WePay.toPay(openId, money, productName, request, response)
-					
+					WePay.toPay(openId, money, productName, request, response);
 				}else{
-					
-					
-				}
-		
-		
-		
-		
-		
-		
-		
-				return map;
+						
+				}				*/
+				return null;
 				
 				/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
 		
