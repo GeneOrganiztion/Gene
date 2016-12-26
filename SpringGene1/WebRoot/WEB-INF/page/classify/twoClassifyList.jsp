@@ -67,6 +67,15 @@
 						</div>
 					</div>
 					<div class="col-md-3">
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
+						<div  class="col-xs-12 col-sm-8">
+							<select class="input-medium" id="queryOneClassify" name="claPid" data-placeholder="请选择">					
+							</select>
+						</div>	
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-3">
 						<label class="col-sm-4 control-label no-padding-right" for="beginTime">开始时间 </label>
 						<div class="col-sm-8 input-group date form_date date-picker" data-date="" data-date-format="yyyy-mm-dd">
                                   <input type="text" name="beginTime" id="beginTime" class="form-control date-select">
@@ -104,7 +113,7 @@
 	<div id="actions-before" class="btn-group">	
         <button type="button" onclick="addTwoClassify()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加分类</button>
         <button type="button" onclick="editTwoClassify()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改分类</button>
-        <button type="button" onclick="deleteOneClassify()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除分类</button>
+        <button type="button" onclick="deleteTwoClassify()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除分类</button>
     </div>
 	<div class="row">
 		<div class="col-xs-12">
@@ -136,17 +145,12 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-xs-6 ">
-										<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
-										<div  class="col-xs-12 col-sm-8">
-											<select class="chosen-select form-control" id="oneClassify" data-placeholder="请选择一级分类">					
-											</select>
-										</div>	
-										<!-- <select id="oneClassify" name="oneclassify" class="input-medium" data-placeholder="请选择一级分类">
-											<option value=""></option>
-										</select> -->
-									</div>
+								<div class="col-xs-6 ">
+									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
+									<div  class="col-xs-12 col-sm-8">
+										<select class="chosen-select form-control" id="oneClassify" data-placeholder="请选择">					
+										</select>
+									</div>	
 								</div>
 							</div>
 		 				</form>
@@ -194,9 +198,6 @@
 											<select class="chosen-select form-control" id="editOneClassify" data-placeholder="请选择一级分类">					
 											</select>
 										</div>
-										<!-- <select id="editOneClassify" name="editOneClassify" class="input-medium" data-placeholder="请选择一级分类">
-											<option value=""></option>
-										</select> -->
 									</div>
 								
 							</div>

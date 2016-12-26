@@ -32,6 +32,9 @@
       <if test="flag !=null and flag == 'twoClassify'">
         <![CDATA[and cla_pid <> 0 ]]>
       </if>
+      <if test="claPid !=null">
+        and cla_pid = #{claPid}
+      </if>
       <if test="beginTime != null ">
         AND CREATE_TIME > #{beginTime} 
       </if>

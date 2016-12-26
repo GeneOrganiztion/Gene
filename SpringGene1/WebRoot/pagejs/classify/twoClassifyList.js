@@ -188,6 +188,21 @@ function initTwoClassifyManager(){
 					+ " " + TimeAdd0(date.getHours()) + ":" + TimeAdd0(date.getMinutes()) + ":" + TimeAdd0(date.getSeconds());
 		return time;
 	}
+	//初始化查询列表的一级分类
+	$('#queryOneClassify').html("");
+	$.ajax({
+		type: "post",
+		url: webroot + "classify/selectAllOneClassify.do",
+		success: function(msg){
+			var json = eval(msg);
+			var objSelect = $('#queryOneClassify');
+			objSelect.append("<option value=''></option>");
+			for(var i=0;i<json.length;i++){
+				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
+			}
+			$('#queryOneClassify').trigger("chosen:updated");
+		}
+	});
 }
 
 //查询
@@ -202,7 +217,7 @@ function queryTwoClassify(){
     }).trigger("reloadGrid"); //重新载入 
 }
 //删除分类
-function deleteOneClassify(){
+function deleteTwoClassify(){
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
 		alertmsg("warning", "请至少选中一行!");
@@ -216,15 +231,20 @@ function deleteOneClassify(){
 	}
     Lobibox.confirm({ 
         title:"删除分类",      //提示框标题 
-        msg: "删除一级分类将删除它之下的二级分类和商品",   //提示框文本内容 
+        msg: "此分类下的商品会同时删除",   //提示框文本内容 
         callback: function ($this, type, ev) {               //回调函数 
             if (type === 'yes') { 
             	$.ajax({
             		type:"post",
-            		url:webroot+"classify/deleteOneClassify.do",
-            		data:{"oneClassifyIds":ids},
-            		success:function(data){
+            		url:webroot+"classify/deleteTwoClassify.do",
+            		data:{"twoClassifyIds":ids},
+            		success:function(msg){
             			//删除成功重新加载jqGrid
+            			if(msg.success){
+            				alertmsg("success", "删除成功");
+            			}else{
+            				alertmsg("error",empty(msg.msg) == true ? "删除失败" : msg.msg);
+            			}
             			$("#grid-table").jqGrid('setGridParam',{ 
             		        page:1,
             		        mtype:"post"
@@ -240,15 +260,16 @@ function deleteOneClassify(){
 }
 //添加分类
 function addTwoClassify(){
-	
 	//再次打开model之前清空上次的操作记录
 	$("#addTwoClassifyModal :input").val("");
+	$('#oneClassify').html("");
 	$.ajax({
 		type: "post",
 		url: webroot + "classify/selectAllOneClassify.do",
 		success: function(msg){
 			var json = eval(msg);
 			var objSelect = $('#oneClassify');
+			objSelect.append("<option value=''></option>");
 			for(var i=0;i<json.length;i++){
 				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
 			}
@@ -275,28 +296,10 @@ function saveTwoClassify(){
 	});
 	
 }
-//删除分类
-function removeImage(id){
-	if(empty(id)){
-		return;
-	}
-	$.ajax({
-		type: "post",
-		data: {oneClassifyId: id},
-		url: webroot + "classify/removeOneClassfyById.do",
-		success: function(msg){
-			if(msg.success){
-				alertmsg("success","报告图片成功");
-				queryOneClassify();
-			}else{
-				alertmsg("error", "报告图片失败");
-			}
-		}
-	});
-}
 //修改分类
 function editTwoClassify(){
 	$("#editTwoClassifyModal :input").val("");
+	$('#editOneClassify').html("");
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;
@@ -307,6 +310,7 @@ function editTwoClassify(){
 	$.ajax({
 		type: "post",
 		url: webroot + "classify/selectAllOneClassify.do",
+		async: false,
 		success: function(msg){
 			var json = eval(msg);
 			var objSelect = $('#editOneClassify');
@@ -343,6 +347,7 @@ function saveAndEditTwoClassify(){
 			if(msg.success){
 				alertmsg("success", "修改成功");
 				$("#editTwoClassifyModal").modal("hide");
+				queryTwoClassify();
 			}
 		}
 	});
@@ -357,7 +362,7 @@ function chosenSelectInit(){
 		.on('resize.chosen', function() {
 			$('.chosen-select').each(function() {
 				 var $this = $(this);
-				 $this.next().css({'width': $this.parent().width()});
+				 $this.next().css({'width': "100%"});
 			})
 		}).trigger('resize.chosen');
 		//resize chosen on sidebar collapse/expand
@@ -365,7 +370,7 @@ function chosenSelectInit(){
 			if(event_name != 'sidebar_collapsed') return;
 			$('.chosen-select').each(function() {
 				 var $this = $(this);
-				 $this.next().css({'width': $this.parent().width()});
+				 $this.next().css({'width': "100%"});
 			})
 		});
 

@@ -23,8 +23,9 @@ function initOneClassifyManager(){
 		datatype: "json",
 		postData: {flag: "oneClassify"},
 		height: 320,
-		colNames:['分类ID','分类名称','创建时间','最后更新时间','操作'],
+		colNames:['','分类ID','分类名称','创建时间','最后更新时间','操作'],
 		colModel:[
+		    {name:'claContent',index:'claContent', width:80,  hidden: true},
           	{name:'id',index:'id', width:80, sorttype:"int", editable: true},
           	{name:'claName',index:'claName',width:80, editable:true},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
@@ -256,14 +257,14 @@ function initOneClassifyManager(){
               
               this.on("success", function (file, response, e) {
               	if(response.success){
-              			$("#addOneClassifyModal").modal("hide");
-						alertmsg("success","分类添加成功");
-						$("#oneClassifyId").val(response.returnId);
-						queryOneClassify();
-					}else{
-						alertmsg("error",empty(response.msg) == true ? "分类添加失败" : response.msg);
-						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
-					}
+          			$("#addOneClassifyModal").modal("hide");
+					alertmsg("success","分类添加成功");
+					$("#oneClassifyId").val(response.returnId);
+					queryOneClassify();
+				}else{
+					alertmsg("error",empty(response.msg) == true ? "分类添加失败" : response.msg);
+					$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
+				}
               });
               this.on("sending", function (file, xhr, formData) {
               	formData.append("claName",$("#claName").val());
@@ -309,7 +310,7 @@ function initOneClassifyManager(){
 		
 		try {
 			  Dropzone.autoDiscover = false;
-			  var myDropzone = new Dropzone("#editOneClassifyDropzone" , {
+			  var editDropzone = new Dropzone("#editOneClassifyDropzone" , {
 			    paramName: "file", // The name that will be used to transfer the file
 			    maxFilesize: 10, // MB
 			    maxFiles:1,
@@ -396,7 +397,7 @@ function initOneClassifyManager(){
 	                  if (this.getAcceptedFiles().length === 0) {
 	                      $("#editOneClassify-submit-all").attr("disabled", true);
 	                  }
-	                  //上传失败的不删数据库中的数据
+	                  
 	                  removeImage($("#editOneClassifyId").val());
 	              });
 	          }
@@ -429,7 +430,7 @@ function viewOneClassifyPic(id){
 				alertmsg("error","预览图片失败");
 				return;
 			}
-			var html = "<li>" + "<a target=\"_bank\" href='"+msg.claContent+"' >" + msg.claName + "</a>" +
+			var html = "<li>" + "<a title='查看图片' target=\"_bank\" href='"+msg.claContent+"' >" + msg.claName + "</a>" +"&nbsp;" +
 				"<button onclick=\"delectOneClassifyPic(" + msg.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>"+ "</li>";
 			$("#viewOneClassifyPicli").append(html);
 			$("#viewOneClassifyPicModal").modal("show");
@@ -482,6 +483,9 @@ function deleteOneClassify(){
             		url:webroot+"classify/deleteOneClassify.do",
             		data:{"oneClassifyIds":ids},
             		success:function(data){
+            			if(data.success){
+            				alertmsg("success","删除成功");
+            			}
             			//删除成功重新加载jqGrid
             			$("#grid-table").jqGrid('setGridParam',{ 
             		        page:1,
@@ -516,16 +520,17 @@ function removeImage(id){
 		url: webroot + "classify/removeOneClassfyById.do",
 		success: function(msg){
 			if(msg.success){
-				alertmsg("success","报告图片成功");
+				alertmsg("success","删除成功");
 				queryOneClassify();
 			}else{
-				alertmsg("error", "报告图片失败");
+				alertmsg("error", "删除失败");
 			}
 		}
 	});
 }
 //修改分类
 function editOneClassify(){
+	$("#editOneClassifyModal :input").val("");
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;
@@ -533,12 +538,18 @@ function editOneClassify(){
 		alertmsg("warning","请至少选中一行 !");
 		return;
 	}
+	console.log(rowData.claContent);
+	if(!empty(rowData.claContent)){
+		alertmsg("warning","请先删除图片再修改分类");
+		return;
+	}
 	$.ajax({
 		type: "post",
 		url: webroot + "classify/selectOneClassify.do",
 		data: {classifyId: id},
 		success: function(msg){
-			$("#editOneClassifyName").val(msg.id);
+			$("#editOneClassifyName").val(msg.claName);
+			$("#editOneClassifyId").val(msg.id);
 			$("#editOneClassifyModal").modal("show");
 		}
 	});

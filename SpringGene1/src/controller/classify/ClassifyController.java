@@ -109,6 +109,7 @@ public class ClassifyController extends BaseController{
         	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
             int pageNo = Integer.valueOf(getParam("page"));// 第几页
             String claName = getParam("claName");
+            String claPid = getParam("claPid");
             String beginTime = getParam("beginTime");
             String endTime = getParam("endTime");
             String classifyId = getParam("classifyId");
@@ -121,6 +122,7 @@ public class ClassifyController extends BaseController{
             map.put("claName", claName);
             map.put("flag", flag);
             map.put("classifyId", classifyId);
+            map.put("claPid", claPid);
             if(!ST.isNull(beginTime)){
             	map.put("beginTime", beginTime + " 00:00:00");
             }
@@ -176,7 +178,6 @@ public class ClassifyController extends BaseController{
 			 cls.setIsdelete(false);
 			 cls.setCreateTime(new Date());
 			 cls.setLastModifiedTime(new Date());
-			 
 			 Integer id = classifyService.insertOneClassifyReturnId(cls);
 			 resModel.setReturnId(id);
 			 
@@ -231,7 +232,7 @@ public class ClassifyController extends BaseController{
 		try {
 			classifyService.updateClassify(cls);
 		} catch (Exception e) {
-			logger.error("deleteOneClassify error:" + e);
+			logger.error("delectOneClassifyPic error:" + e);
 			resModel.setSuccess(false);
 			return resModel;
 		}
@@ -263,6 +264,34 @@ public class ClassifyController extends BaseController{
 			}
 		} catch (Exception e) {
 			logger.error("deleteOneClassify error:" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		return resModel;
+	}  
+	@RequestMapping(value = "/deleteTwoClassify")
+	@ResponseBody
+	public ResModel deleteTwoClassify(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		ResModel resModel = new ResModel();
+		String ids = getParam("twoClassifyIds");
+		Classify cls = new Classify();
+		try {
+			List<Integer> list = ST.StringToList(ids);
+			for(Integer id: list){
+				cls.setId(id);
+				int result = classifyService.delClassify(cls);//返回0表示删除成功 返回状态1表示删除失败,2表示还有以存在的商品未下架
+				if(2 == result){
+					resModel.setSuccess(false);
+					resModel.setMsg("此分类下还有未下架的商品");
+					return resModel;
+				}else if(1 == result){
+					resModel.setSuccess(false);
+					return resModel;
+				}
+			}
+		} catch (Exception e) {
+			logger.error("deleteTwoClassify error:" + e);
 			resModel.setSuccess(false);
 			return resModel;
 		}
