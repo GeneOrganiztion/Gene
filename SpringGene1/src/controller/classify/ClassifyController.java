@@ -165,8 +165,7 @@ public class ClassifyController extends BaseController{
 	}
 	@RequestMapping(value = "/saveOneClassify")
 	@ResponseBody
-	public ResModel saveOneClassify(HttpServletRequest request,
-			@RequestParam("file") MultipartFile file) throws Exception {
+	public ResModel saveOneClassify(HttpServletRequest request,@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
 		 String claName = getParam("claName");
 		 try {

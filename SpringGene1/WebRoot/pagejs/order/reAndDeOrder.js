@@ -1,9 +1,4 @@
 function initOrderManager(){
-	document.hs = new $.imageEditer("#imageEditer", {
-		selector : "",
-		viewType : "edit",
-		url : webroot + "product/selectImageProduct.do?ProductId=68"
-	});
 	chosenSelectInit();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
