@@ -316,6 +316,8 @@ function initAdminManager(){
 //查询
 function queryProduct(){
 	var data = $("#queryAssetForm").serialize();
+	data=decodeURIComponent(data);
+	console.log("data="+data);
 	var url = webroot + "product/selectProduct.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
         url: url + "?" + data, 
@@ -367,6 +369,7 @@ function deleteProduct(){
 function selectClassify(){
 	$.ajax({
 		type: "post",
+		contentType: "application/x-www-form-urlencoded; charset=utf-8",
 		url: webroot + "classify/webclsall.do",
 		success: function(msg){
 			var json = eval(msg);
@@ -393,9 +396,10 @@ function SelectProduct(){
 	}
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;
+	
 	document.hs = new $.imageEditer("#imageEditer", {
 		selector : "",
-		viewType : "edit",
+		viewType : "select",
 		url : webroot + "product/selectImageProduct.do?ProductId="+id
 	});
 	//再次打开model之前清空上次的操作记录

@@ -342,11 +342,17 @@ public class ProductInfoController extends BaseController{
 	    public PageInfo selectAdminByParams(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		 	String sidx = getParam("sidx");// 排序字段;
 	        String sord = getParam("sord");// 升序降序;
+	        /*System.out.println("productName="+request.getAttribute("productName"));*/
 	        PageInfo pageInfo = new PageInfo();
 	        try {
 	        	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
 	            int pageNo = Integer.valueOf(getParam("page"));// 第几页
 	            String productName = getParam("productName");
+	            if("".equals(productName)||null==productName){
+	            	
+	            }else{
+	            System.out.println("proName="+new String(new String(productName.getBytes("iso-8859-1"),"UTF-8")));
+	            }
 	            String productID = getParam("productID"); 
 	            String productOnline = getParam("productOnline");
 	            String classify_id = getParam("classify_id");

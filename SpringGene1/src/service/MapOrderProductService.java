@@ -15,4 +15,5 @@ public interface MapOrderProductService {
 	
 	public List<MapOrderProduct>  selectMapOrderProductByOrdId(Integer oderId); 
 	
+	public boolean saveMapOderPro(MapOrderProduct mapOrderProduct);
 }

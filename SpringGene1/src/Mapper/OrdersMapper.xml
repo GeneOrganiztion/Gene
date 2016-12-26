@@ -14,6 +14,10 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
     <result column="user_address" property="userAddress" jdbcType="VARCHAR" />
+    <result column="prepay_id" property="prepayId" jdbcType="VARCHAR" />
+    <result column="timestamp" property="timestamp" jdbcType="VARCHAR" />
+    <result column="nonceStr" property="noncestr" jdbcType="VARCHAR" />
+    <result column="finalsign" property="finalsign" jdbcType="VARCHAR" />
     <result column="user_postal" property="userPostal" jdbcType="VARCHAR" />
     <result column="isdelete" property="isdelete" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />

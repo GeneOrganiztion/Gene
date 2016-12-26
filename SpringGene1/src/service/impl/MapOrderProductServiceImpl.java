@@ -7,9 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import po.Admin;
 import po.MapOrderProduct;
 import po.OrderAndProductDTO;
 import service.MapOrderProductService;
+import utils.MD5Util;
 import Mapper.Map_Order_ProductMapper;
 
 @Transactional
@@ -44,6 +46,8 @@ public class MapOrderProductServiceImpl implements MapOrderProductService {
 		return true;
 		
 	}
+	
+	
 
 	@Override
 	public List<MapOrderProduct> selectMapOrderProductByOrdId(Integer oderId) {
@@ -51,5 +55,16 @@ public class MapOrderProductServiceImpl implements MapOrderProductService {
 		mapOrderProduct.setOrdId(oderId);
 		mapOrderProduct.setIsdelete(false);
 		return mapOrderProductMapper.select(mapOrderProduct);
+	}
+	
+	@Override
+	public boolean saveMapOderPro(MapOrderProduct mapOrderProduct){
+		try {
+			mapOrderProductMapper.insertSelective(mapOrderProduct);
+		} catch (Exception e) {
+			logger.error("saveMapOderPro error:" + e);
+			return false;
+		}
+		return true;
 	}
 }

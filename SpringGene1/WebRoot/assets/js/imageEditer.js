@@ -5,7 +5,7 @@ $.extend({
         var selectItem = null;
         var uploadDialog = webroot + "pages/asset/uploadImgModal.jsp?selector=" + param.selector;
         var deleteDialog =  webroot + "pages/asset/deleteModal.jsp";
-        var viewType = param.viewType||"view";
+        var viewType = param.viewType;
         var selector = param.selector;
         var url = param.url;//加载图片
         var params = param.params;
@@ -17,13 +17,15 @@ $.extend({
         this.isloading = false;
         this.newsIdx = 0;//新闻图片索引
         var idPrex = "";
-        if(viewType == "edit"){
+        var button;
+        console.log("viewType="+viewType);
+        if(viewType == "select"){
+        	button="";
         	idPrex = 'editimg-';
         }else{
+        	button="<div class='center ctrl-bar'><button class='btn btn-sm delete'><i class='ace-icon fa fa-remove'></i>删除</button></div>";
         	idPrex = "img-";
         }
-         
-        
         var noImgSrc = webroot + "/assets/img/noimage.jpg";
         var htmlstr = "<div>"
 		        	+	"<div class='clearfix counter' style='width:308px;position:absolute;background-color:rgba(244, 244, 244, 0.5);display:none;border-radius:5px;'>"
@@ -45,7 +47,7 @@ $.extend({
 					+			"<div class='fa fa-chevron-right control spec-right orange'></div>"
 					+		"</div>"
 					+	"<hr class='hr hr2 dotted'>"
-					+	"<div class='center ctrl-bar'><button class='btn btn-sm delete'><i class='ace-icon fa fa-remove'></i>删除</button></div>"
+					+	button
 					+	"</div>"
 					+	"</div>";
 		var imodel = "<li><img class='#class' id='#id' name='#name' alt='#alt' title='#title' src='#src'/></li>";			

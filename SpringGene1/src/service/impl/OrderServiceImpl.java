@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +63,38 @@ public class OrderServiceImpl implements OrderService {
 			return false;
 		}
 		return true;
+	}
+	@Override
+	public int insertOrder(Map map) throws Exception {
+		String prepayid=(String)map.get("packages");
+		String timestamp=(String)map.get("timeStamp");
+		String nonceStr=(String)map.get("nonceStr");
+		String finalsign=(String)map.get("paySign");
+		String finalmoney=(String)map.get("finalmoney");
+		String userId=(String)map.get("userId");
+		int resultid=-1;
+		try {
+			Orders orders = new Orders();
+			orders.setOrdPrice(Integer.valueOf(finalmoney));
+			orders.setOrdNum(prepayid);
+			orders.setOrdState("1");
+			orders.setOrdPay("1");
+			orders.setOrdUser(Integer.valueOf(userId));
+			orders.setPrepayId(prepayid);
+			orders.setTimestamp(timestamp);
+			orders.setNonceStr(nonceStr);
+			orders.setFinalsign(finalsign);
+			orders.setIsdelete(false);
+			orders.setCreateTime(new Date());
+			orders.setLastModifiedTime(new Date());
+			ordesMapper.insertUseGeneratedKeys(orders);
+			resultid=orders.getId();
+		} catch (Exception e) {
+			logger.error("insertOrder error:" + e);
+			return -1;
+		}
+		return resultid;
+	
 	}
 	
 }

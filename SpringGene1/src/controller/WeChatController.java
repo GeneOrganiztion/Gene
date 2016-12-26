@@ -2,9 +2,11 @@ package controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -25,12 +27,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Cart;
+import po.MapOrderProduct;
+import po.Orders;
+import po.Product;
 import po.User;
 import service.AdminService;
 import service.CartService;
+import service.MapOrderProductService;
+import service.OrderService;
+import service.ProductService;
 import service.UserService;
 import utils.Constant;
 import utils.DateUtil;
+import utils.ST;
 import utils.WePay;
 
 import com.github.pagehelper.PageInfo;
@@ -52,6 +61,12 @@ public class WeChatController {
 	@Autowired
 	private CartService cartService;
 	
+	@Autowired
+	private MapOrderProductService mapOrderProductService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private OrderService orderService;
 	private static final Logger logger = LoggerFactory.getLogger(WeChatController.class);
 	@RequestMapping("/oauth")
 	public void oauthuser(HttpServletRequest request,
@@ -198,176 +213,89 @@ public class WeChatController {
 	public Map<String,String> weixinpay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 		//网页授权后获取传递的参数
-		String openId = request.getParameter("openId"); 	
-		String finalmoney = request.getParameter("finalmoney"); 
-		String orderId = request.getParameter("orderId");
-		
+		String openId ="ofzXwvnbUQYrVMmYn8uxZuHbbX5g"; 	
+		String finalmoney = request.getParameter("finalmoney");
+		String orderId = "10";
+		if(ST.isNull(finalmoney)){
+			return null;
+		}
 		logger.info("openid="+openId);
 		logger.info("finalmoney="+finalmoney);
-//商户相关资料 
-/*		String appsecret = Constant.APPSECRET;
-		String partnerkey = Constant.PARTNERKEY;
-		String appid = Constant.APPID;
-		String partner = Constant.PARTNER;
-		
-		//获取openId后调用统一支付接口https://api.mch.weixin.qq.com/pay/unifiedorder
-				//商户号
-				String mch_id = partner;
-				//子商户号  非必输
-//				String sub_mch_id="";
-				//设备号   非必输
-				String device_info="";
+		Map<String,String> map=new HashMap<String,String>();
+				List<MapOrderProduct> listMapOrder=new ArrayList();
+				for(int i=1;i<4;i++){
+					MapOrderProduct maporderproduct=new MapOrderProduct();
+					maporderproduct.setOrdId(Integer.valueOf(orderId));
+					maporderproduct.setProId(i);
+					maporderproduct.setProPrice(300);
+					maporderproduct.setProCount(2);
+					listMapOrder.add(maporderproduct);
 				
-				//商品描述
-//				String body = describe;
-				
-//商品描述根据情况修改
-				String body = "基因商城测试";
-				//商户订单号
-				String out_trade_no=null;
-				//附加数据
-				String attach = DateUtil.format(new Date())+"1";
-				logger.info("attach="+attach);
-				//订单日期起止时间
-				if(null==orderId){
-				 Date d=new Date();  
-				 String time_start = DateUtil.format(d);
-		    	 String split_time_start=time_start.substring(0,14);
-		    	 logger.info("split_time_start="+split_time_start);
-		    	 
-		    	 String time_expire = DateUtil.format(new Date(d.getTime() + (long)3 * 24 * 60 * 60 * 1000));
-		    	 String split_time_expire=time_expire.substring(0,14);
-		    	 logger.info("split_time_expire="+split_time_expire);
-		    	 out_trade_no= DateUtil.format(d);
-		    	 
-		    	 
-				//}else{
-					
-					out_trade_no=orderId;
-					
-				//}
-				int intMoney = Integer.parseInt(finalmoney);
-				logger.info("out_trade_no="+out_trade_no);
-				//总金额以分为单位，不带小数点
-				int total_fee = intMoney;
-				//订单生成的机器 IP
-				String spbill_create_ip = request.getRemoteAddr();
-				//订 单 生 成 时 间   非必输
-//				String time_start ="";
-				//订单失效时间      非必输
-//				String time_expire = "";
-				//商品标记   非必输
-//				String goods_tag = "";
-				
-				//这里notify_url是 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等。
-				String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/wexin.do";
-				//随机数 
-				String currTime = TenpayUtil.getCurrTime();
-				//8位日期
-				String strTime = currTime.substring(8, currTime.length());
-				//四位随机数
-				String strRandom = TenpayUtil.buildRandom(4) + "";
-				//10位序列号,可以自行调整。
-				String strReq = strTime + strRandom;
-				String nonce_str = strReq;
-				
-				String trade_type = "JSAPI";
-				String openid = userId;
-				//非必输
-//				String product_id = "";
-				SortedMap<String, String> packageParams = new TreeMap<String, String>();
-				packageParams.put("appid", appid);  
-				packageParams.put("mch_id", mch_id);  
-				packageParams.put("nonce_str", nonce_str);  
-				packageParams.put("body", body);  
-				packageParams.put("attach", attach);  
-				packageParams.put("out_trade_no", out_trade_no);  
-				//这里写的金额为1 分到时修改
-				packageParams.put("total_fee", "1");  
-				packageParams.put("total_fee", "finalmoney");  
-				packageParams.put("spbill_create_ip", spbill_create_ip);  
-				packageParams.put("notify_url", notify_url); 
-				packageParams.put("trade_type", trade_type);  
-				packageParams.put("openid", openid);  
-
-				RequestHandler reqHandler = new RequestHandler(request, response);
-				reqHandler.init(appid, appsecret, partnerkey);
-				
-				String sign = reqHandler.createSign(packageParams);
-				String xml="<xml>"+
-						"<appid>"+appid+"</appid>"+
-						"<mch_id>"+mch_id+"</mch_id>"+
-						"<nonce_str>"+nonce_str+"</nonce_str>"+
-						"<sign>"+sign+"</sign>"+
-						"<body><![CDATA["+body+"]]></body>"+
-						"<attach>"+attach+"</attach>"+
-						"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-						"<total_fee>"+1+"</total_fee>"+
-						"<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"+
-						"<notify_url>"+notify_url+"</notify_url>"+
-						"<trade_type>"+trade_type+"</trade_type>"+
-						"<openid>"+openid+"</openid>"+
-						"</xml>";
-				System.out.println(xml);
-				String allParameters = "";
-				try {
-					allParameters =  reqHandler.genPackage(packageParams);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-				String createOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-				Map<String, Object> dataMap2 = new HashMap<String, Object>();
-				String prepay_id="";
-				try {
-					prepay_id = new GetWxOrderno().getPayNo(createOrderURL, xml);
-					logger.info("prepay_id="+prepay_id);
-					if(prepay_id.equals("")){
-						request.setAttribute("ErrorMsg", "统一支付接口获取预支付订单出错");
-						logger.info("prepay_id=null");
-						response.sendRedirect("/SpringGene1/error.jsp");
-					}
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				SortedMap<String, String> finalpackage = new TreeMap<String, String>();
-				Map<String,String> map=new HashMap<String,String>();
-				String appid2 = appid;
-				String timestamp = Sha1Util.getTimeStamp();
-				String nonceStr2 = nonce_str;
-				String prepay_id2 = "prepay_id="+prepay_id;
-				String packages = prepay_id2;
-				finalpackage.put("appId", appid2);  
-				logger.info("appId="+appid2);
-				finalpackage.put("timeStamp", timestamp); 
-				logger.info("timestamp="+timestamp);
-				finalpackage.put("nonceStr", nonceStr2); 
-				logger.info("nonceStr="+nonceStr2);
-				finalpackage.put("package", packages);  
-				logger.info("packages="+packages);
-				finalpackage.put("signType", "MD5");
-				String finalsign = reqHandler.createSign(finalpackage);
-				logger.info("finalsign="+finalsign);
-				map.put("appId", appid2);
-				map.put("signType", "MD5");
-				map.put("timeStamp", timestamp);
-				map.put("nonceStr", nonceStr2);
-				map.put("package", packages);
-				map.put("paySign", finalsign);*/
-		
-		
-		
-		
-		
-		
-		/*		if(null==orderId||"".equals(orderId)&&finalmoney!=null){
+				if(ST.isNull(orderId)){
 					int money=Integer.valueOf(finalmoney);
-					WePay.toPay(openId, money, productName, request, response);
-				}else{
+					map=WePay.toPay(openId, money, request, response);
+					User user=new User();
+					user.setOpenid(openId);
+					user=(User)userService.select(user);
+					map.put("finalmoney", "300");
+					map.put("orderId", orderId);
+					map.put("userId", String.valueOf(user.getId()));
+					map.put("appId", "aadasdsad");
+					map.put("signType", "MD5");
+					map.put("timeStamp", String.valueOf(System.currentTimeMillis()/1000));
+					map.put("nonceStr", "asdasdasdasd");
+					map.put("packages", "123123112312");
+					map.put("paySign", "aaasd1adadad=1");
+					int order_id=orderService.insertOrder(map);
+					if(order_id>0){
+							for(int i=0;i<listMapOrder.size();i++){
+								MapOrderProduct maporder=listMapOrder.get(i);
+								Product product=new Product();
+								product.setId(maporder.getProId());
+								Product pro=(Product)productService.selectOne(product);
+								pro.setProSum(pro.getProSum()-1);
+								productService.updateProduct(pro);
+								maporder.setProName(pro.getProName());
+								maporder.setProClassifyId(pro.getClassifyId());
+								mapOrderProductService.saveMapOderPro(maporder);
+							}
+
+					}else{
 						
-				}				*/
-				return null;
+						return null;
+					}
+				}else{
+					Orders order=orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
+					String time=order.getTimestamp();
+					int nowtime=(int) (System.currentTimeMillis()/1000);
+					if((nowtime-Integer.valueOf(time))>3){
+						map.put("finalmoney", "300");
+						map.put("orderId", orderId);
+						map.put("appId", "aadasdsad");
+						map.put("signType", "MD5");
+						map.put("timeStamp", String.valueOf(System.currentTimeMillis()/1000));
+						map.put("nonceStr", "asdasdasdasd");
+						map.put("package", "asdsadasdasd");
+						map.put("paySign", "aaasd1adadad=1");
+						order.setTimestamp(map.get("timeStamp"));
+						order.setPrepayId(map.get("package"));
+						order.setFinalsign(map.get("paySign"));
+						order.setNonceStr(map.get("nonceStr"));
+						orderService.updateOrder(order);
+					}else{
+						map.put("finalmoney", String.valueOf(order.getOrdPrice()));
+						map.put("orderId", String.valueOf(order.getId()));
+						map.put("appId", "aadasdsad");
+						map.put("signType", "MD5");
+						map.put("timeStamp", order.getTimestamp());
+						map.put("nonceStr", order.getNonceStr());
+						map.put("package", order.getPrepayId());
+						map.put("paySign", order.getFinalsign());
+					}
+						
+				}		
+				return map;
 				
 				/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
 		

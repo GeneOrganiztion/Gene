@@ -35,6 +35,14 @@ public class Orders {
     private String userAddress;
 
     private String userPostal;
+    
+    private String prepayId;
+  
+	private String timestamp;
+	
+    private String noncestr;
+    
+    private String finalsign;
 
     private Boolean isdelete;
 
@@ -55,7 +63,37 @@ public class Orders {
     public void setId(Integer id) {
         this.order_id = id;
     }
+	public String getPrepayId() {
+		return prepayId;
+	}
 
+	public void setPrepayId(String prepayId) {
+		this.prepayId = prepayId;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getNonceStr() {
+		return noncestr;
+	}
+
+	public void setNonceStr(String noncestr) {
+		this.noncestr = noncestr;
+	}
+
+	public String getFinalsign() {
+		return finalsign;
+	}
+
+	public void setFinalsign(String finalsign) {
+		this.finalsign = finalsign;
+	}
     public void setOrdNum(String ordNum) {
         this.ordNum = ordNum == null ? null : ordNum.trim();
     }
