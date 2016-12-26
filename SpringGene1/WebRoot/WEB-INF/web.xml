@@ -49,7 +49,10 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>*.do</url-pattern>		
 	</servlet-mapping>
- 
+	<!-- session过期时间 分钟为单位 -->
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
 	<welcome-file-list>
     	<welcome-file>/admin/welcome.html</welcome-file>
   	</welcome-file-list>

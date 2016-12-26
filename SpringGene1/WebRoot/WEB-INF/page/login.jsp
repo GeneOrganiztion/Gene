@@ -26,10 +26,15 @@
 		<!-- ace styles -->
 		<link rel="stylesheet" href="<%=path%>/assets/css/ace.css" />
 
+		<link rel="stylesheet" href="<%=path%>/plugins/css/lobibox.css" />
+
+
+		<link rel="stylesheet" href="<%=path%>/assets/css/jquery.idcode.css" />
 		<!--[if lte IE 9]>
 			<link rel="stylesheet" href="../assets/css/ace-part2.css" />
 		<![endif]-->
 		<link rel="stylesheet" href="<%=path%>/assets/css/ace-rtl.css" />
+		
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="../assets/css/ace-ie.css" />
@@ -95,11 +100,14 @@
 													<div class="space"></div>
 
 													<div class="clearfix">
-														<label class="inline">
+														<!-- <label class="inline">
 															<input type="checkbox" class="ace" />
 															<span class="lbl"> Remember Me</span>
-														</label>
-
+														</label> -->
+														
+														<input type="text" id ="Txtidcode" class ="txtVerification">
+														
+														<span id="idcode"></span>
 														<button type="button" id="loginBtn" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">登录</span>
@@ -304,7 +312,8 @@
 		<script type="text/javascript">
 			 if('ontouchstart' in document.documentElement) document.write("<script src='<%=path%>/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>"); 
 		</script>
-
+		<script src="<%=path%>/assets/js/jquery.idcode.js"></script>
+		<script src="<%=path%>/plugins/js/lobibox.js"></script>
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 		  jQuery(function($) {
@@ -315,15 +324,39 @@
 				$(target).addClass('visible');//show target
 			 });
 			 
+			
+			    $.idcode.setCode();   //加载生成验证码方法
+			    /* $("#butn").click(function(){
+			        var IsBy = $.idcode.validateCode()  //调用返回值，返回值结果为true或者false
+			        if(IsBy){
+			            alert("验证码输入正确")
+			        }else {
+			            alert("请重新输入")
+			        }
+			    }) */
+			
+			 
 			 $("#loginBtn").click(function(){
-				 $("#errorMsg").html("");
-				 var user = $("#user").val();
-				 var psd = $("#psd").val();
-				 if(user == null || psd == null || user == "" || psd == ""){
-					 $("#errorMsg").append("用户名或密码不能为空");
-					 return;
-			     }
-				$("#loginForm").submit();
+				   var IsBy = $.idcode.validateCode();
+				   if(IsBy){
+					   $("#errorMsg").html("");
+						 var user = $("#user").val();
+						 var psd = $("#psd").val();
+						 if(user == null || psd == null || user == "" || psd == ""){
+							 $("#errorMsg").append("用户名或密码不能为空");
+							 return;
+					     }
+						$("#loginForm").submit();
+			        }else {
+			        	Lobibox.confirm({ 
+			                title:"登录",      //提示框标题 
+			                msg: "验证码输入错误",   //提示框文本内容 
+			                closeButton:true,
+			                callback: function ($this, type, ev) {               //回调函数 
+			                    
+			               } 
+			             });
+			        }
 			 }); 
 			 
 		   }); 

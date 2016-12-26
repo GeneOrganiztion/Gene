@@ -8,7 +8,7 @@
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Dashboard - Ace Admin</title>
+		<title>DNA健康后台管理系统</title>
 
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -129,7 +129,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							Ace Admin
+							基因商城后台管理
 						</small>
 					</a>
 
@@ -411,24 +411,9 @@
 							</a>
 
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
-									<a href="#">
-										<i class="ace-icon fa fa-cog"></i>
-										Settings
-									</a>
-								</li>
 
 								<li>
-									<a href="profile.html">
-										<i class="ace-icon fa fa-user"></i>
-										Profile
-									</a>
-								</li>
-
-								<li class="divider"></li>
-
-								<li>
-									<a href="#">
+									<a href="<%=path%>/exit.do">
 										<i class="ace-icon fa fa-power-off"></i>
 										Logout
 									</a>
@@ -499,14 +484,14 @@
 						<b class="arrow"></b>
 					</li>
 					
-					<li class="">
+				<!-- 	<li class="">
 						<a href="#" class="dropdown-toggle" menu-url="testStudent/testPage.do">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> 学生测试 </span>
 						</a>
 
 						<b class="arrow"></b>
-					</li>
+					</li> -->
 								<li class=""><a href="#" class="dropdown-toggle"> <i
 						class="menu-icon fa fa-desktop"></i> <span class="menu-text">
 							系统管理</span> <b class="arrow fa fa-angle-down"></b>

@@ -18,7 +18,7 @@ public class ExitSystemController {
         request.getSession().removeAttribute("SESSION_USER");
         
         // 跳转登录界面
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/index.jsp";
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         PrintWriter out;
         try {
             out = response.getWriter();
