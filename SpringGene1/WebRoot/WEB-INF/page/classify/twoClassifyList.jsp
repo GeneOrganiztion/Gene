@@ -136,11 +136,17 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-6 ">
-									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
-									<select id="oneClassify" name="oneclassify" class="input-medium" data-placeholder="请选择一级分类">
-										<option value=""></option>
-									</select>
+								<div class="form-group">
+									<div class="col-xs-6 ">
+										<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
+										<div  class="col-xs-12 col-sm-8">
+											<select class="chosen-select form-control" id="oneClassify" data-placeholder="请选择一级分类">					
+											</select>
+										</div>	
+										<!-- <select id="oneClassify" name="oneclassify" class="input-medium" data-placeholder="请选择一级分类">
+											<option value=""></option>
+										</select> -->
+									</div>
 								</div>
 							</div>
 		 				</form>
@@ -181,12 +187,18 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-6 ">
-									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
-									<select id="editOneClassify" name="editOneClassify" class="input-medium" data-placeholder="请选择一级分类">
-										<option value=""></option>
-									</select>
-								</div>
+							
+									<div class="col-xs-6 ">
+										<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">一级分类</label>
+										<div class="col-xs-12 col-sm-8">
+											<select class="chosen-select form-control" id="editOneClassify" data-placeholder="请选择一级分类">					
+											</select>
+										</div>
+										<!-- <select id="editOneClassify" name="editOneClassify" class="input-medium" data-placeholder="请选择一级分类">
+											<option value=""></option>
+										</select> -->
+									</div>
+								
 							</div>
 		 				</form>
 	 				</div>
