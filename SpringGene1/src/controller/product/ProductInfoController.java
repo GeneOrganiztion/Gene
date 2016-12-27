@@ -62,7 +62,7 @@ public class ProductInfoController extends BaseController{
 	}
 
  
-	 @RequestMapping(value = "/phoneproall", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phoneproall")
 	 @ResponseBody
 	 public List<Product> phoneproall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -79,7 +79,7 @@ public class ProductInfoController extends BaseController{
 		return listproduct;
 	 }
 	 
-	 @RequestMapping(value = "/phoneall", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phoneall")
 	 @ResponseBody
 	 public List<Product> phoneall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -109,7 +109,7 @@ public class ProductInfoController extends BaseController{
 		return listproduct;
 	 }
 	 
-	 @RequestMapping(value = "/phonefirstall", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phonefirstall")
 	 @ResponseBody
 	 public List<ClassifyDemo> phonefirstall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -157,7 +157,7 @@ public class ProductInfoController extends BaseController{
 		return classifydemolist;
 	 }
 	 
-	 @RequestMapping(value = "/UploadImage", method = RequestMethod.POST)
+	 @RequestMapping(value = "/UploadImage")
 	 @ResponseBody
 	 public ResponseMessage UploadImage(HttpServletRequest request,
 			 @RequestParam("file") MultipartFile file) throws Exception {
@@ -197,7 +197,7 @@ public class ProductInfoController extends BaseController{
 		 * @param response    -1代表插入商品失败    >0代表插入成功
 		 * @return
 		 */
-	 @RequestMapping(value = "/insertProduct", method = RequestMethod.POST)
+	 @RequestMapping(value = "/insertProduct")
 	 @ResponseBody
 	 public int insertProduct(HttpServletRequest request,
 			 HttpServletResponse response) throws Exception {
@@ -235,7 +235,7 @@ public class ProductInfoController extends BaseController{
 	 }
 	 
 	 
-	 @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+	 @RequestMapping(value = "/updateProduct")
 	 @ResponseBody
 	 public boolean updateProduct(HttpServletRequest request,
 			 HttpServletResponse response) throws Exception {
@@ -272,10 +272,11 @@ public class ProductInfoController extends BaseController{
 	 }
 	 
 	 
-	 @RequestMapping(value = "/UploadDetailImage", method = RequestMethod.POST)
+	 @RequestMapping(value = "/UploadDetailImage")
 	 @ResponseBody
 	 public ResponseMessage UploaddetailImage(HttpServletRequest request,
 			 @RequestParam("file") MultipartFile file) throws Exception {
+		 	String name= getParam("name");
 		 	ResponseMessage msg=new ResponseMessage();
 		 	try {
 		 		  String filepathurl=null;
@@ -289,7 +290,7 @@ public class ProductInfoController extends BaseController{
 		    }	
 		 	return msg;
 	 }
-	 @RequestMapping(value = "/DeleteImage", method = RequestMethod.POST)
+	 @RequestMapping(value = "/DeleteImage")
 	 @ResponseBody
 	 public ResponseMessage DeleteImage(HttpServletRequest request,HttpServletResponse response
 			) throws Exception {
@@ -311,7 +312,31 @@ public class ProductInfoController extends BaseController{
 		 return msg; 	
 	 }
 	 
-	 @RequestMapping(value = "/DeleteShowImage", method = RequestMethod.POST)
+	 @RequestMapping(value = "/SelectImage")
+	 @ResponseBody
+	 public boolean SelectImage(HttpServletRequest request,HttpServletResponse response
+			) throws Exception {
+		 String pro_id = getParam("id");
+		 boolean flag=false;
+		 try{
+			 Image image=new Image();
+			 image.setProId(Integer.valueOf(pro_id));
+			 List<Image> listImage=imageService.ImagebyProductId(image);
+			 if(listImage.size()==0){
+				 
+			 }else{
+				 flag=true; 
+			 }
+			 
+		 }catch(Exception e){
+			 logger.info("SelectImage"+e);
+			 e.printStackTrace();  
+		 }
+		 return flag; 	
+	 }
+	 
+	 
+	 @RequestMapping(value = "/DeleteShowImage")
 	 @ResponseBody
 	 public ResponseMessage DeleteShowImage(HttpServletRequest request,HttpServletResponse response
 			) throws Exception {
@@ -322,7 +347,6 @@ public class ProductInfoController extends BaseController{
 			 
 			 if(FileUpload.deleteObject(filename)){
 				 Image image=new Image();
-				 System.out.println("Url="+Url);
 				 image.setUrl(Url);
 				 imageService.deleteImage(image);
 				 msg.setMessage("success");	 
@@ -389,7 +413,7 @@ public class ProductInfoController extends BaseController{
 	        return pageInfo;
 		}
 	 
-	 	 @RequestMapping(value = "/selectOneProduct", method = RequestMethod.POST)
+	 	 @RequestMapping(value = "/selectOneProduct")
 		 @ResponseBody
 		 public Product selectOneProduct(HttpServletRequest request,
 		            HttpServletResponse response) throws Exception {
@@ -442,7 +466,7 @@ public class ProductInfoController extends BaseController{
 			return flag;
 		 }
 	 	 
-	 	@RequestMapping(value="/deleteproduct", method = RequestMethod.POST)
+	 	@RequestMapping(value="/deleteproduct")
 		@ResponseBody
 		public boolean delete(HttpServletRequest request,HttpServletResponse response){
 			String 	productIds = getParam("ProductId");

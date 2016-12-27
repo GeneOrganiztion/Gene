@@ -33,7 +33,13 @@ function initproducteditorManager(){
 									var flag=updateproductinit(productid);
 									if(flag==true){
 											alertmsg("success","商品信息更新成功");
+											document.hs = new $.imageEditer("#imageEditer", {
+												selector : "",
+												viewType : "",
+												url : webroot + "product/selectImageProduct.do?ProductId="+productid
+											});	
 											return true;
+										
 									}else{
 											alertmsg("warning","商品信息更新失败 请回退重新操作");
 											return false;
@@ -565,7 +571,7 @@ function initproducteditorManager(){
 
 }
 
-//查询所有分类
+//查询所有商品
 function selectProductAll(){
 	$.ajax({
 		type: "post",

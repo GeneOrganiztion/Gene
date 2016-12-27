@@ -5,12 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import utils.DateUtil;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
@@ -47,6 +50,7 @@ public class FileUpload {
 		String bucketName = BUCKET_NAME;
 		System.out.println("创建OSSClient之前");
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+	/*	String key = DateUtil.format(new Date())+fileName;*/
 		String key = fileName;
 		try {
 			uploadFile(client, bucketName, key, file);

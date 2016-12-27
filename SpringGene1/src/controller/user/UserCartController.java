@@ -26,7 +26,7 @@ public class UserCartController extends BaseController {
 	@Autowired
 	private CartService cartService;
 	
-	 @RequestMapping(value = "/phonecartsel", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phonecartsel")
 	 @ResponseBody
 	 public Cart cartsel(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -37,7 +37,7 @@ public class UserCartController extends BaseController {
 	 }  
 	 //cartId当用户登录的时候就取到缓存在前端
 	 //添加商品的时候需要判断是否是同一种商品,如果是要将商品合并
-	 @RequestMapping(value = "/phonecartadd", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phonecartadd")
 	 @ResponseBody
 	 public boolean phonecartadd(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -50,7 +50,7 @@ public class UserCartController extends BaseController {
 		return cartService.addProduct(mapduct,Integer.parseInt(procount));
 	 }  
 	 
-	 @RequestMapping(value = "/phonecartdel", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phonecartdel")
 	 @ResponseBody
 	 public boolean phonecartdel(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {

@@ -156,7 +156,7 @@ public class OrderInfoController extends BaseController{
         return order;
 	}
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/uploadReportPic", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadReportPic")
 	@ResponseBody
 	public ResModel uploadReportPic(HttpServletRequest request,
 			@RequestParam("file") MultipartFile file) throws Exception {

@@ -18,7 +18,6 @@ $.extend({
         this.newsIdx = 0;//新闻图片索引
         var idPrex = "";
         var button;
-        console.log("viewType="+viewType);
         if(viewType == "select"){
         	button="";
         	idPrex = 'editimg-';
@@ -152,7 +151,9 @@ $.extend({
 		this.delImage = function(id) {
 			//var idx = a.getIndexById(idPrex+id);		
 			var img = a.getImageById(idPrex+id);
+			console.log("imgUrl="+img.url);
 			var idx = img.idx;
+			console.log("idx="+idx);
 			if(idx != undefined && (idx+'') != '') {	
 				if(img.isdb==false){
 					
@@ -160,16 +161,16 @@ $.extend({
 					return;
 				}
 				var delUrl = $("#deleteImgUrl").val();
+				console.log("delUrl="+delUrl);
 				if(delUrl) {
 					var request = $.ajax({
-			            url: delUrl,
+			            url: webroot+"product/DeleteShowImage.do",
 			            method: 'POST',
-			            data: {imgId : id},
+			            data: {filename : delUrl},
 			            dataType: 'text'
 			        });
-			        request.done(function( msg ) {
-			        	console.log(msg);
-			        	
+			        request.done(function(msg) {
+			        	console.log("result="+msg);
 			        	a.removeImgAt(idx);
 			        	alertmsg("success", "删除成功"); 
 			        	
@@ -179,7 +180,6 @@ $.extend({
 			        	return;
 			        });
 			        request.fail(function( jqXHR, textStatus ) {
-			            console.log( "request failed: " + textStatus );
 			            alertmsg("error", "删除失败"); 
 			            return;
 			        });
@@ -193,7 +193,6 @@ $.extend({
             $(selector).html("");
             $(selector).load(deleteDialog,function () {
             	$("#deletemodal").modal("show"); 
-            	
             	$(".delete", "#deletemodal").bind("click",function(){ 
             		callback();
             	});
@@ -455,7 +454,6 @@ $.extend({
         }
         
         this.loadImage = function(callback, need) {
-        	alert(url);
         	var me = this;
         	var imgDir = "store/asset/";
         	if(url ) {
@@ -483,12 +481,11 @@ $.extend({
         	        	if(callback) {
         	        		callback();
         	        	}
-        	        	console.log(obj);
         	        	if(obj.length) {
         	        		me.count = obj.length;
         	        		$(".count", me.select).html(obj.length);
         	        	}
-        	        	console.log(obj.count);
+        	       
         	        	if(obj) {
         	        		for(var i=0; i<obj.length; i++) {
                 				var d = obj[i];

@@ -35,7 +35,7 @@ public class OrderDetailController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/phoneGetOrdersByUserId", method = RequestMethod.GET)
+	@RequestMapping(value = "/phoneGetOrdersByUserId")
 	@ResponseBody
 	public List<Orders> getOrderByUserId(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		List<Orders> listOrd = new ArrayList<Orders>();
@@ -68,7 +68,7 @@ public class OrderDetailController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/phoneGetOrdersByOrderId", method = RequestMethod.GET)
+	@RequestMapping(value = "/phoneGetOrdersByOrderId")
 	@ResponseBody
 	public Orders getOrdersByOrderId(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		
@@ -91,7 +91,7 @@ public class OrderDetailController extends BaseController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/phoneUpdateOrderStatus", method = RequestMethod.GET)
+	@RequestMapping(value = "/phoneUpdateOrderStatus")
 	@ResponseBody
 	public boolean updateOrderStatus(HttpServletRequest request,HttpServletResponse response)throws Exception{
 		String order_id = getParam("orderId");

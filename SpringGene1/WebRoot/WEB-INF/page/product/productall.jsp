@@ -4,6 +4,13 @@
 %>
 <script src="<%=path%>/pagejs/product/productall.js"></script>
 <!-- #section:basics/content.breadcrumbs -->
+
+<style type="text/css">
+
+   #productcontent img{
+	width: 100%;
+	}
+</style>
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try {
@@ -258,10 +265,36 @@
              	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			    <h4 class="modal-title" >预览商品</h4>
 		     </div>
-		     <div class="modal-body" >
+		     <div class="modal-body" style="align-text:center" >
+		     	<h4 id="proName" style="magin:5px auto;margin-left: 10px;"></h4>
   				<div class="col-sm-12 text-center">
 					<div id="imageEditer"></div>
-				</div>			     
+				</div>		
+				
+			<!-- 	
+							
+			              
+				                    <div>
+								       <span> <span style="color: #f0721f;font-size: 14px;">￥</span><span id="prodRatePrice" style="color: #f0721f;"></span></span>
+							        </div>
+							        <div >
+								       <span class="font_size12">原价</span>
+								       <span><span class="font_size12">￥</span><span id="prodPrice" style="text-decoration:line-through"></span></span>
+							        </div>
+					            </div>
+				            </div>
+				            <hr style="margin-top: 10px;margin-bottom: 10px;" />
+				            <div>
+					   <span class="pull-left">
+				       <span>库存&nbsp;&nbsp;&nbsp;<span style="color: #000000;"></span id="productsum">&nbsp1101&nbsp件（获取库存）</span>
+					   </span> -->
+				
+				
+				
+				<div class="col-sm-12 text-center">
+					<div id="productcontent"></div>
+				</div>	
+						     
 		     </div>
 			<div class="modal-footer">
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">

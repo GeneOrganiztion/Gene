@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> selectWebAll(Product product) throws Exception {
 		 product.setIsdelete(false);
-		return productMapper.selectbyClassify(product);
+		return productMapper.select(product);
 	}
 	@Override
 	public int delProduct(Product Product) throws Exception {

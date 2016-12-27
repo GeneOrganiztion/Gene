@@ -211,12 +211,20 @@
 
 																<strong>
 																	<i class="ace-icon fa fa-check"></i>
-																	商品基本信息添加成功!
+																	商品基本信息修改成功!
 																</strong>
-																请将图片拖拽到下方框图或者点击向上箭头
+																下方为已上传商品展示图片,点击可删除
 																<br />
+																
 															</div>
 
+															<div style="width:450px; margin:10px auto">
+																
+																<div id="imageEditer"></div>
+																
+															</div>
+															
+															
 															<div class="alert alert-danger">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>

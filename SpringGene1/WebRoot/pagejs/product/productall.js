@@ -23,7 +23,7 @@ function initAdminManager(){
 		mtype: 'post',
 		datatype: "json",
 		height: 370,
-		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','创建时间','最后更新时间'],
+		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','创建时间','最后更新时间',''],
 		colModel:[
           	{name:'id',index:'product_id', width:80, sorttype:"int", editable: true},
           	{name:'proName',index:'pro_name',width:80, editable:true},
@@ -32,7 +32,8 @@ function initAdminManager(){
 			{name:'proSum',index:'pro_sum',width:80,sorttype:"int", editable:true},
 			{name:'proOnline',index:'pro_online',width:80, editable:true,formatter:formatterProductIsOnline},
 			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
+			{name:'proDetail',index:'pro_detail',width:80,hidden:true}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -396,14 +397,19 @@ function SelectProduct(){
 	}
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;
-	
+	console.log("rowData="+rowData.proDetail);
+	/*console.log("rowData="+rowData.productPrice);*/
 	document.hs = new $.imageEditer("#imageEditer", {
 		selector : "",
 		viewType : "select",
 		url : webroot + "product/selectImageProduct.do?ProductId="+id
 	});
+
 	//再次打开model之前清空上次的操作记录
 	$("#SelectProductModol :input").val("");
+	$("#productcontent").html(rowData.proDetail);
+	$("#proName").html(rowData.proName+"展示图片以及详情预览");
+	
 	$("#SelectProductModol").modal("show");
 	
 	
@@ -441,44 +447,3 @@ function editProduct(){
 		}
 	});
 }
-//修改用户
-/*function editAndSaveAdmin(){
-	//form中验证不通过直接返回
-	if(!($('#editAdminform').valid())){
-		return;
-	}
-	//验证是否已存在此用户名
-	var name = $("#editAdminform input[name='username']").val();
-	$.ajax({
-		type: "post",
-		url: webroot + "admin/validateAdmin.do",
-		data: {name: name},
-		success: function(msg){
-			if(msg.success){
-				alertmsg("warning","用户名已存在!");
-				return;
-			}else{
-				//保存用户信息
-				var data = getParams("#editAdminform");
-				$.ajax({
-					type: "post",
-					url: webroot + "admin/updateAdmin.do",
-					data: data,
-					success: function(msg){
-						if(msg.success){
-							alertmsg("success", "修改用户成功!");
-							var data = $("form").serialize();
-							var url = webroot + "admin/selectAdmin.do";
-							$("#grid-table").jqGrid('setGridParam',{ 
-						        url: url + "?" + data, 
-						        page:1,
-						        mtype:"post"
-						    }).trigger("reloadGrid"); //重新载入 
-						}
-					}
-				});
-				$("#editAdminModal").modal("hide");
-			}
-		}
-	});
-}*/

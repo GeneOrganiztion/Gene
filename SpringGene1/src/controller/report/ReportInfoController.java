@@ -33,7 +33,7 @@ public class ReportInfoController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/phoneSelectReportByParams", method = RequestMethod.GET)
+	@RequestMapping(value = "/phoneSelectReportByParams")
 	@ResponseBody
 	public List<Report> selectReportByParams(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String orId = getParam("orId");

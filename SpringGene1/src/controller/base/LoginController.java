@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
     private final String INDEX_JSP = "index";
     private final String DASHBOARD = "CoreServlet/dashboard.do";
     
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login")
     public ModelAndView formnoticedetail1(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
     	ModelAndView mv = new ModelAndView();

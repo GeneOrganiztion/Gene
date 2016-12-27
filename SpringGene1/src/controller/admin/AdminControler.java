@@ -73,7 +73,7 @@ public class AdminControler extends BaseController{
 		}
         return pageInfo;
 	}
-	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	@RequestMapping(value="/delete")
 	@ResponseBody
 	public boolean delete(HttpServletRequest request,HttpServletResponse response){
 		String adminIds = getParam("adminIds");

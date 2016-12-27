@@ -35,7 +35,7 @@ public class OrderReportController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 *  */
-	@RequestMapping(value = "/phoneGetReportByUserId", method = RequestMethod.GET)
+	@RequestMapping(value = "/phoneGetReportByUserId")
 	@ResponseBody
 	public List<Report> GetReportByUserId(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		List<Report> listRop = new ArrayList<Report>();

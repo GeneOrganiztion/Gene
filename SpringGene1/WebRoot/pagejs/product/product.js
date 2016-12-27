@@ -1,4 +1,7 @@
+
+
 function initProductManager(){
+
 	jQuery(function($) {
 		
 		$('#validation-form').addClass('hide');
@@ -28,7 +31,6 @@ function initProductManager(){
 					}else{
 						if(info.step==1&&info.direction=="next"){
 							$('#addloader').removeClass('hide');
-							console.log("product id="+productid);
 							if(null==productid||""==productid){
 								productid=addproduct();
 								if(productid>0){
@@ -60,14 +62,16 @@ function initProductManager(){
 					}
 				}
 					
-			/*
 				 if(info.step==2&&info.direction=="next"){ 
-					 if(flieuploadimagesize==null){
+					 var id=$('#product_id').val();
+					 var flag=selectImage(id);
+					 if(flag==true){
+						 return true;
+					 }else{
 						 alertmsg("error","您还有图片未上传");
 					     return false;
 					 }
-					 
-				 }*/
+				 }
 		})
 		.on('finished.fu.wizard', function(e) {
 				 Lobibox.confirm({ 
@@ -142,11 +146,18 @@ function initProductManager(){
 	                });
 	                
 	                this.on("sending", function (file, xhr, formData) {
+	                	
 	                	formData.append("pro_id",productid);
+	                	formData.append("fileName", file.lastModified);
+	                	 console.log("file.sending lastModified="+file.lastModified);
 	                });
 	                
 	                //当添加图片后的事件，上传按钮恢复可用
-	                this.on("addedfile", function () {
+	                this.on("addedfile", function (file) {
+	                	var now= new Date();
+	                	file.name="aaaaa"+file.name;
+	                	 console.log("file.name="+file.name);
+	                	 console.log("file. addedfile lastModified="+file.lastModified);
 	                    $("#submit-product").removeAttr("disabled");
 	                  
 	                });
@@ -159,15 +170,16 @@ function initProductManager(){
 								alertmsg("error","商品展示图片文件个数上传超过最大限制");
 								  $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
 							}else{
+								
+								$(file.previewTemplate).append("<div class='imagepro' style='display:none'>"+response.message+"</div>");
 								alertmsg("success","商品展示图片上传成功");	
 							}
-						
+		                	
 	                });
 	                //当上传完成后的事件，接受的数据为JSON格式
 	                this.on("complete", function (data) {
 	                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
 	                        var res =data;
-	                        console.log(res);
 	                        var msg;
 	                        if (res.message=="error") {
 	                        	alertmsg("error","商品展示图片上传失败，请重新上传");
@@ -185,7 +197,10 @@ function initProductManager(){
 	                    if (this.getAcceptedFiles().length === 0) {
 	                        $("#submit-product").attr("disabled", true);
 	                    }
-	                    removeShowImage(file.name);
+	                    	
+	                    console.log("removedfile"+$(file.previewTemplate).children('.imagepro').text());
+	     	            removeShowImage(file.name);
+	     	           
 	                    
 	                });
 	            }			
@@ -617,8 +632,12 @@ function removeImage(filename){
 		data: {filename: filename},
 		url: webroot + "product/DeleteImage.do",
 		success: function(msg){
-			
-			alert(msg.message);
+			 if (res.message=="error") {
+	             	alertmsg("error","图片删除失败");
+	             }
+	             else {
+	            	 alertmsg("success","图片删除成功");
+	          }
 			
 			
 		}
@@ -632,7 +651,14 @@ function removeShowImage(filename){
 		data: {filename: filename},
 		url: webroot + "product/DeleteShowImage.do",
 		success: function(msg){
-			alert(msg.message);
+			 if (msg.message=="error") {
+             	alertmsg("error","商品展示图片删除失败");
+             }
+             else {
+            	 alertmsg("success","商品展示图片删除成功");
+             }
+			
+			
 		}
 	});
 	return message;
@@ -671,3 +697,23 @@ function updateproduct(proid){
 	});
 	return flag;
 }
+function remove(){
+	alert("删除成功!");
+}
+
+function selectImage(proid){
+	
+	var pro_id=proid;
+	var flag=false;
+	$.ajax({
+		type: "post",
+		async: false,
+		url: webroot + "product/SelectImage.do?id="+pro_id,
+		success: function(msg){
+			flag=msg;
+		}
+	});
+	return flag;
+}
+
+

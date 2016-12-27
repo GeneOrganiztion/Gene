@@ -37,7 +37,7 @@ public class ProductClassifyController extends BaseController {
 	@Autowired
 	private ClassifyService classifyService;
 	
-	 @RequestMapping(value = "/phoneclsall", method = RequestMethod.GET)
+	 @RequestMapping(value = "/phoneclsall")
 	 @ResponseBody
 	 public ClassifyModel clsall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -66,7 +66,7 @@ public class ProductClassifyController extends BaseController {
 		return classifymodel;
 	 }  
 	 
-	 @RequestMapping(value = "/webclsall", method = RequestMethod.POST)
+	 @RequestMapping(value = "/webclsall")
 	 @ResponseBody
 	 public List<Classify> webclsall(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -82,7 +82,7 @@ public class ProductClassifyController extends BaseController {
 	 }  
 	 
 	 
-	 @RequestMapping(value = "/productPage", method = RequestMethod.GET)
+	 @RequestMapping(value = "/productPage")
 	 public ModelAndView webpage(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
@@ -90,7 +90,7 @@ public class ProductClassifyController extends BaseController {
 		return mv;
 	 }  
 	 
-	 @RequestMapping(value = "/clsave", method = RequestMethod.GET)
+	 @RequestMapping(value = "/clsave")
 	 @ResponseBody
 	 public boolean clssave(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -113,7 +113,7 @@ public class ProductClassifyController extends BaseController {
 	 * @date 2016-12-7 18:31:52
 	 * 返回0表示删除成功 返回状态1表示删除失败,2表示还有以存在的商品未下架
 	 */
-	 @RequestMapping(value = "/clsdel", method = RequestMethod.GET)
+	 @RequestMapping(value = "/clsdel")
 	 @ResponseBody
 	 public int clsdel(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
@@ -126,7 +126,7 @@ public class ProductClassifyController extends BaseController {
 		  return 1;
 	 }    	
 	 
-	 @RequestMapping(value = "/clsupdate", method = RequestMethod.GET)
+	 @RequestMapping(value = "/clsupdate")
 	 @ResponseBody
 	 public boolean clsupdate(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
