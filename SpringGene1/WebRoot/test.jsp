@@ -17,12 +17,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div style="text-align:center;size:30px;"><input type="button" style="width:200px;height:80px;" value="获取收货地址" onclick="callperson()"></div>
 	 <script type="text/javascript">
 	 function callperson(){
-		  	var openid="ofzXwvr0wTScgzzGAiTC89IxfbrA";
-		  	var finalmoney=111;
+		  var openid="ofzXwvr0wTScgzzGAiTC89IxfbrA";
+		  var finalmoney=111;
 		   $.ajax({
 				type: "post",
 				url:  "<%=path%>/weixin/topay.do",
-				 data: {openId: openid,finalmoney:finalmoney}, 
+				data: {openId: "ofzXwvnbUQYrVMmYn8uxZuHbbX5g", finalmoney: 30, orderId: 2, orderProducts:[{pro_count:3,pro_id:3}]},
 				success: function(msg){
 					alert(msg);
 					

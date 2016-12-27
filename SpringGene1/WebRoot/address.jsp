@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    $.ajax({
 		type: "post",
 		url:  "<%=path%>/weixin/addresstest.do",
-		/* data: {ProductId: id}, */
+		 data: {ProductId: id}, 
 		success: function(msg){
 			console.log(msg);
 			 wx.config({

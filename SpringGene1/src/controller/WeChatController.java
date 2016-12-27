@@ -14,6 +14,11 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
+
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.liufeng.course.service.CoreService;
@@ -44,6 +49,7 @@ import utils.WePay;
 
 import com.github.pagehelper.PageInfo;
 
+import controller.base.BaseController;
 import wepay.utils.GetWxOrderno;
 import wepay.utils.RequestHandler;
 import utils.Sha1Util;
@@ -54,7 +60,7 @@ import wepay.utils.HttpResponse;
 
 @Controller
 @RequestMapping("/weixin")
-public class WeChatController {
+public class WeChatController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
@@ -212,41 +218,30 @@ public class WeChatController {
 	@ResponseBody
 	public Map<String,String> weixinpay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
-		//网页授权后获取传递的参数
-		String openId ="ofzXwvnbUQYrVMmYn8uxZuHbbX5g"; 	
-		String finalmoney = request.getParameter("finalmoney");
-		String orderId = "10";
-		if(ST.isNull(finalmoney)){
-			return null;
-		}
-		logger.info("openid="+openId);
-		logger.info("finalmoney="+finalmoney);
+		String openId = getParam("openId");//用户名
+		String finalmoney=getParam("finalmoney");
+		String orderId=getParam("orderId");
+		String orderProducts=getParam("orderProducts");
+		logger.info("openId="+openId);
+		logger.info("orderProducts="+orderProducts);
+		logger.info("orderId="+orderId);
+		List<MapOrderProduct> listMapOrder=new ArrayList<MapOrderProduct>();
+		JSONArray jsonArray = JSONArray.fromObject(orderProducts);
+		listMapOrder = JSONArray.toList(jsonArray,MapOrderProduct.class);
 		Map<String,String> map=new HashMap<String,String>();
-				List<MapOrderProduct> listMapOrder=new ArrayList();
-				for(int i=1;i<4;i++){
-					MapOrderProduct maporderproduct=new MapOrderProduct();
-					maporderproduct.setOrdId(Integer.valueOf(orderId));
-					maporderproduct.setProId(i);
-					maporderproduct.setProPrice(300);
-					maporderproduct.setProCount(2);
-					listMapOrder.add(maporderproduct);
-				
-				}
 				if(ST.isNull(orderId)){
+					if(ST.isNull(finalmoney)){
+						return null;
+					}
 					int money=Integer.valueOf(finalmoney);
 					map=WePay.toPay(openId, money, request, response);
 					User user=new User();
 					user.setOpenid(openId);
 					user=(User)userService.select(user);
-					map.put("finalmoney", "300");
+					map=WePay.toPay(openId, Integer.valueOf(finalmoney), request, response);
+					map.put("finalmoney", finalmoney);
 					map.put("orderId", orderId);
 					map.put("userId", String.valueOf(user.getId()));
-					map.put("appId", "aadasdsad");
-					map.put("signType", "MD5");
-					map.put("timeStamp", String.valueOf(System.currentTimeMillis()/1000));
-					map.put("nonceStr", "asdasdasdasd");
-					map.put("packages", "123123112312");
-					map.put("paySign", "aaasd1adadad=1");
 					int order_id=orderService.insertOrder(map);
 					if(order_id>0){
 							for(int i=0;i<listMapOrder.size();i++){
@@ -260,45 +255,30 @@ public class WeChatController {
 								maporder.setProClassifyId(pro.getClassifyId());
 								mapOrderProductService.saveMapOderPro(maporder);
 							}
-
-					}else{
-						
+					}else{	
 						return null;
 					}
 				}else{
 					Orders order=orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
 					String time=order.getTimestamp();
 					int nowtime=(int) (System.currentTimeMillis()/1000);
-					if((nowtime-Integer.valueOf(time))>3){
+					if((nowtime-Integer.valueOf(time))>3600){
 						map.put("finalmoney", "300");
 						map.put("orderId", orderId);
-						map.put("appId", "aadasdsad");
-						map.put("signType", "MD5");
-						map.put("timeStamp", String.valueOf(System.currentTimeMillis()/1000));
-						map.put("nonceStr", "asdasdasdasd");
-						map.put("package", "asdsadasdasd");
-						map.put("paySign", "aaasd1adadad=1");
+						map=WePay.toPay(openId, Integer.valueOf(finalmoney), request, response);
 						order.setTimestamp(map.get("timeStamp"));
 						order.setPrepayId(map.get("package"));
 						order.setFinalsign(map.get("paySign"));
 						order.setNonceStr(map.get("nonceStr"));
 						orderService.updateOrder(order);
 					}else{
+						map=WePay.toPay(openId, Integer.valueOf(finalmoney), request, response);
 						map.put("finalmoney", String.valueOf(order.getOrdPrice()));
 						map.put("orderId", String.valueOf(order.getId()));
-						map.put("appId", "aadasdsad");
-						map.put("signType", "MD5");
-						map.put("timeStamp", order.getTimestamp());
-						map.put("nonceStr", order.getNonceStr());
-						map.put("package", order.getPrepayId());
-						map.put("paySign", order.getFinalsign());
 					}
 						
-				}		
+				}	
 				return map;
-				
-				/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
-		
 	}
 	@RequestMapping("/ordertopay")
 	public void ordertopay(HttpServletRequest request,
