@@ -198,7 +198,7 @@
 						</div><!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
 					<div class="col-xs-12 center">
-						<button class="btn" id="editOneClassify-submit-all" disabled="disabled" style="margin:20px auto">保存</button>
+						<button class="btn" id="editOneClassify-submit-all"  style="margin:20px auto">保存</button>
 					</div>
 	 			</div>
 		     </div>

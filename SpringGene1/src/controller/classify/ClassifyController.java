@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,7 @@ import controller.base.BaseController;
 import po.Classify;
 import po.ResModel;
 import service.ClassifyService;
+import utils.Constant;
 import utils.ST;
 
 @Controller
@@ -141,7 +143,8 @@ public class ClassifyController extends BaseController{
 	public ResModel editOneClassify(HttpServletRequest request,
 			@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
-		 String claName = getParam("claName");
+		 String claName1 = getParam("claName");
+		 String claName =  new String(claName1.getBytes("ISO-8859-1"),"UTF-8");
 		 String classifyId = getParam("classifyId");
 		 
 		 try {
@@ -150,7 +153,6 @@ public class ClassifyController extends BaseController{
 			 cls.setId(Integer.valueOf(classifyId));
 			 cls.setClaName(claName);
 			 cls.setClaContent(filepath);
-			 cls.setClaPid(0);
 			 cls.setLastModifiedTime(new Date());
 			 
 			 classifyService.updateClassify(cls);
@@ -163,17 +165,18 @@ public class ClassifyController extends BaseController{
 		resModel.setSuccess(true);
 		return resModel;
 	}
-	@RequestMapping(value = "/saveOneClassify")
+	@RequestMapping(value = "/saveOneClassify", method = RequestMethod.POST)
 	@ResponseBody
 	public ResModel saveOneClassify(HttpServletRequest request,@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
-		 String claName = getParam("claName");
+		 String claName1 = getParam("claName");
+		 String claName =  new String(claName1.getBytes("ISO-8859-1"),"UTF-8");
 		 try {
 			 Classify cls = new Classify();
 			 String filepath = FileUpload.upFileRename(file, request);
 			 cls.setClaName(claName);
 			 cls.setClaContent(filepath);
-			 cls.setClaPid(0);
+			 cls.setClaPid(Constant.ONE_CLASSID);
 			 cls.setIsdelete(false);
 			 cls.setCreateTime(new Date());
 			 cls.setLastModifiedTime(new Date());
@@ -201,6 +204,9 @@ public class ClassifyController extends BaseController{
 		cls.setId(Integer.valueOf(oneClassifyId));
 		boolean bl = false;
 		try {
+			//删除服务器上的图片
+			Classify clsfy = classifyService.selectOneClassify(cls);
+			FileUpload.deleteObject(clsfy.getClaContent());
 			bl = classifyService.delOneClassifyById(cls);
 		} catch (Exception e) {
 			logger.error("removeOrderById error:" + e);
@@ -249,6 +255,9 @@ public class ClassifyController extends BaseController{
 			List<Integer> list = ST.StringToList(ids);
 			for(Integer id: list){
 				cls.setId(id);
+				//删除服务器上的图片
+				Classify clsfy = classifyService.selectOneClassify(cls);
+				FileUpload.deleteObject(clsfy.getClaContent());
 				classifyService.delClassify(cls);
 				//删除一级分类下的二级分类
 				Classify twoCls = new Classify();

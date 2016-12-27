@@ -358,7 +358,7 @@ function initOneClassifyManager(){
 
 	              //当添加图片后的事件，上传按钮恢复可用
 	              this.on("addedfile", function () {
-	                  $("#editOneClassify-submit-all").removeAttr("disabled");
+	                  //$("#editOneClassify-submit-all").removeAttr("disabled");
 	              });
 	              
 	              this.on("success", function (file, response, e) {
@@ -395,7 +395,7 @@ function initOneClassifyManager(){
 	              //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
 	              this.on("removedfile", function (file) {
 	                  if (this.getAcceptedFiles().length === 0) {
-	                      $("#editOneClassify-submit-all").attr("disabled", true);
+	                      //$("#editOneClassify-submit-all").attr("disabled", true);
 	                  }
 	                  
 	                  removeImage($("#editOneClassifyId").val());

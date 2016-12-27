@@ -20,7 +20,7 @@ public class Constant {
 	public static final String ORDER_STATUS6 = "6";
 	public static final String ORDER_STATUS7 = "7";
 	
-	
+	public static final int ONE_CLASSID = 0;
 	
 	
 }
