@@ -294,11 +294,9 @@ function initOrderManager(){
                 	if(response.success){
                 		$("#uploadReportPicModal").modal("hide");
 						alertmsg("success","报告上传成功");
+						myDropzone.destroy();
 						//$("#deleteReportId").val(response.returnId);
 						queryOrder();
-						var file = $("#reportpic") 
-						file.after(file.clone().val("")); 
-						file.remove(); 
 						//重新加载报告上传数量
 						//reloadUploadRrportCount();
 					}else{
@@ -387,8 +385,15 @@ function initOrderManager(){
 		//rowObject.id  第几行
 		//rowObject.map_order_product_id    
 		
-		var str = options.gid + "||" +  options.rowId + "||" + rowObject.map_order_product_id;
-		var	detial = "<button onclick=\"uploadReportPic('" + str + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>";
+		//var str = options.gid + "||" +  options.rowId + "||" + rowObject.map_order_product_id;
+		var	detial;
+		if(rowObject.reportCount == rowObject.proCount){
+			detial = "<button disabled=\"disabled\" onclick=\"uploadReportPic('" + rowObject.map_order_product_id + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>";
+			
+		}else{
+			detial = "<button onclick=\"uploadReportPic('" + rowObject.map_order_product_id + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>";
+		}
+		 
 		var detial1 ;
 		if(rowObject.reportCount == 0){
 			detial1 = "<button disabled=\"disabled\" onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";

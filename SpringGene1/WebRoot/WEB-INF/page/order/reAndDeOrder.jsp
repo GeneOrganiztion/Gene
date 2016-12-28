@@ -63,10 +63,10 @@
 					<div class="col-md-3">
 						<label class="col-sm-4 control-label no-padding-right" for="shortName">订单状态</label>
 						<div class="col-sm-8">
-							<select class="chosen-select form-control"  data-placeholder="--请选择--" name="ordState" >
+							<select class="input-medium"  data-placeholder="--请选择--" name="ordState" >
 								<option value=""></option>
-								<option value="2">待收货</option>
-								<option value="3">待发货</option>
+								<option value="2">待发货</option>
+								<option value="3">待收货</option>
 							</select>
 						</div>
 					</div>

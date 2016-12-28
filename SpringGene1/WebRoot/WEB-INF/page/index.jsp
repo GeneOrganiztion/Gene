@@ -143,7 +143,7 @@
 				<!-- #section:basics/navbar.dropdown -->
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-						<li class="grey">
+						<%-- <li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="ace-icon fa fa-tasks"></i>
 								<span class="badge badge-grey">4</span>
@@ -396,15 +396,15 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li> --%>
 
 						<!-- #section:basics/navbar.user_menu -->
-						<li class="light-blue">
+						<li class="light-blue pull-right">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="<%=path%>/assets/avatars/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									${userName }
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>

@@ -92,6 +92,8 @@ public class LoginController extends BaseController {
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(INDEX_JSP);
+        Admin admin = (Admin)session.getAttribute("SESSION_USER");
+        modelAndView.addObject("userName", admin.getUsername());
         return modelAndView;
     }
 }
