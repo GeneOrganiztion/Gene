@@ -164,7 +164,6 @@ public class ProductInfoController extends BaseController{
 		 	ResponseMessage msg=new ResponseMessage();
 		 	String filepathurl=null;
 			String pro_id= getParam("pro_id");
-			System.out.println("pro_idhoutai="+pro_id);
 		 	try {
 			   Image image=new Image();
 			   image.setProId(Integer.valueOf(pro_id));
@@ -294,13 +293,12 @@ public class ProductInfoController extends BaseController{
 	 @ResponseBody
 	 public ResponseMessage DeleteImage(HttpServletRequest request,HttpServletResponse response
 			) throws Exception {
-		 String filename = getParam("filename");
+		 String url = getParam("filename");
 		 ResponseMessage msg=new ResponseMessage();
 		 try{
-			 
+			 String filename=ST.getFileName(url);
 			 if(FileUpload.deleteObject(filename)){
 				 msg.setMessage("success");	 
-				 
 			 }else{
 			 msg.setMessage("error");	 
 			 }
@@ -312,6 +310,30 @@ public class ProductInfoController extends BaseController{
 		 return msg; 	
 	 }
 	 
+	 @RequestMapping(value = "/DeleteImageById")
+	 @ResponseBody
+	 public ResponseMessage DeleteImageById(HttpServletRequest request,HttpServletResponse response
+			) throws Exception {
+		 String id = getParam("ImageId");
+		 ResponseMessage msg=new ResponseMessage();
+		 try{
+			 Image image=new Image();
+			 image.setId(Integer.valueOf(id));
+			 image=(Image)imageService.selectbyId(image);
+			 String filename=ST.getFileName(image.getUrl());
+			 if(FileUpload.deleteObject(filename)){
+				 imageService.deleteImage(image);
+				 msg.setMessage("success");	 
+			 }else{
+			 msg.setMessage("error");	 
+			 }
+		 }catch(Exception e){
+			 logger.info("DeleteImage"+e);
+			 e.printStackTrace();
+			 msg.setMessage("error");	 
+		 }
+		 return msg; 	
+	 }
 	 @RequestMapping(value = "/SelectImage")
 	 @ResponseBody
 	 public boolean SelectImage(HttpServletRequest request,HttpServletResponse response
@@ -340,16 +362,18 @@ public class ProductInfoController extends BaseController{
 	 @ResponseBody
 	 public ResponseMessage DeleteShowImage(HttpServletRequest request,HttpServletResponse response
 			) throws Exception {
-		 String filename = getParam("filename");
-		 String Url=Constant.OSS_ENDPOINT+filename;
+		 String url = getParam("filename");
 		 ResponseMessage msg=new ResponseMessage();
 		 try{
-			 
+			 String filename=ST.getFileName(url);
 			 if(FileUpload.deleteObject(filename)){
 				 Image image=new Image();
-				 image.setUrl(Url);
-				 imageService.deleteImage(image);
-				 msg.setMessage("success");	 
+				 image.setUrl(url);
+				 if(imageService.deleteImage(image)){
+					 msg.setMessage("success");	 
+				 }else{
+					 msg.setMessage("error");	  
+				 }
 			 }else{
 			 msg.setMessage("error");	 
 			 }

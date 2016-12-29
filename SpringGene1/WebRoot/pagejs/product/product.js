@@ -155,9 +155,6 @@ function initProductManager(){
 	                //当添加图片后的事件，上传按钮恢复可用
 	                this.on("addedfile", function (file) {
 	                	var now= new Date();
-	                	file.name="aaaaa"+file.name;
-	                	 console.log("file.name="+file.name);
-	                	 console.log("file. addedfile lastModified="+file.lastModified);
 	                    $("#submit-product").removeAttr("disabled");
 	                  
 	                });
@@ -170,7 +167,6 @@ function initProductManager(){
 								alertmsg("error","商品展示图片文件个数上传超过最大限制");
 								  $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
 							}else{
-								
 								$(file.previewTemplate).append("<div class='imagepro' style='display:none'>"+response.message+"</div>");
 								alertmsg("success","商品展示图片上传成功");	
 							}
@@ -197,11 +193,7 @@ function initProductManager(){
 	                    if (this.getAcceptedFiles().length === 0) {
 	                        $("#submit-product").attr("disabled", true);
 	                    }
-	                    	
-	                    console.log("removedfile"+$(file.previewTemplate).children('.imagepro').text());
-	     	            removeShowImage(file.name);
-	     	           
-	                    
+	     	            removeShowImage($(file.previewTemplate).children('.imagepro').text());	                
 	                });
 	            }			
 			  });
@@ -264,6 +256,7 @@ function initProductManager(){
 								alertmsg("error","商品详情图片上传失败，请重新上传");
 							}else{
 								alertmsg("success","商品详情图片上传成功");
+								$(file.previewTemplate).append("<div class='imagepro' style='display:none'>"+response.message+"</div>");
 								addpir(response.message);
 							}
 		                });
@@ -281,16 +274,15 @@ function initProductManager(){
 		                        }
 		                        
 		                    }
-		                });
-		                
-
+		                });               
 		                //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
 		                this.on("removedfile", function (file) {
 		                    if (this.getAcceptedFiles().length === 0) {
 		                        $("#submit-all").attr("disabled", true);
 		                    }
-		                    removeImage(file.name);
-		                    delpir(file.name);
+		                    remove($(file.previewTemplate).children('.imagepro').text());
+		                    removeImage($(file.previewTemplate).children('.imagepro').text());
+		                    
 		                });
 		            }
 					
@@ -302,7 +294,6 @@ function initProductManager(){
 					//change the previewTemplate to use Bootstrap progress bars
 					
 				  });
-				  
 				  
 				  
 				   $(document).one('ajaxloadstart.page', function(e) {
@@ -588,10 +579,6 @@ function addpir(url){
 　　　　parent1.appendChild(div12);
 }
 
-function delpir(url){
-	var rooturl='http://myfirst1990.oss-cn-shanghai.aliyuncs.com/';
-	remove(rooturl+url);
-}
 function remove(id){
 	var dd=document.getElementById("gread");
 	var aa=dd.children;
@@ -632,7 +619,7 @@ function removeImage(filename){
 		data: {filename: filename},
 		url: webroot + "product/DeleteImage.do",
 		success: function(msg){
-			 if (res.message=="error") {
+			 if (msg.message=="error") {
 	             	alertmsg("error","图片删除失败");
 	             }
 	             else {
@@ -697,9 +684,7 @@ function updateproduct(proid){
 	});
 	return flag;
 }
-function remove(){
-	alert("删除成功!");
-}
+
 
 function selectImage(proid){
 	

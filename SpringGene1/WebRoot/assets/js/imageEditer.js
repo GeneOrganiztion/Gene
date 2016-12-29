@@ -139,7 +139,8 @@ $.extend({
 			            msg: "确认删除?",   //提示框文本内容 
 			       callback: function ($this, type, ev) {               //回调函数 
 			               if (type === 'yes') { 
-			            	   a.delImage(id);  
+			            	   a.delImage(id);
+			          
 			               } else if (type === 'no') { 
 			                          
 			               } 
@@ -149,11 +150,12 @@ $.extend({
 		});
 		
 		this.delImage = function(id) {
-			//var idx = a.getIndexById(idPrex+id);		
+			//var idx = a.getIndexById(idPrex+id);
+		/*	console.log("id="+id);
 			var img = a.getImageById(idPrex+id);
 			console.log("imgUrl="+img.url);
 			var idx = img.idx;
-			console.log("idx="+idx);
+			console.log("idx="+idx);*/
 			if(idx != undefined && (idx+'') != '') {	
 				if(img.isdb==false){
 					
@@ -164,16 +166,21 @@ $.extend({
 				console.log("delUrl="+delUrl);
 				if(delUrl) {
 					var request = $.ajax({
-			            url: webroot+"product/DeleteShowImage.do",
+			            url: webroot+"product/DeleteImageById.do",
 			            method: 'POST',
-			            data: {filename : delUrl},
+			            data: {ImageId : id},
 			            dataType: 'text'
 			        });
 			        request.done(function(msg) {
-			        	console.log("result="+msg);
+			        	   if (msg.message=="error") {
+	                        	alertmsg("error","图片删除失败");
+	                        }
+	                        else {
+	                        	alertmsg("success","删除成功");
+	                        }
+			        	console.log("result="+msg.message);
 			        	a.removeImgAt(idx);
-			        	alertmsg("success", "删除成功"); 
-			        	
+			        	/*alertmsg("success", "删除成功"); */
 			        	a.count --;
 			        	$(".count", select).html(a.count);
 						$(".loaded", select).html(ImageList.length);

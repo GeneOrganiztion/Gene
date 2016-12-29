@@ -31,8 +31,8 @@ public class WePay {
 		//商户订单号
 		String out_trade_no=null;
 		//附加数据
-		String attach = DateUtil.format(new Date())+"1";
-		Date d=new Date();  
+		Date d=new Date();
+		String attach = DateUtil.format(d)+"1";
     	out_trade_no= DateUtil.format(d);                                                                                                                                                                     
 		int intMoney = finalmoney;
 		logger.info("out_trade_no="+out_trade_no);

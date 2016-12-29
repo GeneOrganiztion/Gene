@@ -238,21 +238,21 @@ public class WeChatController extends BaseController {
 					User user=new User();
 					user.setOpenid(openId);
 					user=(User)userService.select(user);
-					map=WePay.toPay(openId, Integer.valueOf(finalmoney), request, response);
+					map.put("userId", String.valueOf(user.getId()));
 					map.put("finalmoney", finalmoney);
-					map.put("orderId", orderId);
 					map.put("userId", String.valueOf(user.getId()));
 					int order_id=orderService.insertOrder(map);
+					map.put("orderId", String.valueOf(order_id));
 					if(order_id>0){
 							for(int i=0;i<listMapOrder.size();i++){
 								MapOrderProduct maporder=listMapOrder.get(i);
 								Product product=new Product();
 								product.setId(maporder.getProId());
 								Product pro=(Product)productService.selectOne(product);
-								pro.setProSum(pro.getProSum()-1);
-								productService.updateProduct(pro);
 								maporder.setProName(pro.getProName());
+								maporder.setOrdId(order_id);
 								maporder.setProClassifyId(pro.getClassifyId());
+								maporder.setReportCount(maporder.getProCount());
 								mapOrderProductService.saveMapOderPro(maporder);
 							}
 					}else{	
@@ -272,7 +272,12 @@ public class WeChatController extends BaseController {
 						order.setNonceStr(map.get("nonceStr"));
 						orderService.updateOrder(order);
 					}else{
-						map=WePay.toPay(openId, Integer.valueOf(finalmoney), request, response);
+						map.put("appId", Constant.APPID);
+						map.put("signType", "MD5");
+						map.put("timeStamp", order.getTimestamp());
+						map.put("nonceStr", order.getNonceStr());
+						map.put("package", order.getPrepayId());
+						map.put("paySign", order.getFinalsign());
 						map.put("finalmoney", String.valueOf(order.getOrdPrice()));
 						map.put("orderId", String.valueOf(order.getId()));
 					}

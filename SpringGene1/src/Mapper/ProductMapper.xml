@@ -227,15 +227,12 @@
   </select>
  
  <select id="SelectProductAndImage" resultMap="ProductAndImagesResultMap" >
-    	select 
+ 		select 
 	   	 	product.*,
 		    image.*
 	    from 
-		    product,
-		    image
-		   	where product.isdelete= false
-       		AND product.product_id=#{Id,jdbcType=INTEGER}
-		   	AND image.pro_id=#{Id,jdbcType=INTEGER}
+		    product
+	   	 left join image on image.pro_id=#{Id,jdbcType=INTEGER} where product.isdelete=false and product.product_id=#{Id,jdbcType=INTEGER}  	
   </select>
  <select id="selectProductByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
     select 

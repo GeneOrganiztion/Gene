@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -59,8 +60,12 @@ public class MapOrderProductServiceImpl implements MapOrderProductService {
 	
 	@Override
 	public boolean saveMapOderPro(MapOrderProduct mapOrderProduct){
+		Date data=new Date();
+		mapOrderProduct.setIsdelete(false);
+		mapOrderProduct.setCreateTime(data);
+		mapOrderProduct.setLastModifiedTime(data);
 		try {
-			mapOrderProductMapper.insertSelective(mapOrderProduct);
+			mapOrderProductMapper.insertUseGeneratedKeys(mapOrderProduct);
 		} catch (Exception e) {
 			logger.error("saveMapOderPro error:" + e);
 			return false;

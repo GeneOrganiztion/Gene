@@ -225,7 +225,7 @@
 															</div>
 															
 															
-															<div class="alert alert-danger">
+													<!-- 		<div class="alert alert-danger">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
 																</button>
@@ -236,7 +236,7 @@
 																</strong>
 																	商品展示图片未上传将会导致商品搜索失败,即使商品已上架也不会显示
 																<br />
-															</div>
+															</div> -->
 															<div class="alert alert-warning">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
@@ -246,14 +246,14 @@
 																<br />
 															</div>
 															
-															<div class="alert alert-info">
+														<!-- 	<div class="alert alert-info">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
 																</button>
 																<strong>展示预览!</strong>
 																商品展示图片上传的第一张图片将作为商品展示的封面图片,商品展示图片最多上传四张
 																<br />
-															</div>
+															</div>  -->
 															
 															<form  class="dropzone" id="dropzone">
 																<div class="fallback">

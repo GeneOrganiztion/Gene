@@ -199,7 +199,7 @@
 																请将图片拖拽到下方框图或者点击向上箭头
 																<br />
 															</div>
-
+<!-- 
 															<div class="alert alert-danger">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
@@ -211,7 +211,7 @@
 																</strong>
 																	商品展示图片未上传将会导致商品搜索失败,即使商品已上架也不会显示
 																<br />
-															</div>
+															</div> -->
 															<div class="alert alert-warning">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>
@@ -267,7 +267,7 @@
 																</strong>
 																	商品详情请在编辑框中进行,插入的图片要先上传到云端再将商品的路径粘帖进来。不要将本地图片直接上传
 																<br />
-															</div>
+															</div> 
 															<div class="alert alert-warning"  style="margin-bottom:20px">
 																<button type="button" class="close" data-dismiss="alert">
 																	<i class="ace-icon fa fa-times"></i>

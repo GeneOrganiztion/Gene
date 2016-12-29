@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import po.Orders;
 import service.OrderService;
+import utils.DateUtil;
 import Mapper.OrdersMapper;
 
 import com.github.pagehelper.PageHelper;
@@ -76,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			Orders orders = new Orders();
 			orders.setOrdPrice(Integer.valueOf(finalmoney));
-			orders.setOrdNum(prepayid);
+			orders.setOrdNum(DateUtil.format(new Date()));
 			orders.setOrdState("1");
 			orders.setOrdPay("1");
 			orders.setOrdUser(Integer.valueOf(userId));

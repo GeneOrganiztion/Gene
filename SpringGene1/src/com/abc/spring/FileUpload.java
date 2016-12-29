@@ -51,7 +51,7 @@ public class FileUpload {
 		System.out.println("创建OSSClient之前");
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 	/*	String key = DateUtil.format(new Date())+fileName;*/
-		String key = fileName;
+		String key =  DateUtil.format(new Date())+(int)(Math.random()*10)+fileName;
 		try {
 			uploadFile(client, bucketName, key, file);
 		} catch (Exception e) {
@@ -72,13 +72,12 @@ public class FileUpload {
 		String bucketName = BUCKET_NAME;
 		System.out.println("创建OSSClient之前");
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-		String key = fileName;
+		String key =DateUtil.format(new Date()) +fileName;
 		try {
 			uploadFile(client, bucketName, key, file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		client.shutdown();
 		return "http://" + bucketName + ".oss-cn-shanghai.aliyuncs.com/" + key;
 	}

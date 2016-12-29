@@ -16,4 +16,6 @@ public interface ImageService<T> {
 	
 	public List<T> ImagebyProductId(Image image) throws Exception;
 	
+	public T selectbyId(Image image)throws Exception;
+	
 }

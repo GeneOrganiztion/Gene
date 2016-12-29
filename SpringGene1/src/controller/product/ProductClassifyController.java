@@ -146,7 +146,6 @@ public class ProductClassifyController extends BaseController {
 	  	 		return classifyService.updateClassify(cls);
 	  	    }
 	    }
-	  
 	    return false;
 	 }
 

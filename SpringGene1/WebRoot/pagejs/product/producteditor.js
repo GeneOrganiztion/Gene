@@ -140,6 +140,7 @@ function initproducteditorManager(){
 										alertmsg("error","商品展示图片文件个数上传超过最大限制");
 										  $(file.previewTemplate).children('.dz-error-mark').css('opacity', '1')
 									}else{
+										$(file.previewTemplate).append("<div class='imagepro' style='display:none'>"+response.message+"</div>");
 										alertmsg("success","商品展示图片上传成功");	
 									}
 								
@@ -166,7 +167,7 @@ function initproducteditorManager(){
 			                    if (this.getAcceptedFiles().length === 0) {
 			                        $("#submit-product").attr("disabled", true);
 			                    }
-			                    removeShowImage(file.name);
+			                    removeShowImage($(file.previewTemplate).children('.imagepro').text());
 			                    
 			                });
 			            }
@@ -257,8 +258,8 @@ function initproducteditorManager(){
 				                    if (this.getAcceptedFiles().length === 0) {
 				                        $("#submit-all").attr("disabled", true);
 				                    }
-				                    removeImage(file.name);
-				                    delpir(file.name);
+				                    remove($(file.previewTemplate).children('.imagepro').text());
+				                    removeImage($(file.previewTemplate).children('.imagepro').text());
 				                });
 				            }
 							
@@ -657,4 +658,14 @@ function editProduct(){
 			$('#addloader').addClass('hide');
 		}
 	});
+}
+
+function remove(id){
+	var dd=document.getElementById("gread");
+	var aa=dd.children;
+	for(var i=0;i<aa.length;i++){
+	if(aa[i].id==id){
+	dd.removeChild(aa[i]);
+	}
+	}
 }

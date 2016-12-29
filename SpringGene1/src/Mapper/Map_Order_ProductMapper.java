@@ -4,9 +4,11 @@ import java.util.List;
 
 import po.MapOrderProduct;
 import po.OrderAndProductDTO;
+import po.Orders;
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.common.MySqlMapper;
 
-public interface Map_Order_ProductMapper extends Mapper<MapOrderProduct>{
+public interface Map_Order_ProductMapper extends Mapper<MapOrderProduct>,MySqlMapper<MapOrderProduct>{
     /* int deleteByPrimaryKey(Map_Order_ProductKey key); */
 
    /* int insert(MapOrderProduct record);
