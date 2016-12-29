@@ -36,6 +36,10 @@ public class Orders {
 
     private String userPostal;
     
+    private String userCourierNum;
+    
+    private String userCourierName;
+    
     private String prepayId;
   
 	private String timestamp;
@@ -216,6 +220,22 @@ public class Orders {
 
 	public void setMapOrderProductList(List<MapOrderProductPo> mapOrderProductList) {
 		this.mapOrderProductList = mapOrderProductList;
+	}
+
+	public String getUserCourierNum() {
+		return userCourierNum;
+	}
+
+	public void setUserCourierNum(String userCourierNum) {
+		this.userCourierNum = userCourierNum;
+	}
+
+	public String getUserCourierName() {
+		return userCourierName;
+	}
+
+	public void setUserCourierName(String userCourierName) {
+		this.userCourierName = userCourierName;
 	}
 
 

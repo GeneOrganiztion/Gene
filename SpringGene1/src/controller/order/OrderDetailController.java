@@ -14,11 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Orders;
 import service.OrderService;
+import utils.Constant;
 import utils.ST;
 import controller.base.BaseController;
 
@@ -94,12 +94,12 @@ public class OrderDetailController extends BaseController{
 	@RequestMapping(value = "/phoneUpdateOrderStatus")
 	@ResponseBody
 	public boolean updateOrderStatus(HttpServletRequest request,HttpServletResponse response)throws Exception{
-		String order_id = getParam("orderId");
+		String orderId = getParam("orderId");
 		String ordState = getParam("ordState");
 		Orders order = new Orders();
 		try {
-			if(ST.getDefaultToInt(order_id, -1) != -1){
-				order.setId(Integer.valueOf(order_id));
+			if(!ST.isNull(orderId)){
+				order.setId(Integer.valueOf(orderId));
 				order.setOrdState(ordState);
 				//order.setIsdelete(false);
 				order.setLastModifiedTime(new Date());
@@ -110,7 +110,35 @@ public class OrderDetailController extends BaseController{
 		}
 		return false;
 	}
-	
-	
+	/**
+	 * 根据orderID插入买家发给卖家的物流信息
+	 * @param request     orderId：订单Id（必须传入）     userCourierNum：买家寄给卖家的物流单号      userCourierName：买家寄给卖家的物流名称
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/phoneInsertCourierinfo")
+	@ResponseBody
+	public boolean insertCourierinfo(HttpServletRequest request,HttpServletResponse response)throws Exception{
+		String orderId = getParam("orderId");
+		String userCourierNum = getParam("userCourierNum");
+		String userCourierName = getParam("userCourierName");
+		Orders order = new Orders();
+		if(!ST.isNull(orderId)){
+			order.setId(Integer.valueOf(orderId));
+			order.setUserCourierName(userCourierName);
+			order.setUserCourierNum(userCourierNum);
+			order.setOrdState(Constant.ORDER_STATUS5);
+		}else{
+			logger.error("insertCourierinfo orderId is null ");
+			return false;
+		}
+		try {
+			return orderService.updateOrder(order);
+		} catch (Exception e) {
+			logger.error("insertCourierinfo error :" + e);
+			return false;
+		}
+	}
 	
 }

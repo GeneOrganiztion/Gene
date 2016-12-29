@@ -14,6 +14,8 @@
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
     <result column="user_address" property="userAddress" jdbcType="VARCHAR" />
+    <result column="user_courier_name" property="userCourierName" jdbcType="VARCHAR" />
+    <result column="user_courier_num" property="userCourierNum" jdbcType="VARCHAR" />
     <result column="prepay_id" property="prepayId" jdbcType="VARCHAR" />
     <result column="timestamp" property="timestamp" jdbcType="VARCHAR" />
     <result column="nonceStr" property="noncestr" jdbcType="VARCHAR" />
@@ -50,7 +52,7 @@
   
   <sql id="Base_Column_List" >
     order_id, ord_num, ord_state, courier_num, courier_name, courier_phone, 
-    ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal, isdelete, 
+    ord_price, ord_pay, ord_user, user_name, user_phone, user_address, user_postal,user_courier_name,user_courier_num, isdelete, 
     create_time, last_modified_time
   </sql>
   
