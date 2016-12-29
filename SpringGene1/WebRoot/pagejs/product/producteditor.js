@@ -51,33 +51,49 @@ function initproducteditorManager(){
 							}
 						}
 							
-						/* if(info.step==2&&info.direction=="previous"){
-							 return true; //不能跳转
+					 if(info.step==2&&info.direction=="next"){ 
+						 var id=$('#product_id').val();
+						 var flag=selectImage(id);
+						 if(flag==true){
+							 var productContent=$('#productContent').val();
+							 console.log("productContent="+productContent);
+							 $('#editor1').html(productContent);
+							/* $('#editor1').val(productContent);*/
+							 return true;
+						 }else{
+							 alertmsg("error","您还有图片未上传");
+						     return false;
 						 }
-						 if(info.step==2&&info.direction=="next"){ 
-							 if(flieuploadimagesize==null){
-								 alertmsg("error","您还有图片未上传");
-							     return false;
-							 }
-							 
-						 }*/
+					 }
 					
-					//if(info.step == 1 && $validation) {
-					//	console.log(info);
-					
-					//	if(!$('#validation-form').valid()) e.preventDefault();
-					//}
 				})
 				.on('finished.fu.wizard', function(e) {
-					bootbox.dialog({
-						message: "Thank you! Your information was successfully saved!", 
-						buttons: {
-							"success" : {
-								"label" : "OK",
-								"className" : "btn-sm btn-primary"
-							}
-						}
-					});
+					Lobibox.confirm({ 
+				        title:"提交商品",      //提示框标题 
+				        msg: "是否确认编辑完成？",   //提示框文本内容 
+				        callback: function ($this, type, ev) {  //回调函数 
+				        	var productid=$('#product_id').val();
+				        	var productDetail=$('#editor1').html();
+				            if (type === 'yes') { 
+				            	$.ajax({
+				            		type:"post",
+				            		url:webroot+"product/addProductContent.do",
+				            		data:{"ProductId":productid,"productDetail":productDetail},
+				            		success:function(data){
+					            		var result=eval(data);				    
+				            			if(data==true){
+				            				alertmsg("success","商品详情信息入库成功");
+				            			}else{
+				            				alertmsg("error","商品详情编辑出错请重新编辑");
+				            			}	
+				            		}
+				            	});
+				            	
+				            } else if (typ==='no') { 
+				                       
+				            } 
+				       } 
+				     });
 				}).on('stepclick.fu.wizard', function(e){
 					//e.preventDefault();//this will prevent clicking and selecting steps
 				});
@@ -195,8 +211,8 @@ function initproducteditorManager(){
 						  var myDropzone = new Dropzone("#dropzone1" , {
 						    paramName: "file", // The name that will be used to transfer the file
 						    maxFilesize: 1, // MB
-						    maxFiles:2,
-						    dictMaxFilesExceeded: "您最多只能上传2张商品详情图片！",
+						    maxFiles:10,
+						    dictMaxFilesExceeded: "您最多只能上传10张商品详情图片！",
 						    dictFileTooBig:"文件过大上传文件最大支持.",
 						    acceptedFiles: ".jpg,.gif,.png,.pdf",
 						    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png,*.pdf",
@@ -233,6 +249,7 @@ function initproducteditorManager(){
 										alertmsg("error","商品详情图片上传失败，请重新上传");
 									}else{
 										alertmsg("success","商品详情图片上传成功");
+										$(file.previewTemplate).append("<div class='imagepro' style='display:none'>"+response.message+"</div>");
 										addpir(response.message);
 									}
 				                });
@@ -572,6 +589,25 @@ function initproducteditorManager(){
 
 }
 
+function addpir(url){
+	var parent1 = document.getElementById("gread");
+	var div12 = document.createElement("li");
+	div12.setAttribute("id",url);
+	var a= document.createElement("a");
+		a.setAttribute("href",url);
+		a.setAttribute("data-rel","colorbox");
+		a.setAttribute("class","cboxElement");
+		a.setAttribute("title",url);
+		var img= document.createElement("img");
+		img.setAttribute("width",150);
+		img.setAttribute("height",150);
+		img.setAttribute("alt",150);
+		img.setAttribute("src",url);
+		a.appendChild(img);
+　　　　div12.appendChild(a);
+　　　　parent1.appendChild(div12);
+}
+
 //查询所有商品
 function selectProductAll(){
 	$.ajax({
@@ -626,6 +662,26 @@ function updateproductinit(proid){
 	return flag;
 }
 
+//删除图片
+function removeImage(filename){
+	var message=null;
+	$.ajax({
+		type: "post",
+		data: {filename: filename},
+		url: webroot + "product/DeleteImage.do",
+		success: function(msg){
+			 if (msg.message=="error") {
+	             	alertmsg("error","图片删除失败");
+	             }
+	             else {
+	            	 alertmsg("success","图片删除成功");
+	          }
+			
+			
+		}
+	});
+	return message;
+}
 
 //修改商品
 function editProduct(){
@@ -651,15 +707,46 @@ function editProduct(){
 			$("#validation-form textarea[name='comment']").val(msg.proRemark);
 			$("#isonlinePro").val(msg.proOnline.toString());
 			$("#classify").val(msg.classifyId);
-			/*$("#classify1").trigger("chosen:updated");*/
-
+			$("#productContent").val(msg.proDetail);
+			
 			/*$("#editAdminModal input[name='email']").val(msg.email);*/
 			$('#validation-form').removeClass('hide');
 			$('#addloader').addClass('hide');
 		}
 	});
 }
-
+function removeShowImage(filename){
+	var message=null;
+	$.ajax({
+		type: "post",
+		data: {filename: filename},
+		url: webroot + "product/DeleteShowImage.do",
+		success: function(msg){
+			 if (msg.message=="error") {
+             	alertmsg("error","商品展示图片删除失败");
+             }
+             else {
+            	 alertmsg("success","商品展示图片删除成功");
+             }
+			
+			
+		}
+	});
+	return message;
+}
+function selectImage(proid){
+	var pro_id=proid;
+	var flag=false;
+	$.ajax({
+		type: "post",
+		async: false,
+		url: webroot + "product/SelectImage.do?id="+pro_id,
+		success: function(msg){
+			flag=msg;
+		}
+	});
+	return flag;
+}
 function remove(id){
 	var dd=document.getElementById("gread");
 	var aa=dd.children;

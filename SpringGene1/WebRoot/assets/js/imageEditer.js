@@ -140,7 +140,6 @@ $.extend({
 			       callback: function ($this, type, ev) {               //回调函数 
 			               if (type === 'yes') { 
 			            	   a.delImage(id);
-			          
 			               } else if (type === 'no') { 
 			                          
 			               } 
@@ -150,12 +149,12 @@ $.extend({
 		});
 		
 		this.delImage = function(id) {
-			//var idx = a.getIndexById(idPrex+id);
-		/*	console.log("id="+id);
+			var idx = a.getIndexById(idPrex+id);
+			console.log("id="+id);
 			var img = a.getImageById(idPrex+id);
 			console.log("imgUrl="+img.url);
 			var idx = img.idx;
-			console.log("idx="+idx);*/
+			console.log("idx="+idx);
 			if(idx != undefined && (idx+'') != '') {	
 				if(img.isdb==false){
 					
@@ -164,7 +163,7 @@ $.extend({
 				}
 				var delUrl = $("#deleteImgUrl").val();
 				console.log("delUrl="+delUrl);
-				if(delUrl) {
+				if(id>0) {
 					var request = $.ajax({
 			            url: webroot+"product/DeleteImageById.do",
 			            method: 'POST',

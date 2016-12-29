@@ -74,6 +74,7 @@
 																<!-- <form class="form-horizontal" id="validation-form" method="get"> -->
 																	
 																		<input type="text" name="product_id" id="product_id" class="hide"/>
+																		<input type="text" name="productContent" id="productContent" class="hide"/>
 																	<form class="form-horizontal">
 																		<div class="form-group">
 																			<label class="control-label col-xs-12 col-sm-5 no-padding-right" for="email">商品名称:</label>
@@ -341,7 +342,7 @@
     															
     															
     										
-    															<button class="btn" onclick="geteditor()">显示全部内容</button>
+    															<!-- <button class="btn" onclick="geteditor()">显示全部内容</button> -->
 														</div>
 													</div>
 													
