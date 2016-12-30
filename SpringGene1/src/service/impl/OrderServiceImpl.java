@@ -65,9 +65,21 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean cancelOrder(Orders order) throws Exception{
+		order.setIsdelete(true);
+		try {
+			ordesMapper.updateByPrimaryKeySelective(order);
+		} catch (Exception e) {
+			logger.error("cancelOrder error:" + e);
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public int insertOrder(Map map) throws Exception {
-		String prepayid=(String)map.get("packages");
+		String prepayid=(String)map.get("package");
 		String timestamp=(String)map.get("timeStamp");
 		String nonceStr=(String)map.get("nonceStr");
 		String finalsign=(String)map.get("paySign");

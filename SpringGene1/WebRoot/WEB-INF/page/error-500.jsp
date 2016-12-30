@@ -1,11 +1,19 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>Dropzone.js - Ace Admin</title>
+		<title>500 Error Page - Ace Admin</title>
 
-		<meta name="description" content="Drag &amp; drop file upload with image preview" />
+		<meta name="description" content="500 Error Page" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -13,7 +21,6 @@
 		<link rel="stylesheet" href="../assets/css/font-awesome.css" />
 
 		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="../assets/css/dropzone.css" />
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="../assets/css/ace-fonts.css" />
@@ -666,7 +673,7 @@
 						</ul>
 					</li>
 
-					<li class="active open">
+					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-pencil-square-o"></i>
 							<span class="menu-text"> Forms </span>
@@ -713,7 +720,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="active">
+							<li class="">
 								<a href="dropzone.html">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Dropzone File Upload
@@ -837,7 +844,7 @@
 						</ul>
 					</li>
 
-					<li class="">
+					<li class="active open">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-file-o"></i>
 
@@ -874,7 +881,7 @@
 								<b class="arrow"></b>
 							</li>
 
-							<li class="">
+							<li class="active">
 								<a href="error-500.html">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Error 500
@@ -931,9 +938,9 @@
 							</li>
 
 							<li>
-								<a href="#">Forms</a>
+								<a href="#">Other Pages</a>
 							</li>
-							<li class="active">Dropzone File Upload</li>
+							<li class="active">Error 500</li>
 						</ul><!-- /.breadcrumb -->
 
 						<!-- #section:basics/content.searchbox -->
@@ -1041,29 +1048,66 @@
 						</div><!-- /.ace-settings-container -->
 
 						<!-- /section:settings.box -->
-						<div class="page-header">
-							<h1>
-								Dropzone.js
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Drag &amp; drop file upload with image preview
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
-
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<div>
-											
-									<form action="../product/UploadImage.do" class="dropzone" id="dropzone">
-									
-										<div class="fallback">
-											<input name="file" type="file" />
+
+								<!-- #section:pages/error -->
+								<div class="error-container">
+									<div class="well">
+										<h1 class="grey lighter smaller">
+											<span class="blue bigger-125">
+												<i class="ace-icon fa fa-random"></i>
+												500
+											</span>
+											Something Went Wrong
+										</h1>
+
+										<hr />
+										<h3 class="lighter smaller">
+											But we are working
+											<i class="ace-icon fa fa-wrench icon-animated-wrench bigger-125"></i>
+											on it!
+										</h3>
+
+										<div class="space"></div>
+
+										<div>
+											<h4 class="lighter smaller">Meanwhile, try one of the following:</h4>
+
+											<ul class="list-unstyled spaced inline bigger-110 margin-15">
+												<li>
+													<i class="ace-icon fa fa-hand-o-right blue"></i>
+													Read the faq
+												</li>
+
+												<li>
+													<i class="ace-icon fa fa-hand-o-right blue"></i>
+													Give us more info on how this specific error occurred!
+												</li>
+											</ul>
 										</div>
-										
-									</form>
-								</div><!-- PAGE CONTENT ENDS -->
+
+										<hr />
+										<div class="space"></div>
+
+										<div class="center">
+											<a href="javascript:history.back()" class="btn btn-grey">
+												<i class="ace-icon fa fa-arrow-left"></i>
+												Go Back
+											</a>
+
+											<a href="#" class="btn btn-primary">
+												<i class="ace-icon fa fa-tachometer"></i>
+												Dashboard
+											</a>
+										</div>
+									</div>
+								</div>
+
+								<!-- /section:pages/error -->
+
+								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 					</div><!-- /.page-content -->
@@ -1124,7 +1168,6 @@
 		<script src="../assets/js/bootstrap.js"></script>
 
 		<!-- page specific plugin scripts -->
-		<script src="../assets/js/dropzone.js"></script>
 
 		<!-- ace scripts -->
 		<script src="../assets/js/ace/elements.scroller.js"></script>
@@ -1150,55 +1193,6 @@
 		<script src="../assets/js/ace/ace.searchbox-autocomplete.js"></script>
 
 		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			jQuery(function($){
-			
-			try {
-			  Dropzone.autoDiscover = false;
-			  var myDropzone = new Dropzone("#dropzone" , {
-			    paramName: "file", // The name that will be used to transfer the file
-			    maxFilesize: 0.5, // MB
-			    maxFiles:3,
-			    dictMaxFilesExceeded: "您最多只能上传3个文件！",
-			    dictFileTooBig:"文件过大上传文件最大支持.",
-			    acceptedFiles: ".jpg,.gif,.png",
-			    dictInvalidFileType: "你不能上传该类型文件,文件类型只能是*.jpg,*.gif,*.png。",
-				addRemoveLinks : true,
-				dictDefaultMessage :
-				'<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Drop files</span> to upload \
-				<span class="smaller-80 grey">(or click)</span> <br /> \
-				<i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>'
-			,
-				dictResponseError: 'Error while uploading file!',
-				previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
-				success: function (file, response, e) {
-						//var res = JSON.parse(response);
-						console.log(response.message);
-						/* console.log(response.message);
-						if (response.message=="error") {
-					        $(file.dictResponseError).children('.dz-error-mark').css('opacity', '1');
-					        $(file.dictResponseError).children('.dz-error-message').innerHTML="上海传智播客";
-
-					    } */
-					}
-				//change the previewTemplate to use Bootstrap progress bars
-				
-			  });
-			  
-			  
-			  
-			   $(document).one('ajaxloadstart.page', function(e) {
-					try {
-						myDropzone.destroy();
-					} catch(e) {}
-			   });
-			
-			} catch(e) {
-			  alert('Dropzone.js does not support older browsers!');
-			}
-			
-			});
-		</script>
 
 		<!-- the following scripts are used in demo only for onpage help and you don't need them -->
 		<link rel="stylesheet" href="../assets/css/ace.onpage-help.css" />

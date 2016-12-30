@@ -23,5 +23,7 @@ public interface OrderService<T> {
 	public boolean updateOrder(Orders order)throws Exception;
 	
 	public int insertOrder(Map map)throws Exception;
+	
+	public boolean cancelOrder(Orders order)throws Exception;
 
 }

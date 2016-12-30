@@ -500,16 +500,7 @@
 					<ul class="submenu">
 						<li class=""><a href="#" class="dropdown-toggle" menu-url="admin/adminPage.do"> <i
 								class="menu-icon fa fa-caret-right"></i> 用户管理
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="typography.html"> <i
-								class="menu-icon fa fa-caret-right"></i> Typography
-						</a> <b class="arrow"></b></li>
-
-						<li class=""><a href="#" class="dropdown-toggle"> <i
-								class="menu-icon fa fa-caret-right"></i> Three Level Menu <b
-								class="arrow fa fa-angle-down"></b>
-						</a> <b class="arrow"></b>
+						</a> <b class="arrow"></b></li>		
 
 					</ul></li>
 					<li class="">
@@ -616,26 +607,8 @@
 								<b class="arrow"></b>
 							</li>
 						</ul>
-					</li>
-
-					<li class="">
-						<a href="calendar.html">
-							<i class="menu-icon fa fa-calendar"></i>
-
-							<span class="menu-text">
-								Calendar
-
-								<!-- #section:basics/sidebar.layout.badge -->
-								<span class="badge badge-transparent tooltip-error" title="2 Important Events">
-									<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
-								</span>
-
-								<!-- /section:basics/sidebar.layout.badge -->
-							</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
+					</li> 
+				
 				</ul><!-- /.nav-list -->
 
 				<!-- #section:basics/sidebar.layout.minimize -->

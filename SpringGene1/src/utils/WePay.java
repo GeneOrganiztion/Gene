@@ -88,7 +88,7 @@ public class WePay {
 				"<body><![CDATA["+body+"]]></body>"+
 				"<attach>"+attach+"</attach>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-				"<total_fee>"+1+"</total_fee>"+
+				"<total_fee>"+total_fee*100+"</total_fee>"+
 				"<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"+
 				"<notify_url>"+notify_url+"</notify_url>"+
 				"<trade_type>"+trade_type+"</trade_type>"+

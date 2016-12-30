@@ -235,6 +235,10 @@ public class WeChatController extends BaseController {
 					}
 					int money=Integer.valueOf(finalmoney);
 					map=WePay.toPay(openId, money, request, response);
+					logger.info("first order--------------------------------------------------------------------------");
+					logger.info("map packages="+map.get("package"));
+					logger.info("map timeStamp="+map.get("timeStamp"));
+					logger.info("map paySign="+map.get("paySign"));
 					User user=new User();
 					user.setOpenid(openId);
 					user=(User)userService.select(user);
@@ -252,7 +256,6 @@ public class WeChatController extends BaseController {
 								maporder.setProName(pro.getProName());
 								maporder.setOrdId(order_id);
 								maporder.setProClassifyId(pro.getClassifyId());
-								maporder.setReportCount(maporder.getProCount());
 								mapOrderProductService.saveMapOderPro(maporder);
 							}
 					}else{	
@@ -263,7 +266,8 @@ public class WeChatController extends BaseController {
 					String time=order.getTimestamp();
 					int nowtime=(int) (System.currentTimeMillis()/1000);
 					if((nowtime-Integer.valueOf(time))>3600){
-						map.put("finalmoney", "300");
+						map.put("finalmoney", finalmoney);
+						logger.info("order out_time order--------------------------------------------------------------------------");
 						map.put("orderId", orderId);
 						map=WePay.toPay(openId, Integer.valueOf(finalmoney), request, response);
 						order.setTimestamp(map.get("timeStamp"));
@@ -272,6 +276,7 @@ public class WeChatController extends BaseController {
 						order.setNonceStr(map.get("nonceStr"));
 						orderService.updateOrder(order);
 					}else{
+						logger.info("order repeat order--------------------------------------------------------------------------");
 						map.put("appId", Constant.APPID);
 						map.put("signType", "MD5");
 						map.put("timeStamp", order.getTimestamp());
@@ -285,7 +290,7 @@ public class WeChatController extends BaseController {
 				}	
 				return map;
 	}
-	@RequestMapping("/ordertopay")
+	/*@RequestMapping("/ordertopay")
 	public void ordertopay(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
 				String appid2 = Constant.APPID;
@@ -306,7 +311,7 @@ public class WeChatController extends BaseController {
 				logger.info("最后阶段finalsign="+finalsign);
 				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
 		
-	}
+	}*/
 	
 	@RequestMapping("/address")
 	@ResponseBody
@@ -436,6 +441,57 @@ public class WeChatController extends BaseController {
 			return map;	
 					/*response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);*/
 			
+		}
+	    
+	    @RequestMapping("/cancelpay")
+	    @ResponseBody
+		public boolean cancelpay(HttpServletRequest request,
+				HttpServletResponse response) throws Exception,IOException{
+	    	boolean flag=false;
+	    	String orederId = request.getParameter("orderId");
+	    	Orders order=new Orders();
+	    	order.setId(Integer.valueOf(orederId));
+	    	if(orderService.cancelOrder(order)){
+	    		flag=true;
+	    	}else{
+	    		flag=false;
+	    	}
+			return flag;
+		}
+	    
+	    @RequestMapping("/finishpay")
+	    @ResponseBody
+		public boolean finishpay(HttpServletRequest request,
+				HttpServletResponse response) throws Exception,IOException{
+	    	boolean flag=false;
+	    	String orederId = request.getParameter("orderId");
+	    	String userName = request.getParameter("userName");
+	    	String userPhone = request.getParameter("userPhone");
+	    	String userAddress = request.getParameter("userAddress");
+	    	String userPostal = request.getParameter("userPostal");
+	    	Orders order=new Orders();
+	    	order.setUserPhone(userPhone);
+	    	order.setUserAddress(userAddress);
+	    	order.setUserPostal(userPostal);
+	    	order.setUserName(userName);
+	    	order.setOrdState("2");
+	    	order.setId(Integer.valueOf(orederId));
+	    	if(orderService.updateOrder(order)){
+	    		List<MapOrderProduct> listOrderPro=mapOrderProductService.selectMapOrderProductByOrdId(Integer.valueOf(orederId));
+	    		for(int i=0;i<listOrderPro.size();i++){
+					MapOrderProduct maporder=listOrderPro.get(i);
+					Product product=new Product();
+					product.setId(maporder.getProId());
+					Product pro=(Product)productService.selectOne(product);
+					pro.setProSum(pro.getProSum()-maporder.getProCount());
+					productService.updateProduct(pro);
+					flag=true;
+				}
+	    		
+	    	}else{
+	    		flag=false;
+	    	}
+			return flag;
 		}
 
 }
