@@ -14,16 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.abc.spring.FileUpload;
-import com.github.pagehelper.PageInfo;
-
-import controller.base.BaseController;
 import po.MapOrderProduct;
 import po.OrderAndProductDTO;
 import po.Orders;
@@ -34,6 +29,11 @@ import service.OrderService;
 import service.ReportService;
 import utils.Constant;
 import utils.ST;
+
+import com.abc.spring.FileUpload;
+import com.github.pagehelper.PageInfo;
+
+import controller.base.BaseController;
 
 
 @Controller
@@ -190,7 +190,9 @@ public class OrderInfoController extends BaseController{
 			 report.setProId(mop.getProId());
 			 report.setRepPdf(filepath);
 			 report.setRepName(reportName);
-			 report.setUserId(this.getUserId());
+			 //查询orders表的orderUser
+			 Orders order =orderService.selectOrdersByOrderId(mop.getOrdId());
+			 report.setUserId(order.getOrdUser());
 			 report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
 			 report.setRepResult(reportResult);
 			 report.setCreateTime(new Date());
