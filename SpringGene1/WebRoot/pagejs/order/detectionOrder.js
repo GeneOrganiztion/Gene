@@ -511,8 +511,8 @@ function querOrderDetial(orderId){
 	});
 }
 //上传报告
-function uploadReportPic(str){
-	var strArr = str.split("||");
+function uploadReportPic(id){
+	//var strArr = str.split("||");
 	//strArr[0]   sugrid 的名字
 	//strArr[1]   第几行
 	//strArr[2]   mapOrderProductId
@@ -522,7 +522,7 @@ function uploadReportPic(str){
 	
 	/*$("#subGridId").val(strArr[0]);
 	$("#subGridLine").val(strArr[1]);*/
-	$("#mapOrderProductId").val(strArr[2]);
+	$("#mapOrderProductId").val(id);
 	$("#uploadReportPicModal").modal("show");
 }
 //预览报告
