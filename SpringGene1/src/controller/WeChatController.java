@@ -228,6 +228,7 @@ public class WeChatController extends BaseController {
 		List<MapOrderProduct> listMapOrder=new ArrayList<MapOrderProduct>();
 		JSONArray jsonArray = JSONArray.fromObject(orderProducts);
 		listMapOrder = JSONArray.toList(jsonArray,MapOrderProduct.class);
+		logger.info("listMapOrder="+listMapOrder);
 		Map<String,String> map=new HashMap<String,String>();
 				if(ST.isNull(orderId)){
 					if(ST.isNull(finalmoney)){
@@ -250,12 +251,14 @@ public class WeChatController extends BaseController {
 					if(order_id>0){
 							for(int i=0;i<listMapOrder.size();i++){
 								MapOrderProduct maporder=listMapOrder.get(i);
+								logger.info("jin ru listMapOrder order--------------------------------------------------------------------------");
 								Product product=new Product();
 								product.setId(maporder.getProId());
 								Product pro=(Product)productService.selectOne(product);
 								maporder.setProName(pro.getProName());
 								maporder.setOrdId(order_id);
 								maporder.setProClassifyId(pro.getClassifyId());
+								maporder.setReportCount(0);
 								mapOrderProductService.saveMapOderPro(maporder);
 							}
 					}else{	
@@ -476,7 +479,9 @@ public class WeChatController extends BaseController {
 	    	order.setUserName(userName);
 	    	order.setOrdState("2");
 	    	order.setId(Integer.valueOf(orederId));
+	    	logger.info("finishpay orderid="+orederId);
 	    	if(orderService.updateOrder(order)){
+	    		logger.info("finishpay order success");
 	    		List<MapOrderProduct> listOrderPro=mapOrderProductService.selectMapOrderProductByOrdId(Integer.valueOf(orederId));
 	    		for(int i=0;i<listOrderPro.size();i++){
 					MapOrderProduct maporder=listOrderPro.get(i);
@@ -484,12 +489,14 @@ public class WeChatController extends BaseController {
 					product.setId(maporder.getProId());
 					Product pro=(Product)productService.selectOne(product);
 					pro.setProSum(pro.getProSum()-maporder.getProCount());
+					product.setSelNumber(pro.getSelNumber()+maporder.getProCount());
 					productService.updateProduct(pro);
 					flag=true;
 				}
 	    		
 	    	}else{
 	    		flag=false;
+	    		logger.info("finishpay order fail");
 	    	}
 			return flag;
 		}

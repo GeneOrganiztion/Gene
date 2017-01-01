@@ -1,13 +1,8 @@
 
-
 function initProductManager(){
-
 	jQuery(function($) {
-		
 		$('#validation-form').addClass('hide');
-		
 		selectClassify();	
-		
 		var flieuploadimagesize=null;
 		var productid=null;
 		$('[data-rel=tooltip]').tooltip();
@@ -135,7 +130,7 @@ function initProductManager(){
 				previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
 				
 				init: function () {
-	                var submitButton = document.querySelector("#submit-product")
+	                var submitButton = document.querySelector("#submit-product");
 	                myDropzone1 = this; // closure
 
 	                //为上传按钮添加点击事件
@@ -373,6 +368,11 @@ function initProductManager(){
 					digits:true,
 					min:0   
 				},
+				genenum: {
+					required: true,
+					digits:true,
+					min:0   
+				},
 				isonline: {
 					required: true
 				},
@@ -402,6 +402,11 @@ function initProductManager(){
 					required:"商品折扣价为必填字段",
 					digits: "商品折扣价必须为正整数",
 					min:"商品折扣价不能小于0"
+				},
+				genenum:{
+					required:"基因检测个数为必填字段",
+					digits: "基因检测个数必须为正整数",
+					min:"基因检测个数不能小于0"
 				},
 				isonline:{
 					required:"请选择商品状态"

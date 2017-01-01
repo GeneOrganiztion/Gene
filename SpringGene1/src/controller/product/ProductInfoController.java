@@ -205,6 +205,7 @@ public class ProductInfoController extends BaseController{
 		 	String name= getParam("name");
 		 	String head = getParam("head");
 		 	String price = getParam("price");
+		 	String geneNum = getParam("genenum");
 			String comment = getParam("comment");
 		 	String sum = getParam("sum");
 		 	String rateprice = getParam("rateprice");
@@ -213,6 +214,7 @@ public class ProductInfoController extends BaseController{
 		 		Product product=new Product();
 		 		product.setClassifyId(Integer.valueOf(classifyid));
 		 		product.setProName(name);
+		 		product.setGeneNum(Integer.valueOf(geneNum));
 		 		product.setProHead(head);
 		 		product.setproRemark(comment);
 		 		product.setProductPrice(Integer.valueOf(price));
@@ -245,14 +247,15 @@ public class ProductInfoController extends BaseController{
 		 	String head = getParam("head");
 		 	String price = getParam("price");
 		 	String sum = getParam("sum");
+		 	String geneNum = getParam("genenum");
 		 	String rateprice = getParam("rateprice");
 		 	String isonline = getParam("isonline");
-		 	System.out.println("pro_id="+pro_id);
 		 	try {
 		 		Product product=new Product();
 		 		product.setId(Integer.valueOf(pro_id));
 		 		product.setClassifyId(Integer.valueOf(classifyid));
 		 		product.setProName(name);
+		 		product.setGeneNum(Integer.valueOf(geneNum));
 		 		product.setProHead(head);
 		 		product.setProductPrice(Integer.valueOf(price));
 		 		product.setProRateprice(Integer.valueOf(rateprice));
@@ -450,6 +453,23 @@ public class ProductInfoController extends BaseController{
 			 }catch(Exception e){
 				 e.printStackTrace();
 				 logger.info("selectOneProduct"+e);
+			 }
+			return ResultProduct;
+		 }
+	 	 
+	 	 @RequestMapping(value = "/phoneOneProduct")
+		 @ResponseBody
+		 public Product phoneOneProduct(HttpServletRequest request,
+		            HttpServletResponse response) throws Exception {
+	 		 String pro_id = getParam("ProductId");
+	 		 Product ResultProduct=new Product();
+			 try{
+			 Product product=new Product();
+			 product.setId(Integer.valueOf(pro_id));
+			 ResultProduct=(Product)productService.selectOne(product);
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 logger.info("phoneOneProduct"+e);
 			 }
 			return ResultProduct;
 		 }

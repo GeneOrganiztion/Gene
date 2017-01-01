@@ -12,5 +12,7 @@ public interface CartService<T> {
 	public boolean deleProduct(MapProductCart mapproduct)throws Exception;
 	
 	public int insertCart(Cart cart) throws Exception;
+	
+	public T selectCartByUserId(Cart cart) throws Exception;
 
 }

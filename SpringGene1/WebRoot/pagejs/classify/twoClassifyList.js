@@ -231,7 +231,7 @@ function deleteTwoClassify(){
 	}
     Lobibox.confirm({ 
         title:"删除分类",      //提示框标题 
-        msg: "此分类下的商品会同时删除",   //提示框文本内容 
+        msg: "请确保此分类下的商品已删除",   //提示框文本内容 
         callback: function ($this, type, ev) {               //回调函数 
             if (type === 'yes') { 
             	$.ajax({
@@ -243,6 +243,7 @@ function deleteTwoClassify(){
             			if(msg.success){
             				alertmsg("success", "删除成功");
             			}else{
+            				
             				alertmsg("error",empty(msg.msg) == true ? "删除失败" : msg.msg);
             			}
             			$("#grid-table").jqGrid('setGridParam',{ 

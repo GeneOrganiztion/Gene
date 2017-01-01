@@ -2,7 +2,18 @@
 <%
 	String path = request.getContextPath();
 %>
+
+
 <script src="<%=path%>/pagejs/product/producteditor.js"></script>
+
+<style type="text/css">
+	#editor1{
+	text-align: center;
+	}
+	.wysiwyg-editor img{
+	 width: 100%; 
+	}
+</style>
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try {
@@ -145,6 +156,14 @@
 																</div>
 															</div>
 															
+															<div class="form-group">
+																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品基因检测个数:</label>
+																<div class="col-xs-3 col-sm-2">
+																	<div class="clearfix">
+																		<input type="text" name="genenum" id="genenum" class="col-xs-12 col-sm-6" />
+																	</div>
+																</div>
+															</div>
 
 															<div class="space-2" ></div>
 

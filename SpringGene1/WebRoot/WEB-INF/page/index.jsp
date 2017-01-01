@@ -100,6 +100,7 @@
 			window.jQuery || document.write("<script src='<%=path%>/assets/js/jquery1x.js'>"+"<"+"/script>");
 		</script>
 		<![endif]-->
+		
 	</head>
 
 	<body class="no-skin">
@@ -685,6 +686,11 @@
 		<script src="<%=path%>/assets/js/flot/jquery.flot.resize.js"></script>
 		<script src="<%=path%>/assets/js/jquery.validate.js"></script>
 		
+		<!-- 多级联动 -->
+		<script  src="<%=path%>/assets/js/area.js"></script>
+		<script  src="<%=path%>/assets/js/location.js"></script>
+		
+		
 		
 		<!-- ace scripts -->
 		<script src="<%=path%>/assets/js/ace/elements.scroller.js"></script>
@@ -779,7 +785,6 @@
 		
 		
 		
-		
 		<!--for transCode -->
 		<%-- <script src="<%=path%>/pages/live/imitativeChannel/js/tablednd.js"></script> --%>
 		<!-- 自定义时间控件 -->
@@ -853,10 +858,5 @@
 		    $("#alertButton").click();
 		}
 		</script>
-		
-		
-		
-		
-		
 	</body>
 </html>

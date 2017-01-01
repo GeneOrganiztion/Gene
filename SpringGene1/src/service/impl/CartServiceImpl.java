@@ -21,6 +21,7 @@ public class CartServiceImpl implements CartService {
 	private Map_Product_CartMapper mapper_Product_CartMapper;
 	@Override
 	public Cart selectCart(Cart cart) throws Exception {
+		cart.setIsdelete(false);
 		return cartMapper.selectbyUser(cart);
 	}
 	
@@ -60,6 +61,7 @@ public class CartServiceImpl implements CartService {
 		return true;
 	}
 
+	
 	@Override
 	public int insertCart(Cart cart) throws Exception {
 		int newpcartid=-1;
@@ -76,4 +78,10 @@ public class CartServiceImpl implements CartService {
 		return newpcartid;
 	}
 
+	@Override
+	public Cart selectCartByUserId(Cart cart) throws Exception {
+		cart.setIsdelete(false);
+		return (Cart)cartMapper.selectOne(cart);
+		
+	}
 }

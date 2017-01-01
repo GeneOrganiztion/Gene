@@ -475,7 +475,7 @@ function deleteOneClassify(){
 	}
     Lobibox.confirm({ 
         title:"删除分类",      //提示框标题 
-        msg: "删除一级分类将删除它之下的二级分类和商品",   //提示框文本内容 
+        msg: "请确保已删除分类下的商品",   //提示框文本内容 
         callback: function ($this, type, ev) {               //回调函数 
             if (type === 'yes') { 
             	$.ajax({
@@ -485,7 +485,10 @@ function deleteOneClassify(){
             		success:function(data){
             			if(data.success){
             				alertmsg("success","删除成功");
+            			}else{
+            				alertmsg("error",empty(data.msg) == true ? "删除失败" : data.msg);
             			}
+            			
             			//删除成功重新加载jqGrid
             			$("#grid-table").jqGrid('setGridParam',{ 
             		        page:1,

@@ -20,8 +20,10 @@ public class Product {
     private Integer productPrice;
 
     private Integer proSum;
+    
+    private Integer selNumber;
 
-    private Integer proRateprice;
+	private Integer proRateprice;
 
     private Boolean proOnline;
 
@@ -32,6 +34,8 @@ public class Product {
     private String proArea;
 
     private Integer classifyId;
+
+	private Integer geneNum;
 
     private Boolean isdelete;
 
@@ -49,7 +53,21 @@ public class Product {
 	public void setImagelist(List<Image> imagelist) {
 		this.imagelist = imagelist;
 	}
+	 public Integer getSelNumber() {
+		return selNumber;
+	}
 
+	public void setSelNumber(Integer selNumber) {
+		this.selNumber = selNumber;
+	}
+
+	public Integer getGeneNum() {
+		return geneNum;
+	}
+
+	public void setGeneNum(Integer geneNum) {
+		this.geneNum = geneNum;
+	}
 	public Integer getId() {
         return product_id;
     }

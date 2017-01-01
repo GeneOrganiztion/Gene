@@ -15400,6 +15400,7 @@ div.dataTables_scrollFoot table {
   /* for adding image resize functionality in chrome and safari */
   .wysiwyg-editor img {
     display: inline !important;
+  
   }
   .wysiwyg-editor .ui-wrapper {
     border: 1px dotted #D00;

@@ -82,8 +82,8 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Product selectOne(Product Product) throws Exception {
-
-		return productMapper.selectByPrimaryKey(Product);
+		Product.setIsdelete(false);
+		return productMapper.SelectProductAndImage(Product);
 	}
 
 	@Override

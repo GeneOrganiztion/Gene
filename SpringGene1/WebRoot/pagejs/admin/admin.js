@@ -481,6 +481,8 @@ function editAdmin(){
 			$("#editAdminModal input[name='phone']").val(msg.phone);
 			$("#editAdminModal input[name='email']").val(msg.email);
 			$("#editAdminModal").modal("show");
+			
+			
 		}
 	});
 }
@@ -491,8 +493,8 @@ function editAndSaveAdmin(){
 		return;
 	}
 	//验证是否已存在此用户名
-	var name = $("#editAdminform input[name='username']").val();
-	$.ajax({
+	//var name = $("#editAdminform input[name='username']").val();
+	/*$.ajax({
 		type: "post",
 		url: webroot + "admin/validateAdmin.do",
 		data: {name: name},
@@ -500,7 +502,7 @@ function editAndSaveAdmin(){
 			if(msg.success){
 				alertmsg("warning","用户名已存在!");
 				return;
-			}else{
+			}else{*/
 				//保存用户信息
 				var data = getParams("#editAdminform");
 				$.ajax({
@@ -521,7 +523,7 @@ function editAndSaveAdmin(){
 					}
 				});
 				$("#editAdminModal").modal("hide");
-			}
+		/*	}
 		}
-	});
+	});*/
 }

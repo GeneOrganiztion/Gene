@@ -8,12 +8,14 @@
     <result column="product_price" property="productPrice" jdbcType="INTEGER" />
     <result column="pro_sum" property="proSum" jdbcType="INTEGER" />
     <result column="pro_rateprice" property="proRateprice" jdbcType="INTEGER" />
+    <result column="sel_number" property="selNumber" jdbcType="INTEGER" />
     <result column="pro_online" property="proOnline" jdbcType="BIT" />
     <result column="pro_remark" property="proRemark" jdbcType="VARCHAR" />
     <result column="pro_detail" property="proDetail" jdbcType="LONGVARCHAR" />
     <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
     <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
     <result column="isdelete" property="isdelete" jdbcType="BIT" />
+     <result column="gene_num" property="geneNum" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -27,7 +29,7 @@
   			</collection>
   </resultMap> 
    <sql id="Base_Column_List" >
-    product_id, pro_name, pro_head, product_price,pro_sum, pro_rateprice, pro_online, pro_remark, 
+    product_id, pro_name, pro_head, product_price,pro_sum, pro_rateprice, pro_online, pro_remark, sel_number,
     pro_detail, pro_area, classify_id, isdelete,create_time, last_modified_time
   </sql>
   <!--  
@@ -232,7 +234,7 @@
 		    image.*
 	    from 
 		    product
-	   	 left join image on image.pro_id=#{Id,jdbcType=INTEGER} where product.isdelete=false and product.product_id=#{Id,jdbcType=INTEGER}  	
+	   	 left join image on image.pro_id=#{id,jdbcType=INTEGER} where product.isdelete=false and product.product_id=#{id,jdbcType=INTEGER}  	
   </select>
  <select id="selectProductByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
     select 

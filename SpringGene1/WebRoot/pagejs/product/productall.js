@@ -23,7 +23,7 @@ function initAdminManager(){
 		mtype: 'post',
 		datatype: "json",
 		height: 370,
-		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','创建时间','最后更新时间',''],
+		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','销量','最后更新时间',''],
 		colModel:[
           	{name:'id',index:'product_id', width:80, sorttype:"int", editable: true},
           	{name:'proName',index:'pro_name',width:80, editable:true},
@@ -31,7 +31,7 @@ function initAdminManager(){
 			{name:'proRateprice',index:'pro_rateprice',width:80,sorttype:"int", editable:true},
 			{name:'proSum',index:'pro_sum',width:80,sorttype:"int", editable:true},
 			{name:'proOnline',index:'pro_online',width:80, editable:true,formatter:formatterProductIsOnline},
-			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
+			{name:'selNumber',index:'sel_number',width:80, sorttype:"int", editable: true},
 			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
 			{name:'proDetail',index:'pro_detail',width:80,hidden:true}
 		], 
@@ -352,10 +352,13 @@ function deleteProduct(){
             		data:{"ProductId":ids},
             		success:function(data){
             			//删除成功重新加载jqGrid
+            			if(data){
+            			alertmsg("success", "删除成功");
             			$("#grid-table").jqGrid('setGridParam',{ 
             		        page:1,
             		        mtype:"post"
             		    }).trigger("reloadGrid"); //重新载入 
+            			}
             		}
             	});
             } else if (type === 'no') { 
@@ -433,17 +436,39 @@ function editProduct(){
 			}else{
 				msg.proOnline=0;
 			}
-			$("#editProductModal input[name='proName']").val(msg.proName);
-			$("#editProductModal input[name='proHead']").val(msg.proHead);
-			$("#editProductModal input[name='productPrice']").val(msg.productPrice);
-			$("#editProductModal input[name='proRateprice']").val(msg.proRateprice);
-			$("#editProductModal input[name='proSum']").val(msg.proSum);
-			$("#isonlinePro").val(msg.proOnline.toString());
-			$("#classify1").val(msg.classifyId);
-			/*$("#classify1").trigger("chosen:updated");*/
-
-			/*$("#editAdminModal input[name='email']").val(msg.email);*/
+			$("#editProductModal input[name='id']").val(msg.id);
+			$("#editProductModal input[name='name']").val(msg.proName);
+			$("#editProductModal input[name='head']").val(msg.proHead);
+			$("#editProductModal input[name='price']").val(msg.productPrice);
+			$("#editProductModal input[name='rateprice']").val(msg.proRateprice);
+			$("#editProductModal input[name='genenum']").val(msg.geneNum);
+			$("#editProductModal input[name='sum']").val(msg.proSum);
+			$("#isonline").val(msg.proOnline.toString());
+			$("#classify").val(msg.classifyId);
 			$("#editProductModal").modal("show");
+		}
+	});
+}
+
+function saveProduct(){
+	if(!($('#addProductform').valid())){
+		return;
+	}
+	var data = $("#addProductform").serialize();
+	console.log(data);
+	$.ajax({
+		type: "post",
+		url: webroot + "product/updateProduct.do",
+		data: data,
+		success: function(msg){
+			if(msg){
+				alertmsg("success", "修改成功");
+				$("#editProductModal").modal("hide");
+				$("#grid-table").jqGrid('setGridParam',{ 
+    		        page:1,
+    		        mtype:"post"
+    		    }).trigger("reloadGrid"); //重新载入 
+			}
 		}
 	});
 }

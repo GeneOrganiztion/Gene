@@ -34,10 +34,11 @@ public class WePay {
 		Date d=new Date();
 		String attach = DateUtil.format(d)+"1";
     	out_trade_no= DateUtil.format(d);                                                                                                                                                                     
-		int intMoney = finalmoney;
+		int intMoney = finalmoney*100;
 		logger.info("out_trade_no="+out_trade_no);
 		//总金额以分为单位，不带小数点
 		int total_fee = intMoney;
+		logger.info("total_fee="+total_fee);
 		//订单生成的机器 IP
 		String spbill_create_ip = request.getRemoteAddr();
 		//订 单 生 成 时 间   非必输
@@ -70,8 +71,8 @@ public class WePay {
 		packageParams.put("attach", attach);  
 		packageParams.put("out_trade_no", out_trade_no);  
 		//这里写的金额为1 分到时修改
-		packageParams.put("total_fee", "1");  
-		/*packageParams.put("total_fee", "finalmoney");  */
+		/*packageParams.put("total_fee", String.valueOf(intMoney));  */
+		packageParams.put("total_fee", "1"); 
 		packageParams.put("spbill_create_ip", spbill_create_ip);  
 		packageParams.put("notify_url", notify_url); 
 		packageParams.put("trade_type", trade_type);  
@@ -88,7 +89,7 @@ public class WePay {
 				"<body><![CDATA["+body+"]]></body>"+
 				"<attach>"+attach+"</attach>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-				"<total_fee>"+total_fee*100+"</total_fee>"+
+				"<total_fee>"+1+"</total_fee>"+
 				"<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"+
 				"<notify_url>"+notify_url+"</notify_url>"+
 				"<trade_type>"+trade_type+"</trade_type>"+
@@ -111,7 +112,7 @@ public class WePay {
 			if(prepay_id.equals("")){
 				request.setAttribute("ErrorMsg", "统一支付接口获取预支付订单出错");
 				logger.info("prepay_id=null");
-				response.sendRedirect("/SpringGene1/error.jsp");
+			//	response.sendRedirect("/SpringGene1/error.jsp");
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

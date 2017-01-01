@@ -2,15 +2,18 @@
 <%
 	String path = request.getContextPath();
 %>
-<script src="<%=path%>/pagejs/product/product.js"></script>
+ <script src="<%=path%>/pagejs/product/product.js"></script> 
+<!-- 联动菜单 -->
 <style type="text/css">
 	#editor1{
 	text-align: center;
 	}
-	#editor1 img{
-	width: 100%;
+	.wysiwyg-editor img{
+	 width: 100%; 
 	}
 </style>
+	
+	 	
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
 		try {
@@ -30,6 +33,9 @@
 		<li class="active"><span>商品上传</span></li>
 	</ul>
 	<!-- /.breadcrumb -->
+			
+			
+			
 			
 	</div>
 				<div class="row">
@@ -128,6 +134,14 @@
 																</div>
 															</div>
 															
+															<div class="form-group">
+																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">商品基因检测个数:</label>
+																<div class="col-xs-3 col-sm-2">
+																	<div class="clearfix">
+																		<input type="text" name="genenum" id="genenum" class="col-xs-12 col-sm-6" />
+																	</div>
+																</div>
+															</div>
 
 															<div class="space-2" ></div>
 
@@ -152,14 +166,15 @@
 															</div>
 
 															<div class="hr hr-dotted" style="margin-bottom: 20px;"></div>
-
+															
+																
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="state">商品所属类别</label>
 																<div class="col-xs-8 col-sm-9">
 																	<div>
-																		<select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
-																			<option value=""></option>
-																		</select>
+																		<select id="loc_province" style="width:120px;"></select>
+																		<select id="loc_city" style="width:120px; margin-left: 10px"></select>
+																		
 																	</div>
 																</div>
 																
@@ -289,7 +304,7 @@
 																<button type="button" class="close" data-dismiss="alert"  >
 																	<i class="ace-icon fa fa-times"></i>
 																</button>
-																<strong>商品详情已上传图片预览,第一张为测试图片!</strong>
+																<strong>商品详情已上传图片预览,第一张为样本图片!</strong>
 																<br />
 															</div>	
 															
@@ -297,7 +312,7 @@
 																		<!-- #section:pages/gallery -->
 																		<li>
 																			<a href="../assets/images/gallery/image-1.jpg" title="请选择图片右键拷贝图片路径" data-rel="colorbox">
-																				<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
+																				<img width="150" height="150" alt="150x150" src="../assets/images/gallery/image-1.jpg" />
 																			</a>
 																		
 																		</li>
@@ -426,7 +441,9 @@
 	
 <!-- 添加商品model end -->
 <script type="text/javascript">
+
 jQuery(function($) {
+	showLocation();
 	initProductManager();
 })
 </script>

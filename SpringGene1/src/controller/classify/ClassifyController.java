@@ -24,8 +24,10 @@ import com.github.pagehelper.PageInfo;
 
 import controller.base.BaseController;
 import po.Classify;
+import po.Product;
 import po.ResModel;
 import service.ClassifyService;
+import service.ProductService;
 import utils.Constant;
 import utils.ST;
 
@@ -40,6 +42,9 @@ public class ClassifyController extends BaseController{
 	
 	@Autowired
 	private ClassifyService classifyService;
+	@Autowired
+	private ProductService productService;
+	
 	
 	@RequestMapping(value = "/oneClassifyListPage")
 	@ResponseBody
@@ -245,30 +250,40 @@ public class ClassifyController extends BaseController{
 		return resModel;
 	}  
 	
-	@RequestMapping(value = "/deleteOneClassify")
+	@RequestMapping(value = "/deleteOneClassify")  //删除一级分类
 	@ResponseBody
 	public ResModel deleteOneClassify(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ResModel resModel = new ResModel();
 		String ids = getParam("oneClassifyIds");
 		Classify cls = new Classify();
+		Product product=new Product();
 		try {
 			List<Integer> list = ST.StringToList(ids);
 			for(Integer id: list){
 				cls.setId(id);
 				//删除服务器上的图片
-				Classify clsfy = classifyService.selectOneClassify(cls);
-				FileUpload.deleteObject(clsfy.getClaContent());
-				classifyService.delClassify(cls);
-				//删除一级分类下的二级分类
-				Classify twoCls = new Classify();
-				twoCls.setClaPid(id);
-				List<Classify> twoClassify = classifyService.selectTwoClassify(twoCls);
-				for(Classify classify: twoClassify){
-					Classify twoclsfy = new Classify();
-					twoclsfy.setId(classify.getId());
-					classifyService.delClassify(twoclsfy);
-				}
+					Classify clsfy = classifyService.selectOneClassify(cls);
 				
+					
+					//删除一级分类下的二级分类
+					Classify twoCls = new Classify();
+					twoCls.setClaPid(id);
+					List<Classify> twoClassify = classifyService.selectTwoClassify(twoCls);
+					for(Classify classify: twoClassify){
+						Classify twoclsfy = new Classify();
+						twoclsfy.setId(classify.getId());
+						product.setClassifyId(classify.getId());
+						List<Product> listproduct=productService.selectAll(product);
+							if(listproduct.size()>0){
+								resModel.setSuccess(false);
+								resModel.setMsg("此分类下还有未下架的商品");
+								return resModel;
+							}else{
+								classifyService.delClassify(twoclsfy);
+							}
+					}
+					FileUpload.deleteObject(clsfy.getClaContent());
+					classifyService.delClassify(cls);
 			}
 		} catch (Exception e) {
 			logger.error("deleteOneClassify error:" + e);
@@ -288,15 +303,16 @@ public class ClassifyController extends BaseController{
 			List<Integer> list = ST.StringToList(ids);
 			for(Integer id: list){
 				cls.setId(id);
-				int result = classifyService.delClassify(cls);//返回0表示删除成功 返回状态1表示删除失败,2表示还有以存在的商品未下架
-				if(2 == result){
-					resModel.setSuccess(false);
-					resModel.setMsg("此分类下还有未下架的商品");
-					return resModel;
-				}else if(1 == result){
-					resModel.setSuccess(false);
-					return resModel;
-				}
+					int result = classifyService.delClassify(cls);//返回0表示删除成功 返回状态1表示删除失败,2表示还有以存在的商品未下架
+					if(2 == result){
+						resModel.setSuccess(false);
+						resModel.setMsg("此分类下还有未下架的商品");
+						return resModel;
+					}else if(1 == result){
+						resModel.setSuccess(false);
+						return resModel;
+					}
+				
 			}
 		} catch (Exception e) {
 			logger.error("deleteTwoClassify error:" + e);

@@ -29,6 +29,11 @@
 					  	<result column="pro_remark" property="proRemark"></result>
 					  	<result column="pro_online" property="proOnline"></result>
 					  	<result column="isdelete" property="isdelete"></result>
+					  	<collection property="imagelist" ofType="po.Image">
+		  					<id column="image_id" property="image_id"></id>
+		  					<result column="pro_id" property="proId"></result>
+		  					<result column="url" property="url"></result>
+  						</collection>
   					</association>
   			</collection>
   </resultMap> 
@@ -150,13 +155,15 @@
      select 
       cart.*,
       map_product_cart.*,
-      product.*
+      product.*,
+      image.*
     from
         cart,
         map_product_cart,
-        product
+        product,
+   	 	image
     where 
     cart.user_id=#{userId,jdbcType=INTEGER} AND map_product_cart.cart_id=cart.cart_id
-    AND map_product_cart.pro_id=product.product_id AND map_product_cart.isdelete=0
+    AND map_product_cart.pro_id=product.product_id AND map_product_cart.isdelete=0 AND image.pro_id=map_product_cart.pro_id
   </select>
 </mapper>

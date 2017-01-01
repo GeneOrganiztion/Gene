@@ -54,13 +54,23 @@ public static DefaultHttpClient httpclient;
 	     String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
 	     Map<String, Object> dataMap = new HashMap<String, Object>();
 	     System.out.println(jsonStr);
-	     
+	     Map map = doXMLParse(jsonStr);
+		    String return_code  = (String) map.get("return_code");
+		    String err_code  = (String) map.get("err_code");
+		    String err_code_des  = (String) map.get("err_code_des");
+		    String result_code  = (String) map.get("result_code");
+		    System.out.println("result_code="+result_code);
+		    System.out.println("err_code="+err_code);
+		    System.out.println("err_code_des="+err_code_des);
+		    System.out.println("return_code="+return_code);
+		    logger.info("result_code="+result_code);
+		    logger.info("return_code="+return_code);
+		    logger.info("err_code_des="+err_code_des);
+		    logger.info("err_code="+err_code);
+		    logger.info("return_prapery_code="+return_code);
 	    if(jsonStr.indexOf("FAIL")!=-1){
 	    	return prepay_id;
 	    }
-	    Map map = doXMLParse(jsonStr);
-	    String return_code  = (String) map.get("return_code");
-	    logger.info("return_prapery_code="+return_code);
 	    prepay_id  = (String) map.get("prepay_id");
 	} catch (Exception e) {
 		// TODO Auto-generated catch block

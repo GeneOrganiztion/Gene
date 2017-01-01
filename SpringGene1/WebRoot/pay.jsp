@@ -3,11 +3,11 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-/* String appId = request.getParameter("appid");
+String appId = request.getParameter("appid");
 String timeStamp = request.getParameter("timeStamp");
 String nonceStr = request.getParameter("nonceStr");
 String packageValue = request.getParameter("package");
-String paySign = request.getParameter("sign"); */
+String paySign = request.getParameter("sign"); 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

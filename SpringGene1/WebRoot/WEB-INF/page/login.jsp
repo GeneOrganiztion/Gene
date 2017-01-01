@@ -7,6 +7,12 @@
 %>
 
 <!DOCTYPE html>
+
+<style type="text/css">
+	#Txtidcode{
+	width: 55%;
+	}
+</style>
 <html lang="en">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -85,14 +91,14 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" value="admin" name="user" id="user"/>
+															<input type="text" class="form-control" name="user" id="user"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" value="admin" name="psd" id="psd"/>
+															<input type="password" class="form-control" name="psd" id="psd"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 													</label>
@@ -105,9 +111,12 @@
 															<span class="lbl"> Remember Me</span>
 														</label> -->
 														
-														<input type="text" id ="Txtidcode" class ="txtVerification">
+				
+															<input type="text" id ="Txtidcode" class ="txtVerification">
 														
-														<span id="idcode"></span>
+														
+															<span id="idcode"></span>
+														
 														<button type="button" id="loginBtn" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">登录</span>

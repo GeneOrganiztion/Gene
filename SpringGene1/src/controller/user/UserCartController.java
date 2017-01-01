@@ -35,17 +35,19 @@ public class UserCartController extends BaseController {
 		 cart.setUserId(Integer.parseInt(userId));
 		return (Cart)cartService.selectCart(cart);
 	 }  
-	 //cartId当用户登录的时候就取到缓存在前端
 	 //添加商品的时候需要判断是否是同一种商品,如果是要将商品合并
 	 @RequestMapping(value = "/phonecartadd")
 	 @ResponseBody
 	 public boolean phonecartadd(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
 		 String proId = getParam("proId");
-		 String cartId = getParam("cartId");
+		 String userId = getParam("userId");
+		 Cart cart=new Cart();
+		 cart.setUserId(Integer.parseInt(userId));
+		 cart=(Cart)cartService.selectCartByUserId(cart);
 		 String procount = getParam("procount");
 		 MapProductCart mapduct=new MapProductCart();
-		 mapduct.setCartId(Integer.parseInt(cartId));
+		 mapduct.setCartId(cart.getId());
 		 mapduct.setProId(Integer.parseInt(proId));
 		return cartService.addProduct(mapduct,Integer.parseInt(procount));
 	 }  

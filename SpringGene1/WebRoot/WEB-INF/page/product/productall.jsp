@@ -158,13 +158,13 @@
 		     </div>
 		     <div class="modal-body">
             	<form class="form-horizontal " id="addProductform" >
-            		
+            		<input type="text" name="id"  class="hide"/>
            			<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proName">商品名称</label>
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name="proName" class="col-xs-12 col-sm-6" />
+								<input type="text" name="name" class="col-xs-12 col-sm-6" />
 							</div>
 						</div>
 					</div>
@@ -174,7 +174,7 @@
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name="proHead" class="col-xs-12 col-sm-12" />
+								<input type="text" name="head" class="col-xs-12 col-sm-12" />
 							</div>
 						</div>
 					</div>
@@ -184,7 +184,7 @@
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name=productPrice class="col-xs-12 col-sm-3" />
+								<input type="text" name="price" class="col-xs-12 col-sm-3" />
 							</div>
 						</div>
 					</div>
@@ -194,7 +194,7 @@
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name="proRateprice"  class="col-xs-12 col-sm-3" />
+								<input type="text" name="rateprice"  class="col-xs-12 col-sm-3" />
 							</div>
 						</div>
 					</div>
@@ -204,10 +204,19 @@
 
 						<div class="col-xs-12 col-sm-8">
 							<div class="clearfix">
-								<input type="text" name="proSum" class="col-xs-12 col-sm-2" />
+								<input type="text" name="sum" class="col-xs-12 col-sm-2" />
 							</div>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="genenum">商品基因检测个数</label>
+						<div class="col-xs-12 col-sm-8">
+							<div class="clearfix">
+								<input type="text" name="genenum" class="col-xs-12 col-sm-2" />
+							</div>
+						</div>
+					</div>
+					
 					<div class="space-2"></div>
 					<!-- <div class="form-group">
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">商品所属类别</label>
@@ -223,7 +232,7 @@
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proOnline">商品是否上线</label>
 						<div class="col-xs-12 col-sm-8">
 								 <div>
-									<select id="isonlinePro" name="isonline_product" class="input-medium" data-placeholder="请选择商品状态">
+									<select id="isonlinePro" name="isonline" class="input-medium" data-placeholder="请选择商品状态">
 										<option value="1">是</option>
 										<option value="0">否</option>
 									</select>
@@ -235,7 +244,7 @@
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="shortName">商品所属类别</label>
 							<div class="col-xs-12 col-sm-8">
 								<div>
-									<select id="classify1" name="classify_product" class="input-medium" data-placeholder="请选择商品所属类别...">
+									<select id="classify1" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
 									</select>
 								</div>
 						</div>									

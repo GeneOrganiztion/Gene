@@ -368,6 +368,11 @@ function initproducteditorManager(){
 							digits:true,
 							min:0   
 						},
+						genenum: {
+							required: true,
+							digits:true,
+							min:0   
+						},
 						isonline: {
 							required: true
 						},
@@ -397,6 +402,11 @@ function initproducteditorManager(){
 							required:"商品折扣价为必填字段",
 							digits: "商品折扣价必须为正整数",
 							min:"商品折扣价不能小于0"
+						},
+						genenum:{
+							required:"基因检测个数为必填字段",
+							digits: "基因检测个数必须为正整数",
+							min:"基因检测个数不能小于0"
 						},
 						isonline:{
 							required:"请选择商品状态"
@@ -700,10 +710,12 @@ function editProduct(){
 			}else{
 				msg.proOnline=0;
 			}
+			console.log("geshu="+msg.geneNum);
 			$("#validation-form input[name='head']").val(msg.proHead);
 			$("#validation-form input[name='price']").val(msg.productPrice);
 			$("#validation-form input[name='rateprice']").val(msg.proRateprice);
 			$("#validation-form input[name='sum']").val(msg.proSum);
+			$("#validation-form input[name='genenum']").val(msg.geneNum);
 			$("#validation-form textarea[name='comment']").val(msg.proRemark);
 			$("#isonlinePro").val(msg.proOnline.toString());
 			$("#classify").val(msg.classifyId);
@@ -756,3 +768,4 @@ function remove(id){
 	}
 	}
 }
+
