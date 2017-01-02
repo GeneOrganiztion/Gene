@@ -432,7 +432,7 @@ function editProduct(){
 		url: webroot + "product/selectOneProduct.do",
 		data: {ProductId: id},
 		success: function(msg){
-			if(msg.proOnline.toString()=="true"){
+			if(msg.proOnline==true){
 				msg.proOnline=1;
 			}else{
 				msg.proOnline=0;
@@ -444,8 +444,8 @@ function editProduct(){
 			$("#editProductModal input[name='rateprice']").val(msg.proRateprice);
 			$("#editProductModal input[name='genenum']").val(msg.geneNum);
 			$("#editProductModal input[name='sum']").val(msg.proSum);
-			$("#isonline").val(msg.proOnline.toString());
-			$("#classify").val(msg.classifyId);
+			$("#isonlinePro").val(msg.proOnline.toString());
+			$("#classify1").val(msg.classifyId);
 			$("#editProductModal").modal("show");
 		}
 	});

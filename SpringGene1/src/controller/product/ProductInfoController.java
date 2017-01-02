@@ -217,6 +217,7 @@ public class ProductInfoController extends BaseController{
 		 		product.setGeneNum(Integer.valueOf(geneNum));
 		 		product.setProHead(head);
 		 		product.setproRemark(comment);
+		 		product.setSelNumber(0);
 		 		product.setProductPrice(Integer.valueOf(price));
 		 		product.setProRateprice(Integer.valueOf(rateprice));
 		 		product.setProSum(Integer.valueOf(sum));
