@@ -376,16 +376,17 @@ function selectClassify(){
 		contentType: "application/x-www-form-urlencoded; charset=utf-8",
 		url: webroot + "classify/webclsall.do",
 		success: function(msg){
-			var json = eval(msg);
-			var objSelect = $('#classify');
+			var classify = eval(msg);
+			showLocation(classify);
 			var objSelect1 = $('#classify1');
-			objSelect.append("<option value=''></option>");
-			for(var i=0;i<json.length;i++){
-				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
-				objSelect1.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
+			for(var i=0;i<classify.length;i++){
+				objSelect1.append("<optgroup label='"+classify[i].name+"/一级分类"+"'>");			
+				for(var j=0;j<classify[i].row.length;j++){
+					objSelect1.append("<option value='"+classify[i].row[j].id+"'>"+classify[i].row[j].claName+"</option>");
+				}
+				objSelect1.append("</optgroup>");
 			}
-			//
-			$('#classify').trigger("chosen:updated");
+			
 			$('#classify1').trigger("chosen:updated");
 			$('#validation-form').removeClass('hide');
 		}

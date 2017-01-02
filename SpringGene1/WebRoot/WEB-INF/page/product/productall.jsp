@@ -85,19 +85,7 @@
 							<!-- <input type="text" name="productOnline" class="form-control" /> -->
 						</div>
 					</div>
-					<div class="col-md-3">
-							<label class="col-sm-4 control-label no-padding-right" for="shortName">商品所属类别</label>
-							<div class="col-sm-8">
-								<div>
-									<select id="classify" name="classify_id" class="input-medium" data-placeholder="请选择商品所属类别...">
-													
-											
-									
-									</select>
-									</div>
-							</div>									
-					</div>								
-					
+				
 					
 				</div>
 				<div class="form-group">
@@ -120,7 +108,19 @@
 							</span>
                         </div>	
 					</div> 
-					<div class="col-md-6 text-right">
+					
+						<div class="col-md-4" >
+							<label class="col-sm-3 control-label no-padding-right" for="shortName">商品所属类别</label>
+							<div class="col-sm-9">
+								<div>
+									<select id="loc_province" name="oneclassify" style="width:120px;"></select>
+									<select id="loc_city" name="classify" style="width:120px;"></select>
+									
+									</div>
+							</div>									
+					</div>								
+					
+					<div class="col-md-2 text-right">
 						<button type="button" class="btn btn-md" onclick="queryProduct()">
 							<i class="ace-icon fa fa-search orange"></i>搜索
 						</button>
@@ -218,15 +218,6 @@
 					</div>
 					
 					<div class="space-2"></div>
-					<!-- <div class="form-group">
-						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="password2">商品所属类别</label>
-
-						<div class="col-xs-12 col-sm-8">
-							<div class="clearfix">
-								<input type="password" name="password2" class="col-xs-12 col-sm-6" />
-							</div>
-						</div>
-					</div> -->
 					
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="proOnline">商品是否上线</label>
@@ -242,9 +233,12 @@
 					<div class="form-group">
 						
 						<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="shortName">商品所属类别</label>
-							<div class="col-xs-12 col-sm-8">
+							<div class="col-xs-12 col-sm-4">
 								<div>
-									<select id="classify1" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
+									<!-- <select id="classify1" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
+									</select> -->
+									<select id="classify1" name="classify" class="js-states form-control">				
+						
 									</select>
 								</div>
 						</div>									

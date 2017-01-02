@@ -1,10 +1,52 @@
-function Location() {
-	this.items	= {
-	'0':{1:'儿童基因',2:'肥胖基因',3:'运动基因',4:'乳糖酶基因'},
-	'0,1':{5:'智商基因'},
-	'0,1':{6:'情商基因'},
-	'0,1':{7:'艺术基因'}
+function Location(classify) {
+	var oneclassify="{'0':{";
+	var towclassify="";
+	for(var i=0;i<classify.length;i++){
+		if(i==classify.length-1){
+			oneclassify=oneclassify+classify[i].id+":"+"'"+classify[i].name+"'"+"},\n";
+			if(null==classify[i].row){
+			}else{
+				for(var j=0;j<classify[i].row.length;j++){
+					if(j==0){
+						if(classify[i].row.length>1){
+							towclassify=towclassify+"'0,"+classify[i].id+"':{"+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+",";
+						}else{
+							towclassify=towclassify+"'0,"+classify[i].id+"':{"+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+"}\n";
+						}
+					}else{
+						if(j==classify[i].row.length-1){
+							towclassify=towclassify+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+"}\n";
+							}else{
+							towclassify=towclassify+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+",";	
+							}
+					}
+				}
+			}
+		}else{
+		oneclassify=oneclassify+classify[i].id+":"+"'"+classify[i].name+"'"+",";
+			if(null==classify[i].row){
+			}else{
+				for(var j=0;j<classify[i].row.length;j++){
+					if(j==0){
+						if(classify[i].row.length>1){
+							towclassify=towclassify+"'0,"+classify[i].id+"':{"+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+",";
+						}else{
+							towclassify=towclassify+"'0,"+classify[i].id+"':{"+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+"}\n";
+						}
+					}else{
+						if(j==classify[i].row.length-1){
+						towclassify=towclassify+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+"},\n";
+						}else{
+						towclassify=towclassify+classify[i].row[j].id+":"+"'"+classify[i].row[j].claName+"'"+",";	
+						}
+					}
+				}
+			}
+		}
+		
 	}
+	var testJson = eval("(" + oneclassify+towclassify+"}"+ ")"); 
+	this.items=testJson;
 }
 
 Location.prototype.find	= function(id) {
@@ -22,7 +64,6 @@ Location.prototype.fillOption	= function(el_id , loc_id , selected_id) {
 		$.each(json , function(k , v) {
 			var option	= '<option value="'+k+'">'+v+'</option>';
 			el.append(option);
-			
 			if (k == selected_id) {
 				selected_index	= index;
 			}

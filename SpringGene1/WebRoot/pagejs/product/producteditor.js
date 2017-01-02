@@ -645,10 +645,14 @@ function selectClassify(){
 		type: "post",
 		url: webroot + "classify/webclsall.do",
 		success: function(msg){
-			var json = eval(msg);
-			var objSelect = $('#classify');
-			for(var i=0;i<json.length;i++){
-				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
+			var classify = eval(msg);
+			var objSelect1 = $('#classify');
+			for(var i=0;i<classify.length;i++){
+				objSelect1.append("<optgroup label='"+classify[i].name+"/一级分类"+"'>");			
+				for(var j=0;j<classify[i].row.length;j++){
+					objSelect1.append("<option value='"+classify[i].row[j].id+"'>"+classify[i].row[j].claName+"</option>");
+				}
+				objSelect1.append("</optgroup>");
 			}
 			//
 			$('#classify').trigger("chosen:updated");

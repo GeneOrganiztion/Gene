@@ -250,15 +250,21 @@
       <if test="productOnline != null" >
        and pro_online = #{productOnline}
       </if>
-       <if test="classify_id != null" >
+     <!--   <if test="classify_id != null" >
        and classify_id = #{classify_id}
-      </if>
+      </if> -->
      <if test="beginTime != null ">
           AND CREATE_TIME > #{beginTime} 
       </if>
       <if test="endTime != null ">
           <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
       </if>
+        <if test="classifylist != null">
+    	 and classify_id in 
+    	 <foreach item="item" index="index" collection="classifylist" open="(" separator="," close=")">  
+		  #{item}  
+		</foreach>  
+	 </if>
        <if test="sidx != null">
         order by #{sidx} #{sord}
       </if>

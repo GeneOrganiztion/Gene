@@ -173,7 +173,7 @@
 																<div class="col-xs-8 col-sm-9">
 																	<div>
 																		<select id="loc_province" style="width:120px;"></select>
-																		<select id="loc_city" style="width:120px; margin-left: 10px"></select>
+																		<select id="loc_city" name="classify" style="width:120px; margin-left: 10px"></select>
 																		
 																	</div>
 																</div>
@@ -443,7 +443,7 @@
 <script type="text/javascript">
 
 jQuery(function($) {
-	showLocation();
+	
 	initProductManager();
 })
 </script>

@@ -603,12 +603,7 @@ function selectClassify(){
 		url: webroot + "classify/webclsall.do",
 		success: function(msg){
 			var json = eval(msg);
-			var objSelect = $('#classify');
-			for(var i=0;i<json.length;i++){
-				objSelect.append("<option value='"+json[i].id+"'>"+json[i].claName+"</option>");
-			}
-			//
-			$('#classify').trigger("chosen:updated");
+			showLocation(json);
 			$('#validation-form').removeClass('hide');
 			$('#cssloader').addClass('hide');
 		}

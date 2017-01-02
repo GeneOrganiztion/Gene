@@ -1,5 +1,6 @@
 package controller.classify;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,8 +25,10 @@ import com.github.pagehelper.PageInfo;
 
 import controller.base.BaseController;
 import po.Classify;
+import po.ClassifyModel;
 import po.Product;
 import po.ResModel;
+import po.row;
 import service.ClassifyService;
 import service.ProductService;
 import utils.Constant;
@@ -322,4 +325,33 @@ public class ClassifyController extends BaseController{
 		resModel.setSuccess(true);
 		return resModel;
 	}  
+	
+	
+	 @RequestMapping(value = "/webclsall")
+	 @ResponseBody
+	 public List<row> webclsall(HttpServletRequest request,
+	            HttpServletResponse response) throws Exception {
+		List<row> rows=new ArrayList<row>();
+		Classify cls=new Classify();
+		cls.setClaPid(0);
+		try{
+		List<Classify> classifyall=classifyService.selectAll(cls);
+		
+		for(int i=0;i<classifyall.size();i++){
+			Classify clsify=new Classify();
+			row rowone=new row();
+			clsify.setClaPid(classifyall.get(i).getId());
+			rowone.setName(classifyall.get(i).getClaName());
+			rowone.setId(classifyall.get(i).getId());
+			List<Classify> classifylist=classifyService.selectAll(clsify);
+			rowone.setRow(classifylist);
+			rows.add(rowone);
+		}
+		}catch(Exception e){
+			logger.info("webclsall"+e);
+		
+		}
+		return rows;
+	 }  
+	 
 }

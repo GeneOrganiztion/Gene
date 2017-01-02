@@ -191,12 +191,13 @@
 
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="state">商品所属类别</label>
-																<div class="col-xs-8 col-sm-9">
-																	<div>
-																		<select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
+																<div class="col-xs-4 col-sm-4">
+																	
+																		<!-- <select id="classify" name="classify" class="input-medium" data-placeholder="请选择商品所属类别...">
 																			<option value=""></option>
-																		</select>
-																	</div>
+																		</select> -->
+																		<select id="classify" name="classify" class="js-states form-control">	
+																		</select>	
 																</div>
 																
 															</div>

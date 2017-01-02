@@ -393,7 +393,7 @@ public class ProductInfoController extends BaseController{
 	    public PageInfo selectAdminByParams(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		 	String sidx = getParam("sidx");// 排序字段;
 	        String sord = getParam("sord");// 升序降序;
-	        /*System.out.println("productName="+request.getAttribute("productName"));*/
+	        
 	        PageInfo pageInfo = new PageInfo();
 	        try {
 	        	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
@@ -406,7 +406,38 @@ public class ProductInfoController extends BaseController{
 	            }
 	            String productID = getParam("productID"); 
 	            String productOnline = getParam("productOnline");
-	            String classify_id = getParam("classify_id");
+	            String oneclassify_id = getParam("oneclassify");
+	            String classify_id = getParam("classify");
+	            Map<String, Object> map = new HashMap<String, Object>();
+	            List<Integer> list = null;
+	            String clslist="";
+	           if(null==oneclassify_id&&null==classify_id){
+	        	   map.put("classifylist",null);
+	           }else{
+	        	   if(classify_id!=null){
+	        		   list=ST.StringToList(classify_id);
+	        		   map.put("classifylist",list);
+	        	   }else{
+	        		   Classify towcls=new Classify();
+	        		   towcls.setClaPid(Integer.valueOf(oneclassify_id));
+	        		   List<Classify> clslistobj=classifyService.selectTwoClassify(towcls);
+	        		   for(int i=0;i<clslistobj.size();i++){
+	        			   if(clslistobj.size()==1||i==(clslistobj.size()-1)){
+	        				   clslist=clslist+clslistobj.get(i).getId();
+	        			   }else{
+	        				   clslist=clslist+clslistobj.get(i).getId()+","; 
+	        			   }
+	        			   
+	        		   }
+	        		 
+	        	   }       	   
+	           }
+	           System.out.println("clslist="+clslist);
+	            if(!ST.isNull(clslist)){
+	            	list=ST.StringToList(clslist);
+	            	System.out.println("list="+list);
+					map.put("classifylist",list);
+				}
 	            Object IsOnline=true;
 	            if("true".equals(productOnline)){
 	            	IsOnline=true;
@@ -415,18 +446,17 @@ public class ProductInfoController extends BaseController{
 	            }else{
 	            	IsOnline=null;
 	            }
-	            Map<String, Object> map = new HashMap<String, Object>();
+	            
 	            map.put("productOnline", IsOnline);
 	            String beginTime = getParam("beginTime");
 	            String endTime = getParam("endTime");
 	            map.put("productName", productName);
 	            map.put("productID", productID);
-	            map.put("classify_id",classify_id);
 	            map.put("sidx", sidx);// 排序字段
 	            map.put("sord", sord);// 升序降序
 	            map.put("rowCount", oneRecord);//一页几行
 	            map.put("pageNo", pageNo);
-	            
+	           
 	            if(!ST.isNull(beginTime)){
 	            	map.put("beginTime", beginTime + " 00:00:00");
 	            }

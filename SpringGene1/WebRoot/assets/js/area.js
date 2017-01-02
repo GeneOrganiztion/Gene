@@ -1,11 +1,10 @@
-function showLocation(province , city , town) {
+function showLocation(classify) {
 	
-	var loc	= new Location();
+	var loc	= new Location(classify);
 	var title	= ['一级分类' , '二级分类' , '市、县、区'];
 	$.each(title , function(k , v) {
 		title[k]	= '<option value="">'+v+'</option>';
 	})
-	
 	$('#loc_province').append(title[0]);
 	$('#loc_city').append(title[1]);
 	$('#loc_town').append(title[2]);
@@ -30,7 +29,7 @@ function showLocation(province , city , town) {
 		$('input[@name=location_id]').val($(this).val());
 	})
 	
-	if (province) {
+	/*if (province) {
 		loc.fillOption('loc_province' , '0' , province);
 		
 		if (city) {
@@ -41,8 +40,8 @@ function showLocation(province , city , town) {
 			}
 		}
 		
-	} else {
+	} else {*/
 		loc.fillOption('loc_province' , '0');
-	}
+	//}
 		
 }

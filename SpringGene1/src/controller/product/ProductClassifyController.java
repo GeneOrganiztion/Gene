@@ -66,21 +66,7 @@ public class ProductClassifyController extends BaseController {
 		return classifymodel;
 	 }  
 	 
-	 @RequestMapping(value = "/webclsall")
-	 @ResponseBody
-	 public List<Classify> webclsall(HttpServletRequest request,
-	            HttpServletResponse response) throws Exception {
-		Classify cls=new Classify();
-		List<Classify>classifyall=null;
-		try{
-			classifyall=classifyService.selectAll(cls);
-		}catch(Exception e){
-			logger.info("webclsall"+e);
-		
-		}
-		return classifyall;
-	 }  
-	 
+	
 	 
 	 @RequestMapping(value = "/productPage")
 	 public ModelAndView webpage(HttpServletRequest request,
