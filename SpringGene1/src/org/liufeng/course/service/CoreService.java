@@ -31,7 +31,7 @@ import com.wechat.tuling.TulingService;*/
  * @author liufeng
  * @date 2013-09-29
  */
-public class CoreService {
+public class CoreService  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CoreService.class);
 	
@@ -46,6 +46,8 @@ public class CoreService {
 	public static String processRequest(HttpServletRequest request) {
 		
 		// xml格式的消息数据
+		String ordertimestamp=request.getParameter("timestamp");
+		logger.info("ordertimestamp="+ordertimestamp);
 		String respXml ="";
 		// 默认返回的文本消息内容
 		String respContent = "";
@@ -68,17 +70,15 @@ public class CoreService {
 			textMessage.setFromUserName(toUserName);
 			textMessage.setCreateTime(new Date().getTime());
 			textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
-
+			
+			
+			
 			// 文本消息
 			if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
 			
-				logger.info("jinru test.....");
-				
-	//					respContent=Today_weather_Service.getTodayInHistoryInfo();
-							
-	//				String INFO = URLEncoder.encode(content, "utf-8"); 
-				logger.info("content="+content);	
-				respContent="hanhan";		
+				logger.info("jinru test.....");				
+	
+				respContent="您发送的是文本消息";		
 			}
 			
 			// 图片消息
@@ -168,7 +168,8 @@ public class CoreService {
 						
 					}
 				}
-			}
+			  }
+			
 			// 设置文本消息的内容
 			textMessage.setContent(respContent);
 			// 将文本消息对象转换成xml

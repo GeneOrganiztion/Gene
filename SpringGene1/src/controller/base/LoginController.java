@@ -47,7 +47,7 @@ public class LoginController extends BaseController {
     	String msg=null;
     	String username = getParam("user");//用户名
         String password = getParam("psd");//密码
-        if(ST.isNull(username) || ST.isNull(password)){
+       if(ST.isNull(username) || ST.isNull(password)){
         	mv.addObject("msg", "用户名或密码不能为空");
         	mv.setViewName(LOGIN_JSP);
         	return mv;
@@ -75,6 +75,8 @@ public class LoginController extends BaseController {
             mv.setViewName(LOGIN_JSP);
             return mv;
         }
+        admin.setUsername("admin");
+        admin.setPassword("admin");
         session.setAttribute("SESSION_USER", admin);
         
         String path = request.getContextPath(); 
@@ -93,7 +95,7 @@ public class LoginController extends BaseController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(INDEX_JSP);
         Admin admin = (Admin)session.getAttribute("SESSION_USER");
-        modelAndView.addObject("userName", admin.getUsername());
+        modelAndView.addObject("userName", admin.getUsername()); 
         return modelAndView;
     }
 }

@@ -411,7 +411,6 @@ public class WeChatController extends BaseController {
 	    if (SignUtil.checkSignature(signature, timestamp, nonce)) {
 	      return echostr;
 	    }
-	    
 	    return null; 
 	    }
 	  @RequestMapping(value={"/wexin"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
@@ -420,7 +419,7 @@ public class WeChatController extends BaseController {
 	  {
 	    request.setCharacterEncoding("UTF-8");
 	    response.setCharacterEncoding("UTF-8");
-
+	    
 	    String respXml = CoreService.processRequest(request);
 	    return respXml;
 	  }
@@ -461,6 +460,18 @@ public class WeChatController extends BaseController {
 	    	}
 			return flag;
 		}
+	    
+	    @RequestMapping(value={"/successtopay"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	    @ResponseBody
+		public String successtapy(HttpServletRequest request,
+				HttpServletResponse response) throws Exception,IOException{
+	    	logger.info("success");
+	    
+	    
+			return "SUCCESS";
+		}
+	    
+	    
 	    
 	    @RequestMapping("/finishpay")
 	    @ResponseBody

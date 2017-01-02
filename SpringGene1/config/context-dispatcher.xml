@@ -62,7 +62,7 @@
    <mvc:resources location="/common/" mapping="/common/**"/> 
    <mvc:resources location="/" mapping="/**"/> 
 
-     <!-- 开启拦截器 -->
+     <!--  开启拦截器-->
     <mvc:interceptors>  
        <bean class="controller.base.SessionTimeoutInterceptor">  
          <property name="allowUrls">  
@@ -84,7 +84,7 @@
          </property>  
        </bean>
    </mvc:interceptors>  
- 
+  
    
    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
      <property name="exceptionMappings">  
@@ -93,6 +93,7 @@
        </props>  
      </property>  
    </bean> 
+   
     <!-- 指定所上传文件的总大小不能超过5000KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 --> 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
         <property name="maxUploadSize" value="52428800"/>

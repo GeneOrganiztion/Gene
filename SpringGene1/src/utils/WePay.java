@@ -1,5 +1,7 @@
 package utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,8 +50,6 @@ public class WePay {
 		//商品标记   非必输
 //		String goods_tag = "";
 		
-		//这里notify_url是 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等。
-		String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/wexin.do";
 		//随机数 
 		String currTime = TenpayUtil.getCurrTime();
 		//8位日期
@@ -61,6 +61,10 @@ public class WePay {
 		String nonce_str = strReq;
 		String trade_type = "JSAPI";
 		String openid = openId;
+		
+		String timestamp = Sha1Util.getTimeStamp();
+		//这里notify_url是 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等。
+		String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/successtpay.do";
 		//非必输
 //		String product_id = "";
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
@@ -121,7 +125,7 @@ public class WePay {
 		SortedMap<String, String> finalpackage = new TreeMap<String, String>();
 		Map<String,String> map=new HashMap<String,String>();
 		String appid2 = appid;
-		String timestamp = Sha1Util.getTimeStamp();
+		
 		String nonceStr2 = nonce_str;
 		String prepay_id2 = "prepay_id="+prepay_id;
 		String packages = prepay_id2;
@@ -144,4 +148,33 @@ public class WePay {
 		map.put("paySign", finalsign);
 		return map;
 	}
+	
+	
+	/**
+     * 获取请求参数
+     * @Title: getCallbackParams
+     * @Description: TODO
+     * @param @param request
+     * @param @return
+     * @param @throws Exception    
+     * @return Map<String,String>    
+     * @throws
+     */
+    /*public Map<String, String> getCallbackParams(HttpServletRequest request)
+            throws Exception {
+        InputStream inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        System.out.println("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
+        outSteam.close();
+        inStream.close();
+        String result = new String(outSteam.toByteArray(), "utf-8");
+        return xmlUtil.parseXml(result);
+    }*/
+	
+	
 }
