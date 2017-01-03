@@ -41,7 +41,7 @@
           <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
       </if>
       <if test="sidx != null">
-        order by #{sidx} #{sord}
+        order by ${sidx} ${sord}
       </if>
   </select>
   <update id="deleteAdminByIds" parameterType="java.util.List">

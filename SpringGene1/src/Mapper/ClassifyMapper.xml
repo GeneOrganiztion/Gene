@@ -42,7 +42,7 @@
         <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
       </if>
       <if test="sidx != null">
-        order by #{sidx} #{sord}
+        order by ${sidx} ${sord}
       </if>
       <if test="sidx == null">
         order by create_time desc

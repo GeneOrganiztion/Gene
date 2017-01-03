@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Report;
 import service.ReportService;
+import utils.ST;
 import controller.base.BaseController;
 import controller.order.OrderDetailController;
 
@@ -26,8 +27,8 @@ public class ReportInfoController extends BaseController {
 	private ReportService<Report> reportService;
 	
 	/**
-	 * 根据商品id和ordId查询报告
-	 * @param request
+	 * 根据orId,proId,userId中的一个或者多个参数查询报告
+	 * @param request  orId订单Id   proId商品Id    userId用户Id
 	 * @param response
 	 * @return
 	 * @throws Exception
@@ -37,11 +38,19 @@ public class ReportInfoController extends BaseController {
 	public List<Report> selectReportByParams(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String orId = getParam("orId");
 		String proId = getParam("proId");
+		String userId = getParam("userId");
 		List<Report> list = new ArrayList<Report>();
 		Report report = new Report();
 		try {
-			report.setOrdId(Integer.valueOf(orId));
-			report.setProId(Integer.valueOf(proId));
+			if(!ST.isNull(orId)){
+				report.setOrdId(Integer.valueOf(orId));
+			}
+			if(!ST.isNull(proId)){
+				report.setProId(Integer.valueOf(proId));
+			}
+			if(!ST.isNull(userId)){
+				report.setUserId(Integer.valueOf(userId));
+			}
 			report.setIsdelete(false);
 			list = reportService.selectReportByParams(report);
 		} catch (Exception e) {

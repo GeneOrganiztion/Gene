@@ -25,11 +25,11 @@ function initAdminManager(){
 		colNames:['用户ID','用户姓名','邮箱','电话','创建时间','最后更新时间'],
 		colModel:[
           	{name:'id',index:'admin_id', width:80, sorttype:"int", editable: true},
-          	{name:'username',index:'username',width:80, editable:true},
-			{name:'email',index:'email', width:80, sorttype:"int", editable: true},
-			{name:'phone',index:'phone',width:80, editable:true},
-			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate}
+          	{name:'username',index:'username',width:80, editable:true,sortable:false},
+			{name:'email',index:'email', width:80, sorttype:"int", editable: true,sortable:false},
+			{name:'phone',index:'phone',width:80, editable:true,sortable:false},
+			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -37,6 +37,8 @@ function initAdminManager(){
 		loadonce: false,
 		pager : pager_selector,
 		altRows: true,
+		sortable:true,
+	    sortorder:'asc',
 		jsonReader: {
 			total: 'lastPage', 
 			records: 'total',
