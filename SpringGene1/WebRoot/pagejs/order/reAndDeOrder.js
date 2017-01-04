@@ -377,8 +377,8 @@ function confirmRceliveProduct(){
 		url: webroot + "orderInfo/selectOrderStatus.do",
 		data: {orderId:id},
 		success: function(msg){
-			if(msg.returnId != 5){
-				alertmsg("warning","买家未发货不能确认收货");
+			if(msg.returnId != 3){
+				alertmsg("warning","未发货不能确认收货");
 				return;
 			}else{
 				$.ajax({

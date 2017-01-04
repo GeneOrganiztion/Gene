@@ -54,7 +54,7 @@ function initOrderManager(){
 		url: webroot + "orderInfo/seletcOrder.do",
 		mtype: 'post',
 		datatype: "json",
-		postData: {ordState: "4,5,6"},
+		postData: {flag: "detectionOrder"},
 		height: 370,
 		colNames:['','订单编号','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
 		colModel:[
@@ -400,7 +400,7 @@ function initOrderManager(){
 		}else{
 			detial1 = "<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
 		}
-        return detial + detial1;
+        return detial +detial +detial+ detial1;
 
 	}
 	

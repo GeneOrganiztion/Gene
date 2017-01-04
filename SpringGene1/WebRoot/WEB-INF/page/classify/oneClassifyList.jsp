@@ -172,6 +172,7 @@
 			    <h4 class="modal-title" >修改分类</h4>
 		     </div>
 		     <div class="modal-body">
+		     	<div class="page-count">
 		     	<div class="row">
 		     		<div class="col-xs-12 ">
 		            	<form class="form-horizontal" id="editOneClassifyform" >
@@ -183,9 +184,12 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group center">
+								<button type="button" class="btn btn-md" onclick="saveAdmin()" >保存</button>
+							</div>
 		 				</form>
+		 					<div class="hr hr-double hr-dotted hr18"></div>
 	 				</div>
-	 				<div class="space-2"></div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<input type="hidden" id="editOneClassifyId"></input>
@@ -200,6 +204,7 @@
 					<div class="col-xs-12 center">
 						<button class="btn" id="editOneClassify-submit-all"  style="margin:20px auto">保存</button>
 					</div>
+	 			</div>
 	 			</div>
 		     </div>
 			<div class="modal-footer">

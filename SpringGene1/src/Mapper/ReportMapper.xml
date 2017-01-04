@@ -8,7 +8,7 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="rep_name" property="repName" jdbcType="VARCHAR" />
     <result column="rep_result" property="repResult" jdbcType="VARCHAR" />
-    <result column="rep_state" property="repState" jdbcType="VARCHAR" />
+    <result column="rep_state" property="repState" jdbcType="INTEGER" />
     <result column="rep_pdf" property="repPdf" jdbcType="VARCHAR" />
     <result column="isdelete" property="isdelete" jdbcType="BIT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />

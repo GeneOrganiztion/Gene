@@ -54,7 +54,7 @@ function initOrderManager(){
 		url: webroot + "orderInfo/seletcOrder.do",
 		mtype: 'post',
 		datatype: "json",
-		postData: {ordState: "7"},
+		postData: {flag: "completeOrder"},
 		height: 370,
 		colNames:['','订单编号','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
 		colModel:[

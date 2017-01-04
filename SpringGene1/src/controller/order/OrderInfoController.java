@@ -89,9 +89,9 @@ public class OrderInfoController extends BaseController{
             	if("reAndDeOrder".equals(flag)){
             		ordState = "2,3";
             	}else if("detectionOrder".equals(flag)){
-            		ordState = "4,5,6";
+            		ordState = "4";
             	}else if("completeOrder".equals(flag)){
-            		ordState = "7";
+            		ordState = "5";
             	}
             }
             String beginTime = getParam("beginTime");
@@ -360,11 +360,26 @@ public class OrderInfoController extends BaseController{
 		}
 		Orders order = new Orders();
 		order.setId(Integer.valueOf(orderId));
-		order.setOrdState(Constant.ORDER_STATUS6);
+		order.setOrdState(Constant.ORDER_STATUS4);
 		//order.setIsdelete(false);
 		order.setLastModifiedTime(new Date());
 		try {
 			orderService.updateOrder(order);
+			Orders orders =orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
+			int userId = orders.getOrdUser();
+			//插入report表数据
+			List<MapOrderProduct> list = mapOrderProductService.selectMapOrderProductByOrdId(Integer.valueOf(orderId));
+			for(MapOrderProduct mop: list){
+				for(int i =0; i < mop.getProCount(); i ++){
+					Report report = new Report();
+					report.setOrdId(mop.getOrdId());
+					report.setProId(mop.getProId());
+					report.setUserId(userId);
+					report.setMapOrderProductId(Integer.valueOf(mop.getId()));
+					reportService.insertReport(report);
+				}
+			}
+			
 		} catch (Exception e) {
 			logger.error("confirmRceliveProduct error:" + e);
 			resModel.setSuccess(false);

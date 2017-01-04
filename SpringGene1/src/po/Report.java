@@ -22,7 +22,7 @@ public class Report {
 
     private String repResult;
 
-    private String repState;
+    private Integer repState;
 
     private String repPdf;
 
@@ -88,15 +88,15 @@ public class Report {
         this.repResult = repResult == null ? null : repResult.trim();
     }
 
-    public String getRepState() {
-        return repState;
-    }
+    public Integer getRepState() {
+		return repState;
+	}
 
-    public void setRepState(String repState) {
-        this.repState = repState == null ? null : repState.trim();
-    }
+	public void setRepState(Integer repState) {
+		this.repState = repState;
+	}
 
-    public String getRepPdf() {
+	public String getRepPdf() {
         return repPdf;
     }
 
