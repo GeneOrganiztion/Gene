@@ -10,6 +10,8 @@ public class OrderAndProductDTO {
 	private String ordState;
 	//此订单已上传报告数量
 	private Integer reportCount;
+	//买多个产品对应的reportIds
+	private String reportIds;
 	
 	// map_order_product 表属性
 	private Integer map_order_product_id;
@@ -229,4 +231,13 @@ public class OrderAndProductDTO {
     public void setLastModifiedTime(Date lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
+
+	public String getReportIds() {
+		return reportIds;
+	}
+
+	public void setReportIds(String reportIds) {
+		this.reportIds = reportIds;
+	}
+    
 }

@@ -120,6 +120,7 @@ public class OrderInfoController extends BaseController{
         return pageInfo;
 	}
 	
+	@SuppressWarnings("null")
 	@RequestMapping(value = "/selectOrderAndPrductByOrderId")
 	@ResponseBody
 	public List<OrderAndProductDTO> selectOrderAndPrductByOrderId(HttpServletRequest request,HttpServletResponse response){
@@ -132,8 +133,17 @@ public class OrderInfoController extends BaseController{
 		Orders order = orderService.selectOrdersByOrderId(Integer.valueOf(orderId));
         try {
         	list = mapOrderProductService.selectOderAndProductByOrderId(Integer.valueOf(orderId));
+        	Report report = new Report();
         	for(OrderAndProductDTO orDTO: list){
         		orDTO.setOrdState(order.getOrdState());
+        		report.setMapOrderProductId(orDTO.getMap_order_product_id());
+        		List<Report> listReport = reportService.selectReportByParams(report);
+        		StringBuffer reportIds = new StringBuffer();
+        		for(Report rt: listReport){
+        			reportIds.append(rt.getId()).append(","); 
+        		}
+        		String ids = reportIds.toString();
+        		orDTO.setReportIds(ids.substring(0, ids.length() - 1));
         	}
 		} catch (Exception e) {
 			logger.error("selectOrderAndPrductByOrderId error:" + e);
