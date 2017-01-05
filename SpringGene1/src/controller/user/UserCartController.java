@@ -17,6 +17,7 @@ import po.MapProductCart;
 import po.Product;
 import service.CartService;
 import service.ClassifyService;
+import utils.ST;
 
 @Controller
 @RequestMapping("/cart")
@@ -56,10 +57,14 @@ public class UserCartController extends BaseController {
 	 @ResponseBody
 	 public boolean phonecartdel(HttpServletRequest request,
 	            HttpServletResponse response) throws Exception {
-		 String maproId = getParam("maproId");
-		 MapProductCart mapduct=new MapProductCart();
-		 mapduct.setId(Integer.parseInt(maproId));
-		return cartService.deleProduct(mapduct);
+		 String maproIds = getParam("maproIds");
+		 List<Integer> list = ST.StringToList(maproIds);
+		 try{
+			 cartService.deleProducts(list);
+		 }catch(Exception e){
+			 return false;
+		 }
+		 return true;
 	 }
 	 
 	 

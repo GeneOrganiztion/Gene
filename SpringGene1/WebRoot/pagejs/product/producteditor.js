@@ -210,7 +210,7 @@ function initproducteditorManager(){
 						  Dropzone.autoDiscover = false;
 						  var myDropzone = new Dropzone("#dropzone1" , {
 						    paramName: "file", // The name that will be used to transfer the file
-						    maxFilesize: 1, // MB
+						    maxFilesize: 5, // MB
 						    maxFiles:10,
 						    dictMaxFilesExceeded: "您最多只能上传10张商品详情图片！",
 						    dictFileTooBig:"文件过大上传文件最大支持.",

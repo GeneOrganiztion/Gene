@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.liufeng.course.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,18 +54,18 @@ public class WePay {
 		//随机数 
 		String currTime = TenpayUtil.getCurrTime();
 		//8位日期
-		String strTime = currTime.substring(8, currTime.length());
+		//String strTime = currTime.substring(8, currTime.length());
 		//四位随机数
 		String strRandom = TenpayUtil.buildRandom(4) + "";
 		//10位序列号,可以自行调整。
-		String strReq = strTime + strRandom;
+		String strReq = out_trade_no + strRandom;
 		String nonce_str = strReq;
 		String trade_type = "JSAPI";
 		String openid = openId;
 		
 		String timestamp = Sha1Util.getTimeStamp();
 		//这里notify_url是 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等。
-		String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/successtpay.do";
+		String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/wechat_notify.do";
 		//非必输
 //		String product_id = "";
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
@@ -160,9 +161,9 @@ public class WePay {
      * @return Map<String,String>    
      * @throws
      */
-    /*public Map<String, String> getCallbackParams(HttpServletRequest request)
+    public static Map<String, String> getCallbackParams(HttpServletRequest request)
             throws Exception {
-        InputStream inStream = request.getInputStream();
+      /*  InputStream inStream = request.getInputStream();
         ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
@@ -172,9 +173,10 @@ public class WePay {
         System.out.println("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
         outSteam.close();
         inStream.close();
-        String result = new String(outSteam.toByteArray(), "utf-8");
-        return xmlUtil.parseXml(result);
-    }*/
+        String result = new String(outSteam.toByteArray(), "utf-8");*/
+    	
+        return MessageUtil.parseXml(request);
+    }
 	
 	
 }

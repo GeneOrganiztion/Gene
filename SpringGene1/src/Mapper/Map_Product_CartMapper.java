@@ -1,5 +1,7 @@
 package Mapper;
 
+import java.util.List;
+
 import po.MapProductCart;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -15,4 +17,5 @@ public interface Map_Product_CartMapper extends Mapper<MapProductCart>{
     int updateByPrimaryKeySelective(MapProductCart record);
 
     int updateByPrimaryKey(MapProductCart record);*/
+	void deleteMapProductCartByIds(List<Integer> ids);
 }

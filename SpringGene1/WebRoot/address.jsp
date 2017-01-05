@@ -32,8 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
    $.ajax({
 		type: "post",
-		url:  "<%=path%>/weixin/addresstest.do",
-		 data: {ProductId: id}, 
+		url:  "<%=path%>/weixin/address.do",
 		success: function(msg){
 			console.log(msg);
 			 wx.config({
@@ -49,6 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                
 		              ]
 		          });
+				 wx.hideAllNonBaseMenuItem();
 		          wx.checkJsApi({
 		    	      jsApiList: [
 		    	          'openAddress',

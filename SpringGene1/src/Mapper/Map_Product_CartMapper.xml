@@ -138,4 +138,14 @@
       and pro_id = #{proId,jdbcType=INTEGER}
       and cart_id = #{cartId,jdbcType=INTEGER}
   </update> -->
+  
+  
+  <update id="deleteMapProductCartByIds" parameterType="java.util.List">
+      <![CDATA[
+        UPDATE map_product_cart SET isdelete = 1 WHERE map_product_cart_id IN
+     ]]>
+     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+       #{item}  
+     </foreach>  
+  </update>
 </mapper>

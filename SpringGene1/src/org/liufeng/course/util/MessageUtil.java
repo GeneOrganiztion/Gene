@@ -5,7 +5,9 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -17,6 +19,9 @@ import org.liufeng.course.message.resp.NewsMessage;
 import org.liufeng.course.message.resp.TextMessage;
 import org.liufeng.course.message.resp.VideoMessage;
 import org.liufeng.course.message.resp.VoiceMessage;
+
+import po.PayCallback;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -143,6 +148,18 @@ public class MessageUtil {
 		xstream.alias("xml", textMessage.getClass());
 		return xstream.toXML(textMessage);
 	}
+	
+	/**
+	 * 支付成功消息对象转换成xml
+	 * 
+	 * @param textMessage 文本消息对象
+	 * @return xml
+	 */
+	public static String PayCallbackToXml(PayCallback payCallback) {
+		xstream.alias("xml", payCallback.getClass());
+		return xstream.toXML(payCallback);
+	}
+	
 
 	/**
 	 * 图片消息对象转换成xml

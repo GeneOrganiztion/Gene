@@ -73,5 +73,6 @@
 	  <bean id="orderService" class="service.impl.OrderServiceImpl" /> 
 	  <bean id="reportService" class="service.impl.ReportServiceImpl" /> 
 	  <bean id="imageService" class="service.impl.ImageServiceImpl" /> 
+	  <bean id="MapProductCartService" class="service.impl.MapProductCartServiceImpl" /> 
 	  <bean id="mapOrderProductService" class="service.impl.MapOrderProductServiceImpl" /> 
 </beans>  

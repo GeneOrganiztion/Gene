@@ -1,6 +1,7 @@
 package service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +50,9 @@ public class CartServiceImpl implements CartService {
 		return true;
 	}
 	@Override
-	public boolean deleProduct(MapProductCart mapproduct) throws Exception {
+	public boolean deleProducts(List ids) throws Exception {
 		try{
-		mapproduct.setIsdelete(true);
-		mapper_Product_CartMapper.updateByPrimaryKeySelective(mapproduct);
+		mapper_Product_CartMapper.deleteMapProductCartByIds(ids);
 		}catch(Exception e){
 			logger.info("cartMapperdeleproduct"+e);
 			e.printStackTrace();
@@ -84,4 +84,6 @@ public class CartServiceImpl implements CartService {
 		return (Cart)cartMapper.selectOne(cart);
 		
 	}
+
+	
 }

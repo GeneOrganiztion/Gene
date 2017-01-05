@@ -18,10 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.liufeng.course.service.CoreService;
+import org.liufeng.course.util.MessageUtil;
 import org.liufeng.course.util.SignUtil;
 import org.liufeng.course.util.WeChat;
 import org.slf4j.Logger;
@@ -34,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import po.Cart;
 import po.MapOrderProduct;
 import po.Orders;
+import po.PayCallback;
 import po.Product;
 import po.User;
 import service.AdminService;
@@ -293,28 +298,6 @@ public class WeChatController extends BaseController {
 				}	
 				return map;
 	}
-	/*@RequestMapping("/ordertopay")
-	public void ordertopay(HttpServletRequest request,
-			HttpServletResponse response) throws Exception,IOException{
-				String appid2 = Constant.APPID;
-				String currTime = TenpayUtil.getCurrTime();
-				RequestHandler reqHandler = new RequestHandler(request, response);
-				reqHandler.init(appid2, Constant.APPSECRET, Constant.PARTNERKEY);		
-				SortedMap<String, String> finalpackage = new TreeMap<String, String>();		
-				String timestamp = "1481960236";
-				String nonceStr2 = "1537164492";
-				String prepay_id2 = "prepay_id="+"wx20161217153716ed37a1ce500970530591";
-				String packages = prepay_id2;
-				finalpackage.put("appId", appid2);  
-				finalpackage.put("timeStamp", timestamp);  
-				finalpackage.put("nonceStr", nonceStr2);  
-				finalpackage.put("package", packages);  
-				finalpackage.put("signType", "MD5");
-				String finalsign ="D237058958F6BD1716A60A413CED26F5";
-				logger.info("最后阶段finalsign="+finalsign);
-				response.sendRedirect("/SpringGene1/pay.jsp?appid="+appid2+"&timeStamp="+timestamp+"&nonceStr="+nonceStr2+"&package="+packages+"&sign="+finalsign);
-		
-	}*/
 	
 	@RequestMapping("/address")
 	@ResponseBody
@@ -326,7 +309,7 @@ public class WeChatController extends BaseController {
 		HttpResponse temp = HttpConnect.getInstance().doGetStr(URL);		
 		String tempValue="";
 		if( temp == null){
-				response.sendRedirect("/SpringGene1/error.jsp");
+				//response.sendRedirect("/SpringGene1/error.jsp");
 				logger.info("temp==null");
 		}else
 		{
@@ -461,14 +444,32 @@ public class WeChatController extends BaseController {
 			return flag;
 		}
 	    
-	    @RequestMapping(value={"/successtopay"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	    @RequestMapping(value="/wechat_notify")
 	    @ResponseBody
 		public String successtapy(HttpServletRequest request,
 				HttpServletResponse response) throws Exception,IOException{
-	    	logger.info("success");
-	    
-	    
-			return "SUCCESS";
+	    	PayCallback callback =null;
+	    	try {
+	             Map<String, String> resultPay = WePay.getCallbackParams(request);
+	             if (resultPay.get("result_code").toString().equalsIgnoreCase("SUCCESS")) {
+	                // String orderId = resultPay.get("out_trade_no");
+	                 String nonce_str = resultPay.get("nonce_str");
+	                 logger.info("nonce_str="+nonce_str);
+	                 Orders order=new Orders();
+	                 order.setNonceStr(nonce_str);
+	                 order=orderService.selectOneOrder(order);
+	                 logger.info("wechat_notify orderid="+order.getId());
+	                 order.setOrdState("2");
+	                 orderService.updateOrder(order);
+	                 if(orderService.updateOrder(order)){
+	                	 callback = new PayCallback();
+	                 }
+	                 
+	             }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+			return MessageUtil.PayCallbackToXml(callback);
 		}
 	    
 	    
@@ -488,7 +489,6 @@ public class WeChatController extends BaseController {
 	    	order.setUserAddress(userAddress);
 	    	order.setUserPostal(userPostal);
 	    	order.setUserName(userName);
-	    	order.setOrdState("2");
 	    	order.setId(Integer.valueOf(orederId));
 	    	logger.info("finishpay orderid="+orederId);
 	    	if(orderService.updateOrder(order)){

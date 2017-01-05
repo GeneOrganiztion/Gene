@@ -45,6 +45,11 @@
 		    <result column="pro_detail" property="proDetail" jdbcType="VARCHAR" />
 		    <result column="pro_area" property="proArea" jdbcType="VARCHAR" />
 		    <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
+		    <collection property="imagelist" ofType="po.Image">
+  					<id column="image_id" property="image_id"></id>
+  					<result column="pro_id" property="proId"></result>
+  					<result column="url" property="url"></result>
+  			</collection>
 		</association>
 	</collection>
   </resultMap> 
@@ -60,11 +65,13 @@
      	SELECT 
 	     	oe.*,
 	     	mp.*,
-	     	pt.* 
+	     	pt.*,
+	     	image.* 
      	FROM  
 	     	orders oe ,
 	     	map_order_product mp , 
-	     	product pt 
+	     	product pt
+	    left join image on image.`pro_id`=pt.`product_id`
      	WHERE 
 	     	oe.`order_id`= mp.`ord_id`
 	     	AND mp.`pro_id`= pt.`product_id` 
