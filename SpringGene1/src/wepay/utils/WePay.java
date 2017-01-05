@@ -1,4 +1,4 @@
-package utils;
+package wepay.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -11,14 +11,19 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
+import org.liufeng.course.message.resp.TemplateData;
+import org.liufeng.course.message.resp.WxTemplate;
+import org.liufeng.course.pojo.Token;
 import org.liufeng.course.util.MessageUtil;
+import org.liufeng.course.util.WeixinUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import controller.WeChatController;
-import wepay.utils.GetWxOrderno;
-import wepay.utils.RequestHandler;
-import wepay.utils.TenpayUtil;
+import utils.Constant;
+import utils.DateUtil;
+import utils.Sha1Util;
 
 public class WePay {
 	private static final Logger logger = LoggerFactory.getLogger(WePay.class);
@@ -163,20 +168,55 @@ public class WePay {
      */
     public static Map<String, String> getCallbackParams(HttpServletRequest request)
             throws Exception {
-      /*  InputStream inStream = request.getInputStream();
-        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inStream.read(buffer)) != -1) {
-            outSteam.write(buffer, 0, len);
-        }
-        System.out.println("~~~~~~~~~~~~~~~~付款成功~~~~~~~~~");
-        outSteam.close();
-        inStream.close();
-        String result = new String(outSteam.toByteArray(), "utf-8");*/
-    	
         return MessageUtil.parseXml(request);
     }
 	
+
+    /**
+     * 发送模板消息
+     * appId 公众账号的唯一标识
+     * appSecret 公众账号的密钥
+     * openId 用户标识
+     */
+    public static void send_template_message(String appId, String appSecret, String openId,String userId) {
+        Token token = WeixinUtil.getAccessToken(appId, appSecret);
+        String access_token = token.getAccessToken();
+        String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+access_token;
+        WxTemplate temp = new WxTemplate();
+        temp.setUrl(Constant.ROOT_URL+"DNAjiankang/index.html#/order/"+userId+"/1");
+        temp.setTouser(openId);
+        temp.setTopcolor("#000000");
+//        temp.setTemplate_id("ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY");
+        temp.setTemplate_id(Constant.Template_id);
+        Map<String,TemplateData> m = new HashMap<String,TemplateData>();
+        TemplateData first = new TemplateData();
+        first.setColor("#000000");  
+        first.setValue("尊敬的用户,您的订单已经创建成功！");  
+        m.put("first", first);  
+        TemplateData name = new TemplateData();  
+        name.setColor("#000000");  
+        name.setValue("基因检测套餐");  
+        m.put("keyword1", name);
+        TemplateData wuliu = new TemplateData();  
+        wuliu.setColor("#000000");  
+        wuliu.setValue("商城下单成功");  
+        m.put("keyword2", wuliu);
+        TemplateData remark = new TemplateData();  
+        remark.setColor("#000000");  
+        remark.setValue("您可点击本消息查看订单详情!");  
+        m.put("remark", remark);
+        temp.setData(m);
+        String jsonString = JSONObject.fromObject(temp).toString();
+        JSONObject jsonObject = WeixinUtil.httpRequest(url, "POST", jsonString);
+        System.out.println(jsonObject);
+        int result = 0;
+        if (null != jsonObject) {  
+             if (0 != jsonObject.getInt("errcode")) {  
+                 result = jsonObject.getInt("errcode");
+                 logger.error("错误 errcode:{} errmsg:{}", jsonObject.getInt("errcode"), jsonObject.getString("errmsg"));  
+             }  
+         }
+        logger.info("模板消息发送结果："+result);
+        }
 	
 }

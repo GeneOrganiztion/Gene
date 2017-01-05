@@ -1,7 +1,9 @@
 package controller.report;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.github.pagehelper.PageInfo;
 
 import po.Report;
 import service.ReportService;
@@ -26,6 +31,53 @@ public class ReportInfoController extends BaseController {
 	@Autowired
 	private ReportService<Report> reportService;
 	
+	
+	private String REPORT_PAGE = "report/reportList";
+	
+	
+	
+	@RequestMapping(value = "/reportListPage")
+	@ResponseBody
+	public ModelAndView classifyListPage(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(REPORT_PAGE);
+		return mv;
+	}  
+	
+	@RequestMapping(value = "/seletreport")
+	@ResponseBody
+	public PageInfo seletcClassify(HttpServletRequest request,HttpServletResponse response){
+		String sidx = getParam("sidx");// 排序字段;
+        String sord = getParam("sord");// 升序降序;
+        PageInfo pageInfo = new PageInfo();
+        try {
+        	int oneRecord = Integer.valueOf(getParam("rows"));// 一页几行
+            int pageNo = Integer.valueOf(getParam("page"));// 第几页
+            String reportName = getParam("reportName");
+            String userName = getParam("userName");
+            String beginTime = getParam("beginTime");
+            String endTime = getParam("endTime");
+            String reportID = getParam("reportID");
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("sidx", sidx);// 排序字段
+            map.put("sord", sord);// 升序降序
+            map.put("rowCount", oneRecord);//一页几行
+            map.put("pageNo", pageNo);
+            map.put("reportName", reportName);
+            map.put("reportID", reportID);
+            map.put("userName", userName);
+            if(!ST.isNull(beginTime)){
+            	map.put("beginTime", beginTime + " 00:00:00");
+            }
+            if(!ST.isNull(endTime)){
+            	map.put("endTime", endTime + " 59:59:59");
+            }
+            pageInfo= (PageInfo)reportService.selectReportParams(map);
+		} catch (Exception e) {
+			logger.error("seletcClassify error:" + e);
+		}
+        return pageInfo;
+	}
 	/**
 	 * 根据orId,proId,userId中的一个或者多个参数查询报告
 	 * @param request  orId订单Id   proId商品Id    userId用户Id
@@ -58,4 +110,6 @@ public class ReportInfoController extends BaseController {
 		}
 		return list;
 	}
+	
+	
 }

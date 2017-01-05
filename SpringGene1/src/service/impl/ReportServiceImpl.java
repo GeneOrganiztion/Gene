@@ -1,13 +1,18 @@
 package service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import Mapper.ReportMapper;
+import po.Admin;
 import po.Report;
 import service.ReportService;
 @Transactional
@@ -20,6 +25,14 @@ public class ReportServiceImpl implements ReportService {
 	public List<Report> selectReportByParams(Report report)throws Exception{
 		report.setIsdelete(false);
 		return reportMapper.select(report);
+	}
+	
+	@Override
+	public PageInfo selectReportParams(Map map) throws Exception {
+		PageHelper.startPage((Integer)map.get("pageNo"),(Integer)map.get("rowCount"));
+		List<Report> list = reportMapper.selectReportParams(map);
+	    PageInfo page = new PageInfo(list);
+		return page;
 	}
 	@Override
 	public boolean insertReport(Report report)throws Exception{

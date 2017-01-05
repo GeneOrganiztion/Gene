@@ -96,11 +96,13 @@
      	SELECT 
 	     	oe.*,
 	     	mp.*,
-	     	pt.* 
+	     	pt.*,
+	     	image.*  
      	FROM  
 	     	orders oe ,
 	     	map_order_product mp , 
 	     	product pt 
+	     left join image on image.`pro_id`=pt.`product_id`
      	WHERE 
 	     	oe.`order_id`= mp.`ord_id`
 	     	AND mp.`pro_id`= pt.`product_id` 

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "report")
 public class Report {
@@ -31,8 +32,18 @@ public class Report {
     private Date createTime;
 
     private Date lastModifiedTime;
+    @Transient
+    private Orders order;
+  
+    public Orders getOrder() {
+		return order;
+	}
 
-    public Integer getId() {
+	public void setOrder(Orders order) {
+		this.order = order;
+	}
+
+	public Integer getId() {
         return report_id;
     }
 

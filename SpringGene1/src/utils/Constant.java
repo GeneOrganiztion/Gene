@@ -12,6 +12,10 @@ public class Constant {
 	public static final String OSS_ENDPOINT = "http://myfirst1990.oss-cn-shanghai.aliyuncs.com/";
 	
 	
+	public static final String Template_id="Lq-oIIts9mQ4pWZ4La2Nb7noMbibToVxdQ3m5E4DT6o";
+	
+	public static final String ROOT_URL="http://nbuxinxiren.cn/";
+	
 	public static final String ORDER_STATUS1 = "1"; //未付款
 	public static final String ORDER_STATUS2 = "2"; //待发货
 	public static final String ORDER_STATUS3 = "3"; //待寄回         

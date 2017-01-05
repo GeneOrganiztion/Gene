@@ -1,6 +1,9 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.github.pagehelper.PageInfo;
 
 import po.Report;
 
@@ -21,5 +24,7 @@ public interface ReportService<T> {
 	public Integer selectCountByMapOrderProductId(Integer mapOrderProductId)throws Exception;
 	
 	public boolean updateReportById(Report report)throws Exception;
+	
+	public PageInfo selectReportParams(Map map)throws Exception;
 
 }

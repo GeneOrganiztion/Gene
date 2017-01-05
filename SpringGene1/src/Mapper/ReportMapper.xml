@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="Mapper.ReportMapper" >
   <resultMap id="BaseResultMap" type="po.Report" >
-    <id column="reportid_id" property="report_id" jdbcType="INTEGER" />
+    <id column="report_id" property="report_id" jdbcType="INTEGER" />
     <result column="pro_id" property="proId" jdbcType="INTEGER" />
     <result column="ord_id" property="ordId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -15,12 +15,21 @@
     <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    reportid_id, pro_id, ord_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
+    report_id, pro_id, ord_id, user_id, rep_name, rep_result, rep_state, rep_pdf, isdelete, create_time, 
     last_modified_time
   </sql>
   <select id="selectCountByMapOrderProductId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
   	SELECT COUNT(1) FROM report rt WHERE rt.`map_order_product_id`= #{mapOrderProductId}
   </select>
+  
+   <resultMap type="po.Report" id="ReportAndOrdertMap" extends="BaseResultMap">
+		<association property="order" javaType="po.Orders">
+			<id column="order_id" property="order_id" jdbcType="INTEGER" />
+			    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+			    <result column="ord_num" property="ordNum" jdbcType="VARCHAR" />
+			    <result column="ord_state" property="ordState" jdbcType="VARCHAR" />
+		</association>
+  </resultMap> 
   <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="po.ReportKey" >
     select 
     <include refid="Base_Column_List" />
@@ -162,4 +171,41 @@
       last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update> -->
+  
+  
+  <select id="selectReportParams" resultMap="ReportAndOrdertMap" parameterType="java.util.HashMap">
+  	select
+  		orders.*,
+  		report.*
+	    from 
+	    	report,
+	    	orders
+	    where report.isdelete = 0
+	    AND report.ord_id=orders.order_id
+	   <if test="reportID != null">
+        and report.report_id =  #{reportID}
+      </if>
+      <if test="reportName != null" >
+        and report.rep_name  LIKE '%${reportName}%'
+      </if>
+        <if test="reportName != null" >
+        and orders.user_name LIKE '%${userName}%'
+      </if> 
+   	    <if test="productName != null" >
+        and report.rep_name  LIKE '%${reportName}%'
+      </if> 
+     <if test="beginTime != null ">
+          AND CREATE_TIME > #{beginTime} 
+      </if>
+      <if test="endTime != null ">
+          <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
+      </if>
+       <if test="sidx != null">
+        order by ${sidx} ${sord}
+      </if>
+  </select>
+  
+  
+  
+  
 </mapper>

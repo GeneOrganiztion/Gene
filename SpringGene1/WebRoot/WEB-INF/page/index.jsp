@@ -609,6 +609,25 @@
 							</li>
 						</ul>
 					</li> 
+					
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-tag"></i>
+							<span class="menu-text">报告管理 </span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="">
+								<a  href="#" menu-url="report/reportListPage.do">
+									<i class="menu-icon fa fa-caret-right"></i>
+								 	基因检测报告
+								</a>
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
 				
 				</ul><!-- /.nav-list -->
 

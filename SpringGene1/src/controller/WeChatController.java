@@ -13,14 +13,6 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
-
-
-
-
-
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -50,7 +42,6 @@ import service.UserService;
 import utils.Constant;
 import utils.DateUtil;
 import utils.ST;
-import utils.WePay;
 
 import com.github.pagehelper.PageInfo;
 
@@ -62,6 +53,7 @@ import wepay.utils.HttpXmlClient;
 import wepay.utils.TenpayUtil;
 import wepay.utils.HttpConnect;
 import wepay.utils.HttpResponse;
+import wepay.utils.WePay;
 
 @Controller
 @RequestMapping("/weixin")
@@ -265,7 +257,9 @@ public class WeChatController extends BaseController {
 								maporder.setProClassifyId(pro.getClassifyId());
 								maporder.setReportCount(0);
 								mapOrderProductService.saveMapOderPro(maporder);
+								
 							}
+							WePay.send_template_message(Constant.APPID, Constant.APPSECRET, openId,String.valueOf(user.getId())); //发送模板消息
 					}else{	
 						return null;
 					}
