@@ -90,8 +90,17 @@ public class ClassifyServiceImpl implements ClassifyService {
     public PageInfo selectClassifyParams(Map map){
     	PageHelper.startPage((Integer)map.get("pageNo"),(Integer)map.get("rowCount"));
 		List<Classify> list = new ArrayList<Classify>();
+		String flag = (String) map.get("flag");
 		try {
 			list = classifyMapper.selectClassifyParams(map);
+			if("twoClassify".equals(flag)){
+				for(Classify clas: list){
+					Classify classify = new Classify();
+					classify.setId(clas.getClaPid());
+					Classify clsTmp = classifyMapper.selectOne(classify);
+					clas.setOneClassName(clsTmp.getClaName());
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("selectClassifyParams error:" + e);

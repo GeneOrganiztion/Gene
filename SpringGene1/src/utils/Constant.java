@@ -12,13 +12,18 @@ public class Constant {
 	public static final String OSS_ENDPOINT = "http://myfirst1990.oss-cn-shanghai.aliyuncs.com/";
 	
 	
-	public static final String ORDER_STATUS1 = "1";
-	public static final String ORDER_STATUS2 = "2";
-	public static final String ORDER_STATUS3 = "3";
-	public static final String ORDER_STATUS4 = "4";
-	public static final String ORDER_STATUS5 = "5";
-	public static final String ORDER_STATUS6 = "6";
-	public static final String ORDER_STATUS7 = "7";
+	public static final String ORDER_STATUS1 = "1"; //未付款
+	public static final String ORDER_STATUS2 = "2"; //待发货
+	public static final String ORDER_STATUS3 = "3"; //待寄回         
+	public static final String ORDER_STATUS4 = "4"; //检测中
+	public static final String ORDER_STATUS5 = "5"; //已完成
+	
+	
+	public static final Integer REPORT_STATUS0 = 0;//待检测 
+	public static final Integer REPORT_STATUS1 = 1;//样本污染     
+	public static final Integer REPORT_STATUS2 = 2;//正在检测
+	public static final Integer REPORT_STATUS3 = 3;//报告生成
+	
 	
 	public static final int ONE_CLASSID = 0;
 	

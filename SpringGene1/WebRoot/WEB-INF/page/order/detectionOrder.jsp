@@ -135,7 +135,7 @@
 						<div class="col-xs-12 col-sm-4">
 							<div class="clearfix">
 								<!-- <input type="text" disabled="disabled" name="ordPay" class="col-xs-12 col-sm-12" /> -->
-								<select class="chosen-select form-control" disabled="disabled" name="ordPay" >
+								<select class="input-medium" disabled="disabled" name="ordPay" >
 									<option value="1">微信支付</option>
 									<option value="2">支付宝支付</option>
 									<option value="3">其他支付</option>
@@ -204,15 +204,28 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-2 ">状态:</label>
+								<div class="col-xs-12 col-sm-4">
+									<select class="input-medium" id= "reportState"  >
+										<option value="0">待检测</option>
+										<option value="1">样本污染</option>
+										<option value="2">正在检测</option>
+										<option value="3">报告生成</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group center">
+								<button type="button" class="btn btn-md" onclick="saveReport()" >保存</button>
+							</div>
 						</form>
+						<div class="hr hr-double hr-dotted hr18"></div>
 		     		</div>
 		     		<div class="space-2"></div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<input type="hidden" id="mapOrderProductId"></input>
-						<!-- <input type="hidden" id="subGridId"></input>
-						<input type="hidden" id="subGridLine"></input> -->
-						<!-- <input type="hidden" id="deleteReportId"></input> -->
+						<input type="hidden" id="reportId"></input>
 						<div>
 							<form action="<%=path%>/orderInfo/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
 								<div class="fallback">
@@ -224,15 +237,6 @@
 					<div class="col-xs-12 center">
 						<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">上传报告</button>
 					</div>
-					<!-- <div class="col-xs-12 center">
-						<ul class="ace-thumbnails clearfix" id="gread">
-							<li>
-								<a href="../assets/images/gallery/image-1.jpg" title="请选择图片右键拷贝图片路径" data-rel="colorbox">
-									<img width="150" height="150" alt="150x150" src="../assets/images/gallery/thumb-1.jpg" />
-								</a>
-							</li>
-						</ul>
-					</div> -->
 				</div><!-- /.row -->
 		     </div>
 			<div class="modal-footer">

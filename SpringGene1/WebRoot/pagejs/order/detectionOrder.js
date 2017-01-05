@@ -298,8 +298,6 @@ function initOrderManager(){
 						myDropzone.destroy();
 						//$("#deleteReportId").val(response.returnId);
 						queryOrder();
-						//重新加载报告上传数量
-						//reloadUploadRrportCount();
 					}else{
 						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
 						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
@@ -307,23 +305,10 @@ function initOrderManager(){
                 });
                 this.on("sending", function (file, xhr, formData) {
                 	formData.append("mapOrderProductId",$("#mapOrderProductId").val());
-                	formData.append("reportName",$("#reportName").val());
-                	formData.append("reportResult",$("#reportResult").val());
+                	/*formData.append("reportName",$("#reportName").val());
+                	formData.append("reportResult",$("#reportResult").val());*/
+                	formData.append("reportId",$("#reportId").val());
                 });
-                //当上传完成后的事件，接受的数据为JSON格式
-                /*this.on("complete", function (data) {
-                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                        var res =data;
-                        var msg;
-                        if (res.message=="error") {
-                        	alertmsg("error","商品详情图片上传失败，请重新上传");
-                        }
-                        else {
-                        	alertmsg("success","商品详情图片上传完成");
-                        }
-                        
-                    }
-                });*/
                 
 
                 //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
@@ -382,31 +367,32 @@ function initOrderManager(){
 	}
 	//格式化商品jqgrid之后的操作
 	function formatterOperate(cellvalue, options, rowObject){
-		//options.gid  Grid的Id
-		//rowObject.id  第几行
-		//rowObject.map_order_product_id    
-		
-		//var str = options.gid + "||" +  options.rowId + "||" + rowObject.map_order_product_id;
-		var	detial;
+		var idArr = rowObject.reportIds.split(",");
+		var	detial = "";
 		if(rowObject.reportCount == rowObject.proCount){
-			detial = "<button disabled=\"disabled\" onclick=\"uploadReportPic('" + rowObject.map_order_product_id + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>";
-			
+			for(var i = 0; i < idArr.length; i ++){
+				detialTmp = "<button disabled=\"disabled\" onclick=\"uploadReportPic('" + rowObject.map_order_product_id + "," + idArr[i] + "')\" class=\"btn btn-minier btn-purple\">检测操作</button>";
+				detial = detial + detialTmp;
+			}
 		}else{
-			detial = "<button onclick=\"uploadReportPic('" + rowObject.map_order_product_id + "')\" class=\"btn btn-minier btn-purple\">上传报告</button>";
+			for(var i = 0; i < idArr.length; i ++){
+				detialTmp = "<button onclick=\"uploadReportPic('" + rowObject.map_order_product_id + "," + idArr[i] + "')\" class=\"btn btn-minier btn-purple\">检测操作</button>";
+				detial = detial + detialTmp;
+			}
 		}
 		 
-		var detial1 ;
+		var detial1 = "";
 		if(rowObject.reportCount == 0){
 			detial1 = "<button disabled=\"disabled\" onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
 		}else{
 			detial1 = "<button onclick=\"viewReportPic(" + rowObject.map_order_product_id + ")\" class=\"btn btn-minier btn-yellow\">预览报告</button>";
 		}
-        return detial +detial +detial+ detial1;
+        return detial+ detial1;
 
 	}
 	
 	function formatterGridOperate(cellvalue, options, rowObject){
-		var detail = "<button onclick=\"querOrderDetial(" + rowObject.id + ")\" class=\"btn btn-minier btn-purple\">查看详情	</button>"
+		var detail = "<button onclick=\"querOrderDetial(" + rowObject.id + ")\" class=\"btn btn-minier btn-purple\">查看详情</button>"
         return detail;
 
 	}
@@ -437,19 +423,13 @@ function initOrderManager(){
 			return "待发货";
 			break;
 		case 3:
-			return "待收货";
+			return "待寄回";
 			break;
 		case 4:
-			return "待收货";
+			return "检测中";
 			break;
 		case 5:
-			return "待收货";
-			break;
-		case 6:
-			return "待检测";
-			break;
-		case 7:
-			return "完成";
+			return "已完成";
 			break;
 		default:
 			return "无";
@@ -512,19 +492,45 @@ function querOrderDetial(orderId){
 	});
 }
 //上传报告
-function uploadReportPic(id){
-	//var strArr = str.split("||");
-	//strArr[0]   sugrid 的名字
-	//strArr[1]   第几行
-	//strArr[2]   mapOrderProductId
+function uploadReportPic(str){
+	var strArr = str.split(",");
+	//strArr[0]   mapOrderProductId
+	//strArr[1]   report表的id
 	//打开model之前清空上一次的数据    
 	$("#uploadReportPicModal :input").val("");
 	
 	
-	/*$("#subGridId").val(strArr[0]);
-	$("#subGridLine").val(strArr[1]);*/
-	$("#mapOrderProductId").val(id);
+	$("#mapOrderProductId").val(strArr[0]);
+	$("#reportId").val(strArr[1]);
+	//加载数据库数据
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/selectReoprt.do",
+		data: {reportId:strArr[1]},
+		success: function(report){
+			$("#reportName").val(report.repName);
+			$("#reportResult").val(report.repResult);
+			$("#reportState").val(report.repState);
+		}
+	});
 	$("#uploadReportPicModal").modal("show");
+}
+//保存报告
+function saveReport(){
+	var reportId = $("#reportId").val();
+	var reportName = $("#reportName").val();
+	var repResult = $("#reportResult").val();
+	var repState = $("#reportState").val();
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/saveReoprt.do",
+		data: {reportId:reportId,reportName:reportName,repResult:repResult,repState:repState},
+		success: function(msg){
+			if(msg.success){
+				alertmsg("success", "保存成功");
+			}
+		}
+	});
 }
 //预览报告
 function viewReportPic(mapOrderProductId){

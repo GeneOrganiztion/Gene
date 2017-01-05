@@ -23,10 +23,11 @@ function initTwoClassifyManager(){
 		datatype: "json",
 		postData: {flag: "twoClassify"},
 		height: 320,
-		colNames:['分类ID','分类名称','创建时间','最后更新时间'],
+		colNames:['分类ID','分类名称','一级分类名称','创建时间','最后更新时间'],
 		colModel:[
           	{name:'id',index:'classify_id', width:80, sorttype:"int", editable: true},
           	{name:'claName',index:'claName',width:80, editable:true,sortable:false},
+          	{name:'oneClassName',index:'oneClassName',width:80, editable:true,sortable:false},
 			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
 			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
 		], 

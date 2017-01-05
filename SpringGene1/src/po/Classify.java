@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name ="classify")
 public class Classify {
@@ -22,6 +23,10 @@ public class Classify {
 
     private Date lastModifiedTime;
 
+    //二级分类所属一级分类的名称
+    @Transient
+    private String oneClassName;
+    
     public Integer getId() {
         return classify_id;
     }
@@ -77,4 +82,13 @@ public class Classify {
     public void setLastModifiedTime(Date lastModifiedTime) {
         this.lastModifiedTime = lastModifiedTime;
     }
+
+	public String getOneClassName() {
+		return oneClassName;
+	}
+
+	public void setOneClassName(String oneClassName) {
+		this.oneClassName = oneClassName;
+	}
+    
 }

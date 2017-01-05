@@ -172,52 +172,40 @@ public class OrderInfoController extends BaseController{
 			@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
 		 String mapOrderProductId= getParam("mapOrderProductId");
-		 String reportName = getParam("reportName");
-		 String reportResult = getParam("reportResult");
+		/* String reportName = getParam("reportName");
+		 String reportResult = getParam("reportResult");*/
+		 String reportId = getParam("reportId");
 		 if(ST.isNull(mapOrderProductId)){
 			 resModel.setSuccess(false);
 			 return resModel;
 		 }
-		 //验证上传报告是否大于产品数量
 		 MapOrderProduct mop = mapOrderProductService.selectMapOrderProductById(Integer.valueOf(mapOrderProductId));
-		 int proCount = mop.getProCount();
-		 Report rt = new Report();
-		 rt.setIsdelete(false);
-		 rt.setMapOrderProductId(mop.getId());
-		 List<Report> list = reportService.selectReportByParams(rt);
-		 if(list != null && list.size() > 0){
-			 if(list.size() >= proCount){
+		 //验证是否已上传了报告
+		 Report report = new Report();
+		 if(!ST.isNull(reportId)){
+			 report = reportService.selectReportByReportId(Integer.valueOf(reportId));
+			 if(!ST.isNull(report.getRepPdf())){
+				 resModel.setMsg("此报告以上传");
 				 resModel.setSuccess(false);
-				 resModel.setMsg("上传报告大于产品数量");
 				 return resModel; 
 			 }
 		 }
 		 try {
 			 String filepath = FileUpload.upFileRename(file, request);
-			 Report report = new Report();
-			 report.setIsdelete(false);
-			 report.setOrdId(mop.getOrdId());
-			 report.setProId(mop.getProId());
+			 //更改report表的数据
 			 report.setRepPdf(filepath);
-			 report.setRepName(reportName);
-			 //查询orders表的orderUser
-			 Orders order =orderService.selectOrdersByOrderId(mop.getOrdId());
-			 report.setUserId(order.getOrdUser());
-			 report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
-			 report.setRepResult(reportResult);
-			 report.setCreateTime(new Date());
-			 report.setLastModifiedTime(new Date());
-			 Integer id = reportService.insertReportReturnId(report);
-			 resModel.setReturnId(id);
+			 report.setRepState(Constant.REPORT_STATUS3);
+			 reportService.updateReportById(report);
 			 //上传成功更改 map_order_product 中已上传报表的数量
 			 mop.setReportCount(mop.getReportCount() + 1);
 			 mapOrderProductService.updateMapOrderProduct(mop);
 			 //更改订单表的状态
-			 List<MapOrderProduct> listMp = mapOrderProductService.selectMapOrderProductByOrdId(mop.getOrdId());
-			 //循环判断订单下的商品如果有一个商品上传的报告小于商品的数量不更改订单表的状态
+			 Report reportTmp = new Report();
+			 reportTmp.setOrdId(mop.getOrdId());
+			 List<Report> reportList = reportService.selectReportByParams(reportTmp);
 			 boolean flag = true;
-			 for(MapOrderProduct mopt: listMp){
-				 if(mopt.getProCount() != mopt.getReportCount()){
+			 for(Report rt: reportList){
+				 if(Constant.REPORT_STATUS3 != rt.getRepState()){
 					 flag = false;
 					 break;
 				 }
@@ -225,7 +213,7 @@ public class OrderInfoController extends BaseController{
 			 if(flag){
 				 Orders orders = new Orders();
 				 orders.setId(mop.getOrdId());
-				 orders.setOrdState(Constant.ORDER_STATUS7);//已完成
+				 orders.setOrdState(Constant.ORDER_STATUS5);//已完成
 				 orderService.updateOrderStatus(orders);
 			 }
 			 
@@ -249,6 +237,14 @@ public class OrderInfoController extends BaseController{
 		report.setMapOrderProductId(Integer.valueOf(mapOrderProductId));
 		try {
 			list = reportService.selectReportByParams(report);
+			//去除报告中没有报告路径的记录
+			for(int i =0; i < list.size(); i ++){
+				String repPdf = list.get(i).getRepPdf();
+				if(ST.isNull(repPdf)){
+					list.remove(i);
+					i--;
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 		}
@@ -398,5 +394,42 @@ public class OrderInfoController extends BaseController{
 		resModel.setSuccess(true);
 		return resModel;
 	}
-	
+	@RequestMapping(value = "/selectReoprt")
+	@ResponseBody
+	public Report selectReoprt(HttpServletRequest request,HttpServletResponse response){
+		String reportId = getParam("reportId");
+		Report report = new Report();
+		if(ST.isNull(reportId)){
+			return report;
+		}
+		try {
+			report = reportService.selectReportByReportId(Integer.valueOf(reportId));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return report;
+	}
+	@RequestMapping(value = "/saveReoprt")
+	@ResponseBody
+	public ResModel saveReoprt(HttpServletRequest request,HttpServletResponse response){
+		ResModel resModel = new ResModel();
+		String reportId = getParam("reportId");
+		String reportName = getParam("reportName");
+		String repResult = getParam("repResult");
+		String repState = getParam("repState");
+		Report report = new Report();
+		report.setId(Integer.valueOf(reportId));
+		report.setRepName(reportName);
+		report.setRepResult(repResult);
+		report.setRepState(Integer.valueOf(repState));
+		try {
+			reportService.updateReportById(report);
+		} catch (Exception e) {
+			logger.error("saveReoprt error:" + e);
+			resModel.setSuccess(false);
+			return resModel;
+		}
+		resModel.setSuccess(true);
+		return resModel;
+	}
 }

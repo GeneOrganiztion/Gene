@@ -19,5 +19,7 @@ public interface ReportService<T> {
 	public Integer insertReportReturnId(Report report)throws Exception;
 	
 	public Integer selectCountByMapOrderProductId(Integer mapOrderProductId)throws Exception;
+	
+	public boolean updateReportById(Report report)throws Exception;
 
 }

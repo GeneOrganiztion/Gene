@@ -184,11 +184,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group center">
-								<button type="button" class="btn btn-md" onclick="saveAdmin()" >保存</button>
-							</div>
 		 				</form>
-		 					<div class="hr hr-double hr-dotted hr18"></div>
 	 				</div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->

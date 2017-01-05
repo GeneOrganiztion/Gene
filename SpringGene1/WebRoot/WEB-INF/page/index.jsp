@@ -568,7 +568,7 @@
 							<li class="">
 								<a href="#" menu-url="orderInfo/detectionOrderPage.do">
 									<i class="menu-icon fa fa-caret-right"></i>
-									待检测订单
+									检测中订单
 								</a>
 
 								<b class="arrow"></b>

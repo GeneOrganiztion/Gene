@@ -68,5 +68,14 @@ public class ReportServiceImpl implements ReportService {
 		report.setId(reportId);
 		return reportMapper.selectByPrimaryKey(report);
 	}
-	
+	@Override
+	public boolean updateReportById(Report report) throws Exception {
+		try {
+			reportMapper.updateByPrimaryKeySelective(report);
+		} catch (Exception e) {
+			logger.error("updateReportById error:" + e);
+			return false;
+		}
+		return true;
+	}
 }
