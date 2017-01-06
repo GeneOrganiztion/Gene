@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +90,24 @@ public class TestControler extends BaseController {
     	ModelAndView modelAndView = new ModelAndView("student");
        // modelAndView.setViewName("student");
         return modelAndView;
+
+    }
+    
+    @RequestMapping(value = "/phonegettime")
+    @ResponseBody
+    public List<Integer> phonegettime(HttpServletRequest request,HttpServletResponse response) {
+    	List<Integer> listint=new ArrayList<Integer>();
+    	listint.add(25);
+    	listint.add(30);
+        return listint;
+
+    }
+    
+    @RequestMapping(value = "/phonegetmoney")
+    @ResponseBody
+    public Integer phonegetmoney(HttpServletRequest request,HttpServletResponse response) {
+    	
+        return 1;
 
     }
 

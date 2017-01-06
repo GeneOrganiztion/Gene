@@ -51,19 +51,19 @@
 	    </div>
 	    <div id="searchDiv" class="panel-collapse collapse">
 	      <div class="panel-body">
-			  <form id="queryOneClassifyForm" class="form-horizontal" role="form">
+			  <form id="queryOneReport" class="form-horizontal" role="form">
 				<!-- #section:elements.form -->
 				<div class="form-group">
 					<div class="col-md-3">
-							<label class="col-sm-4 control-label no-padding-right" for="claName">报告ID</label>
+							<label class="col-sm-4 control-label no-padding-right" for="orderNumber">报告所属订单编号</label>
 							<div class="col-sm-8">
-								<input type="text" name="classifyId" class="form-control" />
+								<input type="text" name="orderNumber" class="form-control" />
 							</div>
 					</div>
 					<div class="col-md-3">
-						<label class="col-sm-4 control-label no-padding-right" for="claName">报告名称</label>
+						<label class="col-sm-4 control-label no-padding-right" for="reportName">报告名称</label>
 						<div class="col-sm-8">
-							<input type="text" name="claName" class="form-control" />
+							<input type="text" name="reportName" class="form-control" />
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -88,7 +88,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-md" onclick="queryOneClassify()">
+						<button type="button" class="btn btn-md" onclick="queryReport()">
 							<i class="ace-icon fa fa-search orange"></i>搜索
 						</button>
 						<button type="button" class="btn btn-md" onclick="reset()">
@@ -102,7 +102,7 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="deleteOneClassify()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;修改报告</button>
+        <button type="button" onclick="uploadReportPic()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;修改报告</button>
     </div>
 	<div class="row">
 		<div class="col-xs-12">
@@ -113,117 +113,89 @@
 		</div><!-- /.col -->
 	</div><!-- /.row -->
 </div><!-- /.page-content -->
-<!-- 添加分类model start -->
-<div class="modal fade" id="addOneClassifyModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<!-- 上传报告model begin -->
+<div class="modal fade" id="uploadReportPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
              <div class="modal-header">
              	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title" >添加分类</h4>
+			    <h4 class="modal-title">上传报告</h4>
 		     </div>
 		     <div class="modal-body">
 		     	<div class="row">
 		     		<div class="col-xs-12 ">
-		            	<form class="form-horizontal" id="addOneClassifyform" >
-		           			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">分类名</label>
-								<div class="col-xs-12 col-sm-8">
+		     			<form class="form-horizontal">
+			     			<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-2 ">报告名称:</label>
+								<div class="col-xs-12 col-sm-4">
 									<div class="clearfix">
-										<input type="text" id="claName" name="claName" class="col-xs-12 col-sm-6" />
+										<input type="text" id="reportName" class="col-xs-12 col-sm-12" />
+									</div>
+								</div>
+								<label class="control-label col-xs-12 col-sm-2 ">报告结果:</label>
+								<div class="col-xs-12 col-sm-4">
+									<div class="clearfix">
+										<input type="text" id="reportResult" class="col-xs-12 col-sm-12" />
 									</div>
 								</div>
 							</div>
-		 				</form>
-	 				</div>
-	 				<div class="space-2"></div>
+							<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-2 ">状态:</label>
+								<div class="col-xs-12 col-sm-4">
+									<select class="input-medium" id= "reportState"  >
+										<option value="0">待检测</option>
+										<option value="1">样本污染</option>
+										<option value="2">正在检测</option>
+										<option value="3">报告生成</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group center">
+								<button type="button" class="btn btn-md" onclick="saveReport()" >保存</button>
+							</div>
+						</form>
+						<div class="hr hr-double hr-dotted hr18"></div>
+		     		</div>
+		     		<div class="space-2"></div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="oneClassifyId"></input>
+						<input type="hidden" id="reportId"></input>
 						<div>
-							<form action="<%=path%>/classify/saveOneClassify.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
+							<form action="<%=path%>/report/uploadReportPic.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
 								<div class="fallback">
-									<input name="file" id="oneClassifypic" type="file" multiple="" />
+									<input name="file" id="reportpic" type="file" multiple="" />
 								</div>
 							</form>
 						</div><!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
 					<div class="col-xs-12 center">
-						<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">保存</button>
+						<button class="btn" id="submit-all" disabled="disabled" style="margin:20px auto">上传报告</button>
 					</div>
-	 			</div>
+				</div><!-- /.row -->
 		     </div>
 			<div class="modal-footer">
 			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
 			    	关闭
 			    </button>
 			</div>
-        </div><!-- /.modal-content -->
+		</div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<!-- 添加分类model end -->
-<!-- 修改分类model start -->
-<div class="modal fade" id="editOneClassifyModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-             <div class="modal-header">
-             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title" >修改分类</h4>
-		     </div>
-		     <div class="modal-body">
-		     	<div class="page-count">
-		     	<div class="row">
-		     		<div class="col-xs-12 ">
-		            	<form class="form-horizontal" id="editOneClassifyform" >
-		           			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">分类名</label>
-								<div class="col-xs-12 col-sm-8">
-									<div class="clearfix">
-										<input type="text" id="editOneClassifyName" name="claName" class="col-xs-12 col-sm-6" />
-									</div>
-								</div>
-							</div>
-		 				</form>
-	 				</div>
-					<div class="col-xs-12">
-						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="editOneClassifyId"></input>
-						<div>
-							<form action="<%=path%>/classify/editOneClassify.do" enctype="multipart/form-data" class="dropzone" method="post" id="editOneClassifyDropzone">
-								<div class="fallback">
-									<input name="file"  type="file" multiple="" />
-								</div>
-							</form>
-						</div><!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-					<div class="col-xs-12 center">
-						<button class="btn" id="editOneClassify-submit-all"  style="margin:20px auto">保存</button>
-					</div>
-	 			</div>
-	 			</div>
-		     </div>
-			<div class="modal-footer">
-			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
-			    	关闭
-			    </button>
-			</div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<!-- 修改分类model end -->
+<!-- 上传报告model end -->
 
-<!-- 删除图片model begin -->
-<div class="modal fade" id="viewOneClassifyPicModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<!-- 删除报告model begin -->
+<div class="modal fade" id="viewOneReportPdfModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
              <div class="modal-header">
              	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			    <h4 class="modal-title">预览删除图片</h4>
+			    <h4 class="modal-title">删除报告</h4>
 		     </div>
 		     <div class="modal-body">
 		     	<div class="row">
 					<div class="col-xs-12 center">
 						<div >
-							<ul id="viewOneClassifyPicli">
+							<ul id="viewOneOneReportPdf">
 							</ul>
 						</div><!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->
@@ -237,7 +209,10 @@
 		</div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-<!-- 删除图片model end -->
+<!-- 删除报告model end -->
+
+
+								<!-- delectOneReportPdf -->
 
 <script type="text/javascript">
 jQuery(function($) {

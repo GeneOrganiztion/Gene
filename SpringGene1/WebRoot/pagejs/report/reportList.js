@@ -22,13 +22,13 @@ function initOneClassifyManager(){
 		mtype: 'post',
 		datatype: "json",
 		height: 320,
-		colNames:['报告ID','报告名称','报告所属用户','报告所属订单编号','报告状态','创建时间','最后更新时间','操作'],
+		colNames:['报告ID','报告名称','报告所属用户','报告所属订单编号','报告状态','创建时间','最后更新时间','删除报告pdf'],
 		colModel:[
-		    {name:'id',index:'report_id', width:80,  hidden: true},
+		    {name:'id',index:'report_id', width:80, sorttype:"int", editable: true},
           	{name:'repName',index:'rep_name', width:80, sorttype:"int", editable: true},
           	{name:'order.userName',index:'user_name',width:80, editable:true,sortable:false},
           	{name:'order.ordNum',index:'ord_num',width:80, editable:true,sortable:false},
-        	{name:'repState',index:'rep_state',width:80, editable:true,sortable:false},
+        	{name:'repState',index:'rep_state',width:80, editable:true,sortable:false,formatter:formatReportState},
 			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
 			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
 			{name: '', width: 80,sortable:false,formatter: formatterOperate}
@@ -192,13 +192,34 @@ function initOneClassifyManager(){
 		return time;
 	}
 	
-	//格式化商品jqgrid之后的操作
+	
+	function formatReportState(cellvalue, options, rowObject){
+		switch (parseInt(cellvalue)) {
+		case 0:
+			return "待检测";
+			break;
+		case 1:
+			return "样本污染";
+			break;
+		case 2:
+			return "正在检测";
+			break;
+		case 3:
+			return "报告生成";	
+			break;
+		}
+	}
+	
+	
+	
+	
+	//格式化报告jqgrid之后的操作
 	function formatterOperate(cellvalue, options, rowObject){
 		var detial;
-		if(empty(rowObject.claContent)){
-			detial = "<button disabled=\"disabled\" onclick=\"viewOneClassifyPic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
+		if(empty(rowObject.repPdf)){
+			detial = "<button disabled=\"disabled\" onclick=\"viewOneReportPdf(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除报告</button>";
 		}else{
-			detial = "<button onclick=\"viewOneClassifyPic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
+			detial = "<button onclick=\"viewOneReportPdf(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除报告</button>";
 		}
         return detial;
 	}
@@ -233,10 +254,14 @@ function initOneClassifyManager(){
 
               submitButton.addEventListener("click", function () {
               	//验证报告名称不能为空
-              	var claName = $("#claName").val();
+              	var reportName = $("#reportName").val();
+              	if(empty(reportName)){
+              		alertmsg("warning", "报告名称不能为空");
+              		return;
+              	}
               	Lobibox.confirm({ 
                       title:"确认提交",      //提示框标题 
-                      msg: "是否确认修改报告",   //提示框文本内容 
+                      msg: "请仔细确认，一旦提交将无法更改",   //提示框文本内容 
                       callback: function ($this, type, ev) {               //回调函数 
                           if (type === 'yes') { 
                           	myDropzone.processQueue();
@@ -254,32 +279,22 @@ function initOneClassifyManager(){
               
               this.on("success", function (file, response, e) {
               	if(response.success){
-          			$("#addOneClassifyModal").modal("hide");
-					alertmsg("success","分类添加成功");
-					$("#oneClassifyId").val(response.returnId);
-					queryOneClassify();
-				}else{
-					alertmsg("error",empty(response.msg) == true ? "分类添加失败" : response.msg);
-					$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
-				}
+              		$("#uploadReportPicModal").modal("hide");
+						alertmsg("success","报告上传成功");
+						myDropzone.destroy();
+						$("#grid-table").jqGrid('setGridParam',{ 
+					        page:1,
+					        mtype:"post"
+					    }).trigger("reloadGrid"); //重新载入 
+						
+					}else{
+						alertmsg("error",empty(response.msg) == true ? "报告上传失败" : response.msg);
+						$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
+					}
               });
               this.on("sending", function (file, xhr, formData) {
-              	formData.append("claName",$("#claName").val());
+              	formData.append("reportId",$("#reportId").val());
               });
-              //当上传完成后的事件，接受的数据为JSON格式
-              /*this.on("complete", function (data) {
-                  if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                      var res =data;
-                      var msg;
-                      if (res.message=="error") {
-                      	alertmsg("error","商品详情图片上传失败，请重新上传");
-                      }
-                      else {
-                      	alertmsg("success","商品详情图片上传完成");
-                      }
-                      
-                  }
-              });*/
               
 
               //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
@@ -288,7 +303,7 @@ function initOneClassifyManager(){
                       $("#submit-all").attr("disabled", true);
                   }
                   //上传失败的不删数据库中的数据
-                  removeImage($("#oneClassifyId").val());
+                  //removeImage($("#deleteReportId").val());
               });
           }
 			
@@ -307,144 +322,77 @@ function initOneClassifyManager(){
 	
 	
 }
-//预览图片
-function viewOneClassifyPic(id){
-	//清空上次的报告
-	$("#viewOneClassifyPicli").html("");
-	$.ajax({
-		type: "post",
-		url: webroot + "classify/selectOneClassify.do",
-		data: {classifyId:id},
-		success: function(msg){
-			console.log(msg);
-			if(empty(msg)){
-				alertmsg("error","预览图片失败");
-				return;
-			}
-			var html = "<li>" + "<a title='查看图片' target=\"_bank\" href='"+msg.claContent+"' >" + msg.claName + "</a>" +"&nbsp;" +
-				"<button onclick=\"delectOneClassifyPic(" + msg.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>"+ "</li>";
-			$("#viewOneClassifyPicli").append(html);
-			$("#viewOneClassifyPicModal").modal("show");
-		}
-	});
-}
-function delectOneClassifyPic(id){
-	$.ajax({
-		type:"post",
-		url:webroot+"classify/delectOneClassifyPic.do",
-		data:{"oneClassifyId":id},
-		success:function(data){
-			queryOneClassify();
-			$("#viewOneClassifyPicModal").modal("hide");
-		}
-	});
-}
-
 //查询
-function queryOneClassify(){
-	var data = $("#queryOneClassifyForm").serialize();
-	var url = webroot + "classify/seletcClassify.do";
+function queryReport(){
+	var data = $("#queryOneReport").serialize();
+	var url = webroot + "report/seletreport.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
-        url: url + "?" + data + "&flag=oneClassify", 
+        url: url + "?" + data , 
         //postData:jsonData, 
         page:1,
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
 }
-//删除分类
-function deleteOneClassify(){
-	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
-	if(selectedIds.length < 1){
-		alertmsg("warning", "请至少选中一行!");
-		return;
-	}
-	var ids = "";
-	for(var i = 0; i < selectedIds.length; i ++){
-		var rowData = $('#grid-table').getRowData(selectedIds[i]);//获取选中行的记录
-		var classifyId = rowData.id;
-		ids =ids + classifyId + ",";
-	}
-    Lobibox.confirm({ 
-        title:"删除分类",      //提示框标题 
-        msg: "请确保已删除分类下的商品",   //提示框文本内容 
-        callback: function ($this, type, ev) {               //回调函数 
-            if (type === 'yes') { 
-            	$.ajax({
-            		type:"post",
-            		url:webroot+"classify/deleteOneClassify.do",
-            		data:{"oneClassifyIds":ids},
-            		success:function(data){
-            			if(data.success){
-            				alertmsg("success","删除成功");
-            			}else{
-            				alertmsg("error",empty(data.msg) == true ? "删除失败" : data.msg);
-            			}
-            			
-            			//删除成功重新加载jqGrid
-            			$("#grid-table").jqGrid('setGridParam',{ 
-            		        page:1,
-            		        mtype:"post"
-            		    }).trigger("reloadGrid"); //重新载入 
-            		}
-            	});
-            } else if (type === 'no') { 
-                       
-            } 
-       } 
-     });
-	
-}
-//添加分类
-function addOneClassify(){
-	
-	//再次打开model之前清空上次的操作记录
-	$("#addOneClassifyModal :input").val("");
-	$("#addOneClassifyModal").modal("show");
-	
-	
-}
-//删除分类
-function removeImage(id){
-	if(empty(id)){
-		return;
-	}
-	$.ajax({
-		type: "post",
-		data: {oneClassifyId: id},
-		url: webroot + "classify/removeOneClassfyById.do",
-		success: function(msg){
-			if(msg.success){
-				alertmsg("success","删除成功");
-				queryOneClassify();
-			}else{
-				alertmsg("error", "删除失败");
-			}
-		}
-	});
-}
-//修改分类
-function editOneClassify(){
-	$("#editOneClassifyModal :input").val("");
+
+
+function uploadReportPic(){
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
-	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
-	var id = rowData.id;
-	if(!isNoEmpty(id)){
+	if(!isNoEmpty(lanId)){
 		alertmsg("warning","请至少选中一行 !");
 		return;
 	}
-	console.log(rowData.claContent);
-	if(!empty(rowData.claContent)){
-		alertmsg("warning","请先删除图片再修改分类");
-		return;
-	}
+	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
+	var id = rowData.id;
+	$("#uploadReportPicModal :input").val("");
+	//$("#mapOrderProductId").val(strArr[0]);
+	$("#reportId").val(id);
+	//加载数据库数据
 	$.ajax({
 		type: "post",
-		url: webroot + "classify/selectOneClassify.do",
-		data: {classifyId: id},
+		url: webroot + "orderInfo/selectReoprt.do",
+		data: {reportId:id},
+		success: function(report){
+			$("#reportName").val(report.repName);
+			$("#reportResult").val(report.repResult);
+			$("#reportState").val(report.repState);
+		}
+	});
+	$("#uploadReportPicModal").modal("show");
+}
+
+//预览图片
+function viewOneReportPdf(id){
+	//清空上次的报告
+	$("#viewOneOneReportPdf").html("");
+	$.ajax({
+		type: "post",
+		url: webroot + "orderInfo/selectReoprt.do",
+		data: {reportId:id},
 		success: function(msg){
-			$("#editOneClassifyName").val(msg.claName);
-			$("#editOneClassifyId").val(msg.id);
-			$("#editOneClassifyModal").modal("show");
+			console.log(msg);
+			if(empty(msg)){
+				alertmsg("error","预览报告失败");
+				return;
+			}
+			var html = "<li>" + "<a title='查看报告' target=\"_bank\" href='"+msg.repPdf+"' >" + msg.repName + "</a>" +"&nbsp;" +
+				"<button onclick=\"delectOneReportPdf(" + msg.id + ")\" class=\"btn btn-minier btn-yellow\">删除报告</button>"+ "</li>";
+			$("#viewOneOneReportPdf").append(html);
+			$("#viewOneReportPdfModal").modal("show");
 		}
 	});
 }
+function delectOneReportPdf(id){
+	$.ajax({
+		type:"post",
+		url:webroot+"report/removeReportById.do",
+		data:{"reportId":id},
+		success:function(data){
+			$("#grid-table").jqGrid('setGridParam',{ 
+		        page:1,
+		        mtype:"post"
+		    }).trigger("reloadGrid"); //重新载入 
+			$("#viewOneReportPdfModal").modal("hide");
+		}
+	});
+}
+

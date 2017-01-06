@@ -188,11 +188,11 @@
       <if test="reportName != null" >
         and report.rep_name  LIKE '%${reportName}%'
       </if>
-        <if test="reportName != null" >
+        <if test="userName != null" >
         and orders.user_name LIKE '%${userName}%'
       </if> 
-   	    <if test="productName != null" >
-        and report.rep_name  LIKE '%${reportName}%'
+   	    <if test="orderNumber != null" >
+        and orders.ord_num= #{orderNumber}
       </if> 
      <if test="beginTime != null ">
           AND CREATE_TIME > #{beginTime} 
