@@ -178,8 +178,8 @@ public class OrderInfoController extends BaseController{
 			@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
 		 String mapOrderProductId= getParam("mapOrderProductId");
-		/* String reportName = getParam("reportName");
-		 String reportResult = getParam("reportResult");*/
+		 String reportName = getParam("reportName");
+		 String reportResult = getParam("reportResult");
 		 String reportId = getParam("reportId");
 		 if(ST.isNull(mapOrderProductId)){
 			 resModel.setSuccess(false);
@@ -199,9 +199,13 @@ public class OrderInfoController extends BaseController{
 		 try {
 			 String filepath = FileUpload.upFileRename(file, request);
 			 //更改report表的数据
-			 report.setRepPdf(filepath);
-			 report.setRepState(Constant.REPORT_STATUS3);
-			 reportService.updateReportById(report);
+			 Report rts = new Report();
+			 rts.setId(Integer.valueOf(reportId));
+			 rts.setRepPdf(filepath);
+			 rts.setRepState(Constant.REPORT_STATUS3);
+			 rts.setRepName(reportName);
+			 rts.setRepResult(reportResult);
+			 reportService.updateReportById(rts);
 			 //上传成功更改 map_order_product 中已上传报表的数量
 			 mop.setReportCount(mop.getReportCount() + 1);
 			 mapOrderProductService.updateMapOrderProduct(mop);

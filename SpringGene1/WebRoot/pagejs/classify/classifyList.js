@@ -1,5 +1,13 @@
 function initOneClassifyManager(){
 	chosenSelectInit();
+	
+	$("#addOneClassifyModal").draggable();
+	$("#addTwoClassifyModal").draggable();
+	$("#editOneClassifyModal").draggable();
+	$("#editTwoClassifyModal").draggable();
+	$("#viewOneClassifyPicModal").draggable();
+	$("#viewOneReportPdfModal").draggable();
+	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -36,7 +44,7 @@ function initOneClassifyManager(){
 				url: webroot + "classify2/seletcTwoClassify.do",
 				mtype: 'post',
 				datatype: "json",
-				width:800,
+				width:900,
 				//height: 500,
 				postData: {classifyId: rowId},
 				colNames:['','','分类ID','分类名称','创建时间','最后更新时间','操作'],
@@ -47,7 +55,7 @@ function initOneClassifyManager(){
 			          	{name:'claName',index:'claName',width:80, editable:true,sortable:false},
 						{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
 						{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
-						{name: '', width: 80,sortable:false,formatter: formatterGridOperate}
+						{name: '', width: 100,sortable:false,formatter: formatterGridOperate}
 				]
 			});
 		},
@@ -62,9 +70,9 @@ function initOneClassifyManager(){
 		colModel:[
 		    {name:'claContent',index:'claContent', width:80,  hidden: true},
           	{name:'id',index:'classify_id', width:80, sorttype:"int", editable: true},
-          	{name:'claName',index:'claName',width:80, editable:true,sortable:false},
-			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
+          	{name:'claName',index:'cla_name',width:80, editable:true},
+			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
 			{name: '', width: 80,sortable:false,formatter: formatterOperate}
 		], 
 		viewrecords : true,
@@ -229,7 +237,8 @@ function initOneClassifyManager(){
 	function formatterGridOperate(cellvalue, options, rowObject){
 		detial1 = "<button  onclick=\"editTwoClassify(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">修改分类</button>";
 		detial2 = "<button  onclick=\"deleteTwoClassify(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除分类</button>";
-        return detial1 + detial2;
+		detial3 = "<button  onclick=\"viewProduct(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">查看商品</button>";
+        return detial1 + detial2 + detial3;
 	}
 	
 	//格式化商品jqgrid之后的操作
@@ -712,6 +721,29 @@ function saveTwoClassify(){
 				queryOneClassify();
 				$("#addTwoClassifyModal").modal("hide");
 			}
+		}
+	});
+}
+//查看分类下商品
+function viewProduct(id){
+	$("#viewProduct").html("");
+	$.ajax({
+		type: "post",
+		url: webroot + "classify2/selectProducr.do",
+		data: {classifyId:id},
+		success: function(msg){
+			console.log(msg);
+			if(empty(msg)){
+				alertmsg("error","预览商品失败");
+				return;
+			}
+			var html = "";
+			for(var i =0; i < msg.length; i ++){
+				var data = "<li>" + msg[i].proName + "</li>";
+				html = html +data;
+			}
+			$("#viewProduct").append(html);
+			$("#viewProductModel").modal("show");
 		}
 	});
 }

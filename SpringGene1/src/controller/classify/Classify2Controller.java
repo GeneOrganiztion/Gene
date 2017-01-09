@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import po.Classify;
+import po.Product;
+import po.Report;
 import po.ResModel;
 import service.ClassifyService;
 import service.ProductService;
@@ -176,4 +178,24 @@ private static final Logger logger = LoggerFactory.getLogger(ClassifyController.
 		cls = classifyService.selectOneClassify(cls);
 		return cls;
 	}  
+	
+	
+	@RequestMapping(value = "/selectProducr")
+	@ResponseBody
+	public List<Product> selectReoprt(HttpServletRequest request,HttpServletResponse response){
+		String classifyId = getParam("classifyId");
+		Product product = new Product();
+		List<Product> list = new ArrayList<Product>();
+		if(ST.isNull(classifyId)){
+			return list;
+		}
+		product.setClassifyId(Integer.valueOf(classifyId));
+		product.setIsdelete(false);
+		try {
+			list = productService.selectAll(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

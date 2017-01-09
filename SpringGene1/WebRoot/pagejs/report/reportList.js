@@ -298,6 +298,8 @@ function initOneClassifyManager(){
               });
               this.on("sending", function (file, xhr, formData) {
               	formData.append("reportId",$("#reportId").val());
+              	formData.append("reportName",$("#reportName").val());
+              	formData.append("reportResult",$("#reportResult").val());
               });
               
 

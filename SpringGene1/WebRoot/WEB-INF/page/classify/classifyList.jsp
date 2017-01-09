@@ -337,6 +337,34 @@
 </div>
 <!-- 删除图片model end -->
 
+<!-- 查看商品model begin -->
+<div class="modal fade" id="viewProductModel" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title">分类下商品</h4>
+		     </div>
+		     <div class="modal-body">
+		     	<div class="row">
+					<div class="col-xs-12 center">
+						<div >
+							<ul id="viewProduct">
+							</ul>
+						</div><!-- PAGE CONTENT ENDS -->
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+		     </div>
+			<div class="modal-footer">
+			    <button type="button" class="btn btn-md" id="modalClose" data-dismiss="modal">
+			    	关闭
+			    </button>
+			</div>
+		</div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 查看商品model end -->
+
 <script type="text/javascript">
 jQuery(function($) {
 	initOneClassifyManager();
