@@ -195,17 +195,13 @@
         and orders.ord_num= #{orderNumber}
       </if> 
      <if test="beginTime != null ">
-          AND CREATE_TIME > #{beginTime} 
+          AND report.CREATE_TIME > #{beginTime} 
       </if>
       <if test="endTime != null ">
-          <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
+          <![CDATA[AND report.CREATE_TIME <  #{endTime} ]]>
       </if>
        <if test="sidx != null">
         order by ${sidx} ${sord}
       </if>
   </select>
-  
-  
-  
-  
 </mapper>

@@ -1,5 +1,7 @@
 
 function initProductManager(){
+	
+	
 	jQuery(function($) {
 		$('#validation-form').addClass('hide');
 		selectClassify();	

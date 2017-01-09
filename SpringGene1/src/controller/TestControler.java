@@ -97,7 +97,7 @@ public class TestControler extends BaseController {
     @ResponseBody
     public List<Integer> phonegettime(HttpServletRequest request,HttpServletResponse response) {
     	List<Integer> listint=new ArrayList<Integer>();
-    	listint.add(25);
+    	listint.add(15);
     	listint.add(30);
         return listint;
 
@@ -107,6 +107,13 @@ public class TestControler extends BaseController {
     @ResponseBody
     public Integer phonegetmoney(HttpServletRequest request,HttpServletResponse response) {
     	
+    	
+    	try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return 1;
 
     }

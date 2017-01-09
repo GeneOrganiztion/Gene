@@ -477,12 +477,14 @@ public class WeChatController extends BaseController {
 	    	String userName = request.getParameter("userName");
 	    	String userPhone = request.getParameter("userPhone");
 	    	String userAddress = request.getParameter("userAddress");
+	    	String area=request.getParameter("userArea");
 	    	String userPostal = request.getParameter("userPostal");
 	    	Orders order=new Orders();
 	    	order.setUserPhone(userPhone);
 	    	order.setUserAddress(userAddress);
 	    	order.setUserPostal(userPostal);
 	    	order.setUserName(userName);
+	    	order.setUserPostal(area);
 	    	order.setId(Integer.valueOf(orederId));
 	    	logger.info("finishpay orderid="+orederId);
 	    	if(orderService.updateOrder(order)){

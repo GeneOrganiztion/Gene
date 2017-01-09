@@ -84,6 +84,11 @@ public class OrderInfoController extends BaseController{
             String orderId = getParam("orderId");
             String ordNum = getParam("ordNum");
             String ordState = getParam("ordState");
+            String userPostal = getParam("userPostal");
+            if("".equals(userPostal)||null==userPostal){
+            }else{
+            userPostal=new String(new String(userPostal.getBytes("iso-8859-1"),"UTF-8"));
+            }
             String flag = getParam("flag");
             if(ST.isNull(ordState)){
             	if("reAndDeOrder".equals(flag)){
@@ -101,6 +106,7 @@ public class OrderInfoController extends BaseController{
             map.put("sord", sord);// 升序降序
             map.put("rowCount", oneRecord);//一页几行
             map.put("pageNo", pageNo);
+            map.put("userPostal", userPostal);
             map.put("ordNum", ordNum);
             if(!ST.isNull(beginTime)){
             	map.put("beginTime", beginTime + " 00:00:00");

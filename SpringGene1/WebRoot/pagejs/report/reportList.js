@@ -1,5 +1,9 @@
 function initOneClassifyManager(){
 	
+	
+	$("#uploadReportPicModal").draggable();
+	$("#viewOneReportPdfModal").draggable();
+	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -26,11 +30,11 @@ function initOneClassifyManager(){
 		colModel:[
 		    {name:'id',index:'report_id', width:80, sorttype:"int", editable: true},
           	{name:'repName',index:'rep_name', width:80, sorttype:"int", editable: true},
-          	{name:'order.userName',index:'user_name',width:80, editable:true,sortable:false},
-          	{name:'order.ordNum',index:'ord_num',width:80, editable:true,sortable:false},
-        	{name:'repState',index:'rep_state',width:80, editable:true,sortable:false,formatter:formatReportState},
-			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
+          	{name:'order.userName',index:'user_name',width:80, editable:true},
+          	{name:'order.ordNum',index:'ord_num',width:80, editable:true},
+        	{name:'repState',index:'rep_state',width:80, editable:true,formatter:formatReportState},
+			{name:'createTime',index:'report.create_time',width:80,formatter:formatDate},
+			{name:'lastModifiedTime',index:'report.last_modified_time',width:80,formatter:formatDate},
 			{name: '', width: 80,sortable:false,formatter: formatterOperate}
 		], 
 		viewrecords : true,

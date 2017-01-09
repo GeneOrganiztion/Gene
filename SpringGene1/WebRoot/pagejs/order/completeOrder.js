@@ -1,5 +1,8 @@
 function initOrderManager(){
 	
+	
+	$("#orderDetialModal").draggable();
+	$("#viewReportPicModal").draggable();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
@@ -56,15 +59,16 @@ function initOrderManager(){
 		datatype: "json",
 		postData: {flag: "completeOrder"},
 		height: 370,
-		colNames:['','订单编号','订单状态','订单价格','支付方式','创建时间','最后更新时间','操作'],
+		colNames:['','订单编号','订单状态','订单价格','订单所属区域','支付方式','创建时间','最后更新时间','操作'],
 		colModel:[
           	{name:'id',index:'id', width:80, sorttype:"int", hidden:true},
-          	{name:'ordNum',index:'ordNum', width:80, sorttype:"int", editable: true,sortable:false},
-          	{name:'ordState',index:'ordState',width:80, editable:true,sortable:false, formatter:formatOrdState},
-			{name:'ordPrice',index:'ordPrice', width:80, sorttype:"int", editable: true,sortable:false},
-			{name:'ordPay',index:'ordPay',width:80, editable:true,sortable:false,formatter:formatordPay},
-			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
+          	{name:'ordNum',index:'ord_num', width:80, sorttype:"int", editable: true},
+          	{name:'ordState',index:'ord_state',width:80, editable:true,formatter:formatOrdState},
+			{name:'ordPrice',index:'ord_price', width:80, sorttype:"int", editable: true},
+			{name:'userPostal',index:'user_postal', width:80, editable: true},
+			{name:'ordPay',index:'ord_pay',width:80, editable:true,sortable:false,formatter:formatordPay},
+			{name:'createTime',index:'create_time',width:80, editable:true,formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
 			{name: '', width: 80,sortable:false,formatter: formatterGridOperate}
 		], 
 		viewrecords : true,

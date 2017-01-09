@@ -1,11 +1,15 @@
 function initAdminManager(){
+	
+	$("#SelectProductModol").draggable();
+	$("#editProductModal").draggable();
+	
 	//查询分类
 	selectClassify();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
 	$(window).on('resize.jqGrid', function () {
-		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width() );
+		$(grid_selector).jqGrid( 'setGridWidth', $(".page-content").width());
     })
 	//resize on sidebar collapse/expand
 	var parent_column = $(grid_selector).closest('[class*="col-"]');
@@ -27,13 +31,13 @@ function initAdminManager(){
 		colModel:[
           	{name:'id',index:'product_id', width:80, sorttype:"int", editable: true},
           	{name:'proName',index:'pro_name',width:80, editable:true},
-			{name:'productPrice',index:'product_price', width:80, sorttype:"int", editable: true,sortable:false},
-			{name:'proRateprice',index:'pro_rateprice',width:80,sorttype:"int", editable:true,sortable:false},
-			{name:'proSum',index:'pro_sum',width:80,sorttype:"int", editable:true,sortable:false},
+			{name:'productPrice',index:'product_price', width:80, sorttype:"int", editable: true},
+			{name:'proRateprice',index:'pro_rateprice',width:80,sorttype:"int", editable:true},
+			{name:'proSum',index:'pro_sum',width:80,sorttype:"int", editable:true},
 			{name:'proOnline',index:'pro_online',width:80, editable:true,sortable:false,formatter:formatterProductIsOnline},
-			{name:'selNumber',index:'sel_number',width:80, sorttype:"int",sortable:false, editable: true},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
-			{name:'proDetail',index:'pro_detail',width:80,sortable:false,hidden:true}
+			{name:'selNumber',index:'sel_number',width:80, sorttype:"int",editable: true},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
+			{name:'proDetail',index:'pro_detail',width:80,hidden:true}
 		], 
 		viewrecords : true,
 		rowNum:10,

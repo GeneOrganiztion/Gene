@@ -124,6 +124,9 @@
       <if test="ordNum != null">
         and ord_num = #{ordNum}
       </if>
+        <if test="userPostal != null">
+        and user_postal LIKE '%${userPostal}%'
+      </if>
       <if test="stateList != null">
     	 and ord_state in 
     	 <foreach item="item" index="index" collection="stateList" open="(" separator="," close=")">  

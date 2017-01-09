@@ -1,4 +1,9 @@
 function initTwoClassifyManager(){
+	
+	
+	$("#addTwoClassifyModal").draggable();
+	$("#editTwoClassifyModal").draggable();
+	$("#viewOneClassifyPicModal").draggable();
 	chosenSelectInit();
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
@@ -26,10 +31,10 @@ function initTwoClassifyManager(){
 		colNames:['分类ID','分类名称','一级分类名称','创建时间','最后更新时间'],
 		colModel:[
           	{name:'id',index:'classify_id', width:80, sorttype:"int", editable: true},
-          	{name:'claName',index:'claName',width:80, editable:true,sortable:false},
-          	{name:'oneClassName',index:'oneClassName',width:80, editable:true,sortable:false},
-			{name:'createTime',index:'create_time',width:80, editable:true,sortable:false, formatter:formatDate},
-			{name:'lastModifiedTime',index:'last_modified_time',width:80,sortable:false,formatter:formatDate},
+          	{name:'claName',index:'cla_name',width:80, editable:true},
+          	{name:'oneClassName',index:'cla_pid',width:80, editable:true},
+			{name:'createTime',index:'create_time',width:80, editable:true, formatter:formatDate},
+			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
 		], 
 		viewrecords : true,
 		rowNum:10,

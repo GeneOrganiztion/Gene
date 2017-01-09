@@ -61,6 +61,12 @@
 						</div>
 					</div>
 					<div class="col-md-3">
+						<label class="col-sm-4 control-label no-padding-right" for="userPostal">订单所属区域</label>
+						<div class="col-sm-8">
+							<input type="text" name="userPostal" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-3">
 						<label class="col-sm-4 control-label no-padding-right" for="beginTime">开始时间 </label>
 						<div class="col-sm-8 input-group date form_date date-picker" data-date="" data-date-format="yyyy-mm-dd">
 	                                 <input type="text" name="beginTime" id="beginTime" class="form-control date-select">
