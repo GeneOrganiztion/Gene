@@ -734,7 +734,7 @@ function viewProduct(id){
 		success: function(msg){
 			console.log(msg);
 			if(empty(msg)){
-				alertmsg("error","预览商品失败");
+				alertmsg("warning","此分类下无商品");
 				return;
 			}
 			var html = "";

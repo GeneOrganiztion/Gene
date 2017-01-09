@@ -149,7 +149,9 @@ public class OrderInfoController extends BaseController{
         			reportIds.append(rt.getId()).append(","); 
         		}
         		String ids = reportIds.toString();
-        		orDTO.setReportIds(ids.substring(0, ids.length() - 1));
+        		if(!ST.isNull(ids)){
+        			orDTO.setReportIds(ids.substring(0, ids.length() - 1));	
+        		}
         	}
 		} catch (Exception e) {
 			logger.error("selectOrderAndPrductByOrderId error:" + e);
@@ -178,8 +180,10 @@ public class OrderInfoController extends BaseController{
 			@RequestParam("file") MultipartFile file) throws Exception {
 		 ResModel resModel = new ResModel();
 		 String mapOrderProductId= getParam("mapOrderProductId");
-		 String reportName = getParam("reportName");
-		 String reportResult = getParam("reportResult");
+		 String reportNameTmp = getParam("reportName");
+		 String reportResultTmp = getParam("reportResult");
+		 String reportName = new String(reportNameTmp.getBytes("iso-8859-1"),"UTF-8");
+		 String reportResult = new String(reportResultTmp.getBytes("iso-8859-1"),"UTF-8");
 		 String reportId = getParam("reportId");
 		 if(ST.isNull(mapOrderProductId)){
 			 resModel.setSuccess(false);

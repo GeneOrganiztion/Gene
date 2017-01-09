@@ -310,8 +310,8 @@ function initOrderManager(){
                 });
                 this.on("sending", function (file, xhr, formData) {
                 	formData.append("mapOrderProductId",$("#mapOrderProductId").val());
-                	/*formData.append("reportName",$("#reportName").val());
-                	formData.append("reportResult",$("#reportResult").val());*/
+                	formData.append("reportName",$("#reportName").val());
+                	formData.append("reportResult",$("#reportResult").val());
                 	formData.append("reportId",$("#reportId").val());
                 });
                 
