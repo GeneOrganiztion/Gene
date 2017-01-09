@@ -26,7 +26,7 @@ function initAdminManager(){
 		colNames:['商品ID','商品名称','商品原价','商品折扣价','商品库存','是否上线','销量','最后更新时间',''],
 		colModel:[
           	{name:'id',index:'product_id', width:80, sorttype:"int", editable: true},
-          	{name:'proName',index:'pro_name',width:80, editable:true,sortable:false},
+          	{name:'proName',index:'pro_name',width:80, editable:true},
 			{name:'productPrice',index:'product_price', width:80, sorttype:"int", editable: true,sortable:false},
 			{name:'proRateprice',index:'pro_rateprice',width:80,sorttype:"int", editable:true,sortable:false},
 			{name:'proSum',index:'pro_sum',width:80,sorttype:"int", editable:true,sortable:false},

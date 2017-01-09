@@ -1,5 +1,8 @@
 function initAdminManager(){
 	
+	
+	$("#addAdminModal").draggable();
+	
 	var grid_selector = "#grid-table";
 	var pager_selector = "#grid-pager";
 	//resize to fit page size
