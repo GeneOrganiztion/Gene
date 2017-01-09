@@ -136,7 +136,7 @@
 	</div>
 	<div id="actions-before" class="btn-group">	
         <button type="button" onclick="SelectProduct()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;预览商品</button>
-        <button type="button" onclick="editProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改商品基本信息</button>
+        <button type="button" onclick="editProduct()" class="btn-link"><i class="glyphicon glyphicon-edit"></i> &nbsp;修改商品基本信息</button>
         <button type="button" onclick="deleteProduct()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除商品</button>
     </div>
 	<div class="row">

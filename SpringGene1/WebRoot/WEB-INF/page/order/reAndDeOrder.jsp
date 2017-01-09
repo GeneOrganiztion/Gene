@@ -115,8 +115,8 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="deliverProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;发货</button>
-        <button type="button" onclick="confirmRceliveProduct()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;确认收货</button>
+        <button type="button" onclick="deliverProduct()" class="btn-link"><i class="glyphicon  glyphicon-upload"></i> &nbsp;发货</button>
+        <button type="button" onclick="confirmRceliveProduct()" class="btn-link"><i class="glyphicon glyphicon-download"></i> &nbsp;确认收货</button>
     </div>
 	<div class="row">
 		<div class="col-xs-12">

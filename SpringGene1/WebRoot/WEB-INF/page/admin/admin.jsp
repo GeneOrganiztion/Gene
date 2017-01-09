@@ -96,8 +96,8 @@
 	  </div>
 	</div>
 	<div id="actions-before" class="btn-group">	
-        <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-in"></i> &nbsp;添加</button>
-        <button type="button" onclick="editAdmin()" class="btn-link"><i class="glyphicon glyphicon-log-out"></i> &nbsp;修改</button>
+        <button type="button" onclick="addAdmin()" class="btn-link"><i class="glyphicon glyphicon-plus"></i> &nbsp;添加</button>
+        <button type="button" onclick="editAdmin()" class="btn-link"><i class="glyphicon glyphicon-edit"></i> &nbsp;修改</button>
         <button type="button" onclick="deleteAdmin()" class="btn-link"><i class="glyphicon glyphicon-remove"></i> &nbsp;删除用户</button>
     </div>
 	<div class="row">

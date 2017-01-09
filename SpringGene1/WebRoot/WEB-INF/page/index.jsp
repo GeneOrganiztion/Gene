@@ -594,6 +594,13 @@
 						<b class="arrow"></b>
 						<ul class="submenu">
 							<li class="">
+								<a href="#" menu-url="classify2/classifyListPage.do">
+									<i class="menu-icon fa fa-caret-right"></i>
+									分类操作
+								</a>
+								<b class="arrow"></b>
+							</li>
+							<!-- <li class="">
 								<a href="#" menu-url="classify/oneClassifyListPage.do">
 									<i class="menu-icon fa fa-caret-right"></i>
 									一级分类
@@ -606,7 +613,7 @@
 									二级分类
 								</a>
 								<b class="arrow"></b>
-							</li>
+							</li> -->
 						</ul>
 					</li> 
 					
