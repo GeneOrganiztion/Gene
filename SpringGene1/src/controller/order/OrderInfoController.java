@@ -85,10 +85,10 @@ public class OrderInfoController extends BaseController{
             String ordNum = getParam("ordNum");
             String ordState = getParam("ordState");
             String userPostal = getParam("userPostal");
-            if("".equals(userPostal)||null==userPostal){
+            /*if("".equals(userPostal)||null==userPostal){
             }else{
             userPostal=new String(new String(userPostal.getBytes("iso-8859-1"),"UTF-8"));
-            }
+            }*/
             String flag = getParam("flag");
             if(ST.isNull(ordState)){
             	if("reAndDeOrder".equals(flag)){

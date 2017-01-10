@@ -125,7 +125,7 @@
         and ord_num = #{ordNum}
       </if>
         <if test="userPostal != null">
-        and user_postal LIKE '%${userPostal}%'
+        and user_postal LIKE  CONCAT('%',#{userPostal},'%') 
       </if>
       <if test="stateList != null">
     	 and ord_state in 
