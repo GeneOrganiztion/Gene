@@ -245,7 +245,7 @@
         and product_id =  #{productID}
       </if>
       <if test="productName != null" >
-        and pro_name  LIKE '%${productName}%'
+        and pro_name  LIKE CONCAT('%',#{productName},'%') 
       </if>
       <if test="productOnline != null" >
        and pro_online = #{productOnline}

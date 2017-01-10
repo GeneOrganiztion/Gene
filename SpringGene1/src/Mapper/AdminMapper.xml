@@ -26,13 +26,13 @@
         and admin_id = #{adminId}
       </if>
       <if test="userName != null">
-        and username LIKE '%${userName}%'
+        and username LIKE CONCAT('%',#{userName},'%') 
       </if>
       <if test="passWord != null">
         AND password = #{passWord}
       </if>
-      <if test="realname != null">
-        and realname = LIKE '%${realName}%'
+      <if test="realname != null"> 
+        and realname  LIKE  CONCAT('%',#{realName},'%') 
       </if>
       <if test="beginTime != null ">
           AND CREATE_TIME > #{beginTime} 

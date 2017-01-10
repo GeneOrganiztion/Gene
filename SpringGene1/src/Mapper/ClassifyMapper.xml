@@ -24,7 +24,7 @@
         and classify_id = #{classifyId}
       </if>
 	  <if test="claName != null">
-        and cla_name like '%${claName}%'
+        and cla_name like CONCAT('%',#{claName},'%') 
       </if>
       <if test="flag !=null and flag == 'oneClassify'">
         and cla_pid = 0

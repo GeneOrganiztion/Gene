@@ -186,10 +186,10 @@
         and report.report_id =  #{reportID}
       </if>
       <if test="reportName != null" >
-        and report.rep_name  LIKE '%${reportName}%'
+        and report.rep_name  LIKE  CONCAT('%',#{reportName},'%') 
       </if>
         <if test="userName != null" >
-        and orders.user_name LIKE '%${userName}%'
+        and orders.user_name LIKE  CONCAT('%',#{userName},'%') 
       </if> 
    	    <if test="orderNumber != null" >
         and orders.ord_num= #{orderNumber}
