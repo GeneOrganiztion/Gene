@@ -37,7 +37,6 @@ public class LoginController extends BaseController {
 
     private final String LOGIN_JSP = "login";
     private final String INDEX_JSP = "index";
-    private final String DASHBOARD = "CoreServlet/dashboard.do";
     
     @RequestMapping(value = "/login")
     public ModelAndView formnoticedetail1(HttpServletRequest request,
@@ -77,8 +76,9 @@ public class LoginController extends BaseController {
         }
         session.setAttribute("SESSION_USER", admin);
         
-        String path = request.getContextPath(); 
-        mv.setView(new RedirectView(path + "/" + DASHBOARD));
+        mv.setViewName(INDEX_JSP);
+        mv.addObject("userName", admin.getUsername()); 
+        
         return mv;
     }
     @RequestMapping(value = "/loginjsp", method = RequestMethod.GET)
@@ -87,13 +87,5 @@ public class LoginController extends BaseController {
     	ModelAndView mv = new ModelAndView();
     	mv.setViewName(LOGIN_JSP);
     	return mv;
-    }
-    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public ModelAndView dashboard() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(INDEX_JSP);
-        Admin admin = (Admin)session.getAttribute("SESSION_USER");
-        modelAndView.addObject("userName", admin.getUsername()); 
-        return modelAndView;
     }
 }
