@@ -75,8 +75,6 @@ public class LoginController extends BaseController {
             mv.setViewName(LOGIN_JSP);
             return mv;
         }
-        admin.setUsername("admin");
-        admin.setPassword("admin");
         session.setAttribute("SESSION_USER", admin);
         
         String path = request.getContextPath(); 
