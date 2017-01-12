@@ -501,7 +501,13 @@
 					<ul class="submenu">
 						<li class=""><a href="#" class="dropdown-toggle" menu-url="admin/adminPage.do"> <i
 								class="menu-icon fa fa-caret-right"></i> 用户管理
-						</a> <b class="arrow"></b></li>		
+						</a> <b class="arrow"></b>
+						</li>	
+						
+						<li class=""><a href="#" class="dropdown-toggle" menu-url="home/homePage.do"> <i
+								class="menu-icon fa fa-caret-right"></i> 首页管理
+						</a> <b class="arrow"></b>
+						</li>		
 
 					</ul></li>
 					<li class="">

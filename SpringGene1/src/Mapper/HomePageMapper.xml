@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Mapper.HomePageMapper">
+  <resultMap id="BaseResultMap" type="po.HomePage">
+    <id column="Id" jdbcType="INTEGER" property="homepage_id" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="href" jdbcType="VARCHAR" property="href" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_modified_time" jdbcType="TIMESTAMP" property="lastModifiedTime" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="isdelete" jdbcType="BIT" property="isdelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, image, href, create_time, last_modified_time, comment, name, isdelete
+  </sql>
+  
+   <select id="selectHomePageParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+  	select 
+    <include refid="Base_Column_List" />
+	    from home_page
+	    where isdelete = 0
+	  <if test="HomePageid != null">
+        and homepage_id = #{HomePageid}
+      </if>
+	  <if test="HomeName != null">
+        and cla_name like CONCAT('%',#{HomeName},'%') 
+      </if>
+      <if test="beginTime != null ">
+        AND CREATE_TIME > #{beginTime} 
+      </if>
+      <if test="endTime != null ">
+        <![CDATA[AND CREATE_TIME <  #{endTime} ]]>
+      </if>
+      <if test="sidx != null">
+        order by ${sidx} ${sord}
+      </if>
+      <if test="sidx == null">
+        order by create_time desc
+      </if>
+  </select>
+  
+  
+  <!-- <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from home_page
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from home_page
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.HomePage">
+    insert into home_page (Id, image, href, 
+      create_time, last_modified_time, comment, 
+      name, isdelete)
+    values (#{id,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{isdelete,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="po.HomePage">
+    insert into home_page
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="href != null">
+        href,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModifiedTime != null">
+        last_modified_time,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="isdelete != null">
+        isdelete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null">
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.HomePage">
+    update home_page
+    <set>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedTime != null">
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        isdelete = #{isdelete,jdbcType=BIT},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.HomePage">
+    update home_page
+    set image = #{image,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      comment = #{comment,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      isdelete = #{isdelete,jdbcType=BIT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update> -->
+</mapper>

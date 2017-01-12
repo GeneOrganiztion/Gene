@@ -357,7 +357,7 @@ public class WeChatController extends BaseController {
         String noncestr = strReq;
         String timestamp =Sha1Util.getTimeStamp();
         //获取请求url
-        String url="http://nbuxinxiren.cn/DNAjiankang/index.html#/orderPay/";
+        String url="http://nbuxinxiren.cn/";
         String str = "jsapi_ticket=" + JsApiTicket +
                 "&noncestr=" + noncestr +
                 "&timestamp=" + timestamp +

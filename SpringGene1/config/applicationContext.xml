@@ -75,4 +75,6 @@
 	  <bean id="imageService" class="service.impl.ImageServiceImpl" /> 
 	  <bean id="MapProductCartService" class="service.impl.MapProductCartServiceImpl" /> 
 	  <bean id="mapOrderProductService" class="service.impl.MapOrderProductServiceImpl" /> 
+	  <bean id="homePageService" class="service.impl.HomePageServiceImpl" /> 
+	  
 </beans>  

@@ -70,7 +70,7 @@ public class WePay {
 		
 		String timestamp = Sha1Util.getTimeStamp();
 		//这里notify_url是 支付完成后微信发给该链接信息，可以判断会员是否支付成功，改变订单状态等。
-		String notify_url ="http://nbuxinxiren.cn/SpringGene1/weixin/wechat_notify.do";
+		String notify_url =Constant.ROOT_URL+"SpringGene1/weixin/wechat_notify.do";
 		//非必输
 //		String product_id = "";
 		SortedMap<String, String> packageParams = new TreeMap<String, String>();
@@ -81,8 +81,8 @@ public class WePay {
 		packageParams.put("attach", attach);  
 		packageParams.put("out_trade_no", out_trade_no);  
 		//这里写的金额为1 分到时修改
-		/*packageParams.put("total_fee", String.valueOf(intMoney));  */
-		packageParams.put("total_fee", "1"); 
+		packageParams.put("total_fee", String.valueOf(intMoney)); 
+		//packageParams.put("total_fee", "1"); 
 		packageParams.put("spbill_create_ip", spbill_create_ip);  
 		packageParams.put("notify_url", notify_url); 
 		packageParams.put("trade_type", trade_type);  
@@ -99,7 +99,7 @@ public class WePay {
 				"<body><![CDATA["+body+"]]></body>"+
 				"<attach>"+attach+"</attach>"+
 				"<out_trade_no>"+out_trade_no+"</out_trade_no>"+
-				"<total_fee>"+1+"</total_fee>"+
+				"<total_fee>"+String.valueOf(intMoney)+"</total_fee>"+
 				"<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"+
 				"<notify_url>"+notify_url+"</notify_url>"+
 				"<trade_type>"+trade_type+"</trade_type>"+
