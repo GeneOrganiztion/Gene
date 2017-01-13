@@ -211,7 +211,7 @@ function initOneClassifyManager(){
 		  Dropzone.autoDiscover = false;
 		  var myDropzone = new Dropzone("#dropzone" , {
 		    paramName: "file", // The name that will be used to transfer the file
-		    maxFilesize: 10, // MB
+		    maxFilesize: 1, // MB
 		    maxFiles:1,
 		    dictMaxFilesExceeded: "您最多只能上传1个文件！",
 		    dictFileTooBig:"文件过大上传文件最大支持.",
@@ -317,7 +317,7 @@ function initOneClassifyManager(){
 			  Dropzone.autoDiscover = false;
 			  var editDropzone = new Dropzone("#editOneClassifyDropzone" , {
 			    paramName: "file", // The name that will be used to transfer the file
-			    maxFilesize: 10, // MB
+			    maxFilesize: 1, // MB
 			    maxFiles:1,
 			    dictMaxFilesExceeded: "您最多只能上传1个文件！",
 			    dictFileTooBig:"文件过大上传文件最大支持.",
