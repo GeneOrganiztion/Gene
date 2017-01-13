@@ -3,9 +3,11 @@ package Mapper;
 import java.util.List;
 import java.util.Map;
 
+import po.Classify;
 import po.HomePage;
+import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
-public interface HomePageMapper extends MySqlMapper<HomePage> {
+public interface HomePageMapper extends Mapper<HomePage>,MySqlMapper<HomePage> {
 	 /*   int deleteByPrimaryKey(Integer id);
 
 	    int insert(HomePage record);

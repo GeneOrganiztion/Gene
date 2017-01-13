@@ -37,23 +37,59 @@ public class HomePageServiceImpl implements HomePageService {
 		return pageInfo;
 		
 	}
+	
+
+	
 
 	@Override
-	public int delHomePage(HomePage hop) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean delHomePage(HomePage hop) throws Exception {
+		try{
+			hop.setIsdelete(true);
+			hompageMapper.updateByPrimaryKeySelective(hop);
+		}catch(Exception e){
+			logger.error("delHomePage error:" + e);
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public boolean saveHomePage(HomePage hop) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public Integer saveHomePage(HomePage hop) throws Exception {
+		try{
+			hompageMapper.insertUseGeneratedKeys(hop);
+			}catch(Exception e){
+			
+			e.printStackTrace();
+			return -1;
+		}
+		return hop.getId();
 	}
 
 	@Override
 	public boolean updateHomePage(HomePage hop) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		try{
+			hompageMapper.updateByPrimaryKeySelective(hop);
+			}catch(Exception e){
+			logger.info("updateHomePage.update="+e);
+			e.printStackTrace();
+			return false;
+			}
+			return true;
+	}
+
+	@Override
+	public HomePage selectOneHomePageById(HomePage hop) throws Exception {
+		hop.setIsdelete(false);
+		return hompageMapper.selectOne(hop);
+	}
+
+
+
+
+	@Override
+	public List<HomePage> selectAll(HomePage hop) throws Exception {
+		hop.setIsdelete(false);
+		return 	hompageMapper.select(hop);
 	}
 
 }

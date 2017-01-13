@@ -50,7 +50,7 @@
 	    </div>
 	    <div id="searchDiv" class="panel-collapse collapse">
 	      <div class="panel-body">
-			  <form id="queryOneClassifyForm" class="form-horizontal" role="form">
+			  <form id="queryHomePageForm" class="form-horizontal" role="form">
 				<!-- #section:elements.form -->
 				<div class="form-group">
 					<div class="col-md-3">
@@ -87,7 +87,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-md" onclick="queryOneClassify()">
+						<button type="button" class="btn btn-md" onclick="queryHomePage()">
 							<i class="ace-icon fa fa-search orange"></i>搜索
 						</button>
 						<button type="button" class="btn btn-md" onclick="reset()">
@@ -127,10 +127,26 @@
 		     		<div class="col-xs-12 ">
 		            	<form class="form-horizontal" id="addOneClassifyform" >
 		           			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">首页滚动图名称</label>
+								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="HomeName">首页滚动图名称</label>
 								<div class="col-xs-12 col-sm-8">
 									<div class="clearfix">
-										<input type="text" id="claName" name="claName" class="col-xs-12 col-sm-6" />
+										<input type="text" id="HomeName" name="HomeName" class="col-xs-12 col-sm-6" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="HomeUrl">首页滚动图链接</label>
+								<div class="col-xs-12 col-sm-8">
+									<div class="clearfix">
+										<input type="text" id="HomeUrl" name="HomeUrl" class="col-xs-12 col-sm-10" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="HomeComment">首页滚动图备注</label>
+								<div class="col-xs-12 col-sm-8">
+									<div class="clearfix">
+										<input type="text" id="HomeComment" name="HomeComment" class="col-xs-12 col-sm-6" />
 									</div>
 								</div>
 							</div>
@@ -139,11 +155,11 @@
 	 				<div class="space-2"></div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="oneClassifyId"></input>
+						<input type="hidden" id="HomePageId"></input>
 						<div>
-							<form action="<%=path%>/classify/saveOneClassify.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
+							<form action="<%=path%>/home/saveHomePage.do" enctype="multipart/form-data" class="dropzone" method="post" id="dropzone">
 								<div class="fallback">
-									<input name="file" id="oneClassifypic" type="file" multiple="" />
+									<input name="file" id="HomePagepic" type="file" multiple="" />
 								</div>
 							</form>
 						</div><!-- PAGE CONTENT ENDS -->
@@ -176,10 +192,26 @@
 		     		<div class="col-xs-12 ">
 		            	<form class="form-horizontal" id="editOneClassifyform" >
 		           			<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="claName">滚动图名称</label>
+								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="editHomePageName">滚动图名称</label>
 								<div class="col-xs-12 col-sm-8">
 									<div class="clearfix">
-										<input type="text" id="editOneClassifyName" name="claName" class="col-xs-12 col-sm-6" />
+										<input type="text" id="editHomePageName" name="editHomePageName" class="col-xs-12 col-sm-6" />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+									<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="editHomeUrl">滚动图链接</label>
+									<div class="col-xs-12 col-sm-8">
+										<div class="clearfix">
+											<input type="text" id="editHomeUrl" name="editHomeUrl" class="col-xs-12 col-sm-10" />
+										</div>
+									</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-12 col-sm-4 no-padding-right" for="editHomeComment">滚动图备注</label>
+								<div class="col-xs-12 col-sm-8">
+									<div class="clearfix">
+										<input type="text" id="editHomeComment" name="editHomeComment" class="col-xs-12 col-sm-6" />
 									</div>
 								</div>
 							</div>
@@ -187,9 +219,9 @@
 	 				</div>
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
-						<input type="hidden" id="editOneClassifyId"></input>
+						<input type="hidden" id="editHomePageId"></input>
 						<div>
-							<form action="<%=path%>/classify/editOneClassify.do" enctype="multipart/form-data" class="dropzone" method="post" id="editOneClassifyDropzone">
+							<form action="<%=path%>/home/editHomePage.do" enctype="multipart/form-data" class="dropzone" method="post" id="editHomePageDropzone">
 								<div class="fallback">
 									<input name="file"  type="file" multiple="" />
 								</div>
@@ -224,7 +256,7 @@
 		     	<div class="row">
 					<div class="col-xs-12 center">
 						<div >
-							<ul id="viewOneClassifyPicli">
+							<ul id="viewHomePagePic">
 							</ul>
 						</div><!-- PAGE CONTENT ENDS -->
 					</div><!-- /.col -->

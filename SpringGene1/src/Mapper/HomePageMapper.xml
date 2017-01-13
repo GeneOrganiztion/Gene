@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Mapper.HomePageMapper">
   <resultMap id="BaseResultMap" type="po.HomePage">
-    <id column="Id" jdbcType="INTEGER" property="homepage_id" />
+    <id column="homepage_id" jdbcType="INTEGER" property="homepage_id" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="href" jdbcType="VARCHAR" property="href" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -12,7 +12,7 @@
     <result column="isdelete" jdbcType="BIT" property="isdelete" />
   </resultMap>
   <sql id="Base_Column_List">
-    Id, image, href, create_time, last_modified_time, comment, name, isdelete
+    homepage_id, image, href, create_time, last_modified_time, comment, name, isdelete
   </sql>
   
    <select id="selectHomePageParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
@@ -24,7 +24,7 @@
         and homepage_id = #{HomePageid}
       </if>
 	  <if test="HomeName != null">
-        and cla_name like CONCAT('%',#{HomeName},'%') 
+        and name like CONCAT('%',#{HomeName},'%') 
       </if>
       <if test="beginTime != null ">
         AND CREATE_TIME > #{beginTime} 

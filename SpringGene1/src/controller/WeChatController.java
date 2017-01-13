@@ -297,6 +297,7 @@ public class WeChatController extends BaseController {
 	@ResponseBody
 	public  HashMap<String,String> addresstest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception,IOException{
+		String JSURL=getParam("url");
 		String ACCESS_TOKE="";
 		String URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+Constant.APPID+"&secret="+Constant.APPSECRET;
 		Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -357,7 +358,7 @@ public class WeChatController extends BaseController {
         String noncestr = strReq;
         String timestamp =Sha1Util.getTimeStamp();
         //获取请求url
-        String url="http://nbuxinxiren.cn/";
+        String url=JSURL;
         String str = "jsapi_ticket=" + JsApiTicket +
                 "&noncestr=" + noncestr +
                 "&timestamp=" + timestamp +

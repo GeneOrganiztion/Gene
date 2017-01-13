@@ -26,13 +26,14 @@ function initHomePageManager(){
 		mtype: 'post',
 		datatype: "json",
 		height: 320,
-		colNames:['滚动图ID','滚动图名称','创建时间','最后更新时间','操作'],
+		colNames:['滚动图ID','滚动图名称','创建时间','最后更新时间','操作','图片'],
 		colModel:[
           	{name:'id',index:'homepage_id', width:80, sorttype:"int", editable: true},
           	{name:'name',index:'name',width:80, editable:true},
 			{name:'createTime',index:'create_time',width:80, editable:true,formatter:formatDate},
 			{name:'lastModifiedTime',index:'last_modified_time',width:80,formatter:formatDate},
-			{name: '', width: 80,sortable:false,formatter: formatterOperate}
+			{name: '', width: 80,sortable:false,formatter: formatterOperate},
+			{name:'image',index:'image',width:80,hidden: true}
 		], 
 		viewrecords : true,
 		rowNum:10,
@@ -196,10 +197,10 @@ function initHomePageManager(){
 	//格式化商品jqgrid之后的操作
 	function formatterOperate(cellvalue, options, rowObject){
 		var detial;
-		if(empty(rowObject.claContent)){
-			detial = "<button disabled=\"disabled\" onclick=\"viewOneClassifyPic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
+		if(empty(rowObject.image)){
+			detial = "<button disabled=\"disabled\" onclick=\"viewHomePagePic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
 		}else{
-			detial = "<button onclick=\"viewOneClassifyPic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
+			detial = "<button onclick=\"viewHomePagePic(" + rowObject.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>";
 		}
         return detial;
 	}
@@ -208,7 +209,7 @@ function initHomePageManager(){
 		  Dropzone.autoDiscover = false;
 		  var myDropzone = new Dropzone("#dropzone" , {
 		    paramName: "file", // The name that will be used to transfer the file
-		    maxFilesize: 10, // MB
+		    maxFilesize: 1, // MB
 		    maxFiles:1,
 		    dictMaxFilesExceeded: "您最多只能上传1个文件！",
 		    dictFileTooBig:"文件过大上传文件最大支持.",
@@ -229,19 +230,19 @@ function initHomePageManager(){
 					"<div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\">" +
 					"<span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>",
 			init: function () {
-              var submitButton = document.querySelector("#submit-all")
+              var submitButton = document.querySelector("#submit-all");
               myDropzone = this; // closure
 
               submitButton.addEventListener("click", function () {
               	//验证报告名称不能为空
-              	var claName = $("#claName").val();
-              	if(empty(claName)){
-              		alertmsg("warning", "分类名称不能为空");
+              	var HomeName = $("#HomeName").val();
+              	if(empty(HomeName)){
+              		alertmsg("warning", "滚动图名称不能为空");
               		return;
               	}
               	Lobibox.confirm({ 
                       title:"确认提交",      //提示框标题 
-                      msg: "是否确认新增分类",   //提示框文本内容 
+                      msg: "是否确认新增滚动图",   //提示框文本内容 
                       callback: function ($this, type, ev) {               //回调函数 
                           if (type === 'yes') { 
                           	myDropzone.processQueue();
@@ -259,17 +260,19 @@ function initHomePageManager(){
               
               this.on("success", function (file, response, e) {
               	if(response.success){
-          			$("#addOneClassifyModal").modal("hide");
-					alertmsg("success","分类添加成功");
-					$("#oneClassifyId").val(response.returnId);
-					queryOneClassify();
+          			$("#addHomePageModal").modal("hide");
+					alertmsg("success","滚动图添加成功");
+					$("#HomePageId").val(response.returnId);
+					queryHomePage();
 				}else{
-					alertmsg("error",empty(response.msg) == true ? "分类添加失败" : response.msg);
+					alertmsg("error",empty(response.msg) == true ? "滚动图添加失败" : response.msg);
 					$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
 				}
               });
               this.on("sending", function (file, xhr, formData) {
-              	formData.append("claName",$("#claName").val());
+              	formData.append("HomeName",$("#HomeName").val());
+              	formData.append("HomeUrl",$("#HomeUrl").val());
+              	formData.append("HomeComment",$("#HomeComment").val());
               });
               //当上传完成后的事件，接受的数据为JSON格式
               /*this.on("complete", function (data) {
@@ -312,9 +315,9 @@ function initHomePageManager(){
 		
 		try {
 			  Dropzone.autoDiscover = false;
-			  var editDropzone = new Dropzone("#editOneClassifyDropzone" , {
+			  var editDropzone = new Dropzone("#editHomePageDropzone" , {
 			    paramName: "file", // The name that will be used to transfer the file
-			    maxFilesize: 10, // MB
+			    maxFilesize: 1, // MB
 			    maxFiles:1,
 			    dictMaxFilesExceeded: "您最多只能上传1个文件！",
 			    dictFileTooBig:"文件过大上传文件最大支持.",
@@ -340,14 +343,14 @@ function initHomePageManager(){
 
 	              submitButton.addEventListener("click", function () {
 	              	//验证报告名称不能为空
-	              	var claName = $("#editOneClassifyName").val();
+	              	var claName = $("#editHomePageName").val();
 	              	if(empty(claName)){
-	              		alertmsg("warning", "分类名称不能为空");
+	              		alertmsg("warning", "滚动图名称不能为空");
 	              		return;
 	              	}
 	              	Lobibox.confirm({ 
 	                      title:"确认提交",      //提示框标题 
-	                      msg: "是否确认修改分类",   //提示框文本内容 
+	                      msg: "是否确认修改滚动图",   //提示框文本内容 
 	                      callback: function ($this, type, ev) {               //回调函数 
 	                          if (type === 'yes') { 
 	                        	  editDropzone.processQueue();
@@ -365,18 +368,21 @@ function initHomePageManager(){
 	              
 	              this.on("success", function (file, response, e) {
 	              	if(response.success){
-	              			$("#editOneClassifyModal").modal("hide");
-							alertmsg("success","分类修改成功");
-							$("#editOneClassifyId").val(response.returnId);
-							queryOneClassify();
+	              			$("#editHomePageModal").modal("hide");
+							alertmsg("success","滚动图修改成功");
+							$("#editHomePageId").val(response.returnId);
+							queryHomePage();
 						}else{
-							alertmsg("error",empty(response.msg) == true ? "分类 修改失败" : response.msg);
+							alertmsg("error",empty(response.msg) == true ? "滚动图修改失败" : response.msg);
 							$(file.previewTemplate).children('.dz-error-mark').css('opacity', '1');
 						}
 	              });
 	              this.on("sending", function (file, xhr, formData) {
-	              	formData.append("claName",$("#editOneClassifyName").val());
-	              	formData.append("classifyId",$("#editOneClassifyId").val());
+	            	  formData.append("HomePageid",$("#editHomePageId").val());
+	            	  formData.append("HomeName",$("#editHomePageName").val());
+	                  formData.append("HomeUrl",$("#editHomeUrl").val());
+	                  formData.append("HomeComment",$("#editHomeComment").val());
+	              
 	              });
 	              //当上传完成后的事件，接受的数据为JSON格式
 	              /*this.on("complete", function (data) {
@@ -419,51 +425,61 @@ function initHomePageManager(){
 	
 }
 //预览图片
-function viewOneClassifyPic(id){
+function viewHomePagePic(id){
 	//清空上次的报告
-	$("#viewOneClassifyPicli").html("");
+	$("#viewHomePagePic").html("");
 	$.ajax({
 		type: "post",
-		url: webroot + "classify/selectOneClassify.do",
-		data: {classifyId:id},
+		url: webroot + "home/selectOneHomePage.do",
+		data: {HomePageId:id},
 		success: function(msg){
 			console.log(msg);
 			if(empty(msg)){
 				alertmsg("error","预览图片失败");
 				return;
 			}
-			var html = "<li>" + "<a title='查看图片' target=\"_bank\" href='"+msg.claContent+"' >" + msg.claName + "</a>" +"&nbsp;" +
-				"<button onclick=\"delectOneClassifyPic(" + msg.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>"+ "</li>";
-			$("#viewOneClassifyPicli").append(html);
-			$("#viewOneClassifyPicModal").modal("show");
+			var html = "<li>" + "<a title='查看图片' target=\"_bank\" href='"+msg.image+"' >" + msg.name + "</a>" +"&nbsp;" +
+				"<button onclick=\"delectHomePagePic(" + msg.id + ")\" class=\"btn btn-minier btn-yellow\">删除图片</button>"+ "</li>";
+			$("#viewHomePagePic").append(html);
+			$("#viewHomePageModal").modal("show");
 		}
 	});
 }
-function delectOneClassifyPic(id){
-	$.ajax({
-		type:"post",
-		url:webroot+"classify/delectOneClassifyPic.do",
-		data:{"oneClassifyId":id},
-		success:function(data){
-			queryOneClassify();
-			$("#viewOneClassifyPicModal").modal("hide");
-		}
-	});
+function delectHomePagePic(id){
+	Lobibox.confirm({ 
+        title:"确认删除",      //提示框标题 
+        msg: "是否确认删除滚动图",   //提示框文本内容 
+        callback: function ($this, type, ev) {               //回调函数 
+            if (type === 'yes') { 
+            	$.ajax({
+            		type:"post",
+            		url:webroot+"home/delectHomePagePic.do",
+            		data:{"HomePageId":id},
+            		success:function(data){
+            			queryHomePage();
+            			$("#viewHomePageModal").modal("hide");
+            		}
+            	});
+            } else if (type === 'no') { 
+                       
+            } 
+       } 
+     });
 }
 
 //查询
-function queryOneClassify(){
-	var data = $("#queryOneClassifyForm").serialize();
-	var url = webroot + "classify/seletcClassify.do";
+function queryHomePage(){
+	var data = $("#queryHomePageForm").serialize();
+	var url = webroot + "home/seletcHomePage.do";
 	$("#grid-table").jqGrid('setGridParam',{ 
-        url: url + "?" + data + "&flag=oneClassify", 
+        url: url + "?" + data , 
         //postData:jsonData, 
         page:1,
         mtype:"post"
     }).trigger("reloadGrid"); //重新载入 
 }
 //删除分类
-function deleteOneClassify(){
+function deleteHomePage(){
 	var selectedIds = $("#grid-table").jqGrid("getGridParam", "selarrrow");//选择多行记录
 	if(selectedIds.length < 1){
 		alertmsg("warning", "请至少选中一行!");
@@ -472,18 +488,18 @@ function deleteOneClassify(){
 	var ids = "";
 	for(var i = 0; i < selectedIds.length; i ++){
 		var rowData = $('#grid-table').getRowData(selectedIds[i]);//获取选中行的记录
-		var classifyId = rowData.id;
-		ids =ids + classifyId + ",";
+		var HomePageId = rowData.id;
+		ids =ids + HomePageId + ",";
 	}
     Lobibox.confirm({ 
-        title:"删除分类",      //提示框标题 
-        msg: "请确保已删除分类下的商品",   //提示框文本内容 
+        title:"删除滚动图",      //提示框标题 
+        msg: "确定要删除滚动图吗",   //提示框文本内容 
         callback: function ($this, type, ev) {               //回调函数 
             if (type === 'yes') { 
             	$.ajax({
             		type:"post",
-            		url:webroot+"classify/deleteOneClassify.do",
-            		data:{"oneClassifyIds":ids},
+            		url:webroot+"home/deleteHomePage.do",
+            		data:{"HomePageIds":ids},
             		success:function(data){
             			if(data.success){
             				alertmsg("success","删除成功");
@@ -506,23 +522,23 @@ function deleteOneClassify(){
 	
 }
 //添加分类
-function addOneClassify(){
+function addHomePage(){
 	
 	//再次打开model之前清空上次的操作记录
-	$("#addOneClassifyModal :input").val("");
-	$("#addOneClassifyModal").modal("show");
+	$("#addHomePageModal :input").val("");
+	$("#addHomePageModal").modal("show");
 	
 	
 }
 //删除分类
-function removeImage(id){
+function removeHomePage(id){
 	if(empty(id)){
 		return;
 	}
 	$.ajax({
 		type: "post",
 		data: {oneClassifyId: id},
-		url: webroot + "classify/removeOneClassfyById.do",
+		url: webroot + "home/removeHomePageById.do",
 		success: function(msg){
 			if(msg.success){
 				alertmsg("success","删除成功");
@@ -533,9 +549,9 @@ function removeImage(id){
 		}
 	});
 }
-//修改分类
-function editOneClassify(){
-	$("#editOneClassifyModal :input").val("");
+//修改滚动图
+function editHomePage(){
+	$("#editHomePageModal :input").val("");
 	var lanId = $("#grid-table").jqGrid("getGridParam","selrow");
 	var rowData = $('#grid-table').getRowData(lanId);//获取选中行的记录 
 	var id = rowData.id;
@@ -543,19 +559,21 @@ function editOneClassify(){
 		alertmsg("warning","请至少选中一行 !");
 		return;
 	}
-	console.log(rowData.claContent);
-	if(!empty(rowData.claContent)){
-		alertmsg("warning","请先删除图片再修改分类");
+	if(!empty(rowData.image)){
+		alertmsg("warning","请先删除图片再修改滚动图");
 		return;
 	}
 	$.ajax({
 		type: "post",
-		url: webroot + "classify/selectOneClassify.do",
-		data: {classifyId: id},
+		url: webroot + "home/selectOneHomePage.do",
+		data: {HomePageId: id},
 		success: function(msg){
-			$("#editOneClassifyName").val(msg.claName);
-			$("#editOneClassifyId").val(msg.id);
-			$("#editOneClassifyModal").modal("show");
+			$("#editHomePageId").val(msg.id);
+			$("#editHomePageName").val(msg.name);
+			$("#editHomeUrl").val(msg.href);
+			$("#editHomeComment").val(msg.comment);
+			$("#editHomePageModal").modal("show");
 		}
 	});
 }
+
