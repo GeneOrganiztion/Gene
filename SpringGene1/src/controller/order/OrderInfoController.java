@@ -201,7 +201,7 @@ public class OrderInfoController extends BaseController{
 			 }
 		 }
 		 try {
-			 String filepath = FileUpload.upFileRename(file, request);
+			 String filepath = FileUpload.upFileFileNoPress(file, request);
 			 //更改report表的数据
 			 Report rts = new Report();
 			 rts.setId(Integer.valueOf(reportId));

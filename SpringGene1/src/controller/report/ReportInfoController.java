@@ -221,7 +221,7 @@ public class ReportInfoController extends BaseController {
 			 }
 		 }
 		 try {
-			 String filepath = FileUpload.upFileRename(file, request);
+			 String filepath = FileUpload.upFileFileNoPress(file, request);
 			 //更改report表的数据
 			 report.setRepPdf(filepath);
 			 report.setRepState(Constant.REPORT_STATUS3);

@@ -3,24 +3,34 @@ package com.abc.spring;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import utils.DateUtil;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 
+import utils.Constant;
+import utils.DateUtil;
+import utils.FileUtil;
+import utils.ImageUtil;
+
 public class FileUpload {
+	
+	private static final Logger logger = LoggerFactory.getLogger(FileUpload.class);
+	
 	private static String responsemessage = null;
 
 	/**
@@ -52,8 +62,9 @@ public class FileUpload {
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 	/*	String key = DateUtil.format(new Date())+fileName;*/
 		String key =  DateUtil.format(new Date())+(int)(Math.random()*10)+fileName;
+		
 		try {
-			uploadFile(client, bucketName, key, file);
+			uploadFile(client, bucketName, key, file, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,7 +73,7 @@ public class FileUpload {
 		return "http://" + bucketName + ".oss-cn-shanghai.aliyuncs.com/" + key;
 	}
 
-	public static String upFileRename(MultipartFile file,
+	public static String upFileFileNoPress(MultipartFile file,
 			HttpServletRequest request) throws IOException {
 		long time = System.currentTimeMillis();
 		String fileName = String.valueOf(time) + "-" + file.getOriginalFilename();
@@ -72,31 +83,58 @@ public class FileUpload {
 		String bucketName = BUCKET_NAME;
 		System.out.println("创建OSSClient之前");
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-		String key =DateUtil.format(new Date()) +fileName;
+		String key =  DateUtil.format(new Date())+(int)(Math.random()*10)+fileName;
 		try {
-			uploadFile(client, bucketName, key, file);
+			uploadFile(client, bucketName, key, file, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		client.shutdown();
 		return "http://" + bucketName + ".oss-cn-shanghai.aliyuncs.com/" + key;
 	}
-	
+	/**
+	 * @param client
+	 * @param bucketName
+	 * @param Objectkey
+	 * @param filename
+	 * @param isPress  //是否压缩图片  false 否      TRUE是
+	 * @throws OSSException
+	 * @throws ClientException
+	 * @throws FileNotFoundException
+	 */
 	private static void uploadFile(OSSClient client, String bucketName,
-			String Objectkey, MultipartFile filename) throws OSSException,
+			String Objectkey, MultipartFile filename, boolean isPress) throws OSSException,
 			ClientException, FileNotFoundException {
-		ObjectMetadata objectMeta = new ObjectMetadata();
-		objectMeta.setContentLength(filename.getSize());
 		CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile) filename;
 		DiskFileItem diskFileItem = (DiskFileItem) commonsMultipartFile
 				.getFileItem();
 		File file = diskFileItem.getStoreLocation();
+		InputStream inputStream = null;
 		//objectMeta.setContentType("image/png");
 		try {
-			InputStream inputStream = new FileInputStream(file);
+			Long fileSize = filename.getSize();
+			if(Constant.maxFileSize >= fileSize || false == isPress){//图片小于此值将不再压缩
+				inputStream = new FileInputStream(file);
+			}else{
+				String fileName = filename.getOriginalFilename();
+				//获取图片的类型 如 jpg
+				String fileType = FileUtil.getFileType(fileName);
+				//压缩图片
+				inputStream = ImageUtil.scaleImage(file, Constant.pressPicRatio, fileType);
+			}
+			ObjectMetadata objectMeta = new ObjectMetadata();
+			//objectMeta.setContentLength(filename.getSize());
 			client.putObject(bucketName, Objectkey, inputStream, objectMeta);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("uploadFile error:" + e);
+		} finally {
+			if (inputStream != null) {  
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					logger.error("uploadFile close  inputStream error:" + e);
+				}  
+	    	}  
 		}
 	}
 

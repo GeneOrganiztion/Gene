@@ -106,7 +106,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomePageController.
 		 String Comment =  new String(HomeComment.getBytes("ISO-8859-1"),"UTF-8");
 		 try {
 			 HomePage page = new HomePage();
-			 String filepath = FileUpload.upFileRename(file, request);
+			 String filepath = FileUpload.uploadFile(file, request);
 			 page.setName(Name);
 			 page.setImage(filepath);
 			 page.setComment(Comment);
@@ -192,7 +192,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomePageController.
 		 String Comment =  new String(HomeComment.getBytes("ISO-8859-1"),"UTF-8");
 		 try {
 			 HomePage page = new HomePage();
-			 String filepath = FileUpload.upFileRename(file, request);
+			 String filepath = FileUpload.uploadFile(file, request);
 			 page.setId(Integer.valueOf(HomePageid));
 			 page.setName(Name);
 			 page.setImage(filepath);

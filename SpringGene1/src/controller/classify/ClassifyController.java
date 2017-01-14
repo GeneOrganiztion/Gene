@@ -157,7 +157,7 @@ public class ClassifyController extends BaseController{
 		 
 		 try {
 			 Classify cls = new Classify();
-			 String filepath = FileUpload.upFileRename(file, request);
+			 String filepath = FileUpload.uploadFile(file, request);
 			 cls.setId(Integer.valueOf(classifyId));
 			 cls.setClaName(claName);
 			 cls.setClaContent(filepath);
@@ -181,7 +181,7 @@ public class ClassifyController extends BaseController{
 		 String claName =  new String(claName1.getBytes("ISO-8859-1"),"UTF-8");
 		 try {
 			 Classify cls = new Classify();
-			 String filepath = FileUpload.upFileRename(file, request);
+			 String filepath = FileUpload.uploadFile(file, request);
 			 cls.setClaName(claName);
 			 cls.setClaContent(filepath);
 			 cls.setClaPid(Constant.ONE_CLASSID);
